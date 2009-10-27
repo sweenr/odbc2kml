@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+    </style>
+    <title>ODBC2KML</title>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+                Logo Logo!
+            </div>
+            <div id="home">
+                Home
+            </div>
+        </div>
+        <div id="page">
+            <table cellpadding="10" width="100%">
+                <tr>
+                    <td>
+                        <div class="mainBox">
+                            <span class="connectionStyle">&nbsp;Connection Information</span>
+                            <table cellspacing="0" cellpadding="10" class="mainBox2">
+                                <tr>
+                                    <td>
+                                        <div style="background-color: white; padding: 5px;">
+                                            <table cellspacing="5">
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Connection Name: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcName" id="odbcName" size="50" class="inputBox" title=""
+                                                            value="ODBC2KML Connection 1" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Database Address: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcLoc" size="50" class="inputBox" title=""
+                                                            value="Database Address" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Port Number: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcPN" size="20" class="inputBox" title=""
+                                                            value="Port #" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Database Name: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcDName" size="50" class="inputBox" title=""
+                                                            value="Database Name" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Username: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcUser" size="50" class="inputBox" title=""
+                                                            value="Username" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Password: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="password" name="odbcLoc" id="odbcPassword" size="50" class="inputBox"
+                                                            title="" value="Password" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div align="right">
+                                                <input type="submit" name="submit" value="Connect" class="button"/>
+                                            </div>
+                                            </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="mainBox">
+                            <span class="connectionStyle">&nbsp;Database Tables</span>
+                            <div style="width: 100%;">
+                                <table cellspacing="10" cellpadding="20" class="mainBox2">
+                                    <tr>
+                                        <td class="mainBox3" valign="top">
+                                            <span class="selectedDatabase">Database Table 1</span><br />
+                                            <br />
+                                            <span class="selectDatabase">Database Table 2</span><br />
+                                            <br />
+                                            <span class="selectDatabase">Database Table 3</span><br />
+                                            <br />
+                                            <span class="selectDatabase">Database Table 4</span><br />
+                                            <br />
+                                        </td>
+                                        <td style="width: 10%;">
+                                        </td>
+                                        <td class="mainBox3" valign="top">
+                                            <table class="tableClass">
+                                                <tr>
+                                                    <td>Table 1 Column 1
+                                                    <br /><br />Table 1 Column 2
+                                                   <br /><br />Table 1 Column 3
+                                                   <br /><br />Table 1 Column 4
+                                                   <br /><br />Table 1 Column 5
+                                                    
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <br />
+                                            <div align="right">
+                                                <input type="submit" name="submit" value="Preview Data" class="button" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="mainBox">
+                            <span style="color: white; font-weight: bold;">&nbsp;Connection Description</span>
+                            <br />
+                            <div class="mainBox4">
+                                <div style="background-color: white; padding: 5px;">
+                                    This description is for this database connection. This description will also contain
+                                    a URL link to view sample data in the selected table.
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="mainBox">
+                            <span class="connectionStyle">&nbsp;Icons</span>
+                            <br />
+                            <div class="mainBox2">
+                                <table width="100%">
+                                    <tr class="mainBox5" align="center">
+                                        <td>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td class="iconBox">
+                                                        <img src="icons/cycling.png" alt="" />
+                                                    </td>
+                                                    <td class="conditionsBox">
+                                                    <div class="conditionsBoxStyle">
+                                                    <table cellpadding="10">
+                                                    <tr><td>Condition 1<br />
+                                                    Condition 2<br />
+                                                    Condition 3<br />
+                                                    </td></tr></table>
+                                                    </div>
+                                                    </td>
+                                                    <td>
+                                                    <input type="submit" name="submit" value="Modify Condition" class="button" />
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td class="iconBox">
+                                                        <img src="icons/bus.png" alt="" />
+                                                    </td>
+                                                    <td class="conditionsBox">
+                                                    <div class="conditionsBoxStyle">
+                                                    <table cellpadding="10">
+                                                    <tr><td>Condition 1<br />
+                                                    Condition 2<br />
+                                                    Condition 3<br />
+                                                    </td></tr></table>
+                                                    </div>
+                                                    </td>
+                                                    <td>
+                                                    <input type="submit" name="submit" value="Modify Condition" class="button" />
+                                                    </td>
+                                                    
+                                                </tr>
+                                                 <tr>
+                                                    <td class="iconBox">
+                                                        <img src="icons/electronics.png" alt="" />
+                                                    </td>
+                                                    <td class="conditionsBox">
+                                                    <div class="conditionsBoxStyleEmpty">
+                                                    <table cellpadding="10">
+                                                    <tr><td>
+                                                    </td></tr></table>
+                                                    </div>
+                                                    </td>
+                                                    <td>
+                                                    <input type="submit" name="submit" value="Modify Condition" class="button" />
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div align="right" class="mainBox2">
+                                <input type="submit" name="submit" value="Upload Icons" class="button" />&nbsp;&nbsp;
+                                <input type="submit" name="submit" value="Remove Icons" class="button" />&nbsp;&nbsp;
+                                <input type="submit" name="submit" value="Add Icons" class="button" />&nbsp;&nbsp;
+                            </div>
+                        </div>
+                          <br />
+                        <br />
+                        <div class="mainBox">
+                            <span class="connectionStyle">&nbsp;Overlay Colors</span>
+                            <br />
+                            <div class="mainBox2">
+                                <table width="100%">
+                                    <tr class="mainBox5" align="center">
+                                        <td>
+                                            <table width="100%">
+                                                <tr>
+                                                
+                                                    <td class="iconBox">
+                                                        <div class="overlayBox" style="background-color:Red;"></div>
+                                                    </td>
+                                                    <td class="conditionsBox">
+                                                    <div class="conditionsBoxStyle">
+                                                    <table cellpadding="10">
+                                                    <tr><td>Condition 1<br />
+                                                    Condition 2<br />
+                                                    Condition 3<br />
+                                                    </td></tr></table>
+                                                    </div>
+                                                    </td>
+                                                    <td>
+                                                    <input type="submit" name="submit" value="Modify Overlay" class="button" />
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                
+                                                    <td class="iconBox">
+                                                        <div class="overlayBox" style="background-color:Yellow;"></div>
+                                                    </td>
+                                                    <td class="conditionsBox">
+                                                    <div class="conditionsBoxStyle">
+                                                    <table cellpadding="10">
+                                                    <tr><td>Condition 1<br />
+                                                    Condition 2<br />
+                                                    Condition 3<br />
+                                                    </td></tr></table>
+                                                    </div>
+                                                    </td>
+                                                    <td>
+                                                    <input type="submit" name="submit" value="Modify Overlay" class="button" />
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div align="right" class="mainBox2">
+                                <input type="submit" name="submit" value="Add Overlay Color" class="button" />&nbsp;&nbsp;
+                            </div>
+                            </div>
+                        <br />
+                        <br />
+                        <div align="right">
+                            <input type="submit" name="submit" value="Cancel" class="button" />&nbsp;&nbsp;<input
+                                type="submit" name="submit" value="Modify Connection" class="button" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

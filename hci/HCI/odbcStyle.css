@@ -1,0 +1,299 @@
+
+body
+{
+	height: 100%;
+	margin: 15px;
+	font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: black;
+	background: rgb(7,15,20) url( 'globe.jpg' ) center bottom no-repeat;
+	background-attachment: fixed;
+}
+
+
+#wrapIt
+{
+	width: 900px;
+	position: absolute;
+	left: 50%;
+	margin-left: -450px;
+	padding: 0px;
+	background: white;
+	/*border: solid 4px rgb(26,49,76);*/
+}
+
+#wrap
+{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0px;
+	width: 900px;
+}
+
+        .omainBox
+        {
+            border: solid 2px rgb(26,49,76);
+            background-color: rgb(26,49,76);
+        }
+        .omainBox2
+        {
+            background-color: rgb(60,106,142);
+        }
+        .omainBox3
+        {
+            background-color: White;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgb(26,49,76);
+        }
+        .omainBox4
+        {
+	        background-color: rgb(238,238,244);
+	        padding: 10px;	        
+	        margin: 0px;
+        }
+
+.mainBox
+{
+	border: solid 2px rgb(26,49,76);
+	background-color: rgb(26,49,76);
+	width: 100%;
+}
+
+.connectionStyle
+{
+	color: white;
+	font-weight: bold;
+}
+
+.mainBox2
+{
+	width: 100%;
+	background-color: rgb(60,106,142);
+}
+
+table.tableClass
+{
+	font-size:.9em;
+}
+
+table.tableClass td
+{
+	padding:5px;
+}
+
+.mainBox3
+{
+	background-color: white;
+	border: solid 1px white;
+	width: 45%;
+	font-size: .9em;
+}
+
+.mainBox4
+{
+	background-color: rgb(60,106,142);
+	padding: 10px;
+}
+
+.mainBox5
+{
+	background-color: rgb(74,128,174);
+	border: solid 1px rgb(74,128,174);
+	font-size: .9em;
+}
+
+.boxPopupStyle
+{
+	background-color: rgb(26,49,76);
+	border:solid 2px rgb(26,49,76);
+}
+
+.boxPopupStyle1
+{
+	background-color: rgb(60,106,142);
+	font-size: .9em;
+}
+
+.boxPopupStyle2
+{
+	background-color: rgb(74,128,174);
+	border: solid 5px rgb(60,106,142);
+}
+
+.selectedDatabase
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+	padding: 3px;
+	margin: 0px;
+	text-decoration: none;
+}
+
+.selectDatabase
+{
+	background-color: white;
+	border: solid 1px white;
+	padding: 3px;
+	margin: 0px;
+	text-decoration: none;
+}
+
+.selectTable, a.selectTable:link, a.selectTable:visited
+{
+	background-color: white;
+	border: solid 1px white;
+	padding: 3px;
+	margin: 0px;
+	text-decoration: none;
+	color:Black;
+}
+
+a.selectTable:hover
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+	padding: 3px;
+	margin: 0px;
+	text-decoration: none;
+	color:Black;
+}
+
+.hrStyle
+{
+	border: solid 2px rgb(24,295,244);
+}
+
+.buttonClass
+{
+	width:200px;
+}
+
+.modalBackground {
+	/*background: rgba(255,255,255,0.5); */ /*works for FF but not IE*/
+	background:white;
+	filter: alpha(opacity=50); /*for IE*/
+	opacity: 0.5; /*for IE*/
+	-moz-opacity:0.5; /*for FF & Chrome*/
+	/*Need to check these properties on other browsers*/
+}
+
+
+.conditionsBox
+{
+	width:75%;
+	padding:5px;
+	vertical-align:top;
+	text-align: center;
+}
+
+.conditionsBoxStyle
+{
+	background: rgb(255,255,255);
+	width:100%;
+	color:Black;
+}
+
+.conditionsBoxStyleEmpty
+{
+	width:100%;
+	color:Black;
+}
+
+.overlayBox
+{
+	width:70px;
+	height:70px;
+}
+
+.handleImage
+        {
+            width: 16px;
+            height: 16px;
+            cursor: se-resize;
+        }
+        
+    .overlayStyle
+        {
+            color: white;
+            font-weight: bold;
+        }     
+
+.iconBox
+{
+	width:145px;
+	text-align:center;
+}
+
+.connectionTitle
+{
+	color: black;
+	font-size: .9em;
+}
+
+.inputBox
+{
+	background-color: rgb(238,238,244);
+	border: solid 1px rgb(205,205,216);
+}
+
+.button
+{
+	background: rgb(26,49,76) url(buttonBack.gif);
+	border: solid 1px rgb(26,49,76);
+	color: white;
+	font-weight: bold;
+	height: 22px;
+}
+
+#header
+{
+	width: 900px;
+	height: 175px;
+	margin: 0 auto;
+	background: rgb(26,49,76);
+	border-bottom: solid 4px rgb(18,64,110);
+}
+
+#logo
+{
+	float: left;
+	width: 600px;
+	color: white;
+}
+
+#home
+{
+	float: right;
+	color: white;
+}
+#page
+{
+	margin: 0 auto;
+	padding: 0px;
+}
+
+#footer
+{
+	width: 900px;
+	height: 20px;
+	margin: 0 auto;
+	padding: 20px 0 15px 0;
+	background: rgb(90,95,100);
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+}
+
+#footer p
+{
+	margin: 0;
+	line-height: normal;
+	font-size: 9px;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+#footer a
+{
+	color: #FFFFFF;
+}
