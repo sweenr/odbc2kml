@@ -785,7 +785,7 @@
                                                                                 <div class="omainBox4">
                                                                                     <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
                                                                                     <cc1:ColorPickerExtender ID="ColorPickerExtender2" runat="server" TargetControlID="ColorPickTxtBox"
-                                                                                        PopupButtonID="Image1" SampleControlID="colorTxtBox">
+                                                                                        PopupButtonID="Image2" SampleControlID="colorTxtBox">
                                                                                     </cc1:ColorPickerExtender>
                                                                                     &nbsp;<asp:TextBox ID="TextBox2" runat="server" Height="20px" Width="20px"></asp:TextBox>
                                                                                     &nbsp;<asp:Image ID="Image2" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
@@ -904,7 +904,7 @@
                                                                                 <div class="omainBox4">
                                                                                     <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
                                                                                     <cc1:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="ColorPickTxtBox"
-                                                                                        PopupButtonID="Image1" SampleControlID="colorTxtBox">
+                                                                                        PopupButtonID="Image3" SampleControlID="colorTxtBox">
                                                                                     </cc1:ColorPickerExtender>
                                                                                     &nbsp;<asp:TextBox ID="TextBox5" runat="server" Height="20px" Width="20px"></asp:TextBox>
                                                                                     &nbsp;<asp:Image ID="Image3" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
