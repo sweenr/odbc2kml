@@ -26,3 +26,8 @@ C:\Users\Viet Nguyen\Desktop\HCI (1)\HCI\HCI\bin\HCI.pdb
 C:\Users\Viet Nguyen\Desktop\HCI (1)\HCI\HCI\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Viet Nguyen\Desktop\HCI (1)\HCI\HCI\obj\Debug\HCI.dll
 C:\Users\Viet Nguyen\Desktop\HCI (1)\HCI\HCI\obj\Debug\HCI.pdb
+C:\Users\Viet Nguyen\Desktop\odbc2kml\hci\HCI\bin\HCI.dll
+C:\Users\Viet Nguyen\Desktop\odbc2kml\hci\HCI\bin\HCI.pdb
+C:\Users\Viet Nguyen\Desktop\odbc2kml\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Viet Nguyen\Desktop\odbc2kml\hci\HCI\obj\Debug\HCI.dll
+C:\Users\Viet Nguyen\Desktop\odbc2kml\hci\HCI\obj\Debug\HCI.pdb
