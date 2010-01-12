@@ -61,7 +61,6 @@
     <Content Include="cp_button.png" />
     <Content Include="MainPage.aspx" />
     <Content Include="Modify.aspx" />
-    <Content Include="edit.aspx" />
     <Content Include="globe.jpg" />
     <Content Include="icons\1.png" />
     <Content Include="icons\10.png" />
@@ -137,10 +136,6 @@
     </Compile>
     <Compile Include="Modify.aspx.designer.cs">
       <DependentUpon>Modify.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="edit.aspx.cs">
-      <DependentUpon>edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="library.aspx.cs">
       <DependentUpon>library.aspx</DependentUpon>
