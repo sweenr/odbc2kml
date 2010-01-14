@@ -60,6 +60,12 @@ body
 	width: 100%;
 }
 
+.connectionBox
+{
+	background-color: white;
+	width: 100%;
+}
+
 .connectionStyle
 {
 	color: white;
