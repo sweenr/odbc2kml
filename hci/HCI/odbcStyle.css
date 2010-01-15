@@ -6,10 +6,32 @@ body
 	font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	color: black;
-	background: rgb(7,15,20) url( 'globe.jpg' ) center bottom no-repeat;
+	background: rgb(0,0,0) url( 'graphics/globe.jpg' ) center bottom no-repeat;
 	background-attachment: fixed;
 }
 
+/*Alignment Info*/
+
+.right
+{
+	float: right;
+}
+
+.left
+{
+	float: left;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.clear {
+  clear: both;
+}
+
+/*Wrappers for Content*/
 
 #wrapIt
 {
@@ -19,6 +41,7 @@ body
 	margin-left: -450px;
 	padding: 0px;
 	background: white;
+	border:0;
 	/*border: solid 4px rgb(26,49,76);*/
 }
 
@@ -26,32 +49,18 @@ body
 {
 	margin-left: auto;
 	margin-right: auto;
-	padding: 0px;
+	padding: 5px;
 	width: 900px;
 }
 
-        .omainBox
-        {
-            border: solid 2px rgb(26,49,76);
-            background-color: rgb(26,49,76);
-        }
-        .omainBox2
-        {
-            background-color: rgb(60,106,142);
-        }
-        .omainBox3
-        {
-            background-color: White;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: rgb(26,49,76);
-        }
-        .omainBox4
-        {
-	        background-color: rgb(238,238,244);
-	        padding: 10px;	        
-	        margin: 0px;
-        }
+#mainTable
+{
+	width: 100%;
+	padding-left: 8px; 
+	padding-right: 12px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
 
 .mainBox
 {
@@ -60,10 +69,31 @@ body
 	width: 100%;
 }
 
-.connectionBox
+.omainBox
 {
-	background-color: white;
-	width: 100%;
+	border: solid 2px rgb(26,49,76);
+    background-color: rgb(26,49,76);
+}
+
+.omainBox2
+{
+    background-color: rgb(60,106,142);
+}
+
+.omainBox3
+{
+    background-color: White;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(26,49,76);
+}
+
+.omainBox4
+{
+	background-color: rgb(238,238,244);
+	padding: 10px;	        
+	margin: 0px;
+
 }
 
 .connectionStyle
@@ -245,7 +275,7 @@ a.selectTable:hover
 
 .button
 {
-	background: rgb(26,49,76) url(buttonBack.gif);
+	background: rgb(26,49,76) url('graphics/buttonBack.gif');
 	border: solid 1px rgb(26,49,76);
 	color: white;
 	font-weight: bold;
@@ -255,7 +285,7 @@ a.selectTable:hover
 #header
 {
 	width: 900px;
-	height: 175px;
+	height: 160px;
 	margin: 0 auto;
 	background: rgb(26,49,76);
 	border-bottom: solid 4px rgb(18,64,110);
@@ -263,29 +293,42 @@ a.selectTable:hover
 
 #logo
 {
-	float: left;
-	width: 600px;
+	width: 750px;
+	height: 85px;
+	color: white;
+	background:  url('graphics/odbc2kml.gif') left bottom no-repeat;
+}
+
+#siteInfo
+{
+	padding: 10px 10px 10px 100px;
+	font-weight: bold;
+	font-size:20px;
 	color: white;
 }
 
 #home
 {
-	float: right;
+	font-size:13px;
+	font-weight:normal;
+	padding: 10px;
 	color: white;
 }
+
 #page
 {
-	margin: 0 auto;
-	padding: 0px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #footer
 {
 	width: 900px;
-	height: 20px;
+	height: 40px;
 	margin: 0 auto;
-	padding: 20px 0 15px 0;
-	background: rgb(90,95,100);
+	padding: 5px 0 0px 0;
+	/*background: rgb(26,49,76);*/
+	background: White;
 	font-family: Arial, Helvetica, sans-serif;
 	color: white;
 }
@@ -294,7 +337,6 @@ a.selectTable:hover
 {
 	margin: 0;
 	line-height: normal;
-	font-size: 9px;
 	text-transform: uppercase;
 	text-align: center;
 }
@@ -303,3 +345,131 @@ a.selectTable:hover
 {
 	color: #FFFFFF;
 }
+
+/* Connection Link Icons*/
+.newIcon a {
+display:block;
+width: 2px;
+padding:10px 10px 10px 10px;
+background: url('/graphics/newH.gif') 0 0 no-repeat;
+text-decoration: none;
+}
+.newIcon a:hover { 
+background-position: 0 -20px;
+color: #049;
+}
+
+.homeIcon a {
+display:block;
+width: 2px;
+padding:10px 10px 10px 10px;
+background: url('/graphics/homeH.gif') 0 0 no-repeat;
+text-decoration: none;
+}
+.homeIcon a:hover { 
+background-position: 0 -20px;
+color: #049;
+}
+
+.openIcon a {
+display:block;
+width: 2px;
+padding:10px 10px 10px 10px;
+background: url('/graphics/openH.gif') 0 0 no-repeat;
+text-decoration: none;
+}
+.openIcon a:hover { 
+background-position: 0 -20px;
+color: #049;
+}
+
+.editIcon a {
+display:block;
+width: 2px;
+padding:10px 10px 10px 10px;
+background: url('/graphics/editH.gif') 0 0 no-repeat;
+text-decoration: none;
+}
+.editIcon a:hover { 
+background-position: 0 -20px;
+color: #049;
+}
+
+.deleteIcon a {
+display:block;
+width: 2px;
+padding:10px 10px 10px 10px;
+background: url('/graphics/deleteH.gif') 0 0 no-repeat;
+text-decoration: none;
+}
+.deleteIcon a:hover { 
+background-position: 0 -20px;
+color: #049;
+}
+
+.kmlIcon a {
+display:block;
+width: 2px;
+padding:10px 10px 10px 10px;
+background: url('/graphics/kmlH.gif') 0 0 no-repeat;
+text-decoration: none;
+}
+.kmlIcon a:hover { 
+background-position: 0 -20px;
+color: #049;
+}
+
+/*Connection Page Styles*/
+
+.connectionBox
+{
+	background-color: white;
+	width: 100%;
+}
+
+.oddConn
+{
+	background-color: white;
+	vertical-align:top;
+}
+
+.evenConn
+{
+	background-color: rgb(213,233,242);
+	vertical-align:top;
+}
+
+.newConn
+{
+    color: white;
+    vertical-align:top;
+	text-align:right;
+	width:100%;
+	font-weight:bold;
+}
+
+
+.newConnA a:link, a:visited, a:active 
+{
+	color:white; 
+	text-decoration:none; 
+	font-weight:bold; 
+	padding:0px;
+	
+}
+.newConnA a:hover
+{
+	background-color:transparent; 
+	color:rgb(100,172,234); 
+	text-decoration:none; 
+	font-weight:bold; 
+	padding:0px;
+}
+
+.connIcons
+{
+	width: 100px;
+}
+
+
+

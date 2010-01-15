@@ -13,55 +13,82 @@
     <div id="wrapIt">
         <div id="header">
             <div id="logo">
-                Site Logo Goes Here
             </div>
-            <div id="home">
-                Link Home
+            <div id="siteInfo">
+            MSU Software Engineering Senior Design Project 2010
+            <br />
+            <div class="right">
+            <div id = "home">
+             <table><tr><td>
+                            <div class="homeIcon"><a href = "#" title="View Connections (Home)"></a></div></td>
+                            <td><div class="newConnA"><a href = "#" title="View Connections (Home)">Connections</a></div></td></tr></table></div>
+                            <div class="clear">
             </div>
+            </div>
+            </div>
+           
         </div>
         <div id="page">
-            <table cellpadding="10" width="50%">
+            <table id="mainTable">
                 <tr>
                     <td>
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Information</span>
                             <table cellspacing="0" cellpadding="10" class="connectionBox">
-                                <tr>
+                                <tr class="oddConn">
                                     <td>
                                         <asp:Label ID="Label1" runat="server" Text="ODBC Connection 1"></asp:Label>
                                     </td>
-                                    <td>
-                                    <img src = "/graphics/new.gif" alt = "New"/>&nbsp;&nbsp;
-                                    <img src = "/graphics/edit.gif" alt = "Edit"/>&nbsp;&nbsp;
-                                    <img src = "/graphics/delete.gif" alt = "Delete"/>&nbsp;&nbsp;
+                                    <td class="connIcons">
+                                    <table><tr>
+                                    <td><div class="openIcon"><a href = "#" title="Open Connection"></a></div></td>
+                                    <td><div class="editIcon"><a href = "#" title="Edit Connection"></a></div></td>
+                                    <td><div class="deleteIcon"><a href = "#" title="Delete Connection"></a></div></td>
+                                    <td><div class="kmlIcon"><a href = "#" title="Generate KML File"></a></div></td>
+                                    </tr></table>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="evenConn">
                                     <td>
-                                        <asp:Label ID="Label2" runat="server" Text="ODBC Connection 2"></asp:Label>                                        
+                                        <asp:Label ID="Label2" runat="server" Text="ODBC Connection 2"></asp:Label>
                                     </td>
-                                    <td>
-                                        <asp:CheckBox ID="CheckBox2" runat="server" Text="Edit" />
+                                    <td class="connIcons">
+                                    <table><tr>
+                                    <td><div class="openIcon"><a href = "#" title="Open Connection"></a></div></td>
+                                    <td><div class="editIcon"><a href = "#" title="Edit Connection"></a></div></td>
+                                    <td><div class="deleteIcon"><a href = "#" title="Delete Connection"></a></div></td>
+                                    <td><div class="kmlIcon"><a href = "#" title="Generate KML File"></a></div></td>
+                                    </tr></table>
                                     </td>
                                 </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <div align="right">
-                <asp:Button ID="Button1" runat="server" Text="New" Width="68px" CssClass="button" />
-                &nbsp;&nbsp;
-                <asp:Button ID="Button2" runat="server" Text="Modify" Width="70px" CssClass="button" />
-                &nbsp;&nbsp;
-                <asp:Button ID="Button3" runat="server" Text="View" Width="71px" CssClass="button" />
-                &nbsp;&nbsp;
-                <asp:Button ID="Button4" runat="server" Text="Delete" Width="71px" CssClass="button" />
-                &nbsp;&nbsp;
-                <asp:Button ID="Button5" runat="server" Text="Create KML" Width="90px" CssClass="button" Style="margin-right:20px" />
-            </div>
+                                <tr class="oddConn">
+                                    <td>
+                                        <asp:Label ID="Label3" runat="server" Text="ODBC Connection 3"></asp:Label>
+                                    </td>
+                                    <td class="connIcons">
+                                    <table><tr>
+                                    <td><div class="openIcon"><a href = "#" title="Open Connection"></a></div></td>
+                                    <td><div class="editIcon"><a href = "#" title="Edit Connection"></a></div></td>
+                                    <td><div class="deleteIcon"><a href = "#" title="Delete Connection"></a></div></td>
+                                    <td><div class="kmlIcon"><a href = "#" title="Generate KML File"></a></div></td>
+                                    </tr></table>
+                                    </td>
+                                </tr>
+                                </table>
+                                
+                                 <div class="newConn">
+                                 <div class="right">
+                            <table><tr><td>
+                            <div class="newIcon"><a href = "#" title="New Connection"></a></div></td>
+                            <td><div class="newConnA"><a href = "#" title="New Connection">New Connection</a></div></td></tr></table></div>
+                            <div class="clear"></div></div>
+                   </div>
+         </td></tr></table>  
         </div>
-    </div>
+        <div id = "footer">
+        <div class="right"><img src = "graphics/polyTechW.gif" alt = "PolyTech Industries - Mississippi State University"/></div>
+        </div>
+</div>
     </form>
 </body>
 </html>
