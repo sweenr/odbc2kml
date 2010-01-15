@@ -57,11 +57,19 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="buttonBack.gif" />
+    <Content Include="graphics\buttonBack.gif" />
     <Content Include="cp_button.png" />
+    <Content Include="graphics\deleteH.gif" />
+    <Content Include="graphics\kmlH.gif" />
+    <Content Include="graphics\newH.gif" />
+    <Content Include="graphics\odbc2kml.gif" />
+    <Content Include="graphics\openH.gif" />
+    <Content Include="graphics\polyTechI.gif" />
+    <Content Include="graphics\polyTechW.gif" />
+    <Content Include="Main.aspx" />
     <Content Include="MainPage.aspx" />
     <Content Include="Modify.aspx" />
-    <Content Include="globe.jpg" />
+    <Content Include="graphics\globe.jpg" />
     <Content Include="icons\1.png" />
     <Content Include="icons\10.png" />
     <Content Include="icons\2.png" />
@@ -123,6 +131,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Main.aspx.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Main.aspx.designer.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.aspx.cs">
       <DependentUpon>MainPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
