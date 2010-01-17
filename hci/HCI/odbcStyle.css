@@ -347,76 +347,85 @@ a.selectTable:hover
 }
 
 /* Connection Link Icons*/
-.newIcon a {
-display:block;
-width: 2px;
-padding:10px 10px 10px 10px;
-background: url('/graphics/newH.gif') 0 0 no-repeat;
-text-decoration: none;
-}
-.newIcon a:hover { 
-background-position: 0 -20px;
-color: #049;
+.newIcon{
+	background: url('/graphics/newH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
 }
 
-.homeIcon a {
-display:block;
-width: 2px;
-padding:10px 10px 10px 10px;
-background: url('/graphics/homeH.gif') 0 0 no-repeat;
-text-decoration: none;
-}
-.homeIcon a:hover { 
-background-position: 0 -20px;
-color: #049;
+.newIcon:hover { 
+	background-position: 0 -20px;
 }
 
-.openIcon a {
-display:block;
-width: 2px;
-padding:10px 10px 10px 10px;
-background: url('/graphics/openH.gif') 0 0 no-repeat;
-text-decoration: none;
-}
-.openIcon a:hover { 
-background-position: 0 -20px;
-color: #049;
+.homeIcon{
+	background: url('/graphics/homeH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
 }
 
-.editIcon a {
-display:block;
-width: 2px;
-padding:10px 10px 10px 10px;
-background: url('/graphics/editH.gif') 0 0 no-repeat;
-text-decoration: none;
-}
-.editIcon a:hover { 
-background-position: 0 -20px;
-color: #049;
+.homeIcon:hover { 
+	background-position: 0 -20px;
 }
 
-.deleteIcon a {
-display:block;
-width: 2px;
-padding:10px 10px 10px 10px;
-background: url('/graphics/deleteH.gif') 0 0 no-repeat;
-text-decoration: none;
-}
-.deleteIcon a:hover { 
-background-position: 0 -20px;
-color: #049;
+
+.openIcon
+{
+	background: url('/graphics/openH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
 }
 
-.kmlIcon a {
-display:block;
-width: 2px;
-padding:10px 10px 10px 10px;
-background: url('/graphics/kmlH.gif') 0 0 no-repeat;
-text-decoration: none;
+.openIcon:hover
+{
+	background-position: 0 -20px;
 }
-.kmlIcon a:hover { 
-background-position: 0 -20px;
-color: #049;
+
+.editIcon
+{
+	background: url('/graphics/editH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;	
+}
+
+.editIcon:hover
+{
+	background-position: 0 -20px;
+}
+
+.deleteIcon
+{
+	background: url('/graphics/deleteH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;	
+}
+
+.deleteIcon:hover
+{
+	background-position: 0 -20px;
+}
+
+.kmlIcon
+{
+	background: url('/graphics/kmlH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;	
+}
+
+.kmlIcon:hover
+{
+	background-position: 0 -20px;
 }
 
 /*Connection Page Styles*/
