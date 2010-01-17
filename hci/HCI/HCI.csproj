@@ -70,8 +70,6 @@
     <Content Include="graphics\openH.gif" />
     <Content Include="graphics\polyTechI.gif" />
     <Content Include="graphics\polyTechW.gif" />
-    <Content Include="layout\bottom.inc" />
-    <Content Include="layout\top.inc" />
     <Content Include="Main.aspx" />
     <Content Include="MainPage.aspx" />
     <Content Include="Modify.aspx" />
@@ -143,18 +141,6 @@
     </Compile>
     <Compile Include="ConnDetails.aspx.designer.cs">
       <DependentUpon>ConnDetails.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="layout\bottom.inc.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layout\bottom.inc.designer.cs">
-      <DependentUpon>bottom.inc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="layout\top.inc.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layout\top.inc.designer.cs">
-      <DependentUpon>top.inc.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.aspx.cs">
       <DependentUpon>Main.aspx</DependentUpon>

@@ -86,58 +86,58 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel editConnPanel;
         
         /// <summary>
-        /// odbcName control.
+        /// odbcNameE control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox odbcName;
+        protected global::System.Web.UI.WebControls.TextBox odbcNameE;
         
         /// <summary>
-        /// odbcDName control.
+        /// odbcDNameE control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox odbcDName;
+        protected global::System.Web.UI.WebControls.TextBox odbcDNameE;
         
         /// <summary>
-        /// odbcDatabase control.
+        /// odbcDatabaseE control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox odbcDatabase;
+        protected global::System.Web.UI.WebControls.TextBox odbcDatabaseE;
         
         /// <summary>
-        /// odbcPN control.
+        /// odbcPNE control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox odbcPN;
+        protected global::System.Web.UI.WebControls.TextBox odbcPNE;
         
         /// <summary>
-        /// odbcUser control.
+        /// odbcUserE control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox odbcUser;
+        protected global::System.Web.UI.WebControls.TextBox odbcUserE;
         
         /// <summary>
-        /// TextBox1 control.
+        /// odbcPWE control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox odbcPWE;
         
         /// <summary>
         /// editConnUpdate control.

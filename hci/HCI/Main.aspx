@@ -59,12 +59,14 @@
                                                 </td>
                                                 <td>
                                                     <asp:ImageButton ID="editConn1" runat="server" CssClass="editIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Edit Connection" ToolTip="Edit Connection" OnClick="editConnection" />
+                                                        AlternateText="Edit Connection" ToolTip="Edit Connection"/>
+                                                        
                                                     <!-- Sample Extender for 1st Edit Connection Button --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="editConnUpdate"
                                                         CancelControlID="editConnCancel" runat="server" PopupControlID="editConnPanel"
                                                         ID="ModalPopupExtender1" TargetControlID="editConn1" />
-                                                    <!-- Sample Panels for Edit Connection Pop-Ups --->
+                                                        
+                                                    <!-- Sample Panels for Connection Pop-Ups --->
                                                     <asp:Panel ID="editConnPanel" runat="server" class="boxPopupStyle" Style="display: none;">
                                                         <div class="mainBoxP">
                                                             <span class="connectionStyle">&nbsp;Connection Information</span>
@@ -78,7 +80,7 @@
                                                                                         <span class="connectionTitle">Connection Name: </span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:TextBox ID="odbcName" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
+                                                                                        <asp:TextBox ID="odbcNameE" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -86,7 +88,7 @@
                                                                                         <span class="connectionTitle">Database Name: </span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:TextBox ID="odbcDName" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
+                                                                                        <asp:TextBox ID="odbcDNameE" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -94,7 +96,7 @@
                                                                                         <span class="connectionTitle">Database Address: </span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:TextBox ID="odbcDatabase" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
+                                                                                        <asp:TextBox ID="odbcDatabaseE" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -102,7 +104,7 @@
                                                                                         <span class="connectionTitle">Port Number: </span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:TextBox ID="odbcPN" runat="server" CssClass="inputBox" Width="100"></asp:TextBox>
+                                                                                        <asp:TextBox ID="odbcPNE" runat="server" CssClass="inputBox" Width="100"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -110,7 +112,7 @@
                                                                                         <span class="connectionTitle">Username: </span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:TextBox ID="odbcUser" runat="server" CssClass="inputBox" Width="200"></asp:TextBox>
+                                                                                        <asp:TextBox ID="odbcUserE" runat="server" CssClass="inputBox" Width="200"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -118,7 +120,7 @@
                                                                                         <span class="connectionTitle">Password: </span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:TextBox ID="TextBox1" runat="server" CssClass="inputBox" Width="200" TextMode="Password"></asp:TextBox>
+                                                                                        <asp:TextBox ID="odbcPWE" runat="server" CssClass="inputBox" Width="200" TextMode="Password"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>

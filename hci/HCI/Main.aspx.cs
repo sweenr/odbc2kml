@@ -22,7 +22,8 @@ namespace HCI
 
         protected void editConnection(object sender, ImageClickEventArgs e)
         {
-
+            odbcNameE = new TextBox();
+            odbcNameE.Text = "Test Name!";
         }
     }
 }
