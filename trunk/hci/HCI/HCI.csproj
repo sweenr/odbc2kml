@@ -57,15 +57,21 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ConnDetails.aspx" />
+    <Content Include="graphics\connIcon.gif" />
     <Content Include="graphics\buttonBack.gif" />
     <Content Include="cp_button.png" />
     <Content Include="graphics\deleteH.gif" />
+    <Content Include="graphics\homeH.gif" />
     <Content Include="graphics\kmlH.gif" />
     <Content Include="graphics\newH.gif" />
     <Content Include="graphics\odbc2kml.gif" />
+    <Content Include="graphics\open.gif" />
     <Content Include="graphics\openH.gif" />
     <Content Include="graphics\polyTechI.gif" />
     <Content Include="graphics\polyTechW.gif" />
+    <Content Include="layout\bottom.inc" />
+    <Content Include="layout\top.inc" />
     <Content Include="Main.aspx" />
     <Content Include="MainPage.aspx" />
     <Content Include="Modify.aspx" />
@@ -131,6 +137,25 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnDetails.aspx.cs">
+      <DependentUpon>ConnDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConnDetails.aspx.designer.cs">
+      <DependentUpon>ConnDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="layout\bottom.inc.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layout\bottom.inc.designer.cs">
+      <DependentUpon>bottom.inc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="layout\top.inc.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layout\top.inc.designer.cs">
+      <DependentUpon>top.inc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.aspx.cs">
       <DependentUpon>Main.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
