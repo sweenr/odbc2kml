@@ -69,6 +69,13 @@ body
 	width: 100%;
 }
 
+.mainBoxP
+{
+	border: solid 2px rgb(26,49,76);
+	background-color: rgb(26,49,76);
+	width: 550px;
+}
+
 .omainBox
 {
 	border: solid 2px rgb(26,49,76);
