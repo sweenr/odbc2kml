@@ -67,7 +67,7 @@
                                                         ID="ModalPopupExtender1" TargetControlID="editConn1" />
                                                         
                                                     <!-- Sample Panels for Connection Pop-Ups --->
-                                                    <asp:Panel ID="editConnPanel" runat="server" class="boxPopupStyle" Style="display: none;">
+                                                    <asp:Panel ID="editConnPanel" runat="server" cssClass="boxPopupStyle" Style="display: none;">
                                                         <div class="mainBoxP">
                                                             <span class="connectionStyle">&nbsp;Connection Information</span>
                                                             <table cellspacing="0" cellpadding="10" class="mainBox2">
@@ -124,7 +124,8 @@
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
-                                                                            <div align="right">
+                                                                            
+                                                                            <div class="right" style="padding-top:20px;">
                                                                                 <asp:Button ID="editConnUpdate" runat="server" Text="Update" CssClass="button" />
                                                                                 &nbsp;&nbsp;
                                                                                 <asp:Button ID="editConnCancel" runat="server" Text="Cancel" CssClass="button" />
