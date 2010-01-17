@@ -19,5 +19,10 @@ namespace HCI
         {
 
         }
+
+        protected void editConnection(object sender, ImageClickEventArgs e)
+        {
+
+        }
     }
 }
