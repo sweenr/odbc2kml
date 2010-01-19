@@ -126,9 +126,9 @@
                                                                             </table>
                                                                             
                                                                             <div class="right" style="padding-top:20px;">
-                                                                                <asp:Button ID="editConnUpdate" runat="server" Text="Update" CssClass="button" />
+                                                                                <asp:Button ID="editConnUpdate" runat="server" Text="Update" CssClass="button" ToolTip="Update" />
                                                                                 &nbsp;&nbsp;
-                                                                                <asp:Button ID="editConnCancel" runat="server" Text="Cancel" CssClass="button" />
+                                                                                <asp:Button ID="editConnCancel" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
                                                                             </div>
                                                                         </div>
                                                                     </td>
