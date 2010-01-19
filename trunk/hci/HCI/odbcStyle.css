@@ -287,6 +287,15 @@ a.selectTable:hover
 	color: white;
 	font-weight: bold;
 	height: 22px;
+	cursor: pointer, default;	
+}
+
+.button:hover
+{
+	/*background-position: 0 -20px;*/
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(26,49,76);
 }
 
 #header
@@ -451,7 +460,7 @@ a.selectTable:hover
 
 .evenConn
 {
-	background-color: rgb(213,233,242);
+	background-color: rgb(176,212,244);
 	vertical-align:top;
 }
 
