@@ -1,61 +1,88 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ConnDetails.aspx.cs" Inherits="HCI.ConnDetails" %>
 
-
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
-    Namespace="System.Web.UI" TagPrefix="asp" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
-    <title>ODBC2KML</title>
+<head id="Head2" runat="server">
+    <title>Connection Details</title>
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
 </head>
 <body>
-    <form id="ConnDetails" runat="server">
- <!-- #include file ="layout\top.inc" -->
+    <form id="connDetailsForm" runat="server">
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <asp:ImageButton ID="homeIcon" runat="server" CssClass="homeIcon" ImageUrl="graphics/connIcon.gif"
+                                        AlternateText="Connections" ToolTip="Connections" PostBackUrl="Main.aspx" />
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable">
+                <tr>
+                    <td>
                         <div class="mainBox">
-                            <span class="connectionStyle">&nbsp;Database Tables</span>
-                            <div style="width: 100%;">
-                                <table cellspacing="10" cellpadding="20" class="mainBox2">
+                            <span class="connectionStyle">&nbsp;ODBC Connection 1</span>
+                            <div class="full">
+                                <table cellspacing="10" cellpadding="10" class="mainBox2">
+                                    <tr>
+                                        <td class="dbTitle">
+                                            <asp:Label ID="DBLabel" runat="server" Text="Database Tables" CssClass="dbTitleSpan"></asp:Label>
+                                        </td>
+                                        <td class="tdSpace3">
+                                        </td>
+                                        <td class="dbTitle">
+                                            <asp:Panel ID="DBTPanel0" runat="server" Visible="true" CssClass="dbTitle">
+                                                <asp:Label ID="DBTLabel0" runat="server" Text="Table Columns" CssClass="dbTitleSpan"></asp:Label>
+                                            </asp:Panel>
+                                            <asp:Panel ID="DBTPanel" runat="server" Visible="false" CssClass="dbTitle">
+                                            </asp:Panel>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td class="mainBox3" valign="top">
-                                            <span class="selectedDatabase">Database Table 1</span><br />
+                                            <asp:Button ID="DBTable1" runat="server" CssClass="selectDB" Text="Table 1" ToolTip="Table 1"
+                                                OnClick="genDBTCol" CommandArgument="Table 1 Name" />
                                             <br />
-                                            <span class="selectDatabase">Database Table 2</span><br />
+                                            <asp:Button ID="DBTable2" runat="server" CssClass="selectDB2" Text="Table 2" ToolTip="Table 2"
+                                                OnClick="genDBTCol" CommandArgument="Table 2 Name" />
                                             <br />
-                                            <span class="selectDatabase">Database Table 3</span><br />
+                                            <asp:Button ID="DBTable3" runat="server" CssClass="selectDB" Text="Table 3" ToolTip="Table 3"
+                                                OnClick="genDBTCol" CommandArgument="Table 3 Name" />
                                             <br />
-                                            <span class="selectDatabase">Database Table 4</span><br />
+                                            <asp:Button ID="DBTable4" runat="server" CssClass="selectDB2" Text="Table 4" ToolTip="Table 4"
+                                                OnClick="genDBTCol" CommandArgument="Table 4 Name" />
                                             <br />
                                         </td>
-                                        <td style="width: 10%;">
+                                        <td class="tdSpace3">
                                         </td>
                                         <td class="mainBox3" valign="top">
-                                            <table class="tableClass">
-                                                <tr>
-                                                    <td>
-                                                        Table 1 Column 1
-                                                        <br />
-                                                        <br />
-                                                        Table 1 Column 2
-                                                        <br />
-                                                        <br />
-                                                        Table 1 Column 3
-                                                        <br />
-                                                        <br />
-                                                        Table 1 Column 4
-                                                        <br />
-                                                        <br />
-                                                        Table 1 Column 5
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <br />
-                                            <div align="right">
-                                                <input type="submit" name="submit" value="Preview Data" class="button" />
-                                            </div>
+                                            <asp:Panel ID="DBFields0" runat="server" Visible="true" CssClass="mainBox3Panel">
+                                                Click on the appropriate database table to view table columns
+                                            </asp:Panel>
+                                            <asp:Panel ID="DBFields" runat="server" Visible="false" CssClass="mainBox3Panel">
+                                            </asp:Panel>
                                         </td>
                                     </tr>
                                 </table>
@@ -64,7 +91,7 @@
                         <br />
                         <br />
                         <div class="mainBox">
-                            <span style="color: white; font-weight: bold;">&nbsp;Connection Description</span>
+                            <span class="connectionStyle">&nbsp;Connection Description</span>
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
@@ -101,33 +128,30 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <asp:Button ID="DavidsButton" runat="server" Text="Modify Condition" CssClass="button" />&nbsp;&nbsp;
-                                                        <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK1"
-                                                            CancelControlID="modCondCancel1" runat="server" PopupControlID="DavidsPanel"
-                                                            ID="ModalPopupExtender7" TargetControlID="DavidsButton" /> 
-                                                        <asp:Panel ID="DavidsPanel" runat="server" class="boxPopupStyle" Style="display: none;">
+                                                        <asp:Button ID="ConButton" runat="server" Text="Modify Condition" CssClass="button"
+                                                            Width="135" />&nbsp;&nbsp;
+                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK1"
+                                                            CancelControlID="modCondCancel1" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7"
+                                                            TargetControlID="ConButton" />
+                                                        <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                             <span class="connectionStyle">&nbsp;Modify Condition</span>
-                                                                <div class="boxPopupStyle1">
-                                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                                        <tr>
-                                                                            <td>            
-                                                                            <br />
-                                                                            <br />
-                                                                            <div class="omainBox3">
-                                                                                <span class="overlayStyle">Conditions</span>
-                                                                                <br />
-                                                                                <table border="1" width="100%" class="omainBox4">
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
+                                                            <div class="mainBoxP">
+                                                                <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="omainBox4">
+                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                                    <tr class="tableTRTitle">
+                                                                                        <td class="tableTD">
                                                                                             Table
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Field
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Operator
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Value
                                                                                         </td>
                                                                                         <td>
@@ -135,33 +159,34 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             TheOnlyTable
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             VehicleType
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             ==
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Tank
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button4" runat="server" Style="text-align: center" Text="Delete" class="button" />
+                                                                                        <td class="textCenter">
+                                                                                            <asp:Button ID="DeleteCon1" runat="server" Style="text-align: center" Text="Remove"
+                                                                                                CssClass="button" ToolTip="Delete Condition" Width="80" />
                                                                                         </td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList7" runat="server">
+                                                                                    <tr class="tableTR">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList7" runat="server" CssClass="inputDD" Width="100">
                                                                                             </asp:DropDownList>
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList8" runat="server">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList8" runat="server" CssClass="inputDD" Width="100">
                                                                                             </asp:DropDownList>
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList9" runat="server">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList9" runat="server" CssClass="inputDD" Width="100">
                                                                                                 <asp:ListItem>==</asp:ListItem>
                                                                                                 <asp:ListItem>&gt;=</asp:ListItem>
                                                                                                 <asp:ListItem>&lt;=</asp:ListItem>
@@ -170,24 +195,24 @@
                                                                                                 <asp:ListItem>between</asp:ListItem>
                                                                                             </asp:DropDownList>
                                                                                         </td>
-                                                                                        <td style="text-align: center; margin-left: 80px">
-                                                                                            <asp:TextBox ID="TextBox7" runat="server" MaxLength="30"></asp:TextBox>
+                                                                                        <td class="tableTD">
+                                                                                            <asp:TextBox ID="TextBox7" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button5" runat="server" Text="Add" class="button" />
+                                                                                        <td class="textCenter">
+                                                                                            <asp:Button ID="AddCond1" runat="server" Style="text-align: center" Text="Add" CssClass="button"
+                                                                                                ToolTip="Add Condition" Width="80" />
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
+                                                                                <div class="right" style="padding-top: 20px;">
+                                                                                    <asp:Button ID="modCondOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                                                    <asp:Button ID="modCondCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                                                                </div>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <div align="right">
-                                                                    <asp:Button ID="ModCondOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                    <asp:Button ID="ModCondCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                </div>
                                                             </div>
-                                          <!-- ----------------------------------------------------------->                                  
                                                         </asp:Panel>
                                                     </td>
                                                 </tr>
@@ -209,93 +234,8 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <asp:Button ID="DavidsButton2" runat="server" Text="Modify Condition" CssClass="button" />&nbsp;&nbsp;
-                                                        <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK2"
-                                                            CancelControlID="modCondCancel2" runat="server" PopupControlID="DavidsPanel2"
-                                                            ID="ModalPopupExtender8" TargetControlID="DavidsButton2" /> 
-                                                        <asp:Panel ID="DavidsPanel2" runat="server" class="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Condition</span>
-                                                                <div class="boxPopupStyle1">
-                                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                                        <tr>
-                                                                            <td>            
-                                                                            <br />
-                                                                            <br />
-                                                                            <div class="omainBox3">
-                                                                                <span class="overlayStyle">Conditions</span>
-                                                                                <br />
-                                                                                <table border="1" width="100%" class="omainBox4">
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            Table
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Field
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Operator
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Value
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            &nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            TheOnlyTable
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            VehicleType
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            ==
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Jeep
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button9" runat="server" Style="text-align: center" Text="Delete" class="button" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList10" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList11" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList12" runat="server">
-                                                                                                <asp:ListItem>==</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;</asp:ListItem>
-                                                                                                <asp:ListItem>between</asp:ListItem>
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center; margin-left: 80px">
-                                                                                            <asp:TextBox ID="TextBox8" runat="server" MaxLength="30"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button10" runat="server" Text="Add" class="button" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <div align="right">
-                                                                    <asp:Button ID="ModCondOK2" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                    <asp:Button ID="ModCondCancel2" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                </div>
-                                                            </div>
-                                                        </asp:Panel>
+                                                        <asp:Button ID="ConButton2" runat="server" Text="Modify Condition" CssClass="button"
+                                                            Width="135" ToolTip="Modify Condition" />&nbsp;&nbsp;
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -313,78 +253,8 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <asp:Button ID="DavidsButton3" runat="server" Text="Modify Condition" CssClass="button" />&nbsp;&nbsp;
-                                                        <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK3"
-                                                            CancelControlID="modCondCancel3" runat="server" PopupControlID="DavidsPanel3"
-                                                            ID="ModalPopupExtender9" TargetControlID="DavidsButton3" /> 
-                                                        <asp:Panel ID="DavidsPanel3" runat="server" class="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Condition</span>
-                                                                <div class="boxPopupStyle1">
-                                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                                        <tr>
-                                                                            <td>            
-                                                                            <br />
-                                                                            <br />
-                                                                            <div class="omainBox3">
-                                                                                <span class="overlayStyle">Conditions</span>
-                                                                                <br />
-                                                                                <table border="1" width="100%" class="omainBox4">
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            Table
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Field
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Operator
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Value
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            &nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList13" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList14" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList15" runat="server">
-                                                                                                <asp:ListItem>==</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;</asp:ListItem>
-                                                                                                <asp:ListItem>between</asp:ListItem>
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center; margin-left: 80px">
-                                                                                            <asp:TextBox ID="TextBox9" runat="server" MaxLength="30"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button14" runat="server" Text="Add" class="button" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <div align="right">
-                                                                    <asp:Button ID="ModCondOK3" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                    <asp:Button ID="ModCondCancel3" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                </div>
-                                                            </div>                                                                            
-                                                        </asp:Panel>
-                                                   <!-- ----------------------------------------------------------->
+                                                        <asp:Button ID="ConButton3" runat="server" Text="Add Condition" CssClass="button"
+                                                            Width="135" ToolTip="Add Condition" />&nbsp;&nbsp;
                                                     </td>
                                                 </tr>
                                             </table>
@@ -392,269 +262,239 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div align="right" class="mainBox2">
-                                <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="button" />&nbsp;&nbsp;
-                                <asp:Button ID="removeIcon" runat="server" Text="Remove Icons" CssClass="button" />&nbsp;&nbsp;
-                                <asp:Button ID="addIcon" runat="server" Text="Add Icons" CssClass="button" />&nbsp;&nbsp;
-                                <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
+                            <div class="mainBox2">
+                                <div align="right">
+                                    <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="button" />&nbsp;&nbsp;
+                                    <asp:Button ID="removeIcon" runat="server" Text="Remove Icons" CssClass="button" />&nbsp;&nbsp;
+                                    <asp:Button ID="addIcon" runat="server" Text="Add Icons" CssClass="button" /></div>
+                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
                                     CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
-                                    TargetControlID="AddIcon" />
-                                <asp:Panel ID="AddIconsPanel" runat="server" class="boxPopupStyle" Style="display: none;">
-                                    <span class="connectionStyle">&nbsp;Icon Library</span>
-                                    <div class="boxPopupStyle1">
-                                        <table class="boxPopupStyle2" cellpadding="5">
+                                    TargetControlID="addIcon" />
+                                <asp:Panel ID="AddIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                    <div class="mainBoxP">
+                                        <span class="connectionStyle">&nbsp;Icon Library</span>
+                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
                                             <tr>
                                                 <td>
-                                                    <img src="icons/1.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/2.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/3.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/4.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/5.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/6.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/7.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/8.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/9.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/10.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/A.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/airports.png" alt="" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="icons/arrow-reverse.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/arrow.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/arts.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/B.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/bars.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/blu-blank.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/blu-circle.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/blu-diamond.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/blu-square.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/blu-stars.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/blue-pushpin.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/bus.png" alt="" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="icons/C.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/cabs.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/camera.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/campfire.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/campground.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/caution.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/coffee.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/convenience.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/cycling.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/D.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/dining.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/dollar.png" alt="" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="icons/donut.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/E.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/earthquake.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/electronics.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/euro.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/F.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/falling_rocks.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/ferry.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/firedept.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/fishing.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/flag.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/forbidden.png" alt="" />
+                                                    <table class="boxPopupStyle2" cellpadding="5">
+                                                        <tr>
+                                                            <td>
+                                                                <img src="icons/1.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/2.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/3.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/4.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/5.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/6.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/7.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/8.png" alt="" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="icons/arrow-reverse.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/arrow.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/arts.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/B.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/bars.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/blu-blank.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/blu-circle.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/blu-diamond.png" alt="" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="icons/C.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/cabs.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/camera.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/campfire.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/campground.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/caution.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/coffee.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/convenience.png" alt="" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="icons/donut.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/E.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/earthquake.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/electronics.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/euro.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/F.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/falling_rocks.png" alt="" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="right" style="padding-top: 20px;">
+                                                        <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" />&nbsp;&nbsp;
+                                                        <asp:Button ID="btnClose" runat="server" Text="Cancel" CssClass="button" />
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div align="right">
-                                            <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" />&nbsp;&nbsp;
-                                            <asp:Button ID="btnClose" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                        </div>
                                     </div>
                                 </asp:Panel>
-                                <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk2"
+                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk2"
                                     CancelControlID="btnClose2" runat="server" PopupControlID="RemoveIconsPanel"
                                     ID="ModalPopupExtender2" TargetControlID="RemoveIcon" />
-                                <asp:Panel ID="RemoveIconsPanel" runat="server" class="boxPopupStyle" Style="display: none;">
-                                    <span class="connectionStyle">&nbsp;Remove Icons</span>
-                                    <div class="boxPopupStyle1">
-                                        <table class="boxPopupStyle2" cellpadding="5">
-                                            <tr>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td>
-                                                    <img src="icons/cycling.png" alt="" />
-                                                      </td>
-                                                <td>
-                                                    <img src="icons/bus.png" alt="" />
-                                                </td>
-                                                <td>
-                                                    <img src="icons/electronics.png" alt="" />
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                                <td width="64">
-                                                </td>
-                                            </tr>
+                                <asp:Panel ID="RemoveIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                    <div class="mainBoxP">
+                                        <span class="connectionStyle">&nbsp;Remove Icons</span>
+                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
                                             <tr>
                                                 <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
+                                                    <table class="boxPopupStyle2" cellpadding="5">
+                                                        <tr>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/cycling.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/bus.png" alt="" />
+                                                            </td>
+                                                            <td>
+                                                                <img src="icons/electronics.png" alt="" />
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                            <td style="width: 64px;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="right">
+                                                        <asp:Button ID="btnOk2" runat="server" Text="Remove Icon" CssClass="button" />
+                                                        &nbsp;&nbsp;
+                                                        <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div align="right">
-                                            <asp:Button ID="btnOk2" runat="server" Text="Remove Icon" CssClass="button" />&nbsp;&nbsp;
-                                            <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                        </div>
                                     </div>
                                 </asp:Panel>
-                                <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk3"
+                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk3"
                                     CancelControlID="btnClose3" runat="server" PopupControlID="UploadIconsPanel"
                                     ID="ModalPopupExtender3" TargetControlID="UploadIcon" />
-                                <asp:Panel ID="UploadIconsPanel" runat="server" class="boxPopupStyle" Style="display: none;">
-                                    <span class="connectionStyle">&nbsp;Upload Icons</span>
-                                    <div class="boxPopupStyle1">
-                                        <table class="boxPopupStyle2" cellpadding="5">
+                                <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                    <div class="mainBoxP">
+                                        <span class="connectionStyle">&nbsp;Upload Icons</span>
+                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
                                             <tr>
                                                 <td>
-                                                    <cc1:AsyncFileUpload ID="AsyncFileUpload1" runat="server" Text="Upload Icon" BackColor="White" />
-                                                    <br />
-                                                    <cc1:AsyncFileUpload ID="AsyncFileUpload2" runat="server" Text="Upload Icon" BackColor="White" />
-                                                    <br />
-                                                    <cc1:AsyncFileUpload ID="AsyncFileUpload3" runat="server" Text="Upload Icon" BackColor="White" />
-                                                    <br />
-                                                    <cc1:AsyncFileUpload ID="AsyncFileUpload4" runat="server" Text="Upload Icon" BackColor="White" />
-                                                    <br />
+                                                    <table class="boxPopupStyle2" cellpadding="5">
+                                                        <tr>
+                                                            <td>
+                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload1" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                <br />
+                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload2" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                <br />
+                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload3" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                <br />
+                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload4" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="right">
+                                                        <asp:Button ID="btnOk3" runat="server" Text="Upload" CssClass="button" />
+                                                        &nbsp;&nbsp;
+                                                        <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div align="right">
-                                            <asp:Button ID="btnOk3" runat="server" Text="Upload" CssClass="button" />&nbsp;&nbsp;
-                                            <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                        </div>
                                     </div>
                                 </asp:Panel>
                             </div>
@@ -688,43 +528,28 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOverlayOk"
+                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOverlayOk"
                                                             CancelControlID="modOverlayCancel" runat="server" PopupControlID="ModOverlayPanel"
                                                             ID="ModalPopupExtender5" TargetControlID="ModOverlay" />
-                                                        <asp:Panel ID="ModOverlayPanel" runat="server" class="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Overlay</span>
-                                                            <div class="boxPopupStyle1">
-                                                                <table class="boxPopupStyle2" cellpadding="5">
+                                                        <asp:Panel ID="ModOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                            <span class="connectionStyle">&nbsp;Modify Condition</span>
+                                                            <div class="mainBoxP">
+                                                                <table cellspacing="0" cellpadding="5" class="mainBox2">
                                                                     <tr>
                                                                         <td>
-                                                                            <div class="omainBox3" style="">
-                                                                                <span class="overlayStyle">Color</span>
-                                                                                <div class="omainBox4">
-                                                                                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-                                                                                    <cc1:ColorPickerExtender ID="ColorPickerExtender2" runat="server" TargetControlID="ColorPickTxtBox"
-                                                                                        PopupButtonID="Image2" SampleControlID="colorTxtBox">
-                                                                                    </cc1:ColorPickerExtender>
-                                                                                    &nbsp;<asp:TextBox ID="TextBox2" runat="server" Height="20px" Width="20px"></asp:TextBox>
-                                                                                    &nbsp;<asp:Image ID="Image2" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
-                                                                                </div>
-                                                                            </div>
-                                                                            <br />
-                                                                            <br />
-                                                                            <div class="omainBox3">
-                                                                                <span class="overlayStyle">Conditions</span>
-                                                                                <br />
-                                                                                <table border="1" width="100%" class="omainBox4">
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
+                                                                            <div class="omainBox4">
+                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                                    <tr class="tableTRTitle">
+                                                                                        <td class="tableTD">
                                                                                             Table
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Field
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Operator
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Value
                                                                                         </td>
                                                                                         <td>
@@ -732,33 +557,34 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             TheOnlyTable
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             VehicleType
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             ==
                                                                                         </td>
-                                                                                        <td style="text-align: center">
+                                                                                        <td class="tableTD">
                                                                                             Tank
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="DelBtn" runat="server" Style="text-align: center" Text="Delete" class="button" />
+                                                                                        <td class="textCenter">
+                                                                                            <asp:Button ID="Button1" runat="server" Style="text-align: center" Text="Remove"
+                                                                                                CssClass="button" ToolTip="Delete Condition" Width="80" />
                                                                                         </td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList1" runat="server">
+                                                                                    <tr class="tableTR">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList1" runat="server" CssClass="inputDD" Width="100">
                                                                                             </asp:DropDownList>
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList2" runat="server">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList2" runat="server" CssClass="inputDD" Width="100">
                                                                                             </asp:DropDownList>
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList3" runat="server">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList3" runat="server" CssClass="inputDD" Width="100">
                                                                                                 <asp:ListItem>==</asp:ListItem>
                                                                                                 <asp:ListItem>&gt;=</asp:ListItem>
                                                                                                 <asp:ListItem>&lt;=</asp:ListItem>
@@ -767,22 +593,23 @@
                                                                                                 <asp:ListItem>between</asp:ListItem>
                                                                                             </asp:DropDownList>
                                                                                         </td>
-                                                                                        <td style="text-align: center; margin-left: 80px">
-                                                                                            <asp:TextBox ID="TextBox3" runat="server" MaxLength="30"></asp:TextBox>
+                                                                                        <td class="tableTD">
+                                                                                            <asp:TextBox ID="TextBox1" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
                                                                                         </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button2" runat="server" Text="Add" class="button" />
+                                                                                        <td class="textCenter">
+                                                                                            <asp:Button ID="Button2" runat="server" Style="text-align: center" Text="Add" CssClass="button"
+                                                                                                ToolTip="Add Condition" Width="80" />
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
+                                                                                <div class="right" style="padding-top: 20px;">
+                                                                                    <asp:Button ID="modOverlayOk" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                                                    <asp:Button ID="modOverlayCancel" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                                                                </div>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <div align="right">
-                                                                    <asp:Button ID="modOverlayOK" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                    <asp:Button ID="modOverlayCancel" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                </div>
                                                             </div>
                                                         </asp:Panel>
                                                         <asp:Button ID="ModOverlay" runat="server" Text="Modify Overlay" CssClass="button" />
@@ -807,104 +634,6 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOverlayOk2"
-                                                            CancelControlID="modOverlayCancel2" runat="server" PopupControlID="ModOverlayPanel2"
-                                                            ID="ModalPopupExtender6" TargetControlID="modOverlay2" />
-                                                        <asp:Panel ID="modOverlayPanel2" runat="server" class="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Overlay</span>
-                                                            <div class="boxPopupStyle1">
-                                                                <table class="boxPopupStyle2" cellpadding="5">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="omainBox3" style="">
-                                                                                <span class="overlayStyle">Color</span>
-                                                                                <div class="omainBox4">
-                                                                                    <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
-                                                                                    <cc1:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="ColorPickTxtBox"
-                                                                                        PopupButtonID="Image3" SampleControlID="colorTxtBox">
-                                                                                    </cc1:ColorPickerExtender>
-                                                                                    &nbsp;<asp:TextBox ID="TextBox5" runat="server" Height="20px" Width="20px"></asp:TextBox>
-                                                                                    &nbsp;<asp:Image ID="Image3" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
-                                                                                </div>
-                                                                            </div>
-                                                                            <br />
-                                                                            <br />
-                                                                            <div class="omainBox3">
-                                                                                <span class="overlayStyle">Conditions</span>
-                                                                                <br />
-                                                                                <table border="1" width="100%" class="omainBox4">
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            Table
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Field
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Operator
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Value
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            &nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            AnotherTable
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            VehicleType
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            ==
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            Jeep
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button3" runat="server" Style="text-align: center" Text="Delete"
-                                                                                                class="button" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList4" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList5" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:DropDownList ID="DropDownList6" runat="server">
-                                                                                                <asp:ListItem>==</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;</asp:ListItem>
-                                                                                                <asp:ListItem>between</asp:ListItem>
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td style="text-align: center; margin-left: 80px">
-                                                                                            <asp:TextBox ID="TextBox6" runat="server" MaxLength="30"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td style="text-align: center">
-                                                                                            <asp:Button ID="Button1" runat="server" Text="Add" class="button" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <div align="right">
-                                                                    <asp:Button ID="modOverlayOk2" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                    <asp:Button ID="modOverlayCancel2" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                </div>
-                                                            </div>
-                                                        </asp:Panel>
                                                         <asp:Button ID="modOverlay2" runat="server" Text="Modify Overlay" CssClass="button" />
                                                     </td>
                                                 </tr>
@@ -913,98 +642,114 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div align="right" class="mainBox2">
-                                <asp:Button ID="overlayButton" runat="server" Text="Add Overlay Color" CssClass="button" />&nbsp;&nbsp;
-                                <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOkO"
+                            <div class="mainBox2">
+                                <div class="right">
+                                    <asp:Button ID="overlayButton" runat="server" Text="Add Overlay Color" CssClass="button" /></div>
+                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOkO"
                                     CancelControlID="btnCloseO" runat="server" PopupControlID="OverlayPanel" ID="ModalPopupExtender4"
                                     TargetControlID="overlayButton" />
-                                <asp:Panel ID="OverlayPanel" runat="server" class="boxPopupStyle" Style="display: none;">
-                                    <span class="connectionStyle">&nbsp;Add Overlay Color</span>
-                                    <div class="boxPopupStyle1">
-                                        <table class="boxPopupStyle2" cellpadding="5">
+                                <asp:Panel ID="OverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                    <div class="mainBoxP">
+                                        <span class="connectionStyle">&nbsp;Add Overlay Color</span>
+                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
                                             <tr>
                                                 <td>
-                                                    <div class="omainBox3" style="">
-                                                        <span class="overlayStyle">Color</span>
-                                                        <div class="omainBox4">
-                                                            <asp:TextBox ID="ColorPickTxtBox" runat="server"></asp:TextBox>
-                                                            <cc1:ColorPickerExtender ID="ColorPickerExtender1" runat="server" TargetControlID="ColorPickTxtBox"
-                                                                PopupButtonID="Image1" SampleControlID="colorTxtBox">
-                                                            </cc1:ColorPickerExtender>
-                                                            &nbsp;<asp:TextBox ID="colorTxtBox" runat="server" Height="20px" Width="20px"></asp:TextBox>
-                                                            &nbsp;<asp:Image ID="Image1" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
-                                                        </div>
-                                                    </div>
-                                                    <br />
-                                                    <br />
-                                                    <div class="omainBox3">
-                                                        <span class="overlayStyle">Conditions</span>
-                                                        <br />
-                                                        <table border="1" width="100%" class="omainBox4">
-                                                            <tr>
-                                                                <td style="text-align: center">
-                                                                    Table
-                                                                </td>
-                                                                <td style="text-align: center">
-                                                                    Field
-                                                                </td>
-                                                                <td style="text-align: center">
-                                                                    Operator
-                                                                </td>
-                                                                <td style="text-align: center">
-                                                                    Value
-                                                                </td>
-                                                                <td>
-                                                                    &nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="text-align: center">
-                                                                    <asp:DropDownList ID="TableDrpDwn" runat="server">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td style="text-align: center">
-                                                                    <asp:DropDownList ID="FieldDrpDwn" runat="server">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td style="text-align: center">
-                                                                    <asp:DropDownList ID="OperatorDrpDown" runat="server">
-                                                                        <asp:ListItem>==</asp:ListItem>
-                                                                        <asp:ListItem>&gt;=</asp:ListItem>
-                                                                        <asp:ListItem>&lt;=</asp:ListItem>
-                                                                        <asp:ListItem>&gt;</asp:ListItem>
-                                                                        <asp:ListItem>&lt;</asp:ListItem>
-                                                                        <asp:ListItem>between</asp:ListItem>
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td style="text-align: center; margin-left: 80px">
-                                                                    <asp:TextBox ID="ValueTxtBox" runat="server" MaxLength="30"></asp:TextBox>
-                                                                </td>
-                                                                <td style="text-align: center">
-                                                                    <asp:Button ID="AddBtn" runat="server" Text="Add" class="button" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                                    <table class="boxPopupStyle2" cellpadding="5">
+                                                        <tr>
+                                                            <td>
+                                                                <div class="omainBox3" style="">
+                                                                    <span class="overlayStyle">Color</span>
+                                                                    <div class="omainBox4">
+                                                                        <asp:TextBox ID="ColorPickTxtBox" runat="server"></asp:TextBox>
+                                                                        <ajax:ColorPickerExtender ID="ColorPickerExtender1" runat="server" TargetControlID="ColorPickTxtBox"
+                                                                            PopupButtonID="Image1" SampleControlID="colorTxtBox">
+                                                                        </ajax:ColorPickerExtender>
+                                                                        &nbsp;<asp:TextBox ID="colorTxtBox" runat="server" Height="20px" Width="20px"></asp:TextBox>
+                                                                        &nbsp;<asp:Image ID="Image1" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <br />
+                                                                <div class="omainBox3">
+                                                                    <span class="overlayStyle">Conditions</span>
+                                                                    <br />
+                                                                    <table border="1" width="100%" class="omainBox4">
+                                                                        <tr>
+                                                                            <td style="text-align: center">
+                                                                                Table
+                                                                            </td>
+                                                                            <td style="text-align: center">
+                                                                                Field
+                                                                            </td>
+                                                                            <td style="text-align: center">
+                                                                                Operator
+                                                                            </td>
+                                                                            <td style="text-align: center">
+                                                                                Value
+                                                                            </td>
+                                                                            <td>
+                                                                                &nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="text-align: center">
+                                                                                <asp:DropDownList ID="TableDrpDwn" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </td>
+                                                                            <td style="text-align: center">
+                                                                                <asp:DropDownList ID="FieldDrpDwn" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </td>
+                                                                            <td style="text-align: center">
+                                                                                <asp:DropDownList ID="OperatorDrpDown" runat="server">
+                                                                                    <asp:ListItem>==</asp:ListItem>
+                                                                                    <asp:ListItem>&gt;=</asp:ListItem>
+                                                                                    <asp:ListItem>&lt;=</asp:ListItem>
+                                                                                    <asp:ListItem>&gt;</asp:ListItem>
+                                                                                    <asp:ListItem>&lt;</asp:ListItem>
+                                                                                    <asp:ListItem>between</asp:ListItem>
+                                                                                </asp:DropDownList>
+                                                                            </td>
+                                                                            <td style="text-align: center; margin-left: 80px">
+                                                                                <asp:TextBox ID="ValueTxtBox" runat="server" MaxLength="30"></asp:TextBox>
+                                                                            </td>
+                                                                            <td style="text-align: center">
+                                                                                <asp:Button ID="AddBtn" runat="server" Text="Add" CssClass="button" />
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="right">
+                                                        <asp:Button ID="btnOkO" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                        <asp:Button ID="btnCloseO" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
                                                     </div>
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div align="right">
-                                            <asp:Button ID="btnOkO" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                            <asp:Button ID="btnCloseO" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                        </div>
                                     </div>
                                 </asp:Panel>
                             </div>
                         </div>
                         <br />
                         <br />
-                        <div align="right">
+                        <div class="right">
                             <input type="submit" name="submit" value="Cancel" class="button" />&nbsp;&nbsp;<input
                                 type="submit" name="submit" value="Modify Connection" class="button" />
                         </div>
-    <!-- #include file ="layout\bottom.inc" -->
-
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+    <asp:ScriptManager ID="ConnSMgr2" runat="server">
+    </asp:ScriptManager>
     </form>
 </body>
 </html>

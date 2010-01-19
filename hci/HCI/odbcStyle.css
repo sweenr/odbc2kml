@@ -22,13 +22,25 @@ body
 	float: left;
 }
 
-.center {
+.center 
+{
   margin-left: auto;
   margin-right: auto;
 }
 
-.clear {
+.clear 
+{
   clear: both;
+}
+
+.full
+{
+	width: 100%;
+}
+
+.textCenter
+{
+	text-align:center;
 }
 
 /*Wrappers for Content*/
@@ -42,7 +54,6 @@ body
 	padding: 0px;
 	background: white;
 	border:0;
-	/*border: solid 4px rgb(26,49,76);*/
 }
 
 #wrap
@@ -52,6 +63,8 @@ body
 	padding: 5px;
 	width: 900px;
 }
+
+/* Content Boxes & Text Styles */
 
 #mainTable
 {
@@ -69,11 +82,25 @@ body
 	width: 100%;
 }
 
+.mainBoxInfo
+{
+	border: solid 2px rgb(65,115,152);
+	background-color: rgb(70,124,165);
+	width: 100%;
+}
+
+.connTitle
+{
+	font-weight: bold;
+	font-size:16px;
+	color: black;
+}
+
 .mainBoxP
 {
 	border: solid 2px rgb(26,49,76);
 	background-color: rgb(26,49,76);
-	width: 550px;
+		width:750px;
 }
 
 .omainBox
@@ -97,16 +124,42 @@ body
 
 .omainBox4
 {
-	background-color: rgb(238,238,244);
+	background-color: white;
 	padding: 10px;	        
 	margin: 0px;
+}
 
+.omainBox5
+{
+	width: 100%;
+	border: solid 1px rgb(60,106,142);
+}
+
+.tableTD
+{
+	border-right: solid 1px rgb(60,106,142);
+	padding: 5px;
+}
+
+.tableTRTitle
+{
+	background-color: rgb(26,49,76);
+	color:White;
+	font-weight: bold;
+}
+
+
+.tableTR
+{
+	background-color: rgb(200,225,250);
 }
 
 .connectionStyle
 {
 	color: white;
 	font-weight: bold;
+	font-size:14px;
+	padding-bottom:10px;
 }
 
 .mainBox2
@@ -131,6 +184,18 @@ table.tableClass td
 	border: solid 1px white;
 	width: 45%;
 	font-size: .9em;
+}
+
+
+.mainBox3Panel
+{
+	background-color: white;
+	border: solid 1px white;
+	width: 100%;
+}
+.tdSpace3
+{
+	width: 10%;
 }
 
 .mainBox4
@@ -162,24 +227,82 @@ table.tableClass td
 {
 	background-color: rgb(74,128,174);
 	border: solid 5px rgb(60,106,142);
+	width: 100%;
 }
 
-.selectedDatabase
+.dbTitle
 {
-	background-color: rgb(140,176,214);
-	border: solid 1px rgb(97,140,183);
-	padding: 3px;
+	background-color: rgb(26,49,76);
+	border: solid 1px rgb(26,49,76);
+	padding: 2px;
 	margin: 0px;
+	color: White;
+	font-size:13px;
 	text-decoration: none;
 }
 
-.selectDatabase
+.dbTitleSpan
+{
+	padding-left: 5px;
+}
+
+.selectDB
 {
 	background-color: white;
 	border: solid 1px white;
-	padding: 3px;
+	padding: 2px;
 	margin: 0px;
-	text-decoration: none;
+	color:Black;
+	width:100%;
+	text-align:left;
+	cursor: pointer, default;	
+}
+
+.selectDB:hover
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+}
+
+.selectDB2
+{
+	background-color: rgb(200,225,250);
+	border: solid 1px rgb(200,225,250);
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
+	cursor: pointer, default;	
+}
+
+.selectDB2:hover
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+}
+
+
+.dbColumns
+{
+	background-color: white;
+	border: solid 1px white;
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
+}
+
+.dbColumns2
+{
+	background-color: rgb(200,225,250);
+	border: solid 1px rgb(200,225,250);
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
 }
 
 .selectTable, a.selectTable:link, a.selectTable:visited
@@ -204,7 +327,7 @@ a.selectTable:hover
 
 .hrStyle
 {
-	border: solid 2px rgb(24,295,244);
+	border: solid 2px rgb(18,64,110);
 }
 
 .buttonClass
@@ -250,17 +373,18 @@ a.selectTable:hover
 }
 
 .handleImage
-        {
-            width: 16px;
-            height: 16px;
-            cursor: se-resize;
-        }
+{
+	width: 16px;
+    height: 16px;
+    cursor: se-resize;
+}
         
-    .overlayStyle
-        {
-            color: white;
-            font-weight: bold;
-        }     
+.overlayStyle
+{
+	color: white;
+	font-weight: bold;
+
+}     
 
 .iconBox
 {
@@ -276,7 +400,11 @@ a.selectTable:hover
 
 .inputBox
 {
-	background-color: rgb(238,238,244);
+	border: solid 1px rgb(205,205,216);
+}
+
+.inputDD
+{
 	border: solid 1px rgb(205,205,216);
 }
 
@@ -292,10 +420,9 @@ a.selectTable:hover
 
 .button:hover
 {
-	/*background-position: 0 -20px;*/
 	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
 	color: rgb(26,49,76);
-	border: solid 1px rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
 }
 
 #header
@@ -343,7 +470,6 @@ a.selectTable:hover
 	height: 40px;
 	margin: 0 auto;
 	padding: 5px 0 0px 0;
-	/*background: rgb(26,49,76);*/
 	background: White;
 	font-family: Arial, Helvetica, sans-serif;
 	color: white;
@@ -362,7 +488,8 @@ a.selectTable:hover
 	color: #FFFFFF;
 }
 
-/* Connection Link Icons*/
+/* Connection Link Icons */
+
 .newIcon{
 	background: url('/graphics/newH.gif') 0 0 no-repeat;
 	height: 20px;
@@ -444,7 +571,7 @@ a.selectTable:hover
 	background-position: 0 -20px;
 }
 
-/*Connection Page Styles*/
+/* Connection Page Styles */
 
 .connectionBox
 {
@@ -460,7 +587,7 @@ a.selectTable:hover
 
 .evenConn
 {
-	background-color: rgb(176,212,244);
+	background-color: rgb(200,225,250);
 	vertical-align:top;
 }
 

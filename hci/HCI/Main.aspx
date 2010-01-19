@@ -64,7 +64,7 @@
                                                     <!-- Sample Extender for 1st Edit Connection Button --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="editConnUpdate"
                                                         CancelControlID="editConnCancel" runat="server" PopupControlID="editConnPanel"
-                                                        ID="ModalPopupExtender1" TargetControlID="editConn1" />
+                                                        ID="EditConn1ModalPopUp" TargetControlID="editConn1" />
                                                         
                                                     <!-- Sample Panels for Connection Pop-Ups --->
                                                     <asp:Panel ID="editConnPanel" runat="server" cssClass="boxPopupStyle" Style="display: none;">
