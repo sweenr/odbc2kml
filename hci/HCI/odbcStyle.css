@@ -135,6 +135,13 @@ body
 	border: solid 1px rgb(60,106,142);
 }
 
+.omainBox6
+{
+	width: 100%;
+	border: solid 1px rgb(60,106,142);
+	background-color: rgb(200,225,250);
+}
+
 .tableTD
 {
 	border-right: solid 1px rgb(60,106,142);
