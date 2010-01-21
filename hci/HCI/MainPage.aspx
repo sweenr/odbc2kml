@@ -1,5 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MainPage.aspx.cs" Inherits="HCI._Default" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -46,20 +49,37 @@
                         </div>
                     </td>
                 </tr>
-            </table>
+            </table>           
             <div align="right">
-                <asp:Button ID="Button1" runat="server" Text="New" Width="68px" CssClass="button" />
+<!-- ------------------------------------------------------------------------------------------------------------->
+                <asp:Button ID="Button1" runat="server" Text="New" Width="68px" CssClass="button" /> 
                 &nbsp;&nbsp;
+                <cc1:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK1"
+                    CancelControlID="modCondCancel1" runat="server" PopupControlID="DavidsPopup"
+                    ID="ModalPopupExtender7" TargetControlID="Button1" /> 
+                <asp:Panel ID="DavidsPopup" runat="server" class="boxPopupStyle" Style="display: none;">
+                    <span class="connectionStyle">&nbsp;Create Connection</span>
+                        <div class="boxPopupStyle1">
+                            <div align="right">
+                                <asp:Button ID="ModCondOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                <asp:Button ID="ModCondCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                            </div>                        
+                        </div>
+                    </asp:Panel>
+                
+<!-- -------------------------------------------------------------------------------------------------------------> 
                 <asp:Button ID="Button2" runat="server" Text="Modify" Width="70px" CssClass="button" />
                 &nbsp;&nbsp;
                 <asp:Button ID="Button3" runat="server" Text="View" Width="71px" CssClass="button" />
                 &nbsp;&nbsp;
                 <asp:Button ID="Button4" runat="server" Text="Delete" Width="71px" CssClass="button" />
                 &nbsp;&nbsp;
-                <asp:Button ID="Button5" runat="server" Text="Create KML" Width="90px" CssClass="button" Style="margin-right:20px" />
+                <asp:Button ID="Button5" runat="server" Text="Create KML" Width="90px" CssClass="button" Style="margin-right:20px" />         
             </div>
         </div>
-    </div>
+    </div>  
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
     </form>
 </body>
 </html>
