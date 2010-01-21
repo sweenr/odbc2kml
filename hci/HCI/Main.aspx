@@ -24,7 +24,7 @@
                             <tr>
                                 <td>
                                     <asp:ImageButton ID="homeIcon" runat="server" CssClass="homeIcon" ImageUrl="graphics/connIcon.gif"
-                                        AlternateText="Connections" ToolTip="Connections" PostBackUrl="Main.aspx" />
+                                        AlternateText="View Connections (Home)" ToolTip="View Connections (Home)" PostBackUrl="Main.aspx" />
                                 </td>
                                 <td>
                                     <div class="newConnA">
@@ -133,16 +133,19 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <asp:ImageButton ID="newIcon" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
-                                                    AlternateText="Create Connection" ToolTip="Create Connection" />
+                                                <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
+                                                    AlternateText="Create Connection" ToolTip="New Connection" />
                                             </td>
                                             <td>
                                                 <div class="newConnA">
-                                                    <asp:HyperLink ID="NewConnection" runat="server">HyperLink</asp:HyperLink>
-                                                    <!-- Sample Extender for 1st Edit Connection Button --->
+                                                    <asp:HyperLink ID="newConnectionA" runat="server" ToolTip="New Connection">New Connection</asp:HyperLink>
+                                                    
+                                                    <!-- Sample Extender for New Connection Button --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="newConnUpdate"
                                                         CancelControlID="newConnCancel" runat="server" PopupControlID="newConnPanel"
-                                                        ID="NewConn1ModalPopUp" TargetControlID="newIcon" />
+                                                        ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
+                                                        
+                                                       
                                                         
                                                     <!-- Sample Panels for Connection Pop-Ups --->
                                                     <asp:Panel ID="newConnPanel" runat="server" cssClass="boxPopupStyle" Style="display: none;">
