@@ -128,7 +128,6 @@
     <Content Include="logoBack.jpg" />
     <Content Include="odbc.html" />
     <Content Include="odbcStyle.css" />
-    <Content Include="Overlay.aspx" />
     <Content Include="tableOptions.htm" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -164,13 +163,6 @@
     <Compile Include="library.aspx.cs">
       <DependentUpon>library.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Overlay.aspx.cs">
-      <DependentUpon>Overlay.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Overlay.aspx.designer.cs">
-      <DependentUpon>Overlay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
