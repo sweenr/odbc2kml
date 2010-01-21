@@ -140,6 +140,15 @@
                                                                     <tr>
                                                                         <td>
                                                                             <div class="omainBox4">
+                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <p>
+                                                                                </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
                                                                                     <tr class="tableTRTitle">
                                                                                         <td class="tableTD">
@@ -258,251 +267,277 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
+                                                CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
+                                                TargetControlID="addIcon" />
+                                            <asp:Panel ID="AddIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <div class="mainBoxP">
+                                                    <span class="connectionStyle">&nbsp;Icon Library</span>
+                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                        <tr>
+                                                            <td>
+                                                                <table class="boxPopupStyle2" cellpadding="5">
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="icons/1.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/2.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/3.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/4.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/5.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/6.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/7.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/8.png" alt="" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="icons/arrow-reverse.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/arrow.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/arts.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/B.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/bars.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/blu-blank.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/blu-circle.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/blu-diamond.png" alt="" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="icons/C.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/cabs.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/camera.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/campfire.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/campground.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/caution.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/coffee.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/convenience.png" alt="" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="icons/donut.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/E.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/earthquake.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/electronics.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/euro.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/F.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/falling_rocks.png" alt="" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="right" style="padding-top: 20px;">
+                                                                    <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" />&nbsp;&nbsp;
+                                                                    <asp:Button ID="btnClose" runat="server" Text="Cancel" CssClass="button" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </asp:Panel>
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk2"
+                                                CancelControlID="btnClose2" runat="server" PopupControlID="RemoveIconsPanel"
+                                                ID="ModalPopupExtender2" TargetControlID="RemoveIcon" />
+                                            <asp:Panel ID="RemoveIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <div class="mainBoxP">
+                                                    <span class="connectionStyle">&nbsp;Remove Icons</span>
+                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                        <tr>
+                                                            <td>
+                                                                <table class="boxPopupStyle2" cellpadding="5">
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 64px;">
+                                                                        </td>
+                                                                        <td style="width: 64px;">
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/cycling.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/bus.png" alt="" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="icons/electronics.png" alt="" />
+                                                                        </td>
+                                                                        <td style="width: 64px;">
+                                                                        </td>
+                                                                        <td style="width: 64px;">
+                                                                        </td>
+                                                                        <td style="width: 64px;">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                        <td>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="right">
+                                                                    <asp:Button ID="btnOk2" runat="server" Text="Remove Icon" CssClass="button" />
+                                                                    &nbsp;&nbsp;
+                                                                    <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </asp:Panel>
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk3"
+                                                CancelControlID="btnClose3" runat="server" PopupControlID="UploadIconsPanel"
+                                                ID="ModalPopupExtender3" TargetControlID="UploadIcon" />
+                                            <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <div class="mainBoxP">
+                                                    <span class="connectionStyle">&nbsp;Upload Icons</span>
+                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                        <tr>
+                                                            <td>
+                                                                <table class="boxPopupStyle2" cellpadding="5">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload1" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                            <br />
+                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload2" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                            <br />
+                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload3" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                            <br />
+                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload4" runat="server" Text="Upload Icon" BackColor="White" />
+                                                                            <br />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="right">
+                                                                    <asp:Button ID="btnOk3" runat="server" Text="Upload" CssClass="button" />
+                                                                    &nbsp;&nbsp;
+                                                                    <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </asp:Panel>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="right">
+                                                <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="button" />&nbsp;&nbsp;
+                                                <asp:Button ID="removeIcon" runat="server" Text="Remove Icons" CssClass="button" />&nbsp;&nbsp;
+                                                <asp:Button ID="addIcon" runat="server" Text="Add Icons" CssClass="button" />
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-                            <div class="mainBox2">
-                                <div align="right">
-                                    <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="button" />&nbsp;&nbsp;
-                                    <asp:Button ID="removeIcon" runat="server" Text="Remove Icons" CssClass="button" />&nbsp;&nbsp;
-                                    <asp:Button ID="addIcon" runat="server" Text="Add Icons" CssClass="button" /></div>
-                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
-                                    CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
-                                    TargetControlID="addIcon" />
-                                <asp:Panel ID="AddIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                    <div class="mainBoxP">
-                                        <span class="connectionStyle">&nbsp;Icon Library</span>
-                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
-                                            <tr>
-                                                <td>
-                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                        <tr>
-                                                            <td>
-                                                                <img src="icons/1.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/2.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/3.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/4.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/5.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/6.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/7.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/8.png" alt="" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <img src="icons/arrow-reverse.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/arrow.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/arts.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/B.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/bars.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/blu-blank.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/blu-circle.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/blu-diamond.png" alt="" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <img src="icons/C.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/cabs.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/camera.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/campfire.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/campground.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/caution.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/coffee.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/convenience.png" alt="" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <img src="icons/donut.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/E.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/earthquake.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/electronics.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/euro.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/F.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/falling_rocks.png" alt="" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <div class="right" style="padding-top: 20px;">
-                                                        <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" />&nbsp;&nbsp;
-                                                        <asp:Button ID="btnClose" runat="server" Text="Cancel" CssClass="button" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </asp:Panel>
-                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk2"
-                                    CancelControlID="btnClose2" runat="server" PopupControlID="RemoveIconsPanel"
-                                    ID="ModalPopupExtender2" TargetControlID="RemoveIcon" />
-                                <asp:Panel ID="RemoveIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                    <div class="mainBoxP">
-                                        <span class="connectionStyle">&nbsp;Remove Icons</span>
-                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
-                                            <tr>
-                                                <td>
-                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                        <tr>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/cycling.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/bus.png" alt="" />
-                                                            </td>
-                                                            <td>
-                                                                <img src="icons/electronics.png" alt="" />
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                            <td style="width: 64px;">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <div class="right">
-                                                        <asp:Button ID="btnOk2" runat="server" Text="Remove Icon" CssClass="button" />
-                                                        &nbsp;&nbsp;
-                                                        <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </asp:Panel>
-                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk3"
-                                    CancelControlID="btnClose3" runat="server" PopupControlID="UploadIconsPanel"
-                                    ID="ModalPopupExtender3" TargetControlID="UploadIcon" />
-                                <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                    <div class="mainBoxP">
-                                        <span class="connectionStyle">&nbsp;Upload Icons</span>
-                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
-                                            <tr>
-                                                <td>
-                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                        <tr>
-                                                            <td>
-                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload1" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                <br />
-                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload2" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                <br />
-                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload3" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                <br />
-                                                                <ajax:AsyncFileUpload ID="AsyncFileUpload4" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                <br />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <div class="right">
-                                                        <asp:Button ID="btnOk3" runat="server" Text="Upload" CssClass="button" />
-                                                        &nbsp;&nbsp;
-                                                        <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </asp:Panel>
                             </div>
                         </div>
                         <br />
                         <br />
                         <div class="mainBox">
-                            <span class="connectionStyle">&nbsp;Overlay Colors</span>
+                            <span class="connectionStyle">&nbsp;Icons</span>
                             <br />
                             <div class="mainBox2">
                                 <table width="100%">
@@ -511,8 +546,7 @@
                                             <table width="100%">
                                                 <tr>
                                                     <td class="iconBox">
-                                                        <div class="overlayBox" style="background-color: Red;">
-                                                        </div>
+                                                        <div class="overlayBox" style="background-color: Red;" />
                                                     </td>
                                                     <td class="conditionsBox">
                                                         <div class="conditionsBoxStyle">
@@ -528,16 +562,36 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOverlayOk"
-                                                            CancelControlID="modOverlayCancel" runat="server" PopupControlID="ModOverlayPanel"
-                                                            ID="ModalPopupExtender5" TargetControlID="ModOverlay" />
-                                                        <asp:Panel ID="ModOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Condition</span>
+                                                        <asp:Button ID="addOverlay1" runat="server" Text="Modify Overlay" CssClass="button"
+                                                            Width="135" />&nbsp;&nbsp;
+                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOOK1"
+                                                            CancelControlID="modOCancel1" runat="server" PopupControlID="OverlayPanel" ID="ModalPopupExtender4"
+                                                            TargetControlID="addOverlay1" />
+                                                        <asp:Panel ID="OverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                            <span class="connectionStyle">&nbsp;Modify Overlay Conditions</span>
                                                             <div class="mainBoxP">
                                                                 <table cellspacing="0" cellpadding="5" class="mainBox2">
                                                                     <tr>
                                                                         <td>
                                                                             <div class="omainBox4">
+                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <p>
+                                                                                </p>
+                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            Color Info Here (Color Box? Color Drop Down?)
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <p>
+                                                                                </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
                                                                                     <tr class="tableTRTitle">
                                                                                         <td class="tableTD">
@@ -561,16 +615,16 @@
                                                                                             TheOnlyTable
                                                                                         </td>
                                                                                         <td class="tableTD">
-                                                                                            VehicleType
+                                                                                            TableData
                                                                                         </td>
                                                                                         <td class="tableTD">
-                                                                                            ==
+                                                                                            >=
                                                                                         </td>
                                                                                         <td class="tableTD">
-                                                                                            Tank
+                                                                                            5.0
                                                                                         </td>
                                                                                         <td class="textCenter">
-                                                                                            <asp:Button ID="Button1" runat="server" Style="text-align: center" Text="Remove"
+                                                                                            <asp:Button ID="Button2" runat="server" Style="text-align: center" Text="Remove"
                                                                                                 CssClass="button" ToolTip="Delete Condition" Width="80" />
                                                                                         </td>
                                                                                     </tr>
@@ -597,14 +651,14 @@
                                                                                             <asp:TextBox ID="TextBox1" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
                                                                                         </td>
                                                                                         <td class="textCenter">
-                                                                                            <asp:Button ID="Button2" runat="server" Style="text-align: center" Text="Add" CssClass="button"
+                                                                                            <asp:Button ID="Button3" runat="server" Style="text-align: center" Text="Add" CssClass="button"
                                                                                                 ToolTip="Add Condition" Width="80" />
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
                                                                                 <div class="right" style="padding-top: 20px;">
-                                                                                    <asp:Button ID="modOverlayOk" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                                    <asp:Button ID="modOverlayCancel" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                                                                    <asp:Button ID="modOOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                                                    <asp:Button ID="modOCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
                                                                                 </div>
                                                                             </div>
                                                                         </td>
@@ -612,12 +666,11 @@
                                                                 </table>
                                                             </div>
                                                         </asp:Panel>
-                                                        <asp:Button ID="ModOverlay" runat="server" Text="Modify Overlay" CssClass="button" />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="iconBox">
-                                                        <div class="overlayBox" style="background-color: Yellow;">
+                                                        <div class="overlayBox" style="background-color: Yellow">
                                                         </div>
                                                     </td>
                                                     <td class="conditionsBox">
@@ -634,103 +687,21 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <asp:Button ID="modOverlay2" runat="server" Text="Modify Overlay" CssClass="button" />
+                                                        <asp:Button ID="OverlayButton2" runat="server" Text="Modify Overlay" CssClass="button"
+                                                            Width="135" ToolTip="Modify Overlay" />&nbsp;&nbsp;
                                                     </td>
                                                 </tr>
                                             </table>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="right">
+                                                <asp:Button ID="AddOverlayButton" runat="server" Text="Add Overlay" CssClass="button" />
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </table>
-                            </div>
-                            <div class="mainBox2">
-                                <div class="right">
-                                    <asp:Button ID="overlayButton" runat="server" Text="Add Overlay Color" CssClass="button" /></div>
-                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOkO"
-                                    CancelControlID="btnCloseO" runat="server" PopupControlID="OverlayPanel" ID="ModalPopupExtender4"
-                                    TargetControlID="overlayButton" />
-                                <asp:Panel ID="OverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                    <div class="mainBoxP">
-                                        <span class="connectionStyle">&nbsp;Add Overlay Color</span>
-                                        <table cellspacing="0" cellpadding="10" class="mainBox2">
-                                            <tr>
-                                                <td>
-                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                        <tr>
-                                                            <td>
-                                                                <div class="omainBox3" style="">
-                                                                    <span class="overlayStyle">Color</span>
-                                                                    <div class="omainBox4">
-                                                                        <asp:TextBox ID="ColorPickTxtBox" runat="server"></asp:TextBox>
-                                                                        <ajax:ColorPickerExtender ID="ColorPickerExtender1" runat="server" TargetControlID="ColorPickTxtBox"
-                                                                            PopupButtonID="Image1" SampleControlID="colorTxtBox">
-                                                                        </ajax:ColorPickerExtender>
-                                                                        &nbsp;<asp:TextBox ID="colorTxtBox" runat="server" Height="20px" Width="20px"></asp:TextBox>
-                                                                        &nbsp;<asp:Image ID="Image1" runat="server" ImageUrl="~/cp_button.png" ImageAlign="AbsMiddle" />
-                                                                    </div>
-                                                                </div>
-                                                                <br />
-                                                                <br />
-                                                                <div class="omainBox3">
-                                                                    <span class="overlayStyle">Conditions</span>
-                                                                    <br />
-                                                                    <table border="1" width="100%" class="omainBox4">
-                                                                        <tr>
-                                                                            <td style="text-align: center">
-                                                                                Table
-                                                                            </td>
-                                                                            <td style="text-align: center">
-                                                                                Field
-                                                                            </td>
-                                                                            <td style="text-align: center">
-                                                                                Operator
-                                                                            </td>
-                                                                            <td style="text-align: center">
-                                                                                Value
-                                                                            </td>
-                                                                            <td>
-                                                                                &nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="text-align: center">
-                                                                                <asp:DropDownList ID="TableDrpDwn" runat="server">
-                                                                                </asp:DropDownList>
-                                                                            </td>
-                                                                            <td style="text-align: center">
-                                                                                <asp:DropDownList ID="FieldDrpDwn" runat="server">
-                                                                                </asp:DropDownList>
-                                                                            </td>
-                                                                            <td style="text-align: center">
-                                                                                <asp:DropDownList ID="OperatorDrpDown" runat="server">
-                                                                                    <asp:ListItem>==</asp:ListItem>
-                                                                                    <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                    <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                    <asp:ListItem>&gt;</asp:ListItem>
-                                                                                    <asp:ListItem>&lt;</asp:ListItem>
-                                                                                    <asp:ListItem>between</asp:ListItem>
-                                                                                </asp:DropDownList>
-                                                                            </td>
-                                                                            <td style="text-align: center; margin-left: 80px">
-                                                                                <asp:TextBox ID="ValueTxtBox" runat="server" MaxLength="30"></asp:TextBox>
-                                                                            </td>
-                                                                            <td style="text-align: center">
-                                                                                <asp:Button ID="AddBtn" runat="server" Text="Add" CssClass="button" />
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <div class="right">
-                                                        <asp:Button ID="btnOkO" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                        <asp:Button ID="btnCloseO" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </asp:Panel>
                             </div>
                         </div>
                         <br />
