@@ -588,10 +588,11 @@
                                                                                     <tr >
                                                                                         <td>
                                                                                             <!--Color Info Here (Color Box? Color Drop Down?)--->
-                                                                                            
-                                                                                            <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
-                                                                                               &nbsp;&nbsp;Click here:
-                                                                                               <obout:ColorPicker EnableViewState=true ZIndex="500" ID="ColorPicker1" runat="server" TargetId="color" />
+                                                                                            <div class="colorPicker">
+                                                                                                <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
+                                                                                                   &nbsp;&nbsp;Click here:
+                                                                                                   <obout:ColorPicker EnableViewState=true ZIndex="500000" ID="ColorPicker1" runat="server" TargetId="color" />
+                                                                                            </div>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
