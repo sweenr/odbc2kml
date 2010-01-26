@@ -133,8 +133,7 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
-                                                    AlternateText="Create Connection" ToolTip="New Connection" />
+                                                <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif" AlternateText="Create Connection" ToolTip="New Connection" />
                                             </td>
                                             <td>
                                                 <div class="newConnA">
