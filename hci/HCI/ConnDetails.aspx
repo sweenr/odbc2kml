@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ConnDetails.aspx.cs" Inherits="HCI.ConnDetails" %>
 
 <%@ Register TagPrefix="ed" Namespace="OboutInc.Editor" Assembly="obout_Editor" %>
+<%@ Register TagPrefix="obout" Namespace="OboutInc.ColorPicker" Assembly="obout_ColorPicker" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,6 +10,21 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
+    <script type="text/JavaScript">
+        function OnColorOpen(sender)
+        {
+          var elVPosition = "BOTTOM";
+          var elHPosition = "RIGHT";
+          var elTOffset = 0;
+          var elLOffset = 0;
+          var textBox = document.getElementById("<%= color.ClientID %>");
+          sender.setColor(OboutInc.ColorPicker.getStyle(textBox,"background-color"));
+          sender.setVerticalPosition  (elVPosition.options.item(elVPosition.selectedIndex).value);
+          sender.setHorizontalPosition(elHPosition.options.item(elHPosition.selectedIndex).value);
+          elTOffset.value = sender.setOffsetTop (elTOffset.value);
+          elLOffset.value = sender.setOffsetLeft(elLOffset.value);
+        }
+    </script>
 </head>
 <body>
     <form id="connDetailsForm" runat="server">
@@ -586,7 +602,11 @@
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
                                                                                     <tr>
                                                                                         <td>
-                                                                                            Color Info Here (Color Box? Color Drop Down?)
+                                                                                            <!--Color Info Here (Color Box? Color Drop Down?)--->
+                                                                                            <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
+       &nbsp;&nbsp;Click here:
+       <obout:ColorPicker runat="server" OnClientOpen="OnColorOpen" TargetId="color"
+              TargetProperty="style.backgroundColor" />
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>

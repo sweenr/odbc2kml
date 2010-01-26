@@ -446,6 +446,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel OverlayPanel;
         
         /// <summary>
+        /// color control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox color;
+        
+        /// <summary>
         /// Button2 control.
         /// </summary>
         /// <remarks>
