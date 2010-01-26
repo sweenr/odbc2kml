@@ -59,3 +59,8 @@ C:\Users\Administrator\Documents\SeniorDesign\odbc2kml\hci\HCI\bin\HCI.pdb
 C:\Users\Administrator\Documents\SeniorDesign\odbc2kml\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\SeniorDesign\odbc2kml\hci\HCI\obj\Debug\HCI.dll
 C:\Users\Administrator\Documents\SeniorDesign\odbc2kml\hci\HCI\obj\Debug\HCI.pdb
+C:\Documents and Settings\David\My Documents\Visual Studio 2008\odbc2kml\hci\HCI\bin\HCI.dll
+C:\Documents and Settings\David\My Documents\Visual Studio 2008\odbc2kml\hci\HCI\bin\HCI.pdb
+C:\Documents and Settings\David\My Documents\Visual Studio 2008\odbc2kml\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\David\My Documents\Visual Studio 2008\odbc2kml\hci\HCI\obj\Debug\HCI.dll
+C:\Documents and Settings\David\My Documents\Visual Studio 2008\odbc2kml\hci\HCI\obj\Debug\HCI.pdb
