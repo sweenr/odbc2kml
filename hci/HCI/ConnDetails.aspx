@@ -10,21 +10,6 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
-    <script type="text/JavaScript">
-        function OnColorOpen(sender)
-        {
-          var elVPosition = "BOTTOM";
-          var elHPosition = "RIGHT";
-          var elTOffset = 0;
-          var elLOffset = 0;
-          var textBox = document.getElementById("<%= color.ClientID %>");
-          sender.setColor(OboutInc.ColorPicker.getStyle(textBox,"background-color"));
-          sender.setVerticalPosition  (elVPosition.options.item(elVPosition.selectedIndex).value);
-          sender.setHorizontalPosition(elHPosition.options.item(elHPosition.selectedIndex).value);
-          elTOffset.value = sender.setOffsetTop (elTOffset.value);
-          elLOffset.value = sender.setOffsetLeft(elLOffset.value);
-        }
-    </script>
 </head>
 <body>
     <form id="connDetailsForm" runat="server">
@@ -583,7 +568,7 @@
                                                         <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOOK1"
                                                             CancelControlID="modOCancel1" runat="server" PopupControlID="OverlayPanel" ID="ModalPopupExtender4"
                                                             TargetControlID="addOverlay1" />
-                                                        <asp:Panel ID="OverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                        <asp:Panel ID="OverlayPanel" runat="server" CssClass="boxPopupStyle" Style="">
                                                             <span class="connectionStyle">&nbsp;Modify Overlay Conditions</span>
                                                             <div class="mainBoxP">
                                                                 <table cellspacing="0" cellpadding="5" class="mainBox2">
@@ -600,20 +585,20 @@
                                                                                 <p>
                                                                                 </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr>
+                                                                                    <tr >
                                                                                         <td>
                                                                                             <!--Color Info Here (Color Box? Color Drop Down?)--->
+                                                                                            
                                                                                             <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
-       &nbsp;&nbsp;Click here:
-       <obout:ColorPicker runat="server" OnClientOpen="OnColorOpen" TargetId="color"
-              TargetProperty="style.backgroundColor" />
+                                                                                               &nbsp;&nbsp;Click here:
+                                                                                               <obout:ColorPicker EnableViewState=true ZIndex="500" ID="ColorPicker1" runat="server" TargetId="color" />
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
                                                                                 <p>
                                                                                 </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr class="tableTRTitle">
+                                                                                    <tr class="tableTRTitle"
                                                                                         <td class="tableTD">
                                                                                             Table
                                                                                         </td>
