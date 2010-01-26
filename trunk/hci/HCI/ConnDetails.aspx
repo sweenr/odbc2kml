@@ -10,6 +10,21 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
+    <script type="text/JavaScript">
+        function OnColorOpen(sender)
+        {
+          var elVPosition = "BOTTOM";
+          var elHPosition = "RIGHT";
+          var elTOffset = 0;
+          var elLOffset = 0;
+          var textBox = document.getElementById("<%= color.ClientID %>");
+          sender.setColor(OboutInc.ColorPicker.getStyle(textBox,"background-color"));
+          sender.setVerticalPosition  (elVPosition);
+          sender.setHorizontalPosition(elHPosition);
+          elTOffset.value = sender.setOffsetTop (elTOffset);
+          elLOffset.value = sender.setOffsetLeft(elLOffset);
+        }
+    </script>
 </head>
 <body>
     <form id="connDetailsForm" runat="server">
@@ -589,9 +604,10 @@
                                                                                         <td>
                                                                                             <!--Color Info Here (Color Box? Color Drop Down?)--->
                                                                                             <div class="colorPicker">
-                                                                                                <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
-                                                                                                   &nbsp;&nbsp;Click here:
-                                                                                                   <obout:ColorPicker EnableViewState=true ZIndex="500000" ID="ColorPicker1" runat="server" TargetId="color" />
+                                                                                               <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
+                                                                                               &nbsp;&nbsp;Click here:
+                                                                                               <obout:ColorPicker ID="ColorPicker1" EnableViewState=true ZIndex="500000" runat="server" OnClientOpen="OnColorOpen" TargetId="color"
+                                                                                                      TargetProperty="style.backgroundColor" />
                                                                                             </div>
                                                                                         </td>
                                                                                     </tr>
