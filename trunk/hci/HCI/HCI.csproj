@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DB7D1E30-92D0-4D66-B731-C5AE28BC4EF4}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -34,6 +34,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Ajax\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="obout_ColorPicker, Version=1.9.410.1, Culture=neutral, PublicKeyToken=544c9b6c403ccf41, processorArchitecture=MSIL" />
+    <Reference Include="obout_Editor, Version=1.10.118.2, Culture=neutral, PublicKeyToken=3758f1b5e9d8196b, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
