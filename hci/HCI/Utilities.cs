@@ -17,17 +17,23 @@ namespace HCI
 
         public bool uploadIconFromFile()
         {
+            bool success = false;
 
+            return success;
         }
 
         public bool uploadIconFromUML()
         {
+            bool success = false;
 
+            return success;
         }
 
         public bool validateIcon()
         {
+            bool valid = false;
 
+            return valid;
         }
     }
 }

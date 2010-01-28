@@ -16,7 +16,7 @@ namespace HCI
     {
         public byte getImage()
         {
-            byte image;
+            byte image = 0;
 
             return image;
         }

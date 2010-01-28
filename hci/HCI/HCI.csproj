@@ -134,6 +134,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Condition.cs" />
     <Compile Include="ConnDetails.aspx.cs">
       <DependentUpon>ConnDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -141,6 +142,7 @@
     <Compile Include="ConnDetails.aspx.designer.cs">
       <DependentUpon>ConnDetails.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Connection.cs" />
     <Compile Include="ConnInfo.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Description.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="MainPage.aspx.designer.cs">
       <DependentUpon>MainPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Mapping.cs" />
     <Compile Include="Modify.aspx.cs">
       <DependentUpon>Modify.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

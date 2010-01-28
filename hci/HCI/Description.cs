@@ -35,28 +35,28 @@ namespace HCI
 
         public string generateFieldValue()
         {
-            string fieldValue;
+            string fieldValue = "test";
 
             return fieldValue;
         }
 
         public string generateFieldName()
         {
-            string fieldName;
+            string fieldName = "test";
 
             return fieldName;
         }
 
         public string generateImageLink()
         {
-            string imageLink;
+            string imageLink = "test";
 
             return imageLink;
         }
 
         public string generateHref()
         {
-            string href;
+            string href = "test";
 
             return href;
         }

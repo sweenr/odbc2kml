@@ -20,7 +20,7 @@ namespace HCI
         private string databaseName;
         private string portNumber;
         private string connectionName;
-        private int connID;
+        //private int connID;
 
         public string getServerAddress()
         {
