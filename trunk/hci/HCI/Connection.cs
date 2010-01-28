@@ -10,8 +10,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-
-//TODO: Add paths for additional classes
+using HCI;
 
 namespace HCI
 {
@@ -47,13 +46,13 @@ namespace HCI
         }
 
         //Retrieve icons
-        public Icon getIcons()
+        public ArrayList getIcons()
         {
             return this.icons;
         }
 
         //Retrieve overlays
-        public Overlay getOverlays()
+        public ArrayList getOverlays()
         {
             return this.overlays;
         }

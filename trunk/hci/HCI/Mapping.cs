@@ -15,9 +15,9 @@ namespace HCI
     public class Mapping
     {
         //Globals
-        static public const int SEPARATE = 1;
-        static public const int LATFIRST = 2;
-        static public const int LONGFIRST = 3;
+        public const int SEPARATE = 1;
+        public const int LATFIRST = 2;
+        public const int LONGFIRST = 3;
 
         //Datatypes
         private string tableName;

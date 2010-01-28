@@ -15,13 +15,13 @@ namespace HCI
     public class Condition
     {
         //Globals
-        static public const int NONE = 0;
-        static public const int LESSTHAN = 1;
-        static public const int LESSTHANEQUAL = 2;
-        static public const int GREATERTHAN = 3;
-        static public const int GREATERTHANEQUAL = 4;
-        static public const int EQUAL = 5;
-        static public const int NOTEQUAL = 5;
+        public const int NONE = 0;
+        public const int LESSTHAN = 1;
+        public const int LESSTHANEQUAL = 2;
+        public const int GREATERTHAN = 3;
+        public const int GREATERTHANEQUAL = 4;
+        public const int EQUAL = 5;
+        public const int NOTEQUAL = 5;
 
         //Data Types
         private string fieldName;

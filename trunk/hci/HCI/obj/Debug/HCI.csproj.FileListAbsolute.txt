@@ -69,3 +69,8 @@ C:\Users\nindoja\Desktop\odbc2kml\hci\HCI\bin\HCI.pdb
 C:\Users\nindoja\Desktop\odbc2kml\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\nindoja\Desktop\odbc2kml\hci\HCI\obj\Debug\HCI.dll
 C:\Users\nindoja\Desktop\odbc2kml\hci\HCI\obj\Debug\HCI.pdb
+C:\Users\ctank02\Desktop\Senior Design\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\ctank02\Desktop\Senior Design\hci\HCI\obj\Debug\HCI.dll
+C:\Users\ctank02\Desktop\Senior Design\hci\HCI\obj\Debug\HCI.pdb
+C:\Users\ctank02\Desktop\Senior Design\hci\HCI\bin\HCI.dll
+C:\Users\ctank02\Desktop\Senior Design\hci\HCI\bin\HCI.pdb

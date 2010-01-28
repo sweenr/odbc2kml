@@ -16,7 +16,7 @@ namespace HCI
     {
         public string generateKMLtoFile()
         {
-            string kml;
+            string kml = "test";
 
             return kml;
         }
