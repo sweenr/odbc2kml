@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ConnDetails.aspx.cs" Inherits="HCI.ConnDetails" %>
-
 <%@ Register TagPrefix="ed" Namespace="OboutInc.Editor" Assembly="obout_Editor" %>
 <%@ Register TagPrefix="obout" Namespace="OboutInc.ColorPicker" Assembly="obout_ColorPicker" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
@@ -112,7 +111,51 @@
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
-                             
+                                 <ed:Editor Appearance="custom" PathPrefix="Editor_data/" FlashBrowse="myFlashBrowse.aspx" MediaBrowse="myMediaBrowse.aspx" ImageBrowse="myImageBrowse.aspx" UrlBrowse="myUrlBrowse.aspx" id="editor" runat="server" >
+       <Buttons>
+         <ed:Toggle Name="Bold"/>
+         <ed:Toggle Name="Italic"/>
+         <ed:Toggle Name="Underline"/>
+         <ed:HorizontalSeparator/>
+         <ed:Method Name="CreateLink" />
+         <ed:HorizontalSeparator/>
+     
+         <ed:CustomSelect Handler="processTables" Title="Table" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
+           <Options>
+              <ed:Option Text="-----------------" Value="" />
+              <ed:Option Text="Table 1" Value="Table 1" />
+              <ed:Option Text="Table 2" Value="Table 2" />
+              <ed:Option Text="Table 3" Value="Table 3" />
+              <ed:Option Text="Table 4" Value="Table 4" />
+           </Options>
+         </ed:CustomSelect>
+          <ed:HorizontalSeparator/>
+          <ed:CustomSelect Handler="processCols" Title="Col" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
+           <Options>
+              <ed:Option Text="-----------------" Value="" />
+              <ed:Option Text="Col 1" Value="Col 1" />
+              <ed:Option Text="Col 2" Value="Col 2" />
+              <ed:Option Text="Col 3" Value="Col 3" />
+              <ed:Option Text="Col 4" Value="Col 4" />
+           </Options>
+         </ed:CustomSelect>
+        
+         <ed:HorizontalSeparator/>
+           <ed:CustomSelect Handler="processType" Title="Type" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
+           <Options>
+              <ed:Option Text="-----------------" Value="" />
+              <ed:Option Text="Value" Value="Value" />
+              <ed:Option Text="Image" Value="Image" />
+           </Options>
+         </ed:CustomSelect>
+         
+         <ed:HorizontalSeparator/>
+         <ed:Custom OnClientClick="insertInfo" ImageName="ed_date_n.gif" ToolTip="Insert current date" />
+         
+        </Buttons>
+      
+       
+    </ed:Editor>
                                 </div>
                             </div>
                         </div>
