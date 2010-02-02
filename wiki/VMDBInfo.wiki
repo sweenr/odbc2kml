@@ -1,4 +1,5 @@
 #summary Virtual Machine and Database Information
+#labels Featured,Phase-Implementation
 
 = Virtual Machine =
 
@@ -15,7 +16,18 @@ Our virtual machine is running Windows Server 2003 Web Edition SP2. The .vhd fil
 
   # Go to [http://www.microsoft.com/downloads/details.aspx?FamilyId=04D26402-3199-48A3-AFA2-2DC0B40A73B6&displaylang=en here] to download the file. Scroll to the bottom of the download page and select the appropriate x86 or x64 version. 
   # Obtain a copy of the .vhd(and .vmc if you are using Virtual PC). 
-  # ???
+  # Start Virtual PC 2007.
+  # Click New, then Next.
+  # Select "Add an existing virtual machine" and click Next.
+  # Navigate to the Windows Server2003.vmc file on your computer and click Next.
+  # If the .vhd and .vmc are in the same folder, it should automatically use the .vhd. To verify this, click Windows Server 2003 in the Virtual PC Console and click Settings. Click Hard Disk 1 and verifiy that is is using the Virtual Hard Disk file "Windows Server 2003 Hard Disk.vhd".
+  # You might need to change the network settings in the Settings page. 
+
+== Virtual PC Shortcuts ==
+
+  * On the log in screen, press right-alt + delete to send Ctrl+Alt+Del to the VM. This works at any time you need to use Ctrl+Alt+Del in the VM.
+  * Press Right-alt+Enter to enter full screen mode in the VM. This is easier to use than windowed mode if you will be in the VM for extended periods of time.
+  * If at any time the VM "steals" your mouse and you can't move it out of the window, press Right-alt to free it.
 
 = Databases =
 
@@ -55,11 +67,10 @@ Oracle's server has a PHPMyAdmin-like web based configuration client which can b
   * Port: 1433
   * Database name: Polytech
 
-Microsoft SQL Server Management Studio Express allows you to view the data in a table and perform SQL commands. 
+Microsoft SQL Server Management Studio Express allows you to view the data in a table and perform SQL commands. You can right click a table and 
 
 == Installed Tools ==
 The following tools are installed on the virtual machine:
   * Microsoft SQL Server Management Studio Express
   * Oracle SQL Developer
   * SQL Importer (30 day limited trial)
-
