@@ -145,12 +145,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="ConnInfo.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Description.cs" />
     <Compile Include="ErrorHandler.cs" />
-    <Compile Include="Icon.cs" />
-    <Compile Include="ImageWebSVC.cs" />
-    <Compile Include="KMLGenerator.cs" />
-    <Compile Include="KMLGenWebSVC.cs" />
     <Compile Include="Main.aspx.cs">
       <DependentUpon>Main.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -177,10 +172,7 @@
       <DependentUpon>library.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Overlay.cs" />
-    <Compile Include="PreviewKML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -200,7 +192,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2960</DevelopmentServerPort>
+          <DevelopmentServerPort>4882</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

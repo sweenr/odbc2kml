@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ConnDetails.aspx.cs" Inherits="HCI.ConnDetails" %>
+
 <%@ Register TagPrefix="ed" Namespace="OboutInc.Editor" Assembly="obout_Editor" %>
 <%@ Register TagPrefix="obout" Namespace="OboutInc.ColorPicker" Assembly="obout_ColorPicker" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
@@ -9,6 +10,7 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
+
     <script type="text/JavaScript">
         function OnColorOpen(sender)
         {
@@ -24,6 +26,7 @@
           elLOffset.value = sender.setOffsetLeft(elLOffset);
         }
     </script>
+
 </head>
 <body>
     <form id="connDetailsForm" runat="server">
@@ -53,6 +56,88 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="mainBox">
+            <span class="connectionStyle">&nbsp;Connection Information</span>
+            <table cellspacing="0" cellpadding="10" class="mainBox2">
+                <tr>
+                    <td>
+                        <div style="background-color: white; padding: 5px;">
+                            <table cellspacing="5">
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Connection Name: </span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="odbcName" id="odbcName" size="50" class="inputBox" title=""
+                                            value="ODBC2KML Connection 1" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Database Address: </span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="odbcLoc" id="odbcLoc" size="50" class="inputBox" title=""
+                                            value="Database Address" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Port Number: </span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="odbcLoc" id="odbcPN" size="20" class="inputBox" title=""
+                                            value="Port #" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Database Name: </span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="odbcLoc" id="odbcDName" size="50" class="inputBox" title=""
+                                            value="Database Name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Username: </span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="odbcLoc" id="odbcUser" size="50" class="inputBox" title=""
+                                            value="Username" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Password: </span>
+                                    </td>
+                                    <td>
+                                        <input type="password" name="odbcLoc" id="odbcPassword" size="50" class="inputBox"
+                                            title="" value="Password" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="connectionTitle">Database Type:</span>
+                                    </td>
+                                    <td>
+                                        <asp:DropDownList ID="DropDownList4" runat="server">
+                                            <asp:ListItem Text="SQL"></asp:ListItem>
+                                            <asp:ListItem Text="MySQL"></asp:ListItem>
+                                            <asp:ListItem Text="Oracle"></asp:ListItem>
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div align="right">
+                                <input type="submit" name="submit" value="Connect" class="button" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div id="page">
             <table id="mainTable">
@@ -111,51 +196,50 @@
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
-                                 <ed:Editor Appearance="custom" PathPrefix="Editor_data/" FlashBrowse="myFlashBrowse.aspx" MediaBrowse="myMediaBrowse.aspx" ImageBrowse="myImageBrowse.aspx" UrlBrowse="myUrlBrowse.aspx" id="editor" runat="server" >
-       <Buttons>
-         <ed:Toggle Name="Bold"/>
-         <ed:Toggle Name="Italic"/>
-         <ed:Toggle Name="Underline"/>
-         <ed:HorizontalSeparator/>
-         <ed:Method Name="CreateLink" />
-         <ed:HorizontalSeparator/>
-     
-         <ed:CustomSelect Handler="processTables" Title="Table" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
-           <Options>
-              <ed:Option Text="-----------------" Value="" />
-              <ed:Option Text="Table 1" Value="Table 1" />
-              <ed:Option Text="Table 2" Value="Table 2" />
-              <ed:Option Text="Table 3" Value="Table 3" />
-              <ed:Option Text="Table 4" Value="Table 4" />
-           </Options>
-         </ed:CustomSelect>
-          <ed:HorizontalSeparator/>
-          <ed:CustomSelect Handler="processCols" Title="Col" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
-           <Options>
-              <ed:Option Text="-----------------" Value="" />
-              <ed:Option Text="Col 1" Value="Col 1" />
-              <ed:Option Text="Col 2" Value="Col 2" />
-              <ed:Option Text="Col 3" Value="Col 3" />
-              <ed:Option Text="Col 4" Value="Col 4" />
-           </Options>
-         </ed:CustomSelect>
-        
-         <ed:HorizontalSeparator/>
-           <ed:CustomSelect Handler="processType" Title="Type" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
-           <Options>
-              <ed:Option Text="-----------------" Value="" />
-              <ed:Option Text="Value" Value="Value" />
-              <ed:Option Text="Image" Value="Image" />
-           </Options>
-         </ed:CustomSelect>
-         
-         <ed:HorizontalSeparator/>
-         <ed:Custom OnClientClick="insertInfo" ImageName="ed_date_n.gif" ToolTip="Insert current date" />
-         
-        </Buttons>
-      
-       
-    </ed:Editor>
+<!--------------------------------------------------------------------------->
+                                    <ed:Editor Appearance="custom" PathPrefix="Editor_data/" FlashBrowse="myFlashBrowse.aspx"
+                                        MediaBrowse="myMediaBrowse.aspx" ImageBrowse="myImageBrowse.aspx" UrlBrowse="myUrlBrowse.aspx"
+                                        ID="editor" runat="server">
+                                        <Buttons>
+                                            <ed:Toggle Name="Bold" />
+                                            <ed:Toggle Name="Italic" />
+                                            <ed:Toggle Name="Underline" />
+                                            <ed:HorizontalSeparator />
+                                            <ed:Method Name="CreateLink" />
+                                            <ed:HorizontalSeparator />
+                                            <ed:CustomSelect Handler="processTables" Title="Table" TitleStyle="color:#0033CC;"
+                                                SelectStyle="width:90px;">
+                                                <Options>
+                                                    <ed:Option Text="-----------------" Value="" />
+                                                    <ed:Option Text="Table 1" Value="Table 1" />
+                                                    <ed:Option Text="Table 2" Value="Table 2" />
+                                                    <ed:Option Text="Table 3" Value="Table 3" />
+                                                    <ed:Option Text="Table 4" Value="Table 4" />
+                                                </Options>
+                                            </ed:CustomSelect>
+                                            <ed:HorizontalSeparator />
+                                            <ed:CustomSelect Handler="processCols" Title="Col" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
+                                                <Options>
+                                                    <ed:Option Text="-----------------" Value="" />
+                                                    <ed:Option Text="Col 1" Value="Col 1" />
+                                                    <ed:Option Text="Col 2" Value="Col 2" />
+                                                    <ed:Option Text="Col 3" Value="Col 3" />
+                                                    <ed:Option Text="Col 4" Value="Col 4" />
+                                                </Options>
+                                            </ed:CustomSelect>
+                                            <ed:HorizontalSeparator />
+                                            <ed:CustomSelect Handler="processType" Title="Type" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
+                                                <Options>
+                                                    <ed:Option Text="-----------------" Value="" />
+                                                    <ed:Option Text="Value" Value="Value" />
+                                                    <ed:Option Text="Image" Value="Image" />
+                                                </Options>
+                                            </ed:CustomSelect>
+                                            <ed:HorizontalSeparator />
+                                            <ed:Custom OnClientClick="insertInfo" ImageName="ed_date_n.gif" ToolTip="Insert current date" />
+                                        </Buttons>
+                                    </ed:Editor>
+<!--------------------------------------------------------------------------->
                                 </div>
                             </div>
                         </div>
@@ -643,14 +727,14 @@
                                                                                 <p>
                                                                                 </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr >
+                                                                                    <tr>
                                                                                         <td>
                                                                                             <!--Color Info Here (Color Box? Color Drop Down?)--->
                                                                                             <div class="colorPicker">
-                                                                                               <asp:TextBox readOnly="true" id="color" style="vertical-align: middle;" runat="server"/>
-                                                                                               &nbsp;&nbsp;Click here:
-                                                                                               <obout:ColorPicker ID="ColorPicker1" EnableViewState=true ZIndex="500000" runat="server" OnClientOpen="OnColorOpen" TargetId="color"
-                                                                                                      TargetProperty="style.backgroundColor" />
+                                                                                                <asp:TextBox ReadOnly="true" ID="color" Style="vertical-align: middle;" runat="server" />
+                                                                                                &nbsp;&nbsp;Click here:
+                                                                                                <obout:ColorPicker ID="ColorPicker1" EnableViewState="true" ZIndex="500000" runat="server"
+                                                                                                    OnClientOpen="OnColorOpen" TargetId="color" TargetProperty="style.backgroundColor" />
                                                                                             </div>
                                                                                         </td>
                                                                                     </tr>
@@ -658,7 +742,7 @@
                                                                                 <p>
                                                                                 </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr class="tableTRTitle"
+                                                                                    <tr class="tableTRTitle">
                                                                                         <td class="tableTD">
                                                                                             Table
                                                                                         </td>
@@ -752,8 +836,116 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <asp:Button ID="OverlayButton2" runat="server" Text="Modify Overlay" CssClass="button"
-                                                            Width="135" ToolTip="Modify Overlay" />&nbsp;&nbsp;
+                                                        <asp:Button ID="addOverlay2" runat="server" Text="Modify Overlay" CssClass="button"
+                                                            Width="135" />&nbsp;&nbsp;
+                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOOK2"
+                                                            CancelControlID="modOCancel2" runat="server" PopupControlID="OverlayPanel2" ID="ModalPopupExtender5"
+                                                            TargetControlID="addOverlay2" />
+                                                        <asp:Panel ID="OverlayPanel2" runat="server" CssClass="boxPopupStyle" Style="">
+                                                            <span class="connectionStyle">&nbsp;Modify Overlay Conditions</span>
+                                                            <div class="mainBoxP">
+                                                                <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="omainBox4">
+                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <p>
+                                                                                </p>
+                                                                                <table class="omainBox4" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <!--Color Info Here (Color Box? Color Drop Down?)--->
+                                                                                            <div class="colorPicker">
+                                                                                                <asp:TextBox ReadOnly="true" ID="TextBox2" Style="vertical-align: middle;" runat="server" />
+                                                                                                &nbsp;&nbsp;Click here:
+                                                                                                <obout:ColorPicker ID="ColorPicker2" EnableViewState="true" ZIndex="500000" runat="server"
+                                                                                                    OnClientOpen="OnColorOpen" TargetId="color" TargetProperty="style.backgroundColor" />
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <p>
+                                                                                </p>
+                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                                    <tr class="tableTRTitle">
+                                                                                        <td class="tableTD">
+                                                                                            Table
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            Field
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            Operator
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            Value
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            &nbsp;
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tableTD">
+                                                                                            TheOnlyTable
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            TableData
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            >=
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            5.0
+                                                                                        </td>
+                                                                                        <td class="textCenter">
+                                                                                            <asp:Button ID="Button1" runat="server" Style="text-align: center" Text="Remove"
+                                                                                                CssClass="button" ToolTip="Delete Condition" Width="80" />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr class="tableTR">
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList10" runat="server" CssClass="inputDD" Width="100">
+                                                                                            </asp:DropDownList>
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList11" runat="server" CssClass="inputDD" Width="100">
+                                                                                            </asp:DropDownList>
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            <asp:DropDownList ID="DropDownList12" runat="server" CssClass="inputDD" Width="100">
+                                                                                                <asp:ListItem>==</asp:ListItem>
+                                                                                                <asp:ListItem>&gt;=</asp:ListItem>
+                                                                                                <asp:ListItem>&lt;=</asp:ListItem>
+                                                                                                <asp:ListItem>&gt;</asp:ListItem>
+                                                                                                <asp:ListItem>&lt;</asp:ListItem>
+                                                                                                <asp:ListItem>between</asp:ListItem>
+                                                                                            </asp:DropDownList>
+                                                                                        </td>
+                                                                                        <td class="tableTD">
+                                                                                            <asp:TextBox ID="TextBox4" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
+                                                                                        </td>
+                                                                                        <td class="textCenter">
+                                                                                            <asp:Button ID="Button7" runat="server" Style="text-align: center" Text="Add" CssClass="button"
+                                                                                                ToolTip="Add Condition" Width="80" />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <div class="right" style="padding-top: 20px;">
+                                                                                    <asp:Button ID="Button8" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                                                    <asp:Button ID="Button9" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </asp:Panel>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -763,6 +955,7 @@
                                         <td>
                                             <div class="right">
                                                 <asp:Button ID="AddOverlayButton" runat="server" Text="Add Overlay" CssClass="button" />
+                                                &nbsp;&nbsp;
                                             </div>
                                         </td>
                                     </tr>
