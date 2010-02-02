@@ -1,4 +1,4 @@
-#Using ODBC to connect to database stuff.
+#summary Using ODBC to connect to database stuff.
 
 = Introduction =
 
