@@ -57,95 +57,94 @@
                 </div>
             </div>
         </div>
-        
         <div id="page">
-
             <table id="mainTable">
                 <tr>
                     <td>
-                    <div class ="mainBox">
-                               <span class="connectionStyle">&nbsp;Connection Information</span>
-            <table cellspacing="0" cellpadding="10" class="mainBox2">
-                <tr>
-                    <td>
-                        <div style="background-color: white; padding: 5px;">
-                            <table cellspacing="5">
+                        <div class="mainBox">
+                            <span class="connectionStyle">&nbsp;Connection Information</span>
+                            <table cellspacing="0" cellpadding="10" class="mainBox2">
                                 <tr>
                                     <td>
-                                        <span class="connectionTitle">Connection Name: </span>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="odbcName" id="odbcName" size="50" class="inputBox" title=""
-                                            value="ODBC2KML Connection 1" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="connectionTitle">Database Address: </span>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="odbcLoc" id="odbcLoc" size="50" class="inputBox" title=""
-                                            value="Database Address" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="connectionTitle">Port Number: </span>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="odbcLoc" id="odbcPN" size="20" class="inputBox" title=""
-                                            value="Port #" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="connectionTitle">Database Name: </span>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="odbcLoc" id="odbcDName" size="50" class="inputBox" title=""
-                                            value="Database Name" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="connectionTitle">Username: </span>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="odbcLoc" id="odbcUser" size="50" class="inputBox" title=""
-                                            value="Username" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="connectionTitle">Password: </span>
-                                    </td>
-                                    <td>
-                                        <input type="password" name="odbcLoc" id="odbcPassword" size="50" class="inputBox"
-                                            title="" value="Password" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="connectionTitle">Database Type:</span>
-                                    </td>
-                                    <td>
-                                        <asp:DropDownList ID="DropDownList4" runat="server">
-                                            <asp:ListItem Text="SQL"></asp:ListItem>
-                                            <asp:ListItem Text="MySQL"></asp:ListItem>
-                                            <asp:ListItem Text="Oracle"></asp:ListItem>
-                                        </asp:DropDownList>
+                                        <div style="background-color: white; padding: 5px;">
+                                            <table cellspacing="5">
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Connection Name: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcName" id="odbcName" size="50" class="inputBox" title=""
+                                                            value="ODBC2KML Connection 1" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Database Address: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcLoc" size="50" class="inputBox" title=""
+                                                            value="Database Address" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Port Number: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcPN" size="20" class="inputBox" title=""
+                                                            value="Port #" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Database Name: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcDName" size="50" class="inputBox" title=""
+                                                            value="Database Name" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Username: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="odbcLoc" id="odbcUser" size="50" class="inputBox" title=""
+                                                            value="Username" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Password: </span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="password" name="odbcLoc" id="odbcPassword" size="50" class="inputBox"
+                                                            title="" value="Password" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="connectionTitle">Database Type:</span>
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="DropDownList4" runat="server">
+                                                            <asp:ListItem Text="SQL"></asp:ListItem>
+                                                            <asp:ListItem Text="MySQL"></asp:ListItem>
+                                                            <asp:ListItem Text="Oracle"></asp:ListItem>
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div align="right">
+                                                <input type="submit" name="submit" value="Connect" class="button" />
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
-                            <div align="right">
-                                <input type="submit" name="submit" value="Connect" class="button" />
-                            </div>
                         </div>
-                    </td>
-                </tr>
-            </table>
-                    </div>
-                    <br /><br />
+                        <br />
+                        <br />
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                             <div class="full">
@@ -199,12 +198,33 @@
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
-                                           <asp:Button ID="bText" runat="server" Text=" B " CssClass="descButton" Font-Bold="True" ToolTip="Bold"/>&nbsp;&nbsp;          
-                                                  <asp:Button ID="iText" runat="server" Text=" I  " CssClass="descButton" Font-Italic="True" ToolTip="Italics"/>&nbsp;&nbsp;        
-                                                            <asp:Button ID="uText" runat="server" Text=" U " CssClass="descButton" Font-Underline="True" ToolTip="Underline" />&nbsp;&nbsp; 
-                                                             <asp:Button ID="dLink" runat="server" Text="Add Link" CssClass="descButton" ToolTip="Add Link"/>&nbsp;&nbsp; 
-                                                            <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton" ToolTip="Add Field/Image"/>&nbsp;&nbsp; <br /><br />
-                                    <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640" TextMode="MultiLine"></asp:TextBox>
+                                    <asp:Button ID="bText" runat="server" Text=" B " CssClass="descButton" Font-Bold="True"
+                                        ToolTip="Bold" />&nbsp;&nbsp;
+                                    <asp:Button ID="iText" runat="server" Text=" I  " CssClass="descButton" Font-Italic="True"
+                                        ToolTip="Italics" />&nbsp;&nbsp;
+                                    <asp:Button ID="uText" runat="server" Text=" U " CssClass="descButton" Font-Underline="True"
+                                        ToolTip="Underline" />&nbsp;&nbsp;
+                                    <asp:Button ID="dLink" runat="server" Text="Add Link" CssClass="descButton" ToolTip="Add Link" />&nbsp;&nbsp;
+                                    <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton"
+                                        ToolTip="Add Field/Image" />&nbsp;&nbsp;
+                                    <asp:Button ID="DescPopup" runat="server" Text="Table and Field" CssClass="descbutton"
+                                        ToolTipe="Set Table and Field name"/>&nbsp;&nbsp;
+                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="DescPopupOk"
+                                        CancelControlID="DescPopupCan" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender6"
+                                        TargetControlID="DescPopup" />
+                                    <asp:Panel ID="Panel2" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                        <span class="connectionStyle">&nbsp;Table and Field</span>
+                                        <div class="mainBoxP">
+                                            <div class="right" style="padding-top: 20px;">
+                                                <asp:Button ID="DescPopupOk" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                <asp:Button ID="DescPopupCan" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                    </asp:Panel>
+                                    <br />
+                                    <br />
+                                    <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
+                                        TextMode="MultiLine"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
