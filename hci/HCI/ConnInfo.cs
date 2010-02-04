@@ -14,13 +14,26 @@ namespace HCI
 {
     public class ConnInfo
     {
+        //Constants for different databases
+        public const int MYSQL = 0;
+        public const int MSSQL = 1;
+        public const int ORACLE = 2;
+        //Add More as needed
+
+        //Datatypes
+        private int databaseType;
         private string serverAddress;
         private string userName;
         private string password;
         private string databaseName;
         private string portNumber;
         private string connectionName;
-        //private int connID;
+
+        //Functions
+        public int getDatabaseType()
+        {
+            return this.databaseType;
+        }
 
         public string getServerAddress()
         {
@@ -50,6 +63,11 @@ namespace HCI
         public string getDatabaseName()
         {
             return this.databaseName;
+        }
+
+        public void setDatabaseType(int databaseType)
+        {
+            this.databaseType = databaseType;
         }
 
         public void setServerAddress(string serverAddr)
