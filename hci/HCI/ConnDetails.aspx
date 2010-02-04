@@ -57,8 +57,14 @@
                 </div>
             </div>
         </div>
-        <div class="mainBox">
-            <span class="connectionStyle">&nbsp;Connection Information</span>
+        
+        <div id="page">
+
+            <table id="mainTable">
+                <tr>
+                    <td>
+                    <div class ="mainBox">
+                               <span class="connectionStyle">&nbsp;Connection Information</span>
             <table cellspacing="0" cellpadding="10" class="mainBox2">
                 <tr>
                     <td>
@@ -138,11 +144,8 @@
                     </td>
                 </tr>
             </table>
-        </div>
-        <div id="page">
-            <table id="mainTable">
-                <tr>
-                    <td>
+                    </div>
+                    <br /><br />
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;ODBC Connection 1</span>
                             <div class="full">
