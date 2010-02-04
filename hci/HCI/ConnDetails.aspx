@@ -147,7 +147,7 @@
                     </div>
                     <br /><br />
                         <div class="mainBox">
-                            <span class="connectionStyle">&nbsp;ODBC Connection 1</span>
+                            <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                             <div class="full">
                                 <table cellspacing="10" cellpadding="10" class="mainBox2">
                                     <tr>
@@ -199,50 +199,12 @@
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
-<!--------------------------------------------------------------------------->
-                                    <ed:Editor Appearance="custom" PathPrefix="Editor_data/" FlashBrowse="myFlashBrowse.aspx"
-                                        MediaBrowse="myMediaBrowse.aspx" ImageBrowse="myImageBrowse.aspx" UrlBrowse="myUrlBrowse.aspx"
-                                        ID="editor" runat="server">
-                                        <Buttons>
-                                            <ed:Toggle Name="Bold" />
-                                            <ed:Toggle Name="Italic" />
-                                            <ed:Toggle Name="Underline" />
-                                            <ed:HorizontalSeparator />
-                                            <ed:Method Name="CreateLink" />
-                                            <ed:HorizontalSeparator />
-                                            <ed:CustomSelect Handler="processTables" Title="Table" TitleStyle="color:#0033CC;"
-                                                SelectStyle="width:90px;">
-                                                <Options>
-                                                    <ed:Option Text="-----------------" Value="" />
-                                                    <ed:Option Text="Table 1" Value="Table 1" />
-                                                    <ed:Option Text="Table 2" Value="Table 2" />
-                                                    <ed:Option Text="Table 3" Value="Table 3" />
-                                                    <ed:Option Text="Table 4" Value="Table 4" />
-                                                </Options>
-                                            </ed:CustomSelect>
-                                            <ed:HorizontalSeparator />
-                                            <ed:CustomSelect Handler="processCols" Title="Col" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
-                                                <Options>
-                                                    <ed:Option Text="-----------------" Value="" />
-                                                    <ed:Option Text="Col 1" Value="Col 1" />
-                                                    <ed:Option Text="Col 2" Value="Col 2" />
-                                                    <ed:Option Text="Col 3" Value="Col 3" />
-                                                    <ed:Option Text="Col 4" Value="Col 4" />
-                                                </Options>
-                                            </ed:CustomSelect>
-                                            <ed:HorizontalSeparator />
-                                            <ed:CustomSelect Handler="processType" Title="Type" TitleStyle="color:#0033CC;" SelectStyle="width:90px;">
-                                                <Options>
-                                                    <ed:Option Text="-----------------" Value="" />
-                                                    <ed:Option Text="Value" Value="Value" />
-                                                    <ed:Option Text="Image" Value="Image" />
-                                                </Options>
-                                            </ed:CustomSelect>
-                                            <ed:HorizontalSeparator />
-                                            <ed:Custom OnClientClick="insertInfo" ImageName="ed_date_n.gif" ToolTip="Insert current date" />
-                                        </Buttons>
-                                    </ed:Editor>
-<!--------------------------------------------------------------------------->
+                                           <asp:Button ID="bText" runat="server" Text="  B  " CssClass="descButton" Font-Bold="True" ToolTip="Bold"/>&nbsp;&nbsp;          
+                                                  <asp:Button ID="iText" runat="server" Text="  I  " CssClass="descButton" Font-Italic="True" ToolTip="Italics"/>&nbsp;&nbsp;        
+                                                            <asp:Button ID="uText" runat="server" Text="  U  " CssClass="descButton" Font-Underline="True" ToolTip="Underline" />&nbsp;&nbsp; 
+                                                             <asp:Button ID="dLink" runat="server" Text="Add Link" CssClass="descButton" ToolTip="Add Link"/>&nbsp;&nbsp; 
+                                                            <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton" ToolTip="Add Field/Image"/>&nbsp;&nbsp; <br /><br />
+                                    <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
