@@ -199,12 +199,12 @@
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
-                                           <asp:Button ID="bText" runat="server" Text="  B  " CssClass="descButton" Font-Bold="True" ToolTip="Bold"/>&nbsp;&nbsp;          
-                                                  <asp:Button ID="iText" runat="server" Text="  I  " CssClass="descButton" Font-Italic="True" ToolTip="Italics"/>&nbsp;&nbsp;        
-                                                            <asp:Button ID="uText" runat="server" Text="  U  " CssClass="descButton" Font-Underline="True" ToolTip="Underline" />&nbsp;&nbsp; 
+                                           <asp:Button ID="bText" runat="server" Text=" B " CssClass="descButton" Font-Bold="True" ToolTip="Bold"/>&nbsp;&nbsp;          
+                                                  <asp:Button ID="iText" runat="server" Text=" I  " CssClass="descButton" Font-Italic="True" ToolTip="Italics"/>&nbsp;&nbsp;        
+                                                            <asp:Button ID="uText" runat="server" Text=" U " CssClass="descButton" Font-Underline="True" ToolTip="Underline" />&nbsp;&nbsp; 
                                                              <asp:Button ID="dLink" runat="server" Text="Add Link" CssClass="descButton" ToolTip="Add Link"/>&nbsp;&nbsp; 
                                                             <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton" ToolTip="Add Field/Image"/>&nbsp;&nbsp; <br /><br />
-                                    <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"></asp:TextBox>
+                                    <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640" TextMode="MultiLine"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
