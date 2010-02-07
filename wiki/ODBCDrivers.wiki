@@ -1,0 +1,13 @@
+#summary One-sentence summary of this page.
+
+== Introduction ==
+
+This page contains information on where to download ODBC drivers and what drivers to download. It will also make an attempt at explaining how to install and use the drivers.
+
+*This page is incomplete and the drivers may not be the right ones*
+
+== Drivers ==
+
+  # My SQL: http://dev.mysql.com/downloads/connector/net/
+  # MS SQL: http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=78cac895-efc2-4f8e-a9e0-3a1afbd5922e
+  # ORACLE: http://www.oracle.com/technology/software/tech/windows/odbc/htdocs/utilsoft.html
