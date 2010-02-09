@@ -23,6 +23,19 @@ Our virtual machine is running Windows Server 2003 Web Edition SP2. The .vhd fil
   # If the .vhd and .vmc are in the same folder, it should automatically use the .vhd. To verify this, click Windows Server 2003 in the Virtual PC Console and click Settings. Click Hard Disk 1 and verifiy that is is using the Virtual Hard Disk file "Windows Server 2003 Hard Disk.vhd".
   # You might need to change the network settings in the Settings page. 
 
+== Installing the loopback adapter ==
+
+  # Go to [http://www.windowsreference.com/windows-7/how-to-install-a-loopback-adapter-in-windows-7/ here] for instructions to install the loopback adapter in Windows Vista/7.
+  # Click Start and type "Network Connections" and hit enter.
+  # Right click the loopback adapter and click properties.
+  # Double click Internet Protocol Version 4.
+  # Set the IP address to 192.168.0.1, subnet 255.255.255.0 and click ok. 
+  # In the virtual machine settings, click network, and set the only adapter to Microsoft Loopback Adapter.
+  # Start the virtual machine, click Start -> Control Panel -> Local Area Connection.
+  # Click properties, double click Internet Protocol Version 4.
+  # Set the IP address to 192.168.0.2, subnet 255.255.255.0, default gateway 192.168.0.1.
+  # Click OK.
+
 == Virtual PC Shortcuts ==
 
   * On the log in screen, press right-alt + delete to send Ctrl+Alt+Del to the VM. This works at any time you need to use Ctrl+Alt+Del in the VM.
