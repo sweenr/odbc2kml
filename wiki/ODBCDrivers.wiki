@@ -1,4 +1,4 @@
-Information on how to obtain and set up ODBC Drivers.
+#Information on how to obtain and set up ODBC Drivers.
 
 == Introduction ==
 
