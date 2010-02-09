@@ -1,13 +1,28 @@
-#summary One-sentence summary of this page.
+#Information on how to obtain and set up ODBC Drivers.
 
 == Introduction ==
 
 This page contains information on where to download ODBC drivers and what drivers to download. It will also make an attempt at explaining how to install and use the drivers.
 
-*This page is incomplete and the drivers may not be the right ones*
 
 == Drivers ==
 
   # My SQL: http://dev.mysql.com/downloads/connector/net/
-  # MS SQL: http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=78cac895-efc2-4f8e-a9e0-3a1afbd5922e
-  # ORACLE: http://www.oracle.com/technology/software/tech/windows/odbc/htdocs/utilsoft.html
+  # MS SQL and Oracle: http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=78cac895-efc2-4f8e-a9e0-3a1afbd5922e
+
+You will also need the ODBC .NET Managed Provider which can be obtained here:
+http://www.microsoft.com/downloads/details.aspx?familyid=6ccd8427-1017-4f33-a062-d165078e32b1&displaylang=en
+
+== .NET Integration ==
+
+  # When you download all of the above files, run them and follow the provided directions.
+  # After installing/running all of the drivers and the manager, open Visual Studios.
+  # Within Visual Studios, open the project.
+  # Right click the reference folder and choose add reference.
+  # Under the .NET tab look for Microsoft.Data.Odbc.
+  # Now click it and click ok.
+  # Right click the reference folder and choose add reference.
+  # Under the .NET tab look for MySQL.Data.
+  # Now click it and click ok.
+
+Now both drivers should be incorporated into the project.
