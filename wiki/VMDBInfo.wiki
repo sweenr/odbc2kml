@@ -21,7 +21,7 @@ Our virtual machine is running Windows Server 2003 Web Edition SP2. The .vhd fil
   # Select "Add an existing virtual machine" and click Next.
   # Navigate to the Windows Server2003.vmc file on your computer and click Next.
   # If the .vhd and .vmc are in the same folder, it should automatically use the .vhd. To verify this, click Windows Server 2003 in the Virtual PC Console and click Settings. Click Hard Disk 1 and verifiy that is is using the Virtual Hard Disk file "Windows Server 2003 Hard Disk.vhd".
-  # You might need to change the network settings in the Settings page. 
+  # To allow your computer to talk to the virtual machine you may need to install and configure the loopback adapter. See below.
 
 == Installing the loopback adapter ==
 
