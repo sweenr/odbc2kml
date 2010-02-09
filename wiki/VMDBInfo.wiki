@@ -29,11 +29,11 @@ Our virtual machine is running Windows Server 2003 Web Edition SP2. The .vhd fil
   # Click Start and type "Network Connections" and hit enter.
   # Right click the loopback adapter and click properties.
   # Double click Internet Protocol Version 4.
-  # Set the IP address to 192.168.0.1, subnet 255.255.255.0 and click ok. 
+  # Set the IP address to 10.200.1.101, subnet 255.0.0.0 and click ok. 
   # In the virtual machine settings, click network, and set the only adapter to Microsoft Loopback Adapter.
   # Start the virtual machine, click Start -> Control Panel -> Local Area Connection.
   # Click properties, double click Internet Protocol Version 4.
-  # Set the IP address to 192.168.0.2, subnet 255.255.255.0, default gateway 192.168.0.1.
+  # Set the IP address to 10.200.1.102, subnet 255.0.0.0, default gateway 10.200.1.101.
   # Click OK.
 
 == Virtual PC Shortcuts ==
