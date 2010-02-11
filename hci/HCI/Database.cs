@@ -11,6 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Data.Odbc;
 using System.Data.SqlClient;
+using System.Data.OracleClient;
 
 //using HCI;
 
@@ -100,70 +101,109 @@ namespace HCI
         public DataTable executeQueryRemote(string query)
         {
             DataTable dataTable = new DataTable();
+            string connectionString = "";
 
             //Check the database type to determine the connection string
 
-            //Database type = My SQL
-            if (ConnInfo.MYSQL == connInfo.getDatabaseType())
+            if (connInfo.getDatabaseType() == ConnInfo.MSSQL || connInfo.getDatabaseType() == ConnInfo.MYSQL)
             {
-                //My SQL connection string
-                string connectionString = "Driver={MySQL ODBC 5.1 Driver};Server="
-                    + this.connInfo.getServerAddress() + ";Database="
-                    + this.connInfo.getDatabaseName() + ";User=" + this.connInfo.getUserName()
-                    + "; Password=" + this.connInfo.getPassword() + ";Option=3;";
-            }//Database type = MS SQL
-            else if (ConnInfo.MSSQL == connInfo.getDatabaseType())
-            {
-                //MS SQL connection string
-                string connectionString = "Driver={SQL Native Client};Server="
-                    + this.connInfo.getServerAddress() + ";Database="
-                    + this.connInfo.getDatabaseName() + ";Uid=" + this.connInfo.getUserName()
-                    + ";Pwd=" + this.connInfo.getPassword() + ";";
-            }//Database type = oracle
+                //Database type = My SQL
+                if (ConnInfo.MYSQL == connInfo.getDatabaseType())
+                {
+                    //My SQL connection string
+                    connectionString = "Driver={MySQL ODBC 5.1 Driver};Server="
+                        + this.connInfo.getServerAddress() + ";Database="
+                        + this.connInfo.getDatabaseName() + ";User=" + this.connInfo.getUserName()
+                        + "; Password=" + this.connInfo.getPassword() + ";Option=3;";
+                }//Database type = MS SQL
+                else if (ConnInfo.MSSQL == connInfo.getDatabaseType())
+                {
+                    //MS SQL connection string
+                    connectionString = "Driver={SQL Native Client};Server="
+                        + this.connInfo.getServerAddress() + ";Database="
+                        + this.connInfo.getDatabaseName() + ";Uid=" + this.connInfo.getUserName()
+                        + ";Pwd=" + this.connInfo.getPassword() + ";";
+                }
+
+                //Create the Odbc Connection
+                OdbcConnection connection = new OdbcConnection(connectionString);
+
+                // This is your data adapter that understands SQL databases:
+                OdbcDataAdapter dataAdapter = new OdbcDataAdapter(query, connection);
+
+                // This is your table to hold the result set:
+                
+                try
+                {
+                    //Open the connection to the database
+                    connection.Open();
+
+                    // Fill the data table with select statement's query results:
+                    int recordsAffected = dataAdapter.Fill(dataTable);
+
+                    //Close connection
+                    connection.Close();
+                }
+                catch (OdbcException e)
+                {
+                    //Add Error Handler Code
+                }
+                finally
+                {
+                    //Close the connection
+                    if (connection.State != ConnectionState.Closed)
+                    {
+                        connection.Close();
+                    }
+                }
+
+            }
+            //Database type = oracle
             else if (ConnInfo.ORACLE == connInfo.getDatabaseType())
             {
                 //My SQL connection string
-                string connectionString = "Driver={Microsoft ODBC for Oracle};Server="
-                    + this.connInfo.getServerAddress()
-                    + ";Uid=" + this.connInfo.getUserName()
-                    + ";Pwd=" + this.connInfo.getPassword() + ";";
+                connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS="
+                    + "(PROTOCOL=" + connInfo.getOracleProtocol() + ")(HOST=" + connInfo.getServerAddress()
+                    + ")(PORT=" + connInfo.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)";
+                
+                if(connInfo.getOracleServiceName().Length != 0)
+                {
+                    connectionString += "(SERVICE_NAME="
+                    + connInfo.getOracleServiceName() + ")";
+                }
+                else if(connInfo.getOracleSID().Length != 0)
+                {
+                    connectionString += "(SID="
+                    + connInfo.getOracleSID() + ")";
+                }
+                
+                connectionString += "));User Id=" + connInfo.getUserName() + ";Password="
+                    + connInfo.getPassword() + ";";
+
+                using (OracleConnection connection = new OracleConnection(connectionString))
+                {
+                    OracleCommand command = new OracleCommand(query);
+                    command.Connection = connection;
+                    connection.Open();
+
+                    OracleDataReader reader = command.ExecuteReader();
+                    try
+                    {
+                        dataTable.Load(reader);
+                    }
+                    finally
+                    {
+                        reader.Close();
+                    }
+
+                }
             }
             else
             {
                 //Pass an error to error handler signalling an improper database type
             }
 
-            //Create the Odbc Connection
-            OdbcConnection connection = new OdbcConnection(connectionString);
-
-            // This is your data adapter that understands SQL databases:
-            OdbcDataAdapter dataAdapter = new OdbcDataAdapter(query, connection);
-
-            // This is your table to hold the result set:
-            DataTable dataTable = new DataTable();
-            try
-            {
-                //Open the connection to the database
-                connection.Open();
-
-                // Fill the data table with select statement's query results:
-                int recordsAffected = dataAdapter.Fill(dataTable);
-
-                //Close connection
-                connection.Close();
-            }
-            catch (OdbcException e)
-            {
-                //Add Error Handler Code
-            }
-            finally
-            {
-                //Close the connection
-                if (connection.State != ConnectionState.Closed)
-                {
-                    connection.Close();
-                }
-            }
+            
 
             //Return the data table to be operated on
             return dataTable;
