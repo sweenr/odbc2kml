@@ -9,19 +9,20 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using HCI;
 
 namespace HCI
 {
     public class Condition
     {
         //Globals
-        public const int NONE = 0;
-        public const int LESSTHAN = 1;
-        public const int LESSTHANEQUAL = 2;
-        public const int GREATERTHAN = 3;
-        public const int GREATERTHANEQUAL = 4;
-        public const int EQUAL = 5;
-        public const int NOTEQUAL = 5;
+        public static readonly int NONE = 0;
+        public static readonly int LESSTHAN = 1;
+        public static readonly int LESSTHANEQUAL = 2;
+        public static readonly int GREATERTHAN = 3;
+        public static readonly int GREATERTHANEQUAL = 4;
+        public static readonly int EQUAL = 5;
+        public static readonly int NOTEQUAL = 5;
 
         //Data Types
         private string fieldName;
@@ -34,9 +35,14 @@ namespace HCI
         //Functions
         
         //Constructor
-        Condition()
+        public Condition()
         {
-
+            fieldName = "";
+            tableName = "";
+            lowerBound = "";
+            upperBound = "";
+            lowerOperator = NONE;
+            upperOperator = NONE;
         }
 
         //Getters
@@ -121,6 +127,32 @@ namespace HCI
         public bool isValid()
         {
             bool valid = false;
+
+            if ((fieldName != "") && (tableName != ""))
+            {
+                Database db = new Database();
+                DataTable testTable = db.executeQueryLocal("SELECT " + fieldName + " FROM " + tableName);
+                if (testTable.Columns.Count != 0)  // If the table and column/field names are valid, go on
+                {
+                    if (!((lowerOperator == NONE) && (upperOperator == NONE)))  // at least 1 operator is selected
+                    {
+                        if (lowerOperator != NONE)
+                        {
+                            if (lowerBound != "")
+                            {
+                                valid = true;
+                            }
+                        }
+                        else if (upperOperator != NONE)
+                        {
+                            if (upperBound != "")
+                            {
+                                valid = true;
+                            }
+                        }
+                    }
+                }
+            }
 
             return valid;
         }
