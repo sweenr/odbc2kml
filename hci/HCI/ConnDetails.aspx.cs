@@ -10,6 +10,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using HCI;
 
 namespace HCI
 {
@@ -80,6 +81,104 @@ namespace HCI
 
             DBFields.Visible = true;
 
+        }
+
+        protected void genIconCondition(object sender, EventArgs e)
+        {
+
+            /*
+            ConPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>"));
+            ConPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">"));
+            ConPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">"));
+            ConPanel.Controls.Add(new LiteralControl("<tr>"));
+            ConPanel.Controls.Add(new LiteralControl("<td>"));
+            ConPanel.Controls.Add(new LiteralControl("<div class=\"omainBox4\">"));
+            ConPanel.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">"));
+            ConPanel.Controls.Add(new LiteralControl("<tr>"));
+            ConPanel.Controls.Add(new LiteralControl("<td>"));
+            ConPanel.Controls.Add(new LiteralControl("Tool Directions Go Here! Yay User Friendliness! :)"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("</tr>"));
+            ConPanel.Controls.Add(new LiteralControl("</table>"));
+            ConPanel.Controls.Add(new LiteralControl("<p>"));
+            ConPanel.Controls.Add(new LiteralControl("</p>"));
+            ConPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">"));
+            ConPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("Table"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("Field"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("Operator"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("Value"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td>"));
+            ConPanel.Controls.Add(new LiteralControl("&nbsp;"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("</tr>"));
+            ConPanel.Controls.Add(new LiteralControl("<tr>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("TheOnlyTable"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("VehicleType"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("=="));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("Tank"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:Button ID=\"DeleteCon1\" runat=\"server\" Style=\"text-align: center\" Text=\"Remove\" "));
+            ConPanel.Controls.Add(new LiteralControl("CssClass=\"button\" ToolTip=\"Delete Condition\" Width=\"80\" />"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("</tr>"));
+            ConPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:DropDownList ID=\"DropDownList7\" runat=\"server\" CssClass=\"inputDD\" Width=\"100\">"));
+            ConPanel.Controls.Add(new LiteralControl("</asp:DropDownList>"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:DropDownList ID=\"DropDownList8\" runat=\"server\" CssClass=\"inputDD\" Width=\"100\">"));
+            ConPanel.Controls.Add(new LiteralControl("</asp:DropDownList>"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:DropDownList ID=\"DropDownList9\" runat=\"server\" CssClass=\"inputDD\" Width=\"100\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:ListItem>==</asp:ListItem>"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:ListItem>&gt;=</asp:ListItem>"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:ListItem>&lt;=</asp:ListItem>"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:ListItem>&gt;</asp:ListItem>"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:ListItem>&lt;</asp:ListItem>"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:ListItem>between</asp:ListItem>"));
+            ConPanel.Controls.Add(new LiteralControl("</asp:DropDownList>"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:TextBox ID=\"TextBox7\" runat=\"server\" MaxLength=\"30\" CssClass=\"inputBox\" Width=\"150\"></asp:TextBox>"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:Button ID=\"AddCond1\" runat=\"server\" Style=\"text-align: center\" Text=\"Add\" CssClass=\"button\""));
+            ConPanel.Controls.Add(new LiteralControl("ToolTip=\"Add Condition\" Width=\"80\" />"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("</tr>"));
+            ConPanel.Controls.Add(new LiteralControl("</table>"));
+            ConPanel.Controls.Add(new LiteralControl("<div class=\"right\" style=\"padding-top: 20px;\">"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:Button ID=\"modCondOK1\" runat=\"server\" Text=\"Submit\" CssClass=\"button\" />&nbsp;&nbsp;"));
+            ConPanel.Controls.Add(new LiteralControl("<asp:Button ID=\"modCondCancel1\" runat=\"server\" Text=\"Cancel\" CssClass=\"button\" />&nbsp;&nbsp;"));
+            ConPanel.Controls.Add(new LiteralControl("</div>"));
+            ConPanel.Controls.Add(new LiteralControl("</div>"));
+            ConPanel.Controls.Add(new LiteralControl("</td>"));
+            ConPanel.Controls.Add(new LiteralControl("</tr>"));
+            ConPanel.Controls.Add(new LiteralControl("</table>"));
+            ConPanel.Controls.Add(new LiteralControl("</div>"));
+            */
+            
+            
+            ConPanel.Visible = true;
         }
     }
 }

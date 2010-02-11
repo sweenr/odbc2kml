@@ -257,7 +257,7 @@
                                                     </td>
                                                     <td class="buttonClass">
                                                         <asp:Button ID="ConButton" runat="server" Text="Modify Condition" CssClass="button"
-                                                            Width="135" />&nbsp;&nbsp;
+                                                            OnClick="genIconCondition" CommandArgument="Modify Condition 1" Width="135" />&nbsp;&nbsp;
                                                         <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK1"
                                                             CancelControlID="modCondCancel1" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7"
                                                             TargetControlID="ConButton" />
