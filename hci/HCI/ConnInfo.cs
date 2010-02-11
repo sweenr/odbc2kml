@@ -28,6 +28,9 @@ namespace HCI
         private string databaseName;
         private string portNumber;
         private string connectionName;
+        private string oracleProtocol;
+        private string oracleServiceName;
+        private string oracleSID;
 
         //Functions
         public int getDatabaseType()
@@ -63,6 +66,21 @@ namespace HCI
         public string getDatabaseName()
         {
             return this.databaseName;
+        }
+
+        public string getOracleProtocol()
+        {
+            return this.oracleProtocol;
+        }
+
+        public string getOracleServiceName()
+        {
+            return this.oracleServiceName;
+        }
+
+        public string getOracleSID()
+        {
+            return this.oracleSID;
         }
 
         public void setDatabaseType(int databaseType)
