@@ -16,6 +16,12 @@ namespace HCI
     {
         private string desc;
 
+        //Constructors
+        public Description()
+        {
+
+        }
+
         public string getDesc()
         {
             return this.desc;
