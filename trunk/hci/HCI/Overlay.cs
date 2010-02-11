@@ -18,6 +18,12 @@ namespace HCI
         private string color;
         private Condition conditions;
 
+        //Constructors
+        public Overlay()
+        {
+
+        }
+
         public string getColor()
         {
             return this.color;

@@ -32,6 +32,12 @@ namespace HCI
         private string oracleServiceName;
         private string oracleSID;
 
+        //Constructors
+        public ConnInfo()
+        {
+
+        }
+
         //Functions
         public int getDatabaseType()
         {
