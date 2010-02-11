@@ -15,9 +15,9 @@ namespace HCI
     public class ConnInfo
     {
         //Constants for different databases
-        public const int MYSQL = 0;
-        public const int MSSQL = 1;
-        public const int ORACLE = 2;
+        public static readonly int MYSQL = 0;
+        public static readonly int MSSQL = 1;
+        public static readonly int ORACLE = 2;
         //Add More as needed
 
         //Datatypes

@@ -34,6 +34,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Ajax\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Data.Odbc, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="MySql.Data, Version=6.2.2.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="obout_ColorPicker, Version=1.9.410.1, Culture=neutral, PublicKeyToken=544c9b6c403ccf41, processorArchitecture=MSIL" />
     <Reference Include="obout_Editor, Version=1.10.118.2, Culture=neutral, PublicKeyToken=3758f1b5e9d8196b, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -154,6 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Condition.cs" />
+    <Compile Include="config.ini.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="config.ini.designer.cs">
+      <DependentUpon>config.ini.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnDetails.aspx.cs">
       <DependentUpon>ConnDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
