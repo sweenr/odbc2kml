@@ -166,35 +166,35 @@ namespace HCI
                     {
                         switch(col.ColumnName) 
                         {
-                            case name:
-                                this.connInfo.setConnectionName(row[col]);
+                            case "name":
+                                this.connInfo.setConnectionName(row[col].ToString());
                                 break;
-                            case dbName:
-                                this.connInfo.setDatabaseName(row[col]);
+                            case "dbName":
+                                this.connInfo.setDatabaseName(row[col].ToString());
                                 break;
-                            case userName:
-                                this.connInfo.setUserName(row[col]);
+                            case "userName":
+                                this.connInfo.setUserName(row[col].ToString());
                                 break;
-                            case password:
-                                this.connInfo.setPassword(row[col]);
+                            case "password":
+                                this.connInfo.setPassword(row[col].ToString());
                                 break;
-                            case port:
-                                this.connInfo.setPortNumber(row[col]);
+                            case "port":
+                                this.connInfo.setPortNumber(row[col].ToString());
                                 break;
-                            case address:
-                                this.connInfo.setServerAddress(row[col]);
+                            case "address":
+                                this.connInfo.setServerAddress(row[col].ToString());
                                 break;
-                            case type:
-                                this.connInfo.setDatabaseType(row[col]);
+                            case "type":
+                                this.connInfo.setDatabaseType((int)row[col]);
                                 break;
-                            case protocol:
-                                this.connInfo.setOracleProtocol(row[col]);
+                            case "protocol":
+                                this.connInfo.setOracleProtocol(row[col].ToString());
                                 break;
-                            case serviceName:
-                                this.connInfo.setOracleServiceName(row[col]);
+                            case "serviceName":
+                                this.connInfo.setOracleServiceName(row[col].ToString());
                                 break;
-                            case SID:
-                                this.connInfo.setOracleSID(row[col]);
+                            case "SID":
+                                this.connInfo.setOracleSID(row[col].ToString());
                                 break;
                         }
                     }
