@@ -118,6 +118,22 @@ namespace HCI
             this.databaseName = dbName;
         }
 
+        public void setOracleProtocol(string oracleProtocol)
+        {
+            this.oracleProtocol = oracleProtocol;
+        }
+
+        public void setOracleServiceName(string oracleServiceName)
+        {
+            this.oracleServiceName = oracleServiceName;
+        }
+
+        public void setOracleSID(string oracleSID)
+        {
+            this.oracleSID = oracleSID;
+        }
+
+
         public bool isValid()
         {
             bool valid = false;

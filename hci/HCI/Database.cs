@@ -13,8 +13,6 @@ using System.Data.Odbc;
 using System.Data.SqlClient;
 using System.Data.OracleClient;
 
-//using HCI;
-
 namespace HCI
 {
     public class Database
@@ -26,13 +24,13 @@ namespace HCI
         //Constructors
         
         //Default
-        Database()
+        public Database()
         {
             connInfo = null;
         }
 
         //Accepts a connection info class
-        Database(ConnInfo connInfo)
+        public Database(ConnInfo connInfo)
         {
             this.connInfo = connInfo;
         }

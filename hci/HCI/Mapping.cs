@@ -28,7 +28,7 @@ namespace HCI
         //Functions
 
         //Constructor
-        Mapping()
+        public Mapping()
         {
 
         }
