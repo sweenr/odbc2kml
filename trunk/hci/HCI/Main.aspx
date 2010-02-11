@@ -24,7 +24,7 @@
                             <tr>
                                 <td>
                                     <asp:ImageButton ID="homeIcon" runat="server" CssClass="homeIcon" ImageUrl="graphics/connIcon.gif"
-                                        AlternateText="View Connections (Home)" ToolTip="View Connections (Home)" PostBackUrl="Main.aspx" />
+                                        AlternateText="View Connections (Home)" ToolTip="View Connections (Home)" PostBackUrl="Modify.aspx" />
                                 </td>
                                 <td>
                                     <div class="newConnA">
@@ -45,7 +45,16 @@
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Information</span>
                             <table cellspacing="0" cellpadding="10" class="connectionBox">
+                                <%--<asp:Literal ID="htmlContent" runat="server">
+                                </asp:Literal>--%>
+                                <asp:Panel ID="ConnectionsAvailable" runat="server" Visible="true"></asp:Panel>
                                 <tr class="oddConn">
+                                    <td>
+                                        <asp:Label ID="Conn1" runat="server" Text="ODBC Connection 1" Visible="false"></asp:Label>
+                                        <a href="#" title="Open Connection"></a>
+                                    </td>
+                                </tr>
+                                <%--<tr class="oddConn">
                                     <td>
                                         <asp:Label ID="Conn1" runat="server" Text="ODBC Connection 1"></asp:Label>
                                         <a href="#" title="Open Connection"></a>
@@ -55,78 +64,24 @@
                                             <tr>
                                                 <td>
                                                     <asp:ImageButton ID="openConn1" runat="server" CssClass="openIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Open Connection" ToolTip="Open Connection" />
+                                                        AlternateText="Open Connection" ToolTip="Open Connection" OnClick="openConnFunction" CommandArgument="none" />
                                                 </td>
                                                 <td>
                                                     <asp:ImageButton ID="editConn1" runat="server" CssClass="editIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Edit Connection" ToolTip="Edit Connection"/>
+                                                        AlternateText="Edit Connection" ToolTip="Edit Connection" OnClick="editConnFunction" CommandArgument="none" />
                                                 </td>
                                                 <td>
                                                     <asp:ImageButton ID="deleteConn1" runat="server" CssClass="deleteIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Delete Connection" ToolTip="Delete Connection" />
+                                                        AlternateText="Delete Connection" ToolTip="Delete Connection" OnClick="deleteConnFunction" CommandArgument="none" />
                                                 </td>
                                                 <td>
                                                     <asp:ImageButton ID="genKML1" runat="server" CssClass="kmlIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Generate KML File" ToolTip="Generate KML File" />
+                                                        AlternateText="Generate KML File" ToolTip="Generate KML File" OnClick="genKMLFunction" CommandArgument="none" />
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
-                                </tr>
-                                <tr class="evenConn">
-                                    <td>
-                                        <asp:Label ID="Conn2" runat="server" Text="ODBC Connection 2"></asp:Label>
-                                    </td>
-                                    <td class="connIcons">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <asp:ImageButton ID="openConn2" runat="server" CssClass="openIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Open Connection" ToolTip="Open Connection" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="editConn2" runat="server" CssClass="editIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Edit Connection" ToolTip="Edit Connection" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="deleteConn2" runat="server" CssClass="deleteIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Delete Connection" ToolTip="Delete Connection" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="genKML2" runat="server" CssClass="kmlIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Generate KML File" ToolTip="Generate KML File" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr class="oddConn">
-                                    <td>
-                                        <asp:Label ID="Conn3" runat="server" Text="ODBC Connection 3"></asp:Label>
-                                    </td>
-                                    <td class="connIcons">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <asp:ImageButton ID="openConn3" runat="server" CssClass="openIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Open Connection" ToolTip="Open Connection" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="editConn3" runat="server" CssClass="editIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Edit Connection" ToolTip="Edit Connection" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="deleteConn3" runat="server" CssClass="deleteIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Delete Connection" ToolTip="Delete Connection" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="genKML3" runat="server" CssClass="kmlIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Generate KML File" ToolTip="Generate KML File" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
+                                </tr>--%>
                             </table>
                             <div class="newConn">
                                 <div class="right">
@@ -144,7 +99,7 @@
                                                         CancelControlID="newConnCancel" runat="server" PopupControlID="newConnPanel"
                                                         ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
                                                         
-                                                       
+                                                                                 
                                                         
                                                     <!-- Sample Panels for Connection Pop-Ups --->
                                                     <asp:Panel ID="newConnPanel" runat="server" cssClass="boxPopupStyle" Style="display: none;">
@@ -155,6 +110,11 @@
                                                                     <td>
                                                                         <div style="background-color: white; padding: 5px;">
                                                                             <table cellspacing="5">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Connection Name: </span>
+                                                                                    </td>
+                                                                                </tr>
                                                                                 <tr>
                                                                                     <td>
                                                                                         <span class="connectionTitle">Connection Name: </span>
@@ -203,10 +163,22 @@
                                                                                         <asp:TextBox ID="odbcPWE" runat="server" CssClass="inputBox" Width="200" TextMode="Password"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
+                                                                            <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Database Type:</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:DropDownList ID="DropDownList4" runat="server">
+                                                                                            <asp:ListItem Text="SQL"></asp:ListItem>
+                                                                                            <asp:ListItem Text="MySQL"></asp:ListItem>
+                                                                                            <asp:ListItem Text="Oracle"></asp:ListItem>
+                                                                                        </asp:DropDownList>
+                                                                                    </td>
+                                                                                </tr>
                                                                             </table>
-                                                                            
-                                                                            <div class="right" style="padding-top:20px;">
-                                                                                <asp:Button ID="newConnUpdate" runat="server" Text="Create" CssClass="button" ToolTip="Update" />
+                                                                            <div class="right" style="padding-top: 20px;">
+                                                                                <asp:Button ID="newConnUpdate" runat="server" Text="Create" CssClass="button" ToolTip="Update"
+                                                                                    OnClick="createConnection" CommandArgument="create" />
                                                                                 &nbsp;&nbsp;
                                                                                 <asp:Button ID="newConnCancel" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
                                                                             </div>
