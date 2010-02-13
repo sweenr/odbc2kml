@@ -432,6 +432,57 @@ a.selectTable:hover
 	border: solid 1px rgb(76,166,240);
 }
 
+.descLabel
+{
+	color: rgb(26,49,76);
+	font-weight: bold;
+	height: 22px;
+}
+
+.descLabelError
+{
+	color: red;
+	font-weight: bold;
+	height: 22px;
+}
+
+.descLabel2
+{
+	color: rgb(26,49,76);
+	font-weight: bold;
+	height: 22px;
+	font-size:1.1em;
+}
+
+.descPanelTable
+{
+	background-color:rgb(200,225,250);
+	border: solid 1px rgb(176,211,243);
+	width:100%;
+}
+
+.descPanel
+{
+	width:99%;
+}
+
+.descButton
+{
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
+.descButton:hover
+{
+	background: rgb(26,49,76) url('graphics/buttonBack.gif');
+	border: solid 1px rgb(26,49,76);
+	color: white;
+}
+
 #header
 {
 	width: 900px;
