@@ -1,0 +1,27 @@
+#summary Database problem fix and query info.
+
+= Introduction =
+
+There is a problem with the database that I created for our data and put on the SVN. The ID fields in the database do not auto-increment and the location field in IconLibrary (set to 50) is to small.  Also this describes how to run a query against your local database using visual studio.
+
+
+= Details =
+
+To fix the first error you may go to each ID that you wish changed to auto-increment and do the following:
+1. Open Visual studio, go to tools and click Connect to Database
+           ServerName=(yourComputer'sName)\SQLEXPRESS            database is odbc2kml
+2. click on odbc2kml.dbo, click Tables
+3. right click on the table you desire to change and click "Open table definition"
+4. click on primary key, and scroll down on the "column properties" window
+5. click the plus next to "Identity specification" and change "(is identity)" to yes
+      (Identity increment and Identity seed should set themselves to 1, if not, you should)
+      (if you have errors in visual studio, download Microsoft SQL server management studio
+          express and use it)
+6. click save
+
+To fix the small size of location do steps 1-3 above
+4. click on location, change varchar(50) to (150)
+5. click save
+
+To run queries in visual studio do steps 1-2 above
+3. right click on the table you desire to change and click new query
