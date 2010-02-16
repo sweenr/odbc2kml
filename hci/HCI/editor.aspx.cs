@@ -24,18 +24,18 @@ namespace HCI
 
             string linkText = iLinkNBox.Text.ToString();
             string linkURL = iLinkURLBox.Text.ToString();
-            string currentText = descriptionBox.Text.ToString();
+            string descriptionInfo = "[START URL][TITLE]" + linkText + "[/TITLE]" + linkURL + "[END URL]";
+        
 
-            if (linkText == "" || linkText == null || linkURL == "" || linkURL == null)
+            if (linkText.Equals("") || linkURL.Equals(""))
             {
                 iLinkError.Visible = true;
             }
             else
             {
                 iLinkError.Visible = false;
-                descriptionBox.Text += "<a href = \"" + linkURL + "\">" + linkText + "</a>";
+                descriptionBox.Text += descriptionInfo;
             }
-
            
         }
       
