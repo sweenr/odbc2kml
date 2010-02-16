@@ -25,3 +25,10 @@ To fix the small size of location do steps 1-3 above
 
 To run queries in visual studio do steps 1-2 above
 3. right click on the table you desire to change and click new query
+
+= Needed Fixes =
+  # Change format in Mapping table to an int
+  # Add protocol to ConnInfo table (string)
+  # Add SID to ConnInfo table (string)
+  # Add serviceName to ConnInfo table (string)
+  # Add type to ConnInfo table (int)
