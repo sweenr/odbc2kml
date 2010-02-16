@@ -68,15 +68,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.CheckBox fetchCheckBox;
         
         /// <summary>
-        /// fetchButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button fetchButton;
-        
-        /// <summary>
         /// URLtextBox control.
         /// </summary>
         /// <remarks>
@@ -95,6 +86,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button URLsubmit;
         
         /// <summary>
+        /// URLpanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel URLpanel;
+        
+        /// <summary>
         /// URLsubmitLabel control.
         /// </summary>
         /// <remarks>
@@ -104,12 +104,21 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Label URLsubmitLabel;
         
         /// <summary>
-        /// Panel1 control.
+        /// URLcorrect control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel Panel1;
+        protected global::System.Web.UI.WebControls.Button URLcorrect;
+        
+        /// <summary>
+        /// test control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label test;
     }
 }
