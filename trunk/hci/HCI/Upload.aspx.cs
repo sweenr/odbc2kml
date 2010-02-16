@@ -11,6 +11,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Net;
 using HCI;
 
 namespace HCI
@@ -19,9 +21,8 @@ namespace HCI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            fetch = false;
         }
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        protected void btnSubmitClick(object sender, EventArgs e)
         {
             if (fileUpEx.HasFile)
             {
@@ -41,19 +42,46 @@ namespace HCI
 
             }
         }
-        protected void fetchSubmit_Click(object sender, EventArgs e)
+        //protected void fetchSubmitClick(object sender, EventArgs e)
+        //{
+        //    fetch = !fetch;
+        //    Response.Write("FETCH!");
+        //}
+        protected void URLsubmitClick(object sender, EventArgs e)
         {
-            fetch = !fetch;
-            Response.Write("FETCH!");
-        }
-        protected void URLsubmit_Click(object sender, EventArgs e)
-        {
-            URL = URLtextBox.Text.Trim();
+            String URL = URLtextBox.Text.Trim();
+            URLpanel.Visible = true;
             URLsubmitLabel.Text = "You entered - " + "<a href=\"" + URL + "\" target=NEW>" + URL + "</a>";
             //DB.executeQueryLocal("");
         }
-        private bool fetch;
-        private String URL;
-        Database DB = new Database();
+        protected void URLcorrectClick(object sender, EventArgs e)
+        {
+            String URL = URLtextBox.Text.Trim();
+            Database DB = new Database();
+            if (fetchCheckBox.Checked)
+            {
+                WebClient Client = new WebClient();
+                String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
+                String ext = System.IO.Path.GetExtension(URL);
+                String suffix = GetRandomString();
+                String Name = fileSaveLoc + fileName + suffix + ext;
+                Client.DownloadFile(URL, Name);
+                DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + Name + "\', 1)");
+            }
+            else
+            {
+                DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+            }
+        }
+        public static string GetRandomString()
+        {
+            string path = Path.GetRandomFileName();
+            path = path.Replace(".", ""); // Remove period.
+            return path;
+        }
+        //private bool fetch;
+        //private String URL;
+        //private Database DB;
+        public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
     }
 }

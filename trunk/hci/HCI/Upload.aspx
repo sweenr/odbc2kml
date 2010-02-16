@@ -37,7 +37,7 @@
                     <li>Please select the icon file you wish to upload</li>
                     <li>
                         <asp:FileUpload ID="fileUpEx" runat="server" /><br />
-                        <asp:button ID="btnSubmit" runat="server" OnClick="btnSubmit_Click" Text="Submit" />
+                        <asp:button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" />
                         <asp:label ID="lblStatus" runat="server"></asp:label>
                     </li>
                 </ul>
@@ -46,15 +46,19 @@
                 <ul>
                     <li>Please check fetch if you would like to have the file saved on the server</li>
                     <li>
-                        <asp:CheckBox ID="fetchCheckBox" runat="server" OnCheckedChanged="fetchSubmit_Click" />
-                        <!--<asp:button ID="fetchButton" runat="server" OnClick="fetchSubmit_Click" />-->
+                        <asp:CheckBox ID="fetchCheckBox" runat="server" />
                     </li>
                     <li>Please enter the URL of the icon you would like to use</li>
                     <li>
                         <asp:TextBox ID="URLtextBox" runat="server" />
-                        <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmit_Click" Text="Save" />
-                        <asp:label ID="URLsubmitLabel" runat="server"></asp:label>
-                        <asp:UpdatePanel ID="Panel1" runat="server" />
+                        <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmitClick" Text="Save" />
+                        <asp:Panel ID="URLpanel" runat="server" Visible="false">
+                            <br />
+                            <asp:label ID="URLsubmitLabel" runat="server"></asp:label>
+                            <br /><p>Is the above address correct?</p>
+                            <asp:Button ID="URLcorrect" runat="server" OnClick="URLcorrectClick" Text="Correct" />
+                            <asp:label ID="test" runat="server"></asp:label>
+                        </asp:Panel>
                     </li>
                 </ul>
             </div>
