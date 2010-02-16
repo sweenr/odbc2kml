@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="editor.aspx.cs" Inherits="HCI.editor" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="editor.aspx.cs" Inherits="HCI.editor"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
@@ -47,6 +47,7 @@
                                                     <td>
                                                         <asp:Label ID="iLinkURL" runat="server" CssClass="descLabel" Text="Site URL: "></asp:Label>
                                                         &nbsp;&nbsp;
+                                                        
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="iLinkURLBox" runat="server" CssClass="inputBox" Width="200px"></asp:TextBox>
@@ -73,8 +74,11 @@
                                 </p>
                             </asp:Panel>
                             <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
-                                TextMode="MultiLine" ontextchanged="Page_Load"></asp:TextBox>
+                                TextMode="MultiLine"></asp:TextBox>
                         </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="dLinkInsert" EventName="Click" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>
