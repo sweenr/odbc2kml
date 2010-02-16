@@ -28,6 +28,7 @@ namespace HCI
             Label title = new Label();
 
             title.Text = "Query Results";
+            title.CssClass = "dbTitleSpan";
 
             dt = db.executeQueryLocal(queryString.Text);
 
