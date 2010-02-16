@@ -18,6 +18,9 @@ namespace HCI
         protected void dLink_Click(object sender, EventArgs e)
         {
             dLinkPanel.Visible = true;
+            dTablePanel.Visible = false;
+            dFieldPanel.Visible = false;
+            dImagePanel.Visible = false;
         }
         protected void dLinkInsert_Click(object sender, EventArgs e)
         {
@@ -38,6 +41,43 @@ namespace HCI
             }
            
         }
-      
+
+
+        protected void dTable_Click(object sender, EventArgs e)
+        {
+            dLinkPanel.Visible = false;
+            dTablePanel.Visible = true;
+            dFieldPanel.Visible = false;
+            dImagePanel.Visible = false;
+        }
+        protected void dTableInsert_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        protected void dField_Click(object sender, EventArgs e)
+        {
+            dLinkPanel.Visible = false;
+            dTablePanel.Visible = false;
+            dFieldPanel.Visible = true;
+            dImagePanel.Visible = false;
+        }
+        protected void dFieldInsert_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void dImage_Click(object sender, EventArgs e)
+        {
+            dLinkPanel.Visible = false;
+            dTablePanel.Visible = false;
+            dFieldPanel.Visible = false;
+            dImagePanel.Visible = true;
+        }
+        protected void dImageInsert_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
