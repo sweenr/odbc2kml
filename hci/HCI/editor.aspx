@@ -22,8 +22,12 @@
                     <asp:Label ID="dLabel" runat="server" Text="Insert: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                     <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
                         OnClick="dLink_Click" />&nbsp;&nbsp;
-                    <asp:Button ID="dField" runat="server" Text="Field" CssClass="descButton" ToolTip="Insert Field" />&nbsp;&nbsp;
-                    <asp:Button ID="dImage" runat="server" Text="Image" CssClass="descButton" ToolTip="Insert Image" />&nbsp;&nbsp;
+                        <asp:Button ID="dTable" runat="server" Text="Table" CssClass="descButton" ToolTip="Insert Table"
+                        OnClick="dTable_Click" />&nbsp;&nbsp;
+                    <asp:Button ID="dField" runat="server" Text="Field" CssClass="descButton" ToolTip="Insert Field" 
+                        OnClick="dField_Click"/>&nbsp;&nbsp;
+                    <asp:Button ID="dImage" runat="server" Text="Image" CssClass="descButton" ToolTip="Insert Image" 
+                        OnClick="dImage_Click"/>&nbsp;&nbsp;
                     <br />
                     <br />
                     <asp:UpdatePanel runat="server" ID="dUpdatePanel">
@@ -72,7 +76,132 @@
                                 </td></tr></table>
                                 <p>
                                 </p>
+                            </asp:Panel>  
+                            <asp:Panel ID="dTablePanel" runat="server" Visible="false" CssClass="descPanel">
+                                <table class="descPanelTable">
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="iTableN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="iTableNBox" runat="server">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Button ID="dTableInsert" runat="server" CssClass="descButton" OnClick="dTableInsert_Click"
+                                                            Text="Insert Table" ToolTip="Insert Table" />
+                                                        &nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr><td colspan="3"><asp:Label ID="iTableError" runat="server" CssClass="descLabelError" Text="Please select a valid database table." Visible="false"></asp:Label>
+                                                        &nbsp;&nbsp;</td></tr>
+                                            </table>
+                                </td></tr></table>
+                                <p>
+                                </p>
                             </asp:Panel>
+                                                        <asp:Panel ID="dFieldPanel" runat="server" Visible="false" CssClass="descPanel">
+                                <table class="descPanelTable">
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="iTableFN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="iTableFNBox" runat="server">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="iColFN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="iColFNBox" runat="server">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Button ID="dFieldInsert" runat="server" CssClass="descButton" OnClick="dFieldInsert_Click"
+                                                            Text="Insert Field" ToolTip="Insert Field" />
+                                                        &nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr><td colspan="3"><asp:Label ID="dFieldError" runat="server" CssClass="descLabelError" Text="Please select a valid database table and column." Visible="false"></asp:Label>
+                                                        &nbsp;&nbsp;</td></tr>
+                                            </table>
+                                </td></tr></table>
+                                <p>
+                                </p>
+                            </asp:Panel>
+                              <asp:Panel ID="dImagePanel" runat="server" Visible="false" CssClass="descPanel">
+                                <table class="descPanelTable">
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="iTableIN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="iTableINBox" runat="server">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="iColIN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="iColINBox" runat="server">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Button ID="dImageInsert" runat="server" CssClass="descButton" OnClick="dImageInsert_Click"
+                                                            Text="Insert Image" ToolTip="Insert Image" />
+                                                        &nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr><td colspan="3"><asp:Label ID="dImageError" runat="server" CssClass="descLabelError" Text="Please select a valid database table and column." Visible="false"></asp:Label>
+                                                        &nbsp;&nbsp;</td></tr>
+                                            </table>
+                                </td></tr></table>
+                                <p>
+                                </p>
+                            </asp:Panel>
+                            
                             <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
                                 TextMode="MultiLine"></asp:TextBox>
                         </ContentTemplate>
