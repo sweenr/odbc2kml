@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using System.Collections;
 using HCI;
 
 namespace HCI
@@ -16,12 +17,12 @@ namespace HCI
     public class Overlay
     {
         private string color;
-        private Condition conditions;
+        private ArrayList conditions;
 
         //Constructors
         public Overlay()
         {
-
+            conditions = new ArrayList();
         }
 
         public string getColor()
@@ -34,19 +35,19 @@ namespace HCI
             this.color = color;
         }
 
-        public Condition getConditions()
+        public ArrayList getConditions()
         {
             return this.conditions;
         }
 
         public void setConditions(Condition con)
         {
-            this.conditions = con;
+            this.conditions.Add(con);
         }
 
-        public void removeCondition()
+        public void removeCondition(int arrayPosition)
         {
-
+            this.conditions.RemoveAt(arrayPosition);
         }
     }
 }

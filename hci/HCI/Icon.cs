@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using System.Collections;
 using HCI;
 
 namespace HCI
@@ -16,8 +17,13 @@ namespace HCI
     public class Icon
     {
         private string location;
-        private Condition conditions;
+        private ArrayList conditions;
 
+        public Icon()
+        {
+            conditions = new ArrayList();
+        }
+       
         public string getLocation()
         {
             return this.location;
@@ -28,19 +34,19 @@ namespace HCI
             this.location = loc;
         }
 
-        public Condition getConditions()
+        public ArrayList getConditions()
         {
             return this.conditions;
         }
 
         public void setConditions(Condition con)
         {
-            this.conditions = con;
+            this.conditions.Add(con);
         }
 
-        public void removeConditions()
+        public void removeConditions(int arrayPosition)
         {
-
+            this.conditions.RemoveAt(arrayPosition);
         }
     }
 }
