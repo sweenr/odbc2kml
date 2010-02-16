@@ -35,6 +35,13 @@ namespace HCI
             resultsPanel.Visible = true;
 
             resultsPanel.Controls.Add(new LiteralControl("<div width=\"100%\" class=\"dbColumns\"><table border=1>"));
+            resultsPanel.Controls.Add(new LiteralControl("<tr>"));
+            foreach (DataColumn dc in dt.Columns)
+            {
+                resultsPanel.Controls.Add(new LiteralControl("<td><b>" + dc.ColumnName + "</b></td>"));
+            }
+            resultsPanel.Controls.Add(new LiteralControl("</tr>"));
+
             foreach (DataRow dr in dt.Rows)
             {
                 resultsPanel.Controls.Add(new LiteralControl("<tr>"));
