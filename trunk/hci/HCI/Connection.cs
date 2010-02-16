@@ -19,8 +19,8 @@ namespace HCI
         //Datatypes
         private Description description;
         private Mapping mapping;
-        private ArrayList icons = new ArrayList();
-        private ArrayList overlays = new ArrayList();
+        private ArrayList icons;
+        private ArrayList overlays;
         private ConnInfo connInfo;
         private int connID;
 
@@ -29,6 +29,8 @@ namespace HCI
         //Constructor
         Connection()
         {
+            icons = new ArrayList();
+            overlays = new ArrayList();
             description = new Description();
             mapping = new Mapping();
             connInfo = new ConnInfo();
@@ -164,6 +166,7 @@ namespace HCI
                    
                     foreach(DataColumn col in table.Columns)
                     {
+                        //Set all connInfo
                         switch(col.ColumnName) 
                         {
                             case "name":
@@ -196,6 +199,8 @@ namespace HCI
                             case "SID":
                                 this.connInfo.setOracleSID(row[col].ToString());
                                 break;
+                            default:
+                                break;
                         }
                     }
                 }//End outer loop
@@ -211,10 +216,63 @@ namespace HCI
                 {
                     foreach(DataColumn col in table.Columns)
                     {
-                        switch(col.ColumnName)
+                        Overlay newOverlay = new Overlay();
+                        if (col.ColumnName == "ID") //Branch off and get the conditions
                         {
+                            //Create the new table for another query
+                            DataTable newTable = new DataTable();
 
+                            //Query string and query
+                            string conQuery = "SELECT * FROM OverlayCondition WHERE overlayID="
+                                + ((int)row[col]) + " AND connID=" + this.connID;
+                            newTable = localDatabase.executeQueryLocal(conQuery);
+
+                            //Cycle through each condition
+                            foreach (DataRow nRow in newTable.Rows)
+                            {
+                                //Create the condition and add its values
+                                Condition condition = new Condition();
+                                
+                                foreach (DataColumn nCol in newTable.Columns)
+                                { 
+                                    switch (nCol.ColumnName)
+                                    {
+                                        case "lowerBound":
+                                            condition.setLowerBound(nRow[nCol].ToString());
+                                            break;
+                                        case "upperBound":
+                                            condition.setUpperBound(nRow[nCol].ToString());
+                                            break;
+                                        case "lowerOperator":
+                                            condition.setLowerOperator((int)nRow[nCol]);
+                                            break;
+                                        case "upperOperator":
+                                            condition.setUpperOperator((int)nRow[nCol]);
+                                            break;
+                                        case "fieldName":
+                                            condition.setFieldName(nRow[nCol].ToString());
+                                            break;
+                                        case "tableName":
+                                            condition.setTableName(nRow[nCol].ToString());
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                //Add the condition to the overlay array
+                                newOverlay.setConditions(condition);
+                                //Free up condition memory
+                                condition = null;
+                            }//End outer loop
+                            //Free up table memory
+                            newTable = null;
                         }
+                        else if(col.ColumnName == "color") //Set the color
+                        {
+                            newOverlay.setColor(row[col].ToString());
+                        }
+                        //Add the overlay to the list of overlays
+                        this.overlays.Add(newOverlay);
                     }
                 }//End outer loop
 
@@ -225,12 +283,47 @@ namespace HCI
                 query = "SELECT * FROM Description WHERE connID=" + this.connID;
                 table = localDatabase.executeQueryLocal(query);
 
+                foreach(DataRow row in table.Rows)
+                {
+                    foreach(DataColumn col in table.Columns)
+                    {
+                        //Set Description
+                        if (col.ColumnName == "description")
+                        {
+                            description.setDesc(row[col].ToString());
+                        }
+                    }
+                }//End outer loop
+
                 //Clear table
                 table.Clear();
 
                 //Create mapping query and populate table
                 query = "SELECT * FROM Mapping WHERE connID=" + this.connID;
                 table = localDatabase.executeQueryLocal(query);
+
+                foreach(DataRow row in table.Rows)
+                {
+                    foreach(DataColumn col in table.Columns)
+                    {
+                        //Set mapping
+                        switch(col.ColumnName)
+                        {
+                            case "tableName":
+                                mapping.setTableName(row[col].ToString());
+                                break;
+                            case "latFieldName":
+                                mapping.setLatFieldName(row[col].ToString());
+                                break;
+                            case "longFieldName":
+                                mapping.setLongFieldName(row[col].ToString());
+                                break;
+                            case "format":
+                                mapping.setFormat((int)row[col]);
+                                break;
+                        }
+                    }
+                }//End outer loop
 
                 //Clear table
                 table.Clear();
@@ -239,15 +332,100 @@ namespace HCI
                 query = "SELECT * FROM Icon WHERE connID=" + this.connID;
                 table = localDatabase.executeQueryLocal(query);
 
+                foreach(DataRow row in table.Rows)
+                {
+                    //Create a new icon
+                    Icon newIcon = new Icon();
+
+                    foreach(DataColumn col in table.Columns)
+                    {
+                        if (col.ColumnName == "ID")
+                        {
+                            //Create a new table to perform subqueries on
+                            DataTable newTable = new DataTable();
+                            
+                            //IconLibrary query
+                            string locQuery = "SELECT * FROM IconLibrary WHERE ID=" + ((int)row[col]);
+                            newTable = localDatabase.executeQueryLocal(locQuery);
+
+                            foreach (DataRow nRow in newTable.Rows)
+                            {
+                                foreach (DataColumn nCol in newTable.Columns)
+                                {
+                                    //Set the location of the icon
+                                    if (nCol.ColumnName == "location")
+                                    {
+                                        newIcon.setLocation(nRow[nCol].ToString());
+                                    }
+                                }
+                            }//End outer loop
+
+                            newTable.Clear();
+
+                            //IconCondition query
+                            string conQuery = "SELECT * FROM IconCondition WHERE iconID="
+                                + ((int)row[col]) + " AND connID=" + this.connID;
+                            newTable = localDatabase.executeQueryLocal(conQuery);
+
+                            //Cycle through each condition
+                            foreach (DataRow nRow in newTable.Rows)
+                            {
+                                //Create the condition and add its values
+                                Condition condition = new Condition();
+
+                                foreach (DataColumn nCol in newTable.Columns)
+                                {
+                                    switch (nCol.ColumnName)
+                                    {
+                                        case "lowerBound":
+                                            condition.setLowerBound(nRow[nCol].ToString());
+                                            break;
+                                        case "upperBound":
+                                            condition.setUpperBound(nRow[nCol].ToString());
+                                            break;
+                                        case "lowerOperator":
+                                            condition.setLowerOperator((int)nRow[nCol]);
+                                            break;
+                                        case "upperOperator":
+                                            condition.setUpperOperator((int)nRow[nCol]);
+                                            break;
+                                        case "fieldName":
+                                            condition.setFieldName(nRow[nCol].ToString());
+                                            break;
+                                        case "tableName":
+                                            condition.setTableName(nRow[nCol].ToString());
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                //Add the condition to the icon array
+                                newIcon.setConditions(condition);
+                                //Free up condition memory
+                                condition = null;
+                            }//End outer loop
+                            //Free up table memory
+                            newTable = null;
+                        }
+                    }
+                    //Free up icon memory
+                    newIcon = null;
+
+                }//End outer loop
+
                 //Clear table
                 table.Clear();
             }
-            catch(Exception e) 
+            catch(Exception e) //Add whatever exceptions are needed and error handling code
             {
 
             }
-
-
+            finally
+            {
+                //Memory free
+                table = null;
+                localDatabase = null;
+            }
         }
 
         //Add Comments
