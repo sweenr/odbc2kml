@@ -23,11 +23,6 @@
              runat="server" PopupControlID="resultsPanel" ID="ModalPopupExtender6"
             TargetControlID="showResults" />
         <asp:Panel ID="resultsPanel" runat="server" visible="false" Style="display: none;" CssClass="boxPopupStyle">
-            <div class="mainBoxP">
-                <div class="right" style="padding-top: 20px;">
-                    <asp:Button ID="hideResults" runat="server" Text="Hide Results" CssClass="button" />
-                </div>
-            </div>
         </asp:Panel>
     </div>
     </form>
