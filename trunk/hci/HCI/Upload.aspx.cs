@@ -27,18 +27,19 @@ namespace HCI
             if (fileUpEx.HasFile)
             {
 
-                string filepath = fileUpEx.PostedFile.FileName;
-                string pat = @"\\(?:.+)\\(.+)\.(.+)";
-                Regex r = new Regex(pat);
-                //run
-                Match m = r.Match(filepath);
-                string file_ext = m.Groups[2].Captures[0].ToString();
-                string filename = m.Groups[1].Captures[0].ToString();
-                string file = filename + "." + file_ext;
+                String filepath = fileUpEx.PostedFile.FileName;
+                //string pat = @"\\(?:.+)\\(.+)\.(.+)";
+                //Regex r = new Regex(pat);
+                ////run
+                //Match m = r.Match(filepath);
+                String file_ext = System.IO.Path.GetExtension(filepath);
+                String filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
+                String suffix = GetRandomString();
+                String file = filename + suffix + file_ext;
 
                 //save the file to the server
-                fileUpEx.PostedFile.SaveAs(Server.MapPath(".\\") + file);
-                lblStatus.Text = "File Saved to: " + Server.MapPath(".\\") + file;
+                fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
+                lblStatus.Text = "File Saved to: " + fileSaveLoc + file;
 
             }
         }
