@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using HCI;
 
 namespace HCI
 {
@@ -66,5 +67,30 @@ namespace HCI
 
             return href;
         }
+
+        public static Description getDescription(int connID)
+        {
+            Description description = new Description();
+            Database localDatabase = new Database();
+
+            //Create description query and populate table
+            string query = "SELECT * FROM Description WHERE connID=" + connID;
+            DataTable table = localDatabase.executeQueryLocal(query);
+
+            foreach (DataRow row in table.Rows)
+            {
+                foreach (DataColumn col in table.Columns)
+                {
+                    //Set Description
+                    if (col.ColumnName == "description")
+                    {
+                        description.setDesc(row[col].ToString());
+                    }
+                }
+            }//End outer loop
+
+            return description;
+        }
+
     }
 }

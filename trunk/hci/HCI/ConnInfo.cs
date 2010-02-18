@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using HCI;
 
 namespace HCI
 {
@@ -148,5 +149,62 @@ namespace HCI
             return valid;
 
         }
+
+        public static ConnInfo getConnInfo(int connID)
+        {
+            ConnInfo connInfo = new ConnInfo();
+            Database localDatabase = new Database();
+
+            //Construct the connInfo query and retrieve the DataTable
+            string query = "SELECT * FROM Connection WHERE ID=" + connID;
+            DataTable table = localDatabase.executeQueryLocal(query);
+
+            //Cycle through each row and column
+            foreach (DataRow row in table.Rows)
+            {
+                foreach (DataColumn col in table.Columns)
+                {
+                    //Set all connInfo
+                    switch (col.ColumnName)
+                    {
+                        case "name":
+                            connInfo.setConnectionName(row[col].ToString());
+                            break;
+                        case "dbName":
+                            connInfo.setDatabaseName(row[col].ToString());
+                            break;
+                        case "userName":
+                            connInfo.setUserName(row[col].ToString());
+                            break;
+                        case "password":
+                            connInfo.setPassword(row[col].ToString());
+                            break;
+                        case "port":
+                            connInfo.setPortNumber(row[col].ToString());
+                            break;
+                        case "address":
+                            connInfo.setServerAddress(row[col].ToString());
+                            break;
+                        case "type":
+                            connInfo.setDatabaseType((int)row[col]);
+                            break;
+                        case "protocol":
+                            connInfo.setOracleProtocol(row[col].ToString());
+                            break;
+                        case "serviceName":
+                            connInfo.setOracleServiceName(row[col].ToString());
+                            break;
+                        case "SID":
+                            connInfo.setOracleSID(row[col].ToString());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }//End outer loop
+
+            return connInfo;
+        }
+
     }
 }
