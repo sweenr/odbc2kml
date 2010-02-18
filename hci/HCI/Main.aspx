@@ -10,6 +10,9 @@
     </style>
 </head>
 <body>
+    <a href="#" style="display:none;visibility:hidden;" 
+        onclick="return false" ID="dummyLink" runat="server">na</a>
+
     <form id="mainForm" runat="server">
     <div id="wrapIt">
         <div id="header">
@@ -68,24 +71,25 @@
                                                         CancelControlID="newConnCancel" runat="server" PopupControlID="newConnPanel"
                                                         ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
                                                     <!-- Sample Panels for Connection Pop-Ups --->
-                                                    <asp:Panel ID="deleteConnPanel" runat="server" CssClass="boxPopupStyle" visible="false">
-                                                                <div class="mainBoxP">
-                                                                    <span id="DelSpan" visible="true" class="connectionStyle">&nbsp;Delete Connection</span>
-                                                                    <table cellspacing="0" cellpadding="10" class="mainBox2">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div style="background-color: white; padding: 5px;">
-                                                                                    <div class="right" style="padding-top: 20px;">
-                                                                                        <asp:Button ID="delConnBtn" runat="server" Text="Delete" CssClass="button" ToolTip="Update"
-                                                                                            OnClick="deleteConnFunction" />
-                                                                                        &nbsp;&nbsp;
-                                                                                        <asp:Button ID="cancelDelConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
+                                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="delConnBtn"
+                                                    CancelControlID="cancelDelConn" runat="server" PopupControlID="deleteConnPanel"
+                                                    ID="deletePopupExtender" TargetControlID="dummyLink"/>
+                                                    <asp:Panel ID="deleteConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                        <div class="mainBoxP">
+                                                            <span id="DelSpan" visible="true" class="connectionStyle">&nbsp;Delete Connection</span>
+                                                            <table cellspacing="0" cellpadding="10" class="mainBox2">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="center" style="padding-top: 20px;">
+                                                                            <asp:Button ID="delConnBtn" runat="server" Text="Delete" CssClass="button" ToolTip="Update"
+                                                                                OnClick="deleteConnFunction" />
+                                                                            &nbsp;&nbsp;
+                                                                            <asp:Button ID="cancelDelConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
                                                     </asp:Panel>
                                                     <asp:Panel ID="newConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                         <div class="mainBoxP">

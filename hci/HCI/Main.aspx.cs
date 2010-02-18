@@ -61,7 +61,7 @@ namespace HCI
                 genKML.AlternateText = "Generate KML File";
                 genKML.ToolTip = "Generate KML File";
                 genKML.Click += new ImageClickEventHandler(genKMLFunction);
-                genKML.CommandArgument = odbcName;                                                           
+                genKML.CommandArgument = odbcName;
 
 
                 //End button definition
@@ -106,20 +106,7 @@ namespace HCI
             //Delete the connection
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
-            deleteConnPanel.Visible = false;
-            Response.Redirect("Main.aspx");
-
-            /*AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-            mpe.BackgroundCssClass = "modalBackgroud";
-            mpe.DropShadow = true;
-            mpe.OkControlID = "delConn";
-            mpe.CancelControlID = "cancelDelConn";
-            mpe.PopupControlID = sendBtn.ToString();
-            mpe.ID = "DelConnModalPopUp";
-            mpe.TargetControlID = "delConnPanel";
-
-
-            delConn.CommandArgument = args.ToString();*/
+            Response.Redirect("http://www.google.com");
             
         }
 
@@ -129,16 +116,8 @@ namespace HCI
             ImageButton sendBtn = (ImageButton)sender;
             String args = sendBtn.CommandArgument.ToString();
             delConnBtn.CommandArgument = args[0].ToString();
-            //deleteConnPanel.Visible = true;
 
-            //AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-            //mpe.BackgroundCssClass = "modalBackgroud";
-            //mpe.DropShadow = true;
-            //mpe.OkControlID = "delConnButton";
-            //mpe.CancelControlID = "cancelDelConn";
-            //mpe.PopupControlID = sender.ToString();
-            //mpe.ID = "DelConnModalPopUp";
-            //mpe.TargetControlID = "deleteConnPanel";
+            this.deletePopupExtender.Show();
 
         }
 
