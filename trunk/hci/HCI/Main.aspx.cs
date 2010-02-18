@@ -24,6 +24,7 @@ namespace HCI
 
             //Get the number of DB tables from the database
             int numDBRows = 2;
+            int dbID;
             
             for (int i = 0; i < numDBRows; i++)
             {
@@ -46,11 +47,12 @@ namespace HCI
                 editConn.PostBackUrl = "Modify.aspx?ConnID=" + Convert.ToString(i);
 
                 ImageButton deleteConn = new ImageButton();
+                deleteConn.ID = "dc" + Convert.ToString(i);
                 deleteConn.CssClass = "deleteIcon";
                 deleteConn.ImageUrl = "graphics/connIcon.gif";
                 deleteConn.AlternateText = "Delete Connection";
                 deleteConn.ToolTip = "Delete Connection";
-                deleteConn.OnClientClick = "deleteConnFunction";
+                deleteConn.Click += new ImageClickEventHandler(confirmDelete);
                 deleteConn.CommandArgument = odbcName;
 
                 ImageButton genKML = new ImageButton();
@@ -58,8 +60,9 @@ namespace HCI
                 genKML.ImageUrl = "graphics/connIcon.gif";
                 genKML.AlternateText = "Generate KML File";
                 genKML.ToolTip = "Generate KML File";
-                genKML.OnClientClick = "genKMLFunction";
-                genKML.CommandArgument = odbcName;
+                genKML.Click += new ImageClickEventHandler(genKMLFunction);
+                genKML.CommandArgument = odbcName;                                                           
+
 
                 //End button definition
                 if (i % 2.00 == 0)
@@ -79,8 +82,6 @@ namespace HCI
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<table>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<tr>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                //ConnectionsAvailable.Controls.Add(new ControlBuilder("<asp:ImageButton ID=\"deleteConn1\" runat=\"server\" CssClass=\"deleteIcon\" ImageUrl=\"graphics/connIcon.gif\" AlternateText=\"Delete Connection\" ToolTip=\"Delete Connection\" OnClick=\"deleteConnFunction\" CommandArgument=\"none\" />"));
-                ConnectionsAvailable.Controls.Add(deleteConn);
                 ConnectionsAvailable.Controls.Add(openConn);
                 ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
@@ -102,13 +103,43 @@ namespace HCI
 
         protected void deleteConnFunction(object sender, EventArgs e)
         {
-            Response.Redirect("www.google.com", true);
+            //Delete the connection
+            Button sendBtn = (Button)sender;
+            String args = sendBtn.CommandArgument.ToString();
+            deleteConnPanel.Visible = false;
+            Response.Redirect("Main.aspx");
+
+            /*AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+            mpe.BackgroundCssClass = "modalBackgroud";
+            mpe.DropShadow = true;
+            mpe.OkControlID = "delConn";
+            mpe.CancelControlID = "cancelDelConn";
+            mpe.PopupControlID = sendBtn.ToString();
+            mpe.ID = "DelConnModalPopUp";
+            mpe.TargetControlID = "delConnPanel";
+
+
+            delConn.CommandArgument = args.ToString();*/
+            
+        }
+
+        protected void confirmDelete(object sender, EventArgs e)
+        {
             //Delete the connection
             ImageButton sendBtn = (ImageButton)sender;
-            string args = sendBtn.CommandArgument.ToString();
-            Conn1.Visible = true;
+            String args = sendBtn.CommandArgument.ToString();
+            delConnBtn.CommandArgument = args[0].ToString();
+            //deleteConnPanel.Visible = true;
 
-            Response.Redirect("~/Modify.aspx", true);
+            //AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+            //mpe.BackgroundCssClass = "modalBackgroud";
+            //mpe.DropShadow = true;
+            //mpe.OkControlID = "delConnButton";
+            //mpe.CancelControlID = "cancelDelConn";
+            //mpe.PopupControlID = sender.ToString();
+            //mpe.ID = "DelConnModalPopUp";
+            //mpe.TargetControlID = "deleteConnPanel";
+
         }
 
         protected void genKMLFunction(object sender, EventArgs e)

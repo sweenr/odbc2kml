@@ -50,15 +50,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel ConnectionsAvailable;
         
         /// <summary>
-        /// Conn1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Conn1;
-        
-        /// <summary>
         /// newConnection control.
         /// </summary>
         /// <remarks>
@@ -84,6 +75,33 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.ModalPopupExtender NewConn1ModalPopUp;
+        
+        /// <summary>
+        /// deleteConnPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel deleteConnPanel;
+        
+        /// <summary>
+        /// delConnBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button delConnBtn;
+        
+        /// <summary>
+        /// cancelDelConn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button cancelDelConn;
         
         /// <summary>
         /// newConnPanel control.

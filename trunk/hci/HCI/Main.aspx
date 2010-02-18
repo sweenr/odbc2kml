@@ -45,76 +45,56 @@
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Information</span>
                             <table cellspacing="0" cellpadding="10" class="connectionBox">
-                                <%--<asp:Literal ID="htmlContent" runat="server">
-                                </asp:Literal>--%>
-                                <asp:Panel ID="ConnectionsAvailable" runat="server" Visible="true"></asp:Panel>
-                                <tr class="oddConn">
-                                    <td>
-                                        <asp:Label ID="Conn1" runat="server" Text="ODBC Connection 1" Visible="false"></asp:Label>
-                                        <a href="#" title="Open Connection"></a>
-                                    </td>
-                                </tr>
-                                <%--<tr class="oddConn">
-                                    <td>
-                                        <asp:Label ID="Conn1" runat="server" Text="ODBC Connection 1"></asp:Label>
-                                        <a href="#" title="Open Connection"></a>
-                                    </td>
-                                    <td class="connIcons">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <asp:ImageButton ID="openConn1" runat="server" CssClass="openIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Open Connection" ToolTip="Open Connection" OnClick="openConnFunction" CommandArgument="none" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="editConn1" runat="server" CssClass="editIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Edit Connection" ToolTip="Edit Connection" OnClick="editConnFunction" CommandArgument="none" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="deleteConn1" runat="server" CssClass="deleteIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Delete Connection" ToolTip="Delete Connection" OnClick="deleteConnFunction" CommandArgument="none" />
-                                                </td>
-                                                <td>
-                                                    <asp:ImageButton ID="genKML1" runat="server" CssClass="kmlIcon" ImageUrl="graphics/connIcon.gif"
-                                                        AlternateText="Generate KML File" ToolTip="Generate KML File" OnClick="genKMLFunction" CommandArgument="none" />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>--%>
+                                <asp:Panel ID="ConnectionsAvailable" runat="server" Visible="true">
+                                </asp:Panel>
+                                <%--<ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="delConnBtn"
+                                    CancelControlID="cancelDelConn" runat="server" PopupControlID="deleteConnPanel"
+                                    ID="deletePopupExtender" TargetControlID="dc0"/>
+                                --%>
                             </table>
                             <div class="newConn">
                                 <div class="right">
                                     <table>
                                         <tr>
                                             <td>
-                                                <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif" AlternateText="Create Connection" ToolTip="New Connection" />
+                                                <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
+                                                    AlternateText="Create Connection" ToolTip="New Connection" />
                                             </td>
                                             <td>
                                                 <div class="newConnA">
                                                     <asp:HyperLink ID="newConnectionA" runat="server" ToolTip="New Connection">New Connection</asp:HyperLink>
-                                                    
                                                     <!-- Sample Extender for New Connection Button --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="newConnUpdate"
                                                         CancelControlID="newConnCancel" runat="server" PopupControlID="newConnPanel"
                                                         ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
-                                                        
-                                                                                 
-                                                        
                                                     <!-- Sample Panels for Connection Pop-Ups --->
-                                                    <asp:Panel ID="newConnPanel" runat="server" cssClass="boxPopupStyle" Style="display: none;">
+                                                    <asp:Panel ID="deleteConnPanel" runat="server" CssClass="boxPopupStyle" visible="false">
+                                                                <div class="mainBoxP">
+                                                                    <span id="DelSpan" visible="true" class="connectionStyle">&nbsp;Delete Connection</span>
+                                                                    <table cellspacing="0" cellpadding="10" class="mainBox2">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <div style="background-color: white; padding: 5px;">
+                                                                                    <div class="right" style="padding-top: 20px;">
+                                                                                        <asp:Button ID="delConnBtn" runat="server" Text="Delete" CssClass="button" ToolTip="Update"
+                                                                                            OnClick="deleteConnFunction" />
+                                                                                        &nbsp;&nbsp;
+                                                                                        <asp:Button ID="cancelDelConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                    </asp:Panel>
+                                                    <asp:Panel ID="newConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                         <div class="mainBoxP">
-                                                            <span class="connectionStyle">&nbsp;Connection Information</span>
+                                                            <span id="validConn" visible="true" class="connectionStyle">&nbsp;Connection Information</span>
                                                             <table cellspacing="0" cellpadding="10" class="mainBox2">
                                                                 <tr>
                                                                     <td>
                                                                         <div style="background-color: white; padding: 5px;">
                                                                             <table cellspacing="5">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <span class="connectionTitle">Connection Name: </span>
-                                                                                    </td>
-                                                                                </tr>
                                                                                 <tr>
                                                                                     <td>
                                                                                         <span class="connectionTitle">Connection Name: </span>
@@ -163,7 +143,7 @@
                                                                                         <asp:TextBox ID="odbcPWE" runat="server" CssClass="inputBox" Width="200" TextMode="Password"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
-                                                                            <tr>
+                                                                                <tr>
                                                                                     <td>
                                                                                         <span class="connectionTitle">Database Type:</span>
                                                                                     </td>
@@ -188,7 +168,7 @@
                                                             </table>
                                                         </div>
                                                     </asp:Panel>
-                                            </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </table>
