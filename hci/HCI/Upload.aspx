@@ -8,7 +8,6 @@
     <!--<style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>-->
-    
     <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script> 
     <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
@@ -20,7 +19,6 @@
 
     
     </script>
-
     <!--<script src="jquery/jquery-test.js" type="text/javascript"></script>-->
     <!--<link rel="stylesheet" type="text/css" href="jquery/Stylesheet1.css" />-->
 </head>
