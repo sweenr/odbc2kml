@@ -214,9 +214,9 @@ namespace HCI
 
                 foreach(DataRow row in table.Rows)
                 {
+                    Overlay newOverlay = new Overlay();
                     foreach(DataColumn col in table.Columns)
                     {
-                        Overlay newOverlay = new Overlay();
                         if (col.ColumnName == "ID") //Branch off and get the conditions
                         {
                             //Create the new table for another query
@@ -271,9 +271,10 @@ namespace HCI
                         {
                             newOverlay.setColor(row[col].ToString());
                         }
-                        //Add the overlay to the list of overlays
-                        this.overlays.Add(newOverlay);
                     }
+                    //Add the overlay to the list of overlays
+                    this.setOverlays(newOverlay);
+                    newOverlay = null;
                 }//End outer loop
 
                 //Clear table
@@ -408,6 +409,7 @@ namespace HCI
                             newTable = null;
                         }
                     }
+                    this.setIcons(newIcon);
                     //Free up icon memory
                     newIcon = null;
 
