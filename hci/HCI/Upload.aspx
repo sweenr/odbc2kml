@@ -46,7 +46,7 @@
                 <ul>
                     <li>Please check fetch if you would like to have the file saved on the server</li>
                     <li>
-                        <asp:CheckBox ID="fetchCheckBox" runat="server" />
+                        <asp:CheckBox ID="fetchCheckBox" runat="server" Text="Fetch"/>
                     </li>
                     <li>Please enter the URL of the icon you would like to use</li>
                     <li>
