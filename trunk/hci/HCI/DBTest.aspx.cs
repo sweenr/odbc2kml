@@ -18,17 +18,91 @@ namespace HCI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                Database db = new Database();
+                DataTable dt;
 
+                dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
+                connectionSelector.DataSource = dt;
+                connectionSelector.DataTextField = "name";
+                connectionSelector.DataValueField = "id";
+                connectionSelector.DataBind();
+                connectionSelector.Items.Add("local");
+            }
         }
 
         protected void executeQuery(object sender, EventArgs e)
         {
-            Database db = new Database();
+            Database db;
             DataTable dt;
             Label title = new Label();
 
-            dt = db.executeQueryLocal(queryString.Text);
 
+            if (connectionSelector.SelectedItem.Text == "local")
+            {
+                db = new Database();
+
+                dt = db.executeQueryLocal(queryString.Text);
+            }
+            else
+            {
+                ConnInfo info = new ConnInfo();
+                
+                db = new Database();
+
+                string query = "SELECT * FROM Connection WHERE ID=" + connectionSelector.SelectedItem.Value;
+                dt = db.executeQueryLocal(query);
+
+                //Cycle through each row and column
+                foreach(DataRow row in dt.Rows)
+                {
+                   
+                    foreach(DataColumn col in dt.Columns)
+                    {
+                        //Set all connInfo
+                        switch(col.ColumnName) 
+                        {
+                            case "name":
+                                info.setConnectionName(row[col].ToString());
+                                break;
+                            case "dbName":
+                                info.setDatabaseName(row[col].ToString());
+                                break;
+                            case "userName":
+                                info.setUserName(row[col].ToString());
+                                break;
+                            case "password":
+                                info.setPassword(row[col].ToString());
+                                break;
+                            case "port":
+                                info.setPortNumber(row[col].ToString());
+                                break;
+                            case "address":
+                                info.setServerAddress(row[col].ToString());
+                                break;
+                            case "type":
+                                info.setDatabaseType(int.Parse(row[col].ToString()));
+                                break;
+                            case "protocol":
+                                info.setOracleProtocol(row[col].ToString());
+                                break;
+                            case "serviceName":
+                                info.setOracleServiceName(row[col].ToString());
+                                break;
+                            case "SID":
+                                info.setOracleSID(row[col].ToString());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }//End outer loop
+                
+                db.setConnInfo(info);
+                dt = db.executeQueryRemote(queryString.Text);
+
+            }
             
 
             resultsPanel.Visible = true;
