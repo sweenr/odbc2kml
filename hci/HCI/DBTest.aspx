@@ -16,6 +16,8 @@
     <asp:ScriptManager ID="dbtestManager" runat="server">
     </asp:ScriptManager>
     <div>
+        <asp:DropDownList runat="server" ID="connectionSelector">
+        </asp:DropDownList>
         <asp:TextBox runat="server" CssClass="inputBox" Width="150" ID="queryString" />
         <asp:Button runat="server" ID="runQuery" OnClick="executeQuery" Text="Submit" />
         <asp:Button ID="showResults" runat="server" Text="Show Results" CssClass="button" />
