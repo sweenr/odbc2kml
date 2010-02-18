@@ -206,5 +206,10 @@ namespace HCI
             //Return the data table to be operated on
             return dataTable;
         }
+
+        public void setConnInfo(ConnInfo info)
+        {
+            connInfo = info;
+        }
     }
 }
