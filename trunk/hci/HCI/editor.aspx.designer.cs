@@ -32,6 +32,69 @@ namespace HCI {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// DBLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DBLabel;
+        
+        /// <summary>
+        /// DBTPanel0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel DBTPanel0;
+        
+        /// <summary>
+        /// DBTLabel0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DBTLabel0;
+        
+        /// <summary>
+        /// DBTPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel DBTPanel;
+        
+        /// <summary>
+        /// GridViewTables control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridViewTables;
+        
+        /// <summary>
+        /// selectedGVTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField selectedGVTable;
+        
+        /// <summary>
+        /// GridViewColumns control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridViewColumns;
+        
+        /// <summary>
         /// dLabel control.
         /// </summary>
         /// <remarks>
@@ -167,6 +230,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Label iTableN;
         
         /// <summary>
+        /// UpdateTables control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateTables;
+        
+        /// <summary>
         /// iTableNBox control.
         /// </summary>
         /// <remarks>
@@ -212,6 +284,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Label iTableFN;
         
         /// <summary>
+        /// UpdateFieldTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateFieldTable;
+        
+        /// <summary>
         /// iTableFNBox control.
         /// </summary>
         /// <remarks>
@@ -228,6 +309,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label iColFN;
+        
+        /// <summary>
+        /// UpdateFieldCol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateFieldCol;
         
         /// <summary>
         /// iColFNBox control.
@@ -275,6 +365,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Label iTableIN;
         
         /// <summary>
+        /// UpdateImageTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateImageTable;
+        
+        /// <summary>
         /// iTableINBox control.
         /// </summary>
         /// <remarks>
@@ -291,6 +390,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label iColIN;
+        
+        /// <summary>
+        /// UpdateImageCol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateImageCol;
         
         /// <summary>
         /// iColINBox control.
@@ -336,6 +444,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SQLTables;
+        
+        /// <summary>
+        /// SQLColGen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SQLColGen;
         
         /// <summary>
         /// SQLColumns control.
