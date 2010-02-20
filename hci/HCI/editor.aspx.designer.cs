@@ -95,6 +95,51 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.GridView GridViewColumns;
         
         /// <summary>
+        /// columnMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel columnMessage;
+        
+        /// <summary>
+        /// selectTableMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label selectTableMessage;
+        
+        /// <summary>
+        /// columnButtons control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel columnButtons;
+        
+        /// <summary>
+        /// addLatLong control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addLatLong;
+        
+        /// <summary>
+        /// viewTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button viewTable;
+        
+        /// <summary>
         /// dLabel control.
         /// </summary>
         /// <remarks>

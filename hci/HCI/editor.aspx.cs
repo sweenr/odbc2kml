@@ -158,6 +158,8 @@ namespace HCI
 
         protected void GridViewTables_SelectedIndexChanged(object sender, EventArgs e)
         {
+            columnButtons.Visible = true;
+            columnMessage.Visible = false;
             string selectedTable = GridViewTables.SelectedValue.ToString();
             selectedGVTable.Value = selectedTable;
             SQLColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
@@ -167,6 +169,11 @@ namespace HCI
         protected void GridViewColumns_PageIndexChanged(object sender, EventArgs e)
         {
             SQLColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+        }
+
+        protected void viewTable_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
