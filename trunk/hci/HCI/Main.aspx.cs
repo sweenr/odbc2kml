@@ -19,7 +19,10 @@ namespace HCI
         protected void Page_Load(object sender, EventArgs e)
         {
             //Get the DB stuff from here
-            //htmlContent.Text = "";
+            //Database db = new Database();
+            //DataTable dt;
+            //dt = db.executeQueryLocal("SELECT ID,name FROM Connection");
+
             string odbcName = "";
 
             //Get the number of DB tables from the database
@@ -37,14 +40,14 @@ namespace HCI
                 openConn.ImageUrl = "graphics/connIcon.gif";
                 openConn.AlternateText = "Open Connection";
                 openConn.ToolTip = "Open Connection";
-                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + Convert.ToString(i);
+                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + odbcName;
 
                 ImageButton editConn = new ImageButton();
                 editConn.CssClass = "editIcon";
                 editConn.ImageUrl = "graphics/connIcon.gif";
                 editConn.AlternateText = "Edit Connection";
                 editConn.ToolTip = "Edit Connection";
-                editConn.PostBackUrl = "Modify.aspx?ConnID=" + Convert.ToString(i);
+                editConn.PostBackUrl = "Modify.aspx?ConnID=" + odbcName;
 
                 ImageButton deleteConn = new ImageButton();
                 deleteConn.ID = "dc" + Convert.ToString(i);
@@ -106,15 +109,16 @@ namespace HCI
             //Delete the connection
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
-            Response.Redirect("http://www.google.com");
+            this.deletePopupExtender.Hide();
+            Response.Redirect("Main.aspx");
             
         }
 
         protected void confirmDelete(object sender, EventArgs e)
         {
-            //Delete the connection
             ImageButton sendBtn = (ImageButton)sender;
             String args = sendBtn.CommandArgument.ToString();
+            delConnBtn.Click += new EventHandler(deleteConnFunction);
             delConnBtn.CommandArgument = args[0].ToString();
 
             this.deletePopupExtender.Show();
@@ -132,51 +136,66 @@ namespace HCI
 
         protected void createConnection(object sender, EventArgs e)
         {
+            //this.NewConn1ModalPopUp.Hide();
 
-            String ConnName = odbcNameE.ToString();
-            String ConnDBName = odbcDNameE.ToString();
-            String ConnDBAddress = odbcDatabaseE.ToString();
-            String ConnPortNum = odbcPNE.ToString();
-            String ConnUser = odbcUserE.ToString();
-            String ConnPWD = odbcPWE.ToString();
+            String ConnName = odbcNameE.Text.ToString();
+            String ConnDBName = odbcDNameE.Text.ToString();
+            String ConnDBAddress = odbcDatabaseE.Text.ToString();
+            String ConnPortNum = odbcPNE.Text.ToString();
+            String ConnUser = odbcUserE.Text.ToString();
+            String ConnPWD = odbcPWE.Text.ToString();
             String ConnDBType = DropDownList4.SelectedItem.ToString();
 
             if (ConnName.Equals(""))
             {
-                
-                return;
-            }
-            if (ConnDBName.Equals(""))
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                //return;
+            }else if (ConnDBName.Equals(""))
             {
-                
-                return;
-            }
-            if (ConnDBAddress.Equals(""))
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                //return;
+            }else if (ConnDBAddress.Equals(""))
             {
-                
-                return;
-            }
-            if (ConnPortNum.Equals(""))
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                //return;
+            }else if (ConnPortNum.Equals(""))
             {
-                
-                return;
-            }
-            if (ConnUser.Equals(""))
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                //return;
+            }else if(ConnUser.Equals(""))
             {
-                
-                return;
-            }
-            if (ConnPWD.Equals(""))
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                //return;
+            }else if (ConnPWD.Equals(""))
             {
-                
-                return;
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                //return;
             }
 
             //Call Create DB with the DB Function
             String connID = "";
+            
 
             //Jump to the Modify page
-            Response.Redirect("Modify.aspx?ConnID=" + connID, true);
+            //Response.Redirect("Modify.aspx?ConnID=" + connID, true);
         }
     }
 }
