@@ -18,8 +18,79 @@ namespace HCI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                //No ID, redirect to main
+                if (Request.QueryString.Get("ConnID") == null)
+                {
+                    Response.Redirect("Main.aspx");
+                }
+                else
+                {
+                    //Grab and parse connection ID
+                    int conID = int.Parse(Request.QueryString.Get("ConnID"));
+                    
+                    //Create ConnInfo object and populate elements
+                    ConnInfo connInfo = ConnInfo.getConnInfo(conID);
 
+                    //Set Connection Information accordingly
+                    odbcAdd.Text = connInfo.getServerAddress();
+                    odbcDName.Text = connInfo.getDatabaseName();
+                    odbcName.Text = connInfo.getConnectionName();
+                    odbcPass.Attributes.Add("value", connInfo.getPassword());
+                    odbcPN.Text = connInfo.getPortNumber();
+                    odbcUser.Text = connInfo.getUserName();
+                    odbcProtocol.Text = connInfo.getOracleProtocol();
+                    odbcSName.Text = connInfo.getOracleServiceName();
+                    odbcSID.Text = connInfo.getOracleSID();
+                    
+                    //Set drop down box accordingly
+                    if (connInfo.getDatabaseType() == ConnInfo.MSSQL) 
+                    {
+                        odbcDBType.SelectedValue = "SQL";
+                    }
+                    else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)                    
+                    {
+                        odbcDBType.SelectedValue = "MySQL";
+                    }
+                    else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                    {
+                        odbcDBType.SelectedValue = "Oracle";
+                    }
+                    else //Default set to SQL
+                    {
+                        odbcDBType.SelectedValue = "SQL";
+                    }
+
+                    //Garbage collection
+                    connInfo = null;
+                }
+
+                ConnSMgr2.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
+               + "function()"
+               + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
+               + "else { $('#oracleTable').css('display', 'none');}"
+               + "})</script>"));
+            }
         }
+
+       /* protected void oracleFields(object sender, EventArgs e)
+        {      
+        
+            if(odbcDBType.SelectedValue == "Oracle")
+            {
+                ConnSMgr2.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
+                + "function()"
+                + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
+                + "else { $('#oracleTable').css('display', 'none');}" 
+                + "})</script>"));
+            }
+            else 
+            {
+                //$("#oracleTable").css("display", "none");
+            }
+     
+        }*/
 
         protected void genDBTCol(object sender, EventArgs e)
         {

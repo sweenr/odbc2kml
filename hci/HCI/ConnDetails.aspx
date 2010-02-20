@@ -18,11 +18,6 @@
     </style>
 
     <script type="text/JavaScript">
-        $(document).ready(function (){
-            $("#DBType").change(oracleFields);
-            $("#oracleTable").css("display", "none");
-        });
-        
         function OnColorOpen(sender)
         {
           var elVPosition = "BOTTOM";
@@ -35,18 +30,6 @@
           sender.setHorizontalPosition(elHPosition);
           elTOffset.value = sender.setOffsetTop (elTOffset);
           elLOffset.value = sender.setOffsetLeft(elLOffset);
-        }
-        
-        function oracleFields()
-        {
-            if($("#DBType").val() == "Oracle")
-            {
-                $("#oracleTable").css("display", "block");
-            }
-            else 
-            {
-                $("#oracleTable").css("display", "none");
-            }
         }
     </script>
 
@@ -145,7 +128,7 @@
                                                         <span class="connectionTitle">Database Type:</span>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="DBType" runat="server">
+                                                        <asp:DropDownList ID="odbcDBType" runat="server">
                                                             <asp:ListItem Text="SQL"></asp:ListItem>
                                                             <asp:ListItem Text="MySQL"></asp:ListItem>
                                                             <asp:ListItem Text="Oracle"></asp:ListItem>
