@@ -10,13 +10,32 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
+    <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script> 
+    <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+    <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+	$(function() {
+		$("#errorPanel1").dialog({
+			bgiframe: true,
+			modal: true,
+			autoOpen: false,
+			title: 'Error!',
+			dialogClass: 'alert',
+			buttons: {
+				Ok: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	});
+	</script>
 </head>
 <body>
     <form id="form1" runat="server">
     <asp:ScriptManager ID="dbtestManager" runat="server">
     </asp:ScriptManager>
     <div>
-        <asp:DropDownList runat="server" ID="connectionSelector">
+        <asp:DropDownList runat="server" ID="connectionSelector" AutoPostBack="true">
         </asp:DropDownList>
         <asp:TextBox runat="server" CssClass="inputBox" Width="300" ID="queryString" />
         <asp:Button runat="server" ID="runQuery" OnClick="executeQuery" Text="Show Results" CssClass="button"/>
@@ -25,7 +44,7 @@
             TargetControlID="runQuery" />
         <asp:Panel ID="resultsPanel" runat="server" visible="false" Style="display: none;" CssClass="boxPopupStyle">
         </asp:Panel>
-        <asp:Panel ID="errorPanel1" runat="server" visible="false" Style="display: none;">
+        <asp:Panel ID="errorPanel1" runat="server" visible="true" Style="color: White" >
         </asp:Panel>
     </div>
     </form>

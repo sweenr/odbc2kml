@@ -18,6 +18,8 @@ namespace HCI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+            
             if (!IsPostBack)
             {
                 Database db = new Database();
@@ -30,6 +32,7 @@ namespace HCI
                 connectionSelector.DataBind();
                 connectionSelector.Items.Add("local");
             }
+
         }
 
         protected void executeQuery(object sender, EventArgs e)
@@ -58,6 +61,11 @@ namespace HCI
 
                     string query = "SELECT * FROM Connection WHERE ID=" + connectionSelector.SelectedItem.Value;
                     dt = db.executeQueryLocal(query);
+
+                    if (dt.HasErrors)
+                    {
+                        throw exception;
+                    }
 
                     //Cycle through each row and column
                     foreach (DataRow row in dt.Rows)
@@ -113,7 +121,7 @@ namespace HCI
 
                 resultsPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Database Query Results</span>"));
                 resultsPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">"));
-                //resultsPanel.Controls.Add(new LiteralControl("<div width=\"100%\" class=\"dbColumns\">"));
+                
                 resultsPanel.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"0\" class=\"mainBox2\">"));
 
                 resultsPanel.Controls.Add(new LiteralControl("<tr><td>"));
@@ -146,10 +154,11 @@ namespace HCI
 
                 ModalPopupExtender6.Show();
             }
-            catch
+            catch(Exception exception)
             {
                 errorPanel1.Visible = true;
-                errorPanel1.Controls.Add(new LiteralControl("<div><p>ZOMG ERRORS</p></div>"));
+                errorPanel1.Controls.Add(new LiteralControl("<div style=\"color: black\"><p>"+exception.Message+"</p></div>"));
+                errorPanel1.Controls.Add(new LiteralControl("<script type=\"text/javascript\">$(\"#errorPanel1\").dialog('open')</script>"));
             }
         }
     }
