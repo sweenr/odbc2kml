@@ -7,11 +7,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head2" runat="server">
     <title>Connection Details</title>
+
+    <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script>
+
+    <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+
+    <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
 
     <script type="text/JavaScript">
+        $(document).ready(function (){
+            $("#DBType").change(oracleFields);
+            $("#oracleTable").css("display", "none");
+        });
+        
         function OnColorOpen(sender)
         {
           var elVPosition = "BOTTOM";
@@ -24,6 +35,18 @@
           sender.setHorizontalPosition(elHPosition);
           elTOffset.value = sender.setOffsetTop (elTOffset);
           elLOffset.value = sender.setOffsetLeft(elLOffset);
+        }
+        
+        function oracleFields()
+        {
+            if($("#DBType").val() == "Oracle")
+            {
+                $("#oracleTable").css("display", "block");
+            }
+            else 
+            {
+                $("#oracleTable").css("display", "none");
+            }
         }
     </script>
 
@@ -47,7 +70,8 @@
                                 </td>
                                 <td>
                                     <div class="newConnA">
-                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a></div>
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -73,8 +97,7 @@
                                                         <span class="connectionTitle">Connection Name: </span>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="odbcName" id="odbcName" size="50" class="inputBox" title=""
-                                                            value="ODBC2KML Connection 1" />
+                                                        <asp:TextBox runat="server" ID="odbcName" Width="300" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -82,8 +105,7 @@
                                                         <span class="connectionTitle">Database Address: </span>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="odbcLoc" id="odbcLoc" size="50" class="inputBox" title=""
-                                                            value="Database Address" />
+                                                        <asp:TextBox runat="server" ID="odbcAdd" Width="300" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -91,8 +113,7 @@
                                                         <span class="connectionTitle">Port Number: </span>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="odbcLoc" id="odbcPN" size="20" class="inputBox" title=""
-                                                            value="Port #" />
+                                                        <asp:TextBox runat="server" ID="odbcPN" Width="75" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -100,8 +121,7 @@
                                                         <span class="connectionTitle">Database Name: </span>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="odbcLoc" id="odbcDName" size="50" class="inputBox" title=""
-                                                            value="Database Name" />
+                                                        <asp:TextBox runat="server" ID="odbcDName" Width="300" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -109,8 +129,7 @@
                                                         <span class="connectionTitle">Username: </span>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="odbcLoc" id="odbcUser" size="50" class="inputBox" title=""
-                                                            value="Username" />
+                                                        <asp:TextBox runat="server" ID="odbcUser" Width="300" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -118,8 +137,7 @@
                                                         <span class="connectionTitle">Password: </span>
                                                     </td>
                                                     <td>
-                                                        <input type="password" name="odbcLoc" id="odbcPassword" size="50" class="inputBox"
-                                                            title="" value="Password" />
+                                                        <asp:TextBox runat="server" TextMode="Password" ID="odbcPass" Width="300" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -127,7 +145,7 @@
                                                         <span class="connectionTitle">Database Type:</span>
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="DropDownList4" runat="server">
+                                                        <asp:DropDownList ID="DBType" runat="server">
                                                             <asp:ListItem Text="SQL"></asp:ListItem>
                                                             <asp:ListItem Text="MySQL"></asp:ListItem>
                                                             <asp:ListItem Text="Oracle"></asp:ListItem>
@@ -135,7 +153,33 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <div align="right">
+                                            <table cellspacing="5" id="oracleTable">
+                                                <tr id="odbcProtocolRow">
+                                                    <td>
+                                                        <span class="connectionTitle">Protocol:</span>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox runat="server" ID="odbcProtocol" Width="300" CssClass="inputBox" />
+                                                    </td>
+                                                </tr>
+                                                <tr id="odbcSNameRow">
+                                                    <td>
+                                                        <span class="connectionTitle">Service Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox runat="server" ID="odbcSName" Width="300" CssClass="inputBox" />
+                                                    </td>
+                                                </tr>
+                                                <tr id="odbcSIDRow">
+                                                    <td>
+                                                        <span class="connectionTitle">Service ID:</span>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox runat="server" ID="odbcSID" Width="300" CssClass="inputBox" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div class="right">
                                                 <input type="submit" name="submit" value="Connect" class="button" />
                                             </div>
                                         </div>
@@ -208,7 +252,7 @@
                                     <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton"
                                         ToolTip="Add Field/Image" />&nbsp;&nbsp;
                                     <asp:Button ID="DescPopup" runat="server" Text="Table and Field" CssClass="descbutton"
-                                        ToolTipe="Set Table and Field name"/>&nbsp;&nbsp;
+                                        ToolTipe="Set Table and Field name" />&nbsp;&nbsp;
                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="DescPopupOk"
                                         CancelControlID="DescPopupCan" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender6"
                                         TargetControlID="DescPopup" />
@@ -709,8 +753,6 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
-                                                                                <p>
-                                                                                </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
                                                                                     <tr>
                                                                                         <td>
@@ -724,8 +766,6 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
-                                                                                <p>
-                                                                                </p>
                                                                                 <table class="omainBox5" cellspacing="0" cellpadding="0">
                                                                                     <tr class="tableTRTitle">
                                                                                         <td class="tableTD">
