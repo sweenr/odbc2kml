@@ -2,7 +2,7 @@
 
 = Introduction =
 
-There is a problem with the database that I created for our data and put on the SVN. The ID fields in the database do not auto-increment and the location field in IconLibrary (set to 50) is to small.  Also this describes how to run a query against your local database using visual studio.
+There is a problem with the database that I created for our data and put on the SVN. The ID fields in the database do not auto-increment and the location field in IconLibrary  (set to 50) is to small.  Also this describes how to run a query against your local database using visual studio.
 
 
 = Details =
@@ -28,7 +28,7 @@ To run queries in visual studio do steps 1-2 above
 
 = Needed Fixes =
   # Change format in Mapping table to an int
-  # Add protocol to ConnInfo table (string)
-  # Add SID to ConnInfo table (string)
-  # Add serviceName to ConnInfo table (string)
-  # Add type to ConnInfo table (int)
+  # Add protocol to Connection table as varchar(150)
+  # Add SID to Connection table as varchar(150)
+  # Add serviceName to Connection table as varchar(150)
+  # Add type to Connection table (int)
