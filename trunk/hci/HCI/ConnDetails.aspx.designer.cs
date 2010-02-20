@@ -95,13 +95,13 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox odbcPass;
         
         /// <summary>
-        /// DBType control.
+        /// odbcDBType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DBType;
+        protected global::System.Web.UI.WebControls.DropDownList odbcDBType;
         
         /// <summary>
         /// odbcProtocol control.

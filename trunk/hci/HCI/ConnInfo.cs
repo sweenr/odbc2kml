@@ -36,6 +36,9 @@ namespace HCI
         //Constructors
         public ConnInfo()
         {
+            oracleProtocol = "";
+            oracleServiceName = "";
+            oracleSID = "";
 
         }
 
