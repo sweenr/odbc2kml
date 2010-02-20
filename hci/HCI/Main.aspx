@@ -149,8 +149,8 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <asp:DropDownList ID="DropDownList4" runat="server">
-                                                                                            <asp:ListItem Text="SQL"></asp:ListItem>
                                                                                             <asp:ListItem Text="MySQL"></asp:ListItem>
+                                                                                            <asp:ListItem Text="MSSQL"></asp:ListItem>
                                                                                             <asp:ListItem Text="Oracle"></asp:ListItem>
                                                                                         </asp:DropDownList>
                                                                                     </td>
