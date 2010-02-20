@@ -69,10 +69,6 @@ namespace HCI
                 //Close connection
                 connection.Close();
             }
-            catch (OdbcException e) 
-            {
-                //Add Error Handler Code
-            }
             finally
             {
                 //Close the connection
@@ -131,8 +127,8 @@ namespace HCI
 
                 // This is your table to hold the result set:
                 
-                try
-                {
+                //try
+                //{
                     //Open the connection to the database
                     connection.Open();
 
@@ -141,19 +137,15 @@ namespace HCI
 
                     //Close connection
                     connection.Close();
-                }
-                catch (OdbcException e)
-                {
-                    //Add Error Handler Code
-                }
-                finally
-                {
+                //}
+                //finally
+                //{
                     //Close the connection
                     if (connection.State != ConnectionState.Closed)
                     {
                         connection.Close();
                     }
-                }
+                //}
 
             }
             //Database type = oracle
@@ -185,14 +177,14 @@ namespace HCI
                     connection.Open();
 
                     OracleDataReader reader = command.ExecuteReader();
-                    try
-                    {
+                   // try
+                   // {
                         dataTable.Load(reader);
-                    }
-                    finally
-                    {
+                   // }
+                   // finally
+                   // {
                         reader.Close();
-                    }
+                   // }
 
                 }
             }
