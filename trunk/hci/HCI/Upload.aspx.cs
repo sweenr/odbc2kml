@@ -35,7 +35,7 @@ namespace HCI
                         valid = true;
                     }
                 }
-                if (valid && ValidateFileDimensions())
+                if (valid && ValidateFileDimensions(fileUpEx.PostedFile.InputStream))
                 {
                     String filepath = fileUpEx.PostedFile.FileName;
                     //string pat = @"\\(?:.+)\\(.+)\.(.+)";
@@ -49,23 +49,18 @@ namespace HCI
 
                     //save the file to the server
                     fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
-                    lblStatus.Text = "File Saved to: " + fileSaveLoc + file;
+                    messages.Text = "File Saved to: " + fileSaveLoc + file;
                 }
                 else if (!valid)
                 {
-                    lblStatus.Text = "Current File type = " + fileUpEx.PostedFile.ContentType + " File type not appropriate (only jpg, gif, tiff, png, bmp accepted)";
+                    messages.Text = "Current File type = " + fileUpEx.PostedFile.ContentType + " File type not appropriate (only jpg, gif, tiff, png, bmp accepted)";
                 }
                 else
                 {
-                    lblStatus.Text = "File dimensions to large (max 128 x 128)";
+                    messages.Text = "File dimensions to large (max 128 x 128)";
                 }
             }
         }
-        //protected void fetchSubmitClick(object sender, EventArgs e)
-        //{
-        //    fetch = !fetch;
-        //    Response.Write("FETCH!");
-        //}
         protected void URLsubmitClick(object sender, EventArgs e)
         {
             String URL = URLtextBox.Text.Trim();
@@ -77,23 +72,65 @@ namespace HCI
         {
             String URL = URLtextBox.Text.Trim();
             Database DB = new Database();
+            WebClient Client = new WebClient();
+            String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
+            String ext = System.IO.Path.GetExtension(URL);
+            String suffix = GetRandomString();
+            String tempName = tempSaveLoc + fileName + suffix + ext;
+            Client.DownloadFile(URL, tempName);
+            bool valid = false;
+            foreach (String type in validTypes)
+            {
+                String localFileType = GetContentType(tempName);
+                if (localFileType.Equals(type))
+                {
+                    valid = true;
+                }
+            }
+            FileStream fs = File.OpenRead(tempName);
             if (fetchCheckBox.Checked)
             {
-                WebClient Client = new WebClient();
-                String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
-                String ext = System.IO.Path.GetExtension(URL);
-                String suffix = GetRandomString();
-                String tempName = tempSaveLoc + fileName + suffix + ext;
                 String Name = fileSaveLoc + fileName + suffix + ext;
-                Client.DownloadFile(URL, tempName);
-                //add conditions
-                File.Move(tempName, Name);
-                File.Delete(tempName);
-                DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + Name + "\', 1)");
+                if(valid && ValidateFileDimensions(fs))
+                {
+                    fs.Close();
+                    File.Move(tempName, Name);
+                    File.Delete(tempName);
+                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + Name + "\', 1)");
+                }
+                else if (!valid)
+                {
+                    fs.Close();
+                    File.Delete(tempName);
+                    messages.Text = "You linked to an invalid file type";
+                }
+                else
+                {
+                    fs.Close();
+                    File.Delete(tempName);
+                    messages.Text = "The file you linked to was to large (max 128 x 128)";
+                }
             }
             else
             {
-                DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+                if (valid && ValidateFileDimensions(fs))
+                {
+                    fs.Close();
+                    File.Delete(tempName);
+                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+                }
+                else if (!valid)
+                {
+                    fs.Close();
+                    File.Delete(tempName);
+                    messages.Text = "You linked to an invalid file type";
+                }
+                else
+                {
+                    fs.Close();
+                    File.Delete(tempName);
+                    messages.Text = "The file you linked to was to large (max 128 x 128)";
+                }
             }
         }
         public static string GetRandomString()
@@ -113,14 +150,23 @@ namespace HCI
             this.validTypes.Add("image/x-tiff");
             this.validTypes.Add("image/x-windows-bmp");
         }
-        public bool ValidateFileDimensions()
+        private bool ValidateFileDimensions(Stream input)
         {
             using (System.Drawing.Image myImage =
-              System.Drawing.Image.FromStream(fileUpEx.PostedFile.InputStream))
+              System.Drawing.Image.FromStream(input))
             {
                 return (myImage.Height <= height && myImage.Width <= width);
             }
-        } 
+        }
+        private string GetContentType(string fileName)
+        {
+            string contentType = "application/octetstream";
+            string ext = System.IO.Path.GetExtension(fileName).ToLower();
+            Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
+            if (registryKey != null && registryKey.GetValue("Content Type") != null)
+                contentType = registryKey.GetValue("Content Type").ToString();
+            return contentType;
+        }
         //private bool fetch;
         //private String URL;
         //private Database DB;
