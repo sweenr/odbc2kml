@@ -75,7 +75,20 @@
                                 <EditRowStyle BackColor="#2461BF" />
                                 <AlternatingRowStyle BackColor="White" />
                             </asp:GridView>
-                        
+                            <asp:Panel ID="columnMessage" runat="server" Visible="true"><p></p>
+                            <asp:Label ID="selectTableMessage" runat="server" Text="Select a database table to view the table's columns and latitude/longitude information." CssClass="descLabel"></asp:Label>
+                            </asp:Panel>
+                            <asp:Panel ID="columnButtons" runat="server" Visible="false">
+                            <p></p>
+                        <div class="right">
+                        <table><tr><td>
+                            <asp:Button ID="addLatLong" runat="server" Text="Add Lat/Long" ToolTip="Add Lat/Long" CssClass="button"/>
+                        </td><td>
+                            <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table" 
+                                    CssClass="button" onclick="viewTable_Click"/>
+                        </td></tr></table>
+                        </div>
+                        </asp:Panel>
                         </td>
                     </tr>
                 </table>
