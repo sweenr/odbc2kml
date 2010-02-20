@@ -87,7 +87,8 @@
                                                         <asp:Label ID="iTableN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="iTableNBox" runat="server">
+                                                        <asp:DropDownList ID="iTableNBox" runat="server" DataSourceID="SQLTables" 
+                                                            DataTextField="TABLE_NAME" DataValueField="TABLE_NAME">
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td>
@@ -121,7 +122,8 @@
                                                         <asp:Label ID="iTableFN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="iTableFNBox" runat="server">
+                                                        <asp:DropDownList ID="iTableFNBox" runat="server" DataSourceID="SQLTables" 
+                                                            DataTextField="TABLE_NAME" DataValueField="TABLE_NAME">
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td>
@@ -132,7 +134,8 @@
                                                         <asp:Label ID="iColFN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="iColFNBox" runat="server">
+                                                        <asp:DropDownList ID="iColFNBox" runat="server" DataSourceID="SQLColumns" 
+                                                            DataTextField="COLUMN_NAME" DataValueField="COLUMN_NAME">
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td>
@@ -166,7 +169,9 @@
                                                         <asp:Label ID="iTableIN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="iTableINBox" runat="server">
+                                                        <asp:DropDownList ID="iTableINBox" runat="server" DataSourceID="SQLTables" 
+                                                            DataTextField="TABLE_NAME" DataValueField="TABLE_NAME">
+                                                            
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td>
@@ -177,7 +182,8 @@
                                                         <asp:Label ID="iColIN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="iColINBox" runat="server">
+                                                        <asp:DropDownList ID="iColINBox" runat="server" DataSourceID="SQLColumns" 
+                                                            DataTextField="COLUMN_NAME" DataValueField="COLUMN_NAME">
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td>
@@ -213,6 +219,18 @@
             </div>
         </div>
     </div>
+    <asp:SqlDataSource ID="SQLTables" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:editorTableConn %>" 
+        ProviderName="<%$ ConnectionStrings:editorTableConn.ProviderName %>" SelectCommand="SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'test'"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="SQLColumns" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:editorTableConn %>" 
+        ProviderName="<%$ ConnectionStrings:editorTableConn.ProviderName %>" 
+        SelectCommand="SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = @TABLE_NAME)">
+       <SelectParameters>
+        <asp:ControlParameter ControlID="iTableINBox" Name="TABLE_NAME" PropertyName="SelectedValue" Type="String" />
+        </SelectParameters>
+
+    </asp:SqlDataSource>
     </form>
 </body>
 </html>
