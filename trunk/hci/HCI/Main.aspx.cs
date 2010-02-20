@@ -19,35 +19,30 @@ namespace HCI
         protected void Page_Load(object sender, EventArgs e)
         {
             //Get the DB stuff from here
-            //Database db = new Database();
-            //DataTable dt;
-            //dt = db.executeQueryLocal("SELECT ID,name FROM Connection");
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
+            int i = 0;
 
-            string odbcName = "";
-
-            //Get the number of DB tables from the database
-            int numDBRows = 2;
-            int dbID;
-            
-            for (int i = 0; i < numDBRows; i++)
+            foreach (DataRow dr in dt.Rows)
             {
-                odbcName = Convert.ToString(i) ;
+                string dbID = dr.ItemArray.ElementAt(0).ToString();
+                string odbcName = dr.ItemArray.ElementAt(1).ToString();
                 
                 //Defines buttons
-
                 ImageButton openConn = new ImageButton();
                 openConn.CssClass = "openIcon";
                 openConn.ImageUrl = "graphics/connIcon.gif";
                 openConn.AlternateText = "Open Connection";
                 openConn.ToolTip = "Open Connection";
-                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + odbcName;
+                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID;
 
                 ImageButton editConn = new ImageButton();
                 editConn.CssClass = "editIcon";
                 editConn.ImageUrl = "graphics/connIcon.gif";
                 editConn.AlternateText = "Edit Connection";
                 editConn.ToolTip = "Edit Connection";
-                editConn.PostBackUrl = "Modify.aspx?ConnID=" + odbcName;
+                editConn.PostBackUrl = "Modify.aspx?ConnID=" + dbID;
 
                 ImageButton deleteConn = new ImageButton();
                 deleteConn.ID = "dc" + Convert.ToString(i);
@@ -56,7 +51,7 @@ namespace HCI
                 deleteConn.AlternateText = "Delete Connection";
                 deleteConn.ToolTip = "Delete Connection";
                 deleteConn.Click += new ImageClickEventHandler(confirmDelete);
-                deleteConn.CommandArgument = odbcName;
+                deleteConn.CommandArgument = dbID;
 
                 ImageButton genKML = new ImageButton();
                 genKML.CssClass = "kmlIcon";
@@ -64,7 +59,7 @@ namespace HCI
                 genKML.AlternateText = "Generate KML File";
                 genKML.ToolTip = "Generate KML File";
                 genKML.Click += new ImageClickEventHandler(genKMLFunction);
-                genKML.CommandArgument = odbcName;
+                genKML.CommandArgument = dbID;
 
 
                 //End button definition
@@ -78,7 +73,7 @@ namespace HCI
                 }
 
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<span id=\"Conn" + odbcName + "\">ODBC Connection " + odbcName + "</span>\n"));
+                ConnectionsAvailable.Controls.Add(new LiteralControl("<span id=\"Conn" + dbID + "\">" + odbcName + "</span>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<a href=\"#\" title=\"Open Connection\"></a>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("<td class=\"connIcons\">\n"));
@@ -101,6 +96,7 @@ namespace HCI
                 ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
                 ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
 
+                i += 1;
             }
         }
 
@@ -109,6 +105,8 @@ namespace HCI
             //Delete the connection
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
+            Database db = new Database();
+            db.executeQueryLocal("DELETE FROM CONNECTION WHERE ID="+args);
             this.deletePopupExtender.Hide();
             Response.Redirect("Main.aspx");
             
@@ -145,6 +143,15 @@ namespace HCI
             String ConnUser = odbcUserE.Text.ToString();
             String ConnPWD = odbcPWE.Text.ToString();
             String ConnDBType = DropDownList4.SelectedItem.ToString();
+            String DBTypeNum;
+
+            if (ConnDBType.Equals("MySQL")){
+                DBTypeNum = "0";
+            }else if(ConnDBType.Equals("MSSQL")){
+                DBTypeNum = "1";
+            }else{
+                DBTypeNum = "2";
+            }
 
             if (ConnName.Equals(""))
             {
@@ -152,49 +159,58 @@ namespace HCI
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
-                //return;
+                return;
             }else if (ConnDBName.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
-                //return;
+                return;
             }else if (ConnDBAddress.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
-                //return;
+                return;
             }else if (ConnPortNum.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
-                //return;
+                return;
             }else if(ConnUser.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
-                //return;
+                return;
             }else if (ConnPWD.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
-                //return;
+                return;
             }
 
             //Call Create DB with the DB Function
-            String connID = "";
-            
+            Database db = new Database();
+            db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('"+ConnName+"', '"+ConnDBName+"', '"+ConnUser+"', '"+ConnPWD+"', '"+ConnPortNum+"', '"+ConnDBAddress+"', '"+DBTypeNum+"', '', '', '')");
 
+            this.NewConn1ModalPopUp.Hide();
             //Jump to the Modify page
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT id FROM CONNECTION WHERE Name="+ConnName+",dbname="+ConnDBName+",userName="+ConnUser+",address="+ConnDBAddress);
+            foreach (DataRow dr in dt.Rows)
+            {
+                string connID = dr.ItemArray.ElementAt(0).ToString();
+
+                Response.Redirect("Main.aspx");
+            }
             //Response.Redirect("Modify.aspx?ConnID=" + connID, true);
         }
     }
