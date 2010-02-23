@@ -5,14 +5,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>Main Page</title>
+    <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script>
+
+    <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+
+    <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
+    
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
 </head>
 <body>
-    <a href="#" style="display:none;visibility:hidden;" 
-        onclick="return false" ID="dummyLink" runat="server">na</a>
-
+    <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
+        runat="server">na</a>
     <form id="mainForm" runat="server">
     <div id="wrapIt">
         <div id="header">
@@ -63,13 +68,11 @@
                                                 <div class="newConnA">
                                                     <asp:HyperLink ID="newConnectionA" runat="server" ToolTip="New Connection">New Connection</asp:HyperLink>
                                                     <!-- Sample Extender for New Connection Button --->
-                                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
-                                                        CancelControlID="newConnCancel" runat="server" PopupControlID="newConnPanel"
-                                                        ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
+                                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="newConnCancel"
+                                                        runat="server" PopupControlID="newConnPanel" ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
                                                     <!-- Sample Panels for Connection Pop-Ups --->
-                                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 
-                                                        CancelControlID="cancelDelConn" runat="server" PopupControlID="deleteConnPanel"
-                                                        ID="deletePopupExtender" TargetControlID="dummyLink" />
+                                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="cancelDelConn"
+                                                        runat="server" PopupControlID="deleteConnPanel" ID="deletePopupExtender" TargetControlID="dummyLink" />
                                                     <asp:Panel ID="deleteConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                         <div class="mainBoxP">
                                                             <span id="DelSpan" visible="true" class="connectionStyle">&nbsp;Delete Connection</span>
@@ -77,8 +80,8 @@
                                                                 <tr>
                                                                     <td>
                                                                         <div class="right" style="padding-top: 20px;">
-                                                                            <asp:Button ID="delConnBtn" runat="server" Text="Delete" CssClass="button" ToolTip="Delete" 
-                                                                            OnClick="deleteConnFunction" CommandArgument="none" />
+                                                                            <asp:Button ID="delConnBtn" runat="server" Text="Delete" CssClass="button" ToolTip="Delete"
+                                                                                OnClick="deleteConnFunction" CommandArgument="none" />
                                                                             &nbsp;&nbsp;
                                                                             <asp:Button ID="cancelDelConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
                                                                         </div>
@@ -148,7 +151,7 @@
                                                                                         <span class="connectionTitle">Database Type:</span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <asp:DropDownList ID="DropDownList4" runat="server">
+                                                                                        <asp:DropDownList ID="odbcDBType" runat="server">
                                                                                             <asp:ListItem Text="MySQL"></asp:ListItem>
                                                                                             <asp:ListItem Text="MSSQL"></asp:ListItem>
                                                                                             <asp:ListItem Text="Oracle"></asp:ListItem>
@@ -156,10 +159,36 @@
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
+                                                                            <table cellspacing="5" id="oracleTable" style="display: none">
+                                                                                <tr id="odbcProtocolRow">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Protocol:</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox runat="server" ID="odbcProtocol" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="odbcSNameRow">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Service Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox runat="server" ID="odbcSName" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="odbcSIDRow">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Service ID:</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox runat="server" ID="odbcSID" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
                                                                             <div class="right" style="padding-top: 20px;">
-                                                                                <asp:Literal ID="validNewConn" runat="server" visible="false" Text="All fields must be completeted!"></asp:Literal>
+                                                                                <asp:Literal ID="validNewConn" runat="server" Visible="false" Text="All fields must be completeted!"></asp:Literal>
                                                                                 &nbsp;&nbsp;
-                                                                                <asp:Button ID="newConnUpdate" runat="server" Text="Create" CssClass="button" ToolTip="Update" 
+                                                                                <asp:Button ID="newConnUpdate" runat="server" Text="Create" CssClass="button" ToolTip="Update"
                                                                                     OnClick="createConnection" CommandArgument="none" />
                                                                                 &nbsp;&nbsp;
                                                                                 <asp:Button ID="newConnCancel" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />

@@ -185,13 +185,40 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox odbcPWE;
         
         /// <summary>
-        /// DropDownList4 control.
+        /// odbcDBType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList4;
+        protected global::System.Web.UI.WebControls.DropDownList odbcDBType;
+        
+        /// <summary>
+        /// odbcProtocol control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox odbcProtocol;
+        
+        /// <summary>
+        /// odbcSName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox odbcSName;
+        
+        /// <summary>
+        /// odbcSID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox odbcSID;
         
         /// <summary>
         /// validNewConn control.
