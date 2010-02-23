@@ -173,7 +173,7 @@ namespace HCI
 
         protected void viewTable_Click(object sender, EventArgs e)
         {
-
+            
         }
 
     }
