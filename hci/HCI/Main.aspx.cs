@@ -42,7 +42,7 @@ namespace HCI
                 editConn.ImageUrl = "graphics/connIcon.gif";
                 editConn.AlternateText = "Edit Connection";
                 editConn.ToolTip = "Edit Connection";
-                editConn.PostBackUrl = "Modify.aspx?ConnID=" + dbID;
+                editConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID;
 
                 ImageButton deleteConn = new ImageButton();
                 deleteConn.ID = "dc" + Convert.ToString(i);
@@ -199,17 +199,18 @@ namespace HCI
 
             //Call Create DB with the DB Function
             Database db = new Database();
-            db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('"+ConnName+"', '"+ConnDBName+"', '"+ConnUser+"', '"+ConnPWD+"', '"+ConnPortNum+"', '"+ConnDBAddress+"', '"+DBTypeNum+"', '', '', '')");
+            DataTable dt;
+            db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '', '', '')");
 
             this.NewConn1ModalPopUp.Hide();
             //Jump to the Modify page
-            DataTable dt;
-            dt = db.executeQueryLocal("SELECT id FROM CONNECTION WHERE Name="+ConnName+",dbname="+ConnDBName+",userName="+ConnUser+",address="+ConnDBAddress);
+            
+            dt = db.executeQueryLocal("SELECT ID FROM CONNECTION WHERE name='"+ConnName+"' AND dbName='"+ConnDBName+"' AND userName='"+ConnUser+"' AND port='"+ConnPortNum+"' AND address='"+ConnDBAddress+"' AND type='"+DBTypeNum+"'");
             foreach (DataRow dr in dt.Rows)
             {
                 string connID = dr.ItemArray.ElementAt(0).ToString();
 
-                Response.Redirect("Main.aspx");
+                Response.Redirect("ConnDetails.aspx?ConnID=" + connID);
             }
             //Response.Redirect("Modify.aspx?ConnID=" + connID, true);
         }
