@@ -65,7 +65,7 @@ The easiest(?) way to access MySQL manually is the MySQL command prompt(Start ->
 
 === Oracle ===
   * Installation path: C:\oraclexe
-  * Username: SYSTEM
+  * Username: POLYTECH
   * Password: polytech
   * Port: 1521
   * Database name: SYSTEM(?)
