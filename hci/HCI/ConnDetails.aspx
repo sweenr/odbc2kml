@@ -7,12 +7,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head2" runat="server">
     <title>Connection Details</title>
+    <style type="text/css" media="all">
+        body  
+        {
+	        font: 100% Verdana, Arial, Helvetica, sans-serif;
+	        margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	        padding: 0;
+	        text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	        color: #000000;
+	        background-color: #999;
+        }
+        #container 
+        {
+	        width: 468px;
+	        margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	        text-align: left; /* this overrides the text-align: center on the body element. */
+	        background-color: #999999;
+	        background-repeat: repeat;
+        }
+    </style>
 
     <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script>
 
     <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
 
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+    
+      $(document).ready(function() {
+		    $("#uploadTabs").tabs();
+	    });
+
+    
+    </script>
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
@@ -635,7 +662,7 @@
                                                                             <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                 <tr>
                                                                                     <td>
-                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        Tool Directions
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -645,14 +672,43 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload1" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                            <br />
-                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload2" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                            <br />
-                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload3" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                            <br />
-                                                                            <ajax:AsyncFileUpload ID="AsyncFileUpload4" runat="server" Text="Upload Icon" BackColor="White" />
-                                                                            <br />
+                                                                            <div id="container">
+                                                                                <asp:ScriptManager ID="ConnSMgr2" runat="server" />
+                                                                                <div id="uploadTabs" class="ui-widget">
+                                                                                    <ul class="ui-tabs-nav">
+                                                                                        <li><a href="#remote">Upload Icon From Link</a></li>
+                                                                                        <li><a href="#local">Upload Icon Locally</a></li>
+                                                                                    </ul>
+                                                                                    <div id="remote" class="ui-tabs-panel">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                                <p>Please check fetch if you would like to have the file saved on the server</p>
+                                                                                                <p>
+                                                                                                    <asp:CheckBox ID="fetchCheckBox" runat="server" Text="Fetch"/>
+                                                                                                </p>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <p>Please enter the URL of the icon you would like to use</p>
+                                                                                                <p>
+                                                                                                    <asp:TextBox ID="URLtextBox" runat="server" Width="270" />
+                                                                                                    <asp:Button ID="URLcorrect" runat="server" OnClick="URLcorrectClick" Text="Save" />
+                                                                                                </p>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                    <div id="local" class="ui-tabs-panel">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                                <p>Please select the icon file you wish to upload</p>
+                                                                                                <p>
+                                                                                                    <asp:FileUpload ID="fileUpEx" runat="server" /><br />
+                                                                                                    <asp:button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" />
+                                                                                                </p>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -976,8 +1032,10 @@
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
         </div>
     </div>
-    <asp:ScriptManager ID="ConnSMgr2" runat="server">
-    </asp:ScriptManager>
+    <%--<asp:ScriptManager ID="ConnSMgr2" runat="server">
+    </asp:ScriptManager>--%>
+    <asp:Panel ID="errorPanel1" runat="server" visible="true" Style="color: White" >
+        </asp:Panel>
     </form>
 </body>
 </html>
