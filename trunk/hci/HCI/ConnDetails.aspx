@@ -136,7 +136,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellspacing="5" id="oracleTable">
+                                            <table cellspacing="5" id="oracleTable" style="display: none">
                                                 <tr id="odbcProtocolRow">
                                                     <td>
                                                         <span class="connectionTitle">Protocol:</span>
