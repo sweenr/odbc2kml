@@ -98,6 +98,13 @@ namespace HCI
 
                 i += 1;
             }
+
+            ConnSMgr.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
+              + "function()"
+              + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
+              + "else { $('#oracleTable').css('display', 'none');}"
+              + "})</script>"));
+
         }
 
         protected void deleteConnFunction(object sender, EventArgs e)
@@ -142,7 +149,10 @@ namespace HCI
             String ConnPortNum = odbcPNE.Text.ToString();
             String ConnUser = odbcUserE.Text.ToString();
             String ConnPWD = odbcPWE.Text.ToString();
-            String ConnDBType = DropDownList4.SelectedItem.ToString();
+            String ConnDBType = odbcDBType.SelectedItem.ToString();
+            String oracleProtocol = odbcProtocol.Text.ToString();
+            String oracleSName = odbcSName.Text.ToString();
+            String oracleSID = odbcSID.Text.ToString();
             String DBTypeNum;
 
             if (ConnDBType.Equals("MySQL")){
@@ -151,6 +161,24 @@ namespace HCI
                 DBTypeNum = "1";
             }else{
                 DBTypeNum = "2";
+            }
+
+            if (DBTypeNum.Equals("2")){
+                if (oracleSName.Equals("") && oracleSID.Equals("")){
+                    this.NewConn1ModalPopUp.Hide();
+                    validNewConn.Visible = true;
+                    this.NewConn1ModalPopUp.Show();
+
+                    return;
+                }
+                if (oracleProtocol.Equals(""))
+                {
+                    this.NewConn1ModalPopUp.Hide();
+                    validNewConn.Visible = true;
+                    this.NewConn1ModalPopUp.Show();
+
+                    return;
+                }
             }
 
             if (ConnName.Equals(""))
@@ -197,10 +225,19 @@ namespace HCI
                 return;
             }
 
+            validNewConn.Visible = false;
+
             //Call Create DB with the DB Function
             Database db = new Database();
             DataTable dt;
-            db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '', '', '')");
+            if (DBTypeNum.Equals("2"))
+            {
+                db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '"+oracleProtocol+"', '"+oracleSName+"', '"+oracleSID+"')");
+            }
+            else
+            {
+                db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '', '', '')");
+            }
 
             this.NewConn1ModalPopUp.Hide();
             //Jump to the Modify page
