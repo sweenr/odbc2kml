@@ -175,11 +175,11 @@ namespace HCI
                         dr2.ItemArray.ElementAt(2).ToString(), dr2.ItemArray.ElementAt(3).ToString(),
                         dr2.ItemArray.ElementAt(4).ToString(), dr2.ItemArray.ElementAt(5).ToString());
                     if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
-                        IconConditionTable1.Controls.Add(new LiteralControl(condition.getLowerBound() + " " + condition.getLowerOperator() + " "));
-                    IconConditionTable1.Controls.Add(new LiteralControl(condition.getTableName() + "." + condition.getFieldName() + " "));
+                        IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + " " + condition.getLowerOperator() + " "));
+                    IconConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "." + condition.getFieldName() + " "));
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
-                        IconConditionTable1.Controls.Add(new LiteralControl(condition.getUpperBound() + " " + condition.getUpperOperator() + " "));
-                    IconConditionTable1.Controls.Add(new LiteralControl("<br />\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + " " + condition.getUpperOperator() + " "));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<br />\n"));
                 }
                 IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
