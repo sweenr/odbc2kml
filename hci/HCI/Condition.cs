@@ -22,7 +22,7 @@ namespace HCI
         public static readonly int GREATERTHAN = 3;
         public static readonly int GREATERTHANEQUAL = 4;
         public static readonly int EQUAL = 5;
-        public static readonly int NOTEQUAL = 5;
+        public static readonly int NOTEQUAL = 6;
 
         //Data Types
         private string fieldName;
@@ -43,6 +43,40 @@ namespace HCI
             upperBound = "";
             lowerOperator = NONE;
             upperOperator = NONE;
+        }
+
+        public Condition(string FieldName, string TableName, string LowerBound, string UpperBound, string LowerOperator, string UpperOperator)
+        {
+            fieldName = FieldName;
+            tableName = TableName;
+            lowerBound = LowerBound;
+            upperBound = UpperBound;
+            if (LowerOperator != "")
+                lowerOperator = Convert.ToInt32(LowerOperator);
+            else
+                lowerOperator = NONE;
+            if (UpperOperator != "")
+                upperOperator = Convert.ToInt32(UpperOperator);
+            else
+                upperOperator = NONE;
+        }
+
+        private string operatorIntToString(int op)
+        {
+            if (op == 1)
+                return "<";
+            else if (op == 2)
+                return "<=";
+            else if (op == 3)
+                return ">";
+            else if (op == 4)
+                return ">=";
+            else if (op == 5)
+                return "<=";
+            else if (op == 6)
+                return "!=";
+            else  // NONE or invalid
+                return "";
         }
 
         //Getters
@@ -72,15 +106,15 @@ namespace HCI
         }
 
         //Retrieve lowerOperator
-        public int getLowerOperator()
+        public string getLowerOperator()
         {
-            return this.lowerOperator;
+            return this.operatorIntToString(lowerOperator);
         }
 
         //Retrieve upperOperator
-        public int getUpperOperator()
+        public string getUpperOperator()
         {
-            return this.upperOperator;
+            return this.operatorIntToString(upperOperator);
         }
 
         //Setters

@@ -272,23 +272,20 @@
                                                     <td class="conditionsBox">
                                                         <div class="conditionsBoxStyle">
                                                             <table cellpadding="10">
-                                                                <tr>
-                                                                    <td>
-                                                                        Condition 1<br />
-                                                                        Condition 2<br />
-                                                                        Condition 3<br />
-                                                                    </td>
-                                                                </tr>
+                                                                <asp:Panel ID="IconConditionTable1" runat="server" Visible="true">
+                                                                </asp:Panel>
                                                             </table>
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
+                                                        <a href="#" style="display:none;visibility:hidden;" 
+                                                            onclick="return false" ID="dummyLink" runat="server">na</a>
                                                         <asp:Button ID="ConButton" runat="server" Text="Modify Condition" CssClass="button"
                                                             OnClick="genIconCondition" CommandArgument="Modify Condition 1" Width="135" />&nbsp;&nbsp;
                                                         <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK1"
                                                             CancelControlID="modCondCancel1" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7"
-                                                            TargetControlID="ConButton" />
-                                                        <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                            TargetControlID="dummyLink" />
+                                                        <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;" Visible="true">
                                                             <span class="connectionStyle">&nbsp;Modify Condition</span>
                                                             <div class="mainBoxP">
                                                                 <table cellspacing="0" cellpadding="5" class="mainBox2">
