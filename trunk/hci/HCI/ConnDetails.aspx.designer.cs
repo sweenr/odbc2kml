@@ -545,40 +545,58 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel UploadIconsPanel;
         
         /// <summary>
-        /// AsyncFileUpload1 control.
+        /// ConnSMgr2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload1;
+        protected global::System.Web.UI.ScriptManager ConnSMgr2;
         
         /// <summary>
-        /// AsyncFileUpload2 control.
+        /// fetchCheckBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload2;
+        protected global::System.Web.UI.WebControls.CheckBox fetchCheckBox;
         
         /// <summary>
-        /// AsyncFileUpload3 control.
+        /// URLtextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload3;
+        protected global::System.Web.UI.WebControls.TextBox URLtextBox;
         
         /// <summary>
-        /// AsyncFileUpload4 control.
+        /// URLcorrect control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload4;
+        protected global::System.Web.UI.WebControls.Button URLcorrect;
+        
+        /// <summary>
+        /// fileUpEx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fileUpEx;
+        
+        /// <summary>
+        /// btnSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
         
         /// <summary>
         /// btnOk3 control.
@@ -869,12 +887,12 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button AddOverlayButton;
         
         /// <summary>
-        /// ConnSMgr2 control.
+        /// errorPanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ConnSMgr2;
+        protected global::System.Web.UI.WebControls.Panel errorPanel1;
     }
 }
