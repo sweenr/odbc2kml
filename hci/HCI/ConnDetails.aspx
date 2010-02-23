@@ -265,18 +265,12 @@
                                     <tr class="mainBox5" align="center">
                                         <td>
                                             <table width="100%">
+                                                <asp:Panel ID="IconConditionPanel" runat="server" Visible="true">
+                                                </asp:Panel>
                                                 <tr>
-                                                    <td class="iconBox">
-                                                        <img src="icons/cycling.png" alt="" />
-                                                    </td>
-                                                    <td class="conditionsBox">
-                                                        <div class="conditionsBoxStyle">
-                                                            <table cellpadding="10">
-                                                                <asp:Panel ID="IconConditionTable1" runat="server" Visible="true">
-                                                                </asp:Panel>
-                                                            </table>
-                                                        </div>
-                                                    </td>
+                                                    
+                                                    
+                                                    
                                                     <td class="buttonClass">
                                                         <a href="#" style="display:none;visibility:hidden;" 
                                                             onclick="return false" ID="dummyLink" runat="server">na</a>

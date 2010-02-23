@@ -154,24 +154,40 @@ namespace HCI
         {
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT iconID, fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + conID);
-            IconConditionTable1.Controls.Add(new LiteralControl("<tr>\n"));
-            IconConditionTable1.Controls.Add(new LiteralControl("<td>\n"));
+            dt = db.executeQueryLocal("SELECT DISTINCT iconID FROM IconCondition WHERE connID = " + conID);
             foreach (DataRow dr in dt.Rows)
             {
                 string iconId = dr.ItemArray.ElementAt(0).ToString();
-                Condition condition = new Condition(dr.ItemArray.ElementAt(1).ToString(), dr.ItemArray.ElementAt(2).ToString(),
-                    dr.ItemArray.ElementAt(3).ToString(), dr.ItemArray.ElementAt(4).ToString(),
-                    dr.ItemArray.ElementAt(5).ToString(), dr.ItemArray.ElementAt(6).ToString());
-                if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
-                    IconConditionTable1.Controls.Add(new LiteralControl(condition.getLowerBound() + " " + condition.getLowerOperator() + " "));
-                IconConditionTable1.Controls.Add(new LiteralControl(condition.getTableName() + "." + condition.getFieldName() + " "));
-                if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
-                    IconConditionTable1.Controls.Add(new LiteralControl(condition.getUpperBound() + " " + condition.getUpperOperator() + " "));
-                IconConditionTable1.Controls.Add(new LiteralControl("<br />\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/cycling.png\" alt=\"\" />\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
+                
+                Database db2 = new Database();
+                DataTable dt2;
+                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + conID + " AND iconID = " + iconId);
+                foreach (DataRow dr2 in dt2.Rows)
+                {
+                    Condition condition = new Condition(dr2.ItemArray.ElementAt(0).ToString(), dr2.ItemArray.ElementAt(1).ToString(),
+                        dr2.ItemArray.ElementAt(2).ToString(), dr2.ItemArray.ElementAt(3).ToString(),
+                        dr2.ItemArray.ElementAt(4).ToString(), dr2.ItemArray.ElementAt(5).ToString());
+                    if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                        IconConditionTable1.Controls.Add(new LiteralControl(condition.getLowerBound() + " " + condition.getLowerOperator() + " "));
+                    IconConditionTable1.Controls.Add(new LiteralControl(condition.getTableName() + "." + condition.getFieldName() + " "));
+                    if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                        IconConditionTable1.Controls.Add(new LiteralControl(condition.getUpperBound() + " " + condition.getUpperOperator() + " "));
+                    IconConditionTable1.Controls.Add(new LiteralControl("<br />\n"));
+                }
+                IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+
+
+                IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }
-            IconConditionTable1.Controls.Add(new LiteralControl("</td>\n"));
-            IconConditionTable1.Controls.Add(new LiteralControl("</tr>\n"));
             
         }
     }
