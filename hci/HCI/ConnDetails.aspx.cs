@@ -48,6 +48,7 @@ namespace HCI
                     if (connInfo.getDatabaseType() == ConnInfo.MSSQL) 
                     {
                         odbcDBType.SelectedValue = "SQL";
+                        odbcDBType.Visible = false;
                     }
                     else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)                    
                     {
@@ -73,24 +74,6 @@ namespace HCI
                + "})</script>"));
             }
         }
-
-       /* protected void oracleFields(object sender, EventArgs e)
-        {      
-        
-            if(odbcDBType.SelectedValue == "Oracle")
-            {
-                ConnSMgr2.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
-                + "function()"
-                + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
-                + "else { $('#oracleTable').css('display', 'none');}" 
-                + "})</script>"));
-            }
-            else 
-            {
-                //$("#oracleTable").css("display", "none");
-            }
-     
-        }*/
 
         protected void genDBTCol(object sender, EventArgs e)
         {
