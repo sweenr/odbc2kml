@@ -147,7 +147,7 @@ namespace HCI
         protected void genIconCondition(object sender, EventArgs e)
         {
 
-            
+            ConPanel.Visible = true;
             this.ModalPopupExtender7.Show();
             //ConPanel.Controls.Add(new LiteralControl("BLOB!!!"));
             //ConPanel.Visible = true;
@@ -167,6 +167,7 @@ namespace HCI
                 IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/cycling.png\" alt=\"\" />\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<a href=\"#\" ID=\"dummyLink" + iconId + "\" style=\"display:none;visibility:hidden;\" onclick=\"return false\" runat=\"server\">na</a>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
                 
@@ -188,10 +189,50 @@ namespace HCI
                 IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
+                
+                Button modifyButton = new Button();
+                modifyButton.Text = "Modify Condition";
+                modifyButton.CssClass = "button";
+                modifyButton.OnClientClick = "genIconCondition";
+                modifyButton.CommandArgument = "Modify Condition " + iconId.ToString();
+                modifyButton.Width = 135;
+                IconConditionPanel.Controls.Add(modifyButton);
+                
 
+
+                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }
+
+            // Fill in Add Condition TR
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/electronics.png\" alt=\"\" />\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyleEmpty\">\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<td>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
+
+            Button addButton = new Button();
+            addButton.Text = "Add Condition";
+            addButton.CssClass = "button";
+            addButton.OnClientClick = "";
+            addButton.CommandArgument = "Add Condition ";
+            addButton.Width = 135;
+            AddIconConditionPanel.Controls.Add(addButton);
+
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+            AddIconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             
         }
         protected void btnSubmitClick(object sender, EventArgs e)
