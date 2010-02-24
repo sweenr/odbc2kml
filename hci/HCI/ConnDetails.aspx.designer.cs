@@ -320,15 +320,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox descriptionBox;
         
         /// <summary>
-        /// IconConditionPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel IconConditionPanel;
-        
-        /// <summary>
         /// dummyLink control.
         /// </summary>
         /// <remarks>
@@ -338,13 +329,13 @@ namespace HCI {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor dummyLink;
         
         /// <summary>
-        /// ConButton control.
+        /// IconConditionPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ConButton;
+        protected global::System.Web.UI.WebControls.Panel IconConditionPanel;
         
         /// <summary>
         /// ModalPopupExtender7 control.
@@ -437,22 +428,13 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button modCondCancel1;
         
         /// <summary>
-        /// ConButton2 control.
+        /// AddIconConditionPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ConButton2;
-        
-        /// <summary>
-        /// ConButton3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ConButton3;
+        protected global::System.Web.UI.WebControls.Panel AddIconConditionPanel;
         
         /// <summary>
         /// ModalPopupExtender1 control.

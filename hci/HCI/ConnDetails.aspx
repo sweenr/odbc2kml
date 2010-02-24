@@ -287,6 +287,7 @@
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Icons</span>
                             <br />
+                            <a href="#" style="display:none;visibility:hidden;" onclick="return false" ID="dummyLink" runat="server">na</a>
                             <div class="mainBox2">
                                 <table width="100%">
                                     <tr class="mainBox5" align="center">
@@ -297,12 +298,7 @@
                                                 <tr>
                                                     
                                                     
-                                                    
                                                     <td class="buttonClass">
-                                                        <a href="#" style="display:none;visibility:hidden;" 
-                                                            onclick="return false" ID="dummyLink" runat="server">na</a>
-                                                        <asp:Button ID="ConButton" runat="server" Text="Modify Condition" CssClass="button"
-                                                            OnClick="genIconCondition" CommandArgument="Modify Condition 1" Width="135" />&nbsp;&nbsp;
                                                         <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modCondOK1"
                                                             CancelControlID="modCondCancel1" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7"
                                                             TargetControlID="dummyLink" />
@@ -398,47 +394,8 @@
                                                         </asp:Panel>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="iconBox">
-                                                        <img src="icons/bus.png" alt="" />
-                                                    </td>
-                                                    <td class="conditionsBox">
-                                                        <div class="conditionsBoxStyle">
-                                                            <table cellpadding="10">
-                                                                <tr>
-                                                                    <td>
-                                                                        Condition 1<br />
-                                                                        Condition 2<br />
-                                                                        Condition 3<br />
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                    <td class="buttonClass">
-                                                        <asp:Button ID="ConButton2" runat="server" Text="Modify Condition" CssClass="button"
-                                                            Width="135" ToolTip="Modify Condition" />&nbsp;&nbsp;
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="iconBox">
-                                                        <img src="icons/electronics.png" alt="" />
-                                                    </td>
-                                                    <td class="conditionsBox">
-                                                        <div class="conditionsBoxStyleEmpty">
-                                                            <table cellpadding="10">
-                                                                <tr>
-                                                                    <td>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                    <td class="buttonClass">
-                                                        <asp:Button ID="ConButton3" runat="server" Text="Add Condition" CssClass="button"
-                                                            Width="135" ToolTip="Add Condition" />&nbsp;&nbsp;
-                                                    </td>
-                                                </tr>
+                                                <asp:Panel ID="AddIconConditionPanel" runat="server" Visible="true">
+                                                </asp:Panel>
                                             </table>
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
                                                 CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
