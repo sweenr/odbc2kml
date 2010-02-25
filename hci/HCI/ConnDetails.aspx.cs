@@ -71,7 +71,7 @@ namespace HCI
                     connInfo = null;
                 }
 
-                ConnSMgr2.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
+                scriptHandler.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
                + "function()"
                + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
                + "else { $('#oracleTable').css('display', 'none');}"
