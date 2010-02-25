@@ -129,7 +129,7 @@ namespace HCI
 
             delConnBtn.Click += new EventHandler(deleteConnFunction);
             connToDelete.Text = "Are you sure you want to delete the connection: " + args[1].ToString();
-            delConnBtn.CommandArgument = args.ToString();
+            delConnBtn.CommandArgument = args1.ToString();
 
             this.deletePopupExtender.Show();
 
