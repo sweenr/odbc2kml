@@ -79,11 +79,20 @@
                                                             <table cellspacing="0" cellpadding="10" class="mainBox2">
                                                                 <tr>
                                                                     <td>
+                                                                    <div style="background-color: white; padding: 5px;">
+                                                                            <table cellspacing="5">
+                                                                            <tr>
+                                                                                    <td>
+                                                                                        <asp:Label ID="connToDelete" runat="server" visible="true"></asp:Label>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
                                                                         <div class="right" style="padding-top: 20px;">
                                                                             <asp:Button ID="delConnBtn" runat="server" Text="Delete" CssClass="button" ToolTip="Delete"
                                                                                 OnClick="deleteConnFunction" CommandArgument="none" />
                                                                             &nbsp;&nbsp;
                                                                             <asp:Button ID="cancelDelConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
+                                                                        </div>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
