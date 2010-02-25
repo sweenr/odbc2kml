@@ -35,8 +35,27 @@
     <script type="text/javascript">
     
       $(document).ready(function() {
-		    $("#uploadTabs").tabs();
-	    });
+		   $("#uploadTabs").tabs();
+		       
+           if($('#odbcDBType').val() == 'Oracle') 
+           { 
+                $('#oracleTable').css('display', 'block'); 
+           }
+           else 
+           { 
+                $('#oracleTable').css('display', 'none');
+           }
+           $("#odbcDBType").change(function () {
+               if($('#odbcDBType').val() == 'Oracle') 
+               { 
+                    $('#oracleTable').css('display', 'block'); 
+               }
+               else 
+               { 
+                    $('#oracleTable').css('display', 'none');
+               }
+           });
+	   });
 
     
     </script>
@@ -63,6 +82,7 @@
 </head>
 <body>
     <form id="connDetailsForm" runat="server">
+    <asp:ScriptManager ID="ConnSMgr2" runat="server" />
     <div id="wrapIt">
         <div id="header">
             <div id="logo">
@@ -122,7 +142,7 @@
                                                     <td>
                                                         <span class="connectionTitle">Port Number: </span>
                                                     </td>
-                                                    <td>
+                                                    <td align="left">
                                                         <asp:TextBox runat="server" ID="odbcPN" Width="75" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
@@ -151,10 +171,10 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td >
                                                         <span class="connectionTitle">Database Type:</span>
                                                     </td>
-                                                    <td>
+                                                    <td align="left">
                                                         <asp:DropDownList ID="odbcDBType" runat="server">
                                                             <asp:ListItem Text="SQL"></asp:ListItem>
                                                             <asp:ListItem Text="MySQL"></asp:ListItem>
@@ -630,7 +650,7 @@
                                                                     <tr>
                                                                         <td>
                                                                             <div id="container">
-                                                                                <asp:ScriptManager ID="ConnSMgr2" runat="server" />
+                                                                                <% //Maybe %>
                                                                                 <div id="uploadTabs" class="ui-widget">
                                                                                     <ul class="ui-tabs-nav">
                                                                                         <li><a href="#remote">Upload Icon From Link</a></li>
@@ -989,8 +1009,8 @@
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
         </div>
     </div>
-    <%--<asp:ScriptManager ID="ConnSMgr2" runat="server">
-    </asp:ScriptManager>--%>
+    <asp:Panel id="scriptHandler" runat="server" visible="true">
+    </asp:Panel>
     <asp:Panel ID="errorPanel1" runat="server" visible="true" Style="color: White" >
         </asp:Panel>
     </form>
