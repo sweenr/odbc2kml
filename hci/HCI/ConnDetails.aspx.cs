@@ -52,7 +52,6 @@ namespace HCI
                     if (connInfo.getDatabaseType() == ConnInfo.MSSQL) 
                     {
                         odbcDBType.SelectedValue = "SQL";
-                        odbcDBType.Visible = false;
                     }
                     else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)                    
                     {
@@ -70,12 +69,6 @@ namespace HCI
                     //Garbage collection
                     connInfo = null;
                 }
-
-                scriptHandler.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
-               + "function()"
-               + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
-               + "else { $('#oracleTable').css('display', 'none');}"
-               + "})</script>"));
 
                 genIconConditionTable(sender, e);
             }
