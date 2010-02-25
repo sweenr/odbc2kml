@@ -20,6 +20,7 @@
 			modal: true,
 			autoOpen: false,
 			title: 'Error!',
+			resizable: false,
 			dialogClass: 'alert',
 			buttons: {
 				Ok: function() {
