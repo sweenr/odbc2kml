@@ -35,14 +35,14 @@ namespace HCI
                 openConn.ImageUrl = "graphics/connIcon.gif";
                 openConn.AlternateText = "Open Connection";
                 openConn.ToolTip = "Open Connection";
-                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID;
+                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID + "&locked=true";
 
                 ImageButton editConn = new ImageButton();
                 editConn.CssClass = "editIcon";
                 editConn.ImageUrl = "graphics/connIcon.gif";
                 editConn.AlternateText = "Edit Connection";
                 editConn.ToolTip = "Edit Connection";
-                editConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID;
+                editConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID + "&locked=false";
 
                 ImageButton deleteConn = new ImageButton();
                 deleteConn.ID = "dc" + Convert.ToString(i);
@@ -52,6 +52,7 @@ namespace HCI
                 deleteConn.ToolTip = "Delete Connection";
                 deleteConn.Click += new ImageClickEventHandler(confirmDelete);
                 deleteConn.CommandArgument = dbID;
+                deleteConn.CommandArgument += "#" + odbcName;
 
                 ImageButton genKML = new ImageButton();
                 genKML.CssClass = "kmlIcon";
@@ -122,9 +123,13 @@ namespace HCI
         protected void confirmDelete(object sender, EventArgs e)
         {
             ImageButton sendBtn = (ImageButton)sender;
-            String args = sendBtn.CommandArgument.ToString();
+            String[] args = sendBtn.CommandArgument.ToString().Split(new Char[] {'#'});
+            String args1 = args[0].ToString();
+            String args2 = args[1].ToString();
+
             delConnBtn.Click += new EventHandler(deleteConnFunction);
-            delConnBtn.CommandArgument = args[0].ToString();
+            connToDelete.Text = "Are you sure you want to delete the connection: " + args[1].ToString();
+            delConnBtn.CommandArgument = args.ToString();
 
             this.deletePopupExtender.Show();
 
@@ -247,9 +252,8 @@ namespace HCI
             {
                 string connID = dr.ItemArray.ElementAt(0).ToString();
 
-                Response.Redirect("ConnDetails.aspx?ConnID=" + connID);
+                Response.Redirect("ConnDetails.aspx?ConnID=" + connID + "&locked=false");
             }
-            //Response.Redirect("Modify.aspx?ConnID=" + connID, true);
         }
     }
 }
