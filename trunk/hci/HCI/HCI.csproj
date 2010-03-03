@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConnDetails.aspx" />
+    <Content Include="DBTest.aspx" />
     <Content Include="graphics\buttonBackH.gif" />
     <Content Include="graphics\connIcon.gif" />
     <Content Include="graphics\buttonBack.gif" />
@@ -157,12 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Condition.cs" />
-    <Compile Include="config.ini.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="config.ini.designer.cs">
-      <DependentUpon>config.ini.cs</DependentUpon>
-    </Compile>
     <Compile Include="ConnDetails.aspx.cs">
       <DependentUpon>ConnDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -173,6 +168,13 @@
     <Compile Include="Connection.cs" />
     <Compile Include="ConnInfo.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="DBTest.aspx.cs">
+      <DependentUpon>DBTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DBTest.aspx.designer.cs">
+      <DependentUpon>DBTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Description.cs" />
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="Icon.cs" />
