@@ -68,7 +68,7 @@ The easiest(?) way to access MySQL manually is the MySQL command prompt(Start ->
   * Username: POLYTECH
   * Password: polytech
   * Port: 1521
-  * Database name: SYSTEM(?)
+  * Database name: POLYTECH
 
 Oracle's server has a PHPMyAdmin-like web based configuration client which can be found at Start -> Programs -> Oracle Database 10g Express Edition -> Go to database home page. You can perform queries using the web client.
 
