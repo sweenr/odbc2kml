@@ -14,6 +14,11 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
     <div>
+    <asp:DropDownList ID="odbcDBType" runat="server">
+                                                            <asp:ListItem Text="SQL"></asp:ListItem>
+                                                            <asp:ListItem Text="MySQL"></asp:ListItem>
+                                                            <asp:ListItem Text="Oracle"></asp:ListItem>
+                                                        </asp:DropDownList><p></p>
         <div class="mainBox">
             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
             <div class="full">
@@ -177,8 +182,7 @@
                                                     <td>
                                                         <asp:UpdatePanel ID="UpdateTables" runat="server" UpdateMode="Conditional">
                                                             <ContentTemplate>
-                                                                <asp:DropDownList ID="iTableNBox" runat="server" DataSourceID="SQLTables" DataTextField="TABLE_NAME"
-                                                                    DataValueField="TABLE_NAME">
+                                                                <asp:DropDownList ID="iTableNBox" runat="server">
                                                                 </asp:DropDownList>
                                                             </ContentTemplate>
                                                         </asp:UpdatePanel>
@@ -223,8 +227,7 @@
                                                     <td>
                                                         <asp:UpdatePanel ID="UpdateFieldTable" runat="server" UpdateMode="Conditional">
                                                             <ContentTemplate>
-                                                                <asp:DropDownList ID="iTableFNBox" runat="server" DataSourceID="SQLTables" DataTextField="TABLE_NAME"
-                                                                    DataValueField="TABLE_NAME" OnSelectedIndexChanged="iTableFNBox_SelectedIndexChanged"
+                                                                <asp:DropDownList ID="iTableFNBox" runat="server" OnSelectedIndexChanged="iTableFNBox_SelectedIndexChanged"
                                                                     AutoPostBack="true" AppendDataBoundItems="true">
                                                                     <asp:ListItem Value="">--Select Table--</asp:ListItem>
                                                                 </asp:DropDownList>
@@ -286,8 +289,7 @@
                                                     <td>
                                                         <asp:UpdatePanel ID="UpdateImageTable" runat="server" UpdateMode="Conditional">
                                                             <ContentTemplate>
-                                                                <asp:DropDownList ID="iTableINBox" runat="server" DataSourceID="SQLTables" DataTextField="TABLE_NAME"
-                                                                    DataValueField="TABLE_NAME" OnSelectedIndexChanged="iTableINBox_SelectedIndexChanged"
+                                                                <asp:DropDownList ID="iTableINBox" runat="server" OnSelectedIndexChanged="iTableINBox_SelectedIndexChanged"
                                                                     AutoPostBack="true" AppendDataBoundItems="true">
                                                                     <asp:ListItem Value="">--Select Table--</asp:ListItem>
                                                                 </asp:DropDownList>
@@ -348,13 +350,29 @@
             </div>
         </div>
     </div>
-    <asp:SqlDataSource ID="SQLTables" runat="server" ConnectionString="<%$ ConnectionStrings:testConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:testConnectionString.ProviderName %>" SelectCommand="SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'test'">
+    Test :  
+    <asp:Label ID="Label1" runat="server" Text="<%$ ConnectionStrings:sqlCon %>"></asp:Label><br />
+    <asp:Label ID="Label2" runat="server" Text="<%$ ConnectionStrings:sqlCon.ProviderName %>"></asp:Label>
+    <br />
+    Test 2:
+     <asp:Label ID="Label3" runat="server" Text="<%$ ConnectionStrings:oracleCon %>"></asp:Label><br />
+    <asp:Label ID="Label4" runat="server" Text="<%$ ConnectionStrings:oracleCon.ProviderName %>"></asp:Label>
+    <br />
+   
+    <asp:SqlDataSource ID="SQLTables" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="SQLColGen" runat="server"></asp:SqlDataSource>
+        
+        <asp:SqlDataSource ID="oracleTables" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:oracleCon %>" 
+        ProviderName="<%$ ConnectionStrings:oracleCon.ProviderName %>" 
+        
+        SelectCommand="SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'">
     </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SQLColGen" runat="server" ConnectionString="<%$ ConnectionStrings:testConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:testConnectionString.ProviderName %>"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="SQLColumns" runat="server" ConnectionString="<%$ ConnectionStrings:testConnectionString %>"
-        ProviderName="<%$ ConnectionStrings:testConnectionString.ProviderName %>"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="oracleColumns" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:oracleCon %>" 
+        ProviderName="<%$ ConnectionStrings:oracleCon.ProviderName %>" 
+        
+        SelectCommand="SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL  AND TABLE_NAME = 'COUNTRIES')"></asp:SqlDataSource>
     </form>
 </body>
 </html>
