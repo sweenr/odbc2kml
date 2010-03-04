@@ -19,7 +19,7 @@ namespace HCI
 {
     public partial class ConnDetails : System.Web.UI.Page
     {
-        int conID;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -31,6 +31,7 @@ namespace HCI
                 }
                 else
                 {
+                    int conID;
                     //Grab and parse connection ID
                     conID = int.Parse(Request.QueryString.Get("ConnID"));
                     
@@ -69,9 +70,8 @@ namespace HCI
                     //Garbage collection
                     connInfo = null;
                 }
-
-                genIconConditionTable(sender, e);
             }
+            genIconConditionTable(sender, e);
             BuildTypeList();
         }
 
@@ -139,9 +139,9 @@ namespace HCI
 
         protected void genIconCondition(object sender, EventArgs e)
         {
-
-            ConPanel.Visible = true;
-            this.ModalPopupExtender7.Show();
+            Button sendBtn = (Button)sender;
+            String args = sendBtn.CommandArgument.ToString();
+            //this.ModalPopupExtender7.Show();
             //ConPanel.Controls.Add(new LiteralControl("BLOB!!!"));
             //ConPanel.Visible = true;
         }
@@ -151,7 +151,7 @@ namespace HCI
         {
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT DISTINCT iconID FROM IconCondition WHERE connID = " + conID);
+            dt = db.executeQueryLocal("SELECT DISTINCT iconID FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID"));
             foreach (DataRow dr in dt.Rows)
             {
                 string iconId = dr.ItemArray.ElementAt(0).ToString();
@@ -160,13 +160,12 @@ namespace HCI
                 IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/cycling.png\" alt=\"\" />\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<a href=\"#\" ID=\"dummyLink" + iconId + "\" style=\"display:none;visibility:hidden;\" onclick=\"return false\" runat=\"server\">na</a>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
                 
                 Database db2 = new Database();
                 DataTable dt2;
-                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + conID + " AND iconID = " + iconId);
+                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
                 foreach (DataRow dr2 in dt2.Rows)
                 {
                     Condition condition = new Condition(dr2.ItemArray.ElementAt(0).ToString(), dr2.ItemArray.ElementAt(1).ToString(),
@@ -183,18 +182,29 @@ namespace HCI
                 IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
-                
+
                 Button modifyButton = new Button();
                 modifyButton.Text = "Modify Condition";
                 modifyButton.CssClass = "button";
-                modifyButton.OnClientClick = "genIconCondition";
-                modifyButton.CommandArgument = "Modify Condition " + iconId.ToString();
+                modifyButton.Click += new EventHandler(genIconCondition);
+                modifyButton.CommandArgument = "ModifyCondition_" + iconId.ToString();
                 modifyButton.Width = 135;
+                modifyButton.ID = "modifyIconCondition_" + iconId.ToString();
                 IconConditionPanel.Controls.Add(modifyButton);
-                
 
+
+                AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+                mpe.ID = "MPE_" + iconId.ToString();
+                mpe.BackgroundCssClass = "modalBackground";
+                mpe.DropShadow = true;
+                mpe.PopupControlID = OverlayPanel.ID.ToString();
+                mpe.TargetControlID = modifyButton.ID.ToString();
+                mpe.CancelControlID = cancelIconCondition.ID.ToString();
+                IconConditionPanel.Controls.Add(mpe);
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+
+                IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }
@@ -219,11 +229,23 @@ namespace HCI
             Button addButton = new Button();
             addButton.Text = "Add Condition";
             addButton.CssClass = "button";
-            addButton.OnClientClick = "";
-            addButton.CommandArgument = "Add Condition ";
+            addButton.Click += new EventHandler(genIconCondition);
+            addButton.CommandArgument = "AddCondition";
+            addButton.ID = "addIconCondition";
             addButton.Width = 135;
             AddIconConditionPanel.Controls.Add(addButton);
 
+
+            AjaxControlToolkit.ModalPopupExtender mpe1 = new AjaxControlToolkit.ModalPopupExtender();
+            mpe1.ID = "MPE_AddCondition";
+            mpe1.BackgroundCssClass = "modalBackground";
+            mpe1.DropShadow = true;
+            mpe1.PopupControlID = testPanel1.ID.ToString();
+            mpe1.TargetControlID = addButton.ID.ToString();
+            mpe1.CancelControlID = cancelIconCondition.ID.ToString();
+
+
+            AddIconConditionPanel.Controls.Add(mpe1);
             AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
             AddIconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             
