@@ -1,10 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Text.RegularExpressions;
+using System.IO;
+using System.Net;
+using HCI;
 
 namespace HCI
 {
@@ -13,7 +22,58 @@ namespace HCI
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
 
+                //Grab and parse connection ID
+                int conID = 1;
+
+                //Create ConnInfo object and populate elements
+                ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+
+                string connectionString = "";
+                string providerName = "";
+                //Set drop down box accordingly
+                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                    odbcDBType.SelectedValue = "SQL";
+                    odbcDBType.Visible = false;
+                }
+                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    odbcDBType.SelectedValue = "MySQL";
+                    connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                    providerName = "MySql.Data.MySqlClient";
+                    SQLTables.ConnectionString = connectionString;
+                    SQLTables.ProviderName = providerName;
+                    SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                    iTableNBox.DataSource = SQLTables;
+                    iTableNBox.DataTextField = "TABLE_NAME";
+                    iTableNBox.DataValueField = "TABLE_NAME";
+                    iTableNBox.DataBind();
+                    iTableFNBox.DataSource = SQLTables;
+                    iTableFNBox.DataTextField = "TABLE_NAME";
+                    iTableFNBox.DataValueField = "TABLE_NAME";
+                    iTableFNBox.DataBind();
+                    iTableINBox.DataSource = SQLTables;
+                    iTableINBox.DataTextField = "TABLE_NAME";
+                    iTableINBox.DataValueField = "TABLE_NAME";
+                    iTableINBox.DataBind();
+                        
+                }
+                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    odbcDBType.SelectedValue = "Oracle";
+                }
+                else //Default set to SQL
+                {
+                    odbcDBType.SelectedValue = "SQL";
+                }
+
+                //Garbage collection
+                connInfo = null;
+
+            }
         }
 
         
@@ -42,8 +102,6 @@ namespace HCI
                 descriptionBox.Text += descriptionInfo;
             }
         }
-
-
         protected void dTable_Click(object sender, EventArgs e)
         {
             dLinkPanel.Visible = false;
@@ -122,8 +180,11 @@ namespace HCI
             string selectedTable = iTableFNBox.SelectedValue.ToString();
             if (selectedTable != "")
             {
-                SQLColumns.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                iColFNBox.DataSource = SQLColumns;
+                SqlDataSource temp = new SqlDataSource();
+                temp.ConnectionString = SQLTables.ConnectionString;
+                temp.ProviderName = SQLTables.ProviderName;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                iColFNBox.DataSource = temp;
                 iColFNBox.DataValueField = "COLUMN_NAME";
                 iColFNBox.DataTextField = "COLUMN_NAME";
                 iColFNBox.DataBind();
@@ -141,8 +202,11 @@ namespace HCI
             string selectedTable = iTableINBox.SelectedValue.ToString();
             if (selectedTable != "")
             {
-                SQLColumns.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                iColINBox.DataSource = SQLColumns;
+                SqlDataSource temp = new SqlDataSource();
+                temp.ConnectionString = SQLTables.ConnectionString;
+                temp.ProviderName = SQLTables.ProviderName;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                iColFNBox.DataSource = temp;
                 iColINBox.DataValueField = "COLUMN_NAME";
                 iColINBox.DataTextField = "COLUMN_NAME";
                 iColINBox.DataBind();
@@ -162,12 +226,16 @@ namespace HCI
             columnMessage.Visible = false;
             string selectedTable = GridViewTables.SelectedValue.ToString();
             selectedGVTable.Value = selectedTable;
+            SQLColGen.ConnectionString = SQLTables.ConnectionString;
+            SQLColGen.ProviderName = SQLTables.ProviderName;
             SQLColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
             
         }
 
         protected void GridViewColumns_PageIndexChanged(object sender, EventArgs e)
         {
+            SQLColGen.ConnectionString = SQLTables.ConnectionString;
+            SQLColGen.ProviderName = SQLTables.ProviderName;
             SQLColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
         }
 
@@ -175,7 +243,7 @@ namespace HCI
         {
             
         }
-
+        
     }
 }
 
