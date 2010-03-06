@@ -320,103 +320,104 @@
                                                 </asp:Panel>
                                                 <asp:Panel ID="AddIconConditionPanel" runat="server" Visible="true">
                                                 </asp:Panel>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>
                                                         <div class="newConnA">
-                                                            <asp:Panel ID="testPanel1" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                                <span class="connectionStyle">&nbsp;Modify Condition</span>
-                                                                <div class="mainBoxP">
-                                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                           
+                                                        </div>
+                                                    </td>
+                                                </tr> -->
+                                            </table>
+                                            <asp:Panel ID="testPanel1" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <span class="connectionStyle">&nbsp;Modify Condition</span>
+                                                <div class="mainBoxP">
+                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                        <tr>
+                                                            <td>
+                                                                <div class="omainBox4">
+                                                                    <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                         <tr>
                                                                             <td>
-                                                                                <div class="omainBox4">
-                                                                                    <table class="omainBox6" cellspacing="0" cellpadding="0">
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                Tool Directions :)
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                    <p>
-                                                                                    </p>
-                                                                                    <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                        <tr class="tableTRTitle">
-                                                                                            <td class="tableTD">
-                                                                                                Table
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                Field
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                Operator
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                Value
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                &nbsp;
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td class="tableTD">
-                                                                                                TheOnlyTable
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                VehicleType
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                ==
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                Tank
-                                                                                            </td>
-                                                                                            <td class="textCenter">
-                                                                                                <asp:Button ID="Button5" runat="server" Style="text-align: center" Text="Remove"
-                                                                                                    CssClass="button" ToolTip="Delete Condition" Width="80" />
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr class="tableTR">
-                                                                                            <td class="tableTD">
-                                                                                                <asp:DropDownList ID="DropDownList4" runat="server" CssClass="inputDD" Width="100">
-                                                                                                </asp:DropDownList>
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                <asp:DropDownList ID="DropDownList5" runat="server" CssClass="inputDD" Width="100">
-                                                                                                </asp:DropDownList>
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                <asp:DropDownList ID="DropDownList6" runat="server" CssClass="inputDD" Width="100">
-                                                                                                    <asp:ListItem>==</asp:ListItem>
-                                                                                                    <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                                    <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                                    <asp:ListItem>&gt;</asp:ListItem>
-                                                                                                    <asp:ListItem>&lt;</asp:ListItem>
-                                                                                                    <asp:ListItem>between</asp:ListItem>
-                                                                                                </asp:DropDownList>
-                                                                                            </td>
-                                                                                            <td class="tableTD">
-                                                                                                <asp:TextBox ID="TextBox3" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
-                                                                                            </td>
-                                                                                            <td class="textCenter">
-                                                                                                <asp:Button ID="Button6" runat="server" Style="text-align: center" Text="Add" CssClass="button"
-                                                                                                    ToolTip="Add Condition" Width="80" />
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                    <div class="right" style="padding-top: 20px;">
-                                                                                        <asp:Button ID="submitIconCondition" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                                        <asp:Button ID="cancelIconCondition" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                                    </div>
-                                                                                </div>
+                                                                                Tool Directions :)
                                                                             </td>
                                                                         </tr>
                                                                     </table>
+                                                                    <p>
+                                                                    </p>
+                                                                    <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                        <tr class="tableTRTitle">
+                                                                            <td class="tableTD">
+                                                                                Table
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                Field
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                Operator
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                Value
+                                                                            </td>
+                                                                            <td>
+                                                                                &nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="tableTD">
+                                                                                TheOnlyTable
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                VehicleType
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                ==
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                Tank
+                                                                            </td>
+                                                                            <td class="textCenter">
+                                                                                <asp:Button ID="Button5" runat="server" Style="text-align: center" Text="Remove"
+                                                                                    CssClass="button" ToolTip="Delete Condition" Width="80" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="tableTR">
+                                                                            <td class="tableTD">
+                                                                                <asp:DropDownList ID="DropDownList4" runat="server" CssClass="inputDD" Width="100">
+                                                                                </asp:DropDownList>
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                <asp:DropDownList ID="DropDownList5" runat="server" CssClass="inputDD" Width="100">
+                                                                                </asp:DropDownList>
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                <asp:DropDownList ID="DropDownList6" runat="server" CssClass="inputDD" Width="100">
+                                                                                    <asp:ListItem>==</asp:ListItem>
+                                                                                    <asp:ListItem>&gt;=</asp:ListItem>
+                                                                                    <asp:ListItem>&lt;=</asp:ListItem>
+                                                                                    <asp:ListItem>&gt;</asp:ListItem>
+                                                                                    <asp:ListItem>&lt;</asp:ListItem>
+                                                                                    <asp:ListItem>between</asp:ListItem>
+                                                                                </asp:DropDownList>
+                                                                            </td>
+                                                                            <td class="tableTD">
+                                                                                <asp:TextBox ID="TextBox3" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
+                                                                            </td>
+                                                                            <td class="textCenter">
+                                                                                <asp:Button ID="Button6" runat="server" Style="text-align: center" Text="Add" CssClass="button"
+                                                                                    ToolTip="Add Condition" Width="80" />
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <div class="right" style="padding-top: 20px;">
+                                                                        <asp:Button ID="submitIconCondition" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                                        <asp:Button ID="cancelIconCondition" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                                                    </div>
                                                                 </div>
-                                                            </asp:Panel>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </asp:Panel>
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
                                                 CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
                                                 TargetControlID="addIcon" />
@@ -702,104 +703,6 @@
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="newConnA">
-                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="modCondCancel1"
-                                                    runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7" TargetControlID="Button4" />
-                                                <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                    <span class="connectionStyle">&nbsp;Modify Condition</span>
-                                                    <div class="mainBoxP">
-                                                        <table cellspacing="0" cellpadding="5" class="mainBox2">
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="omainBox4">
-                                                                        <table class="omainBox6" cellspacing="0" cellpadding="0">
-                                                                            <tr>
-                                                                                <td>
-                                                                                    Tool Directions Go Here! Yay User Friendliness! :)
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <p>
-                                                                        </p>
-                                                                        <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                            <tr class="tableTRTitle">
-                                                                                <td class="tableTD">
-                                                                                    Table
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Field
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Operator
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Value
-                                                                                </td>
-                                                                                <td>
-                                                                                    &nbsp;
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="tableTD">
-                                                                                    TheOnlyTable
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    VehicleType
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    ==
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Tank
-                                                                                </td>
-                                                                                <td class="textCenter">
-                                                                                    <asp:Button ID="DeleteCon1" runat="server" Style="text-align: center" Text="Remove"
-                                                                                        CssClass="button" ToolTip="Delete Condition" Width="80" />
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr class="tableTR">
-                                                                                <td class="tableTD">
-                                                                                    <asp:DropDownList ID="DropDownList7" runat="server" CssClass="inputDD" Width="100">
-                                                                                    </asp:DropDownList>
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    <asp:DropDownList ID="DropDownList8" runat="server" CssClass="inputDD" Width="100">
-                                                                                    </asp:DropDownList>
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    <asp:DropDownList ID="DropDownList9" runat="server" CssClass="inputDD" Width="100">
-                                                                                        <asp:ListItem>==</asp:ListItem>
-                                                                                        <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                        <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                        <asp:ListItem>&gt;</asp:ListItem>
-                                                                                        <asp:ListItem>&lt;</asp:ListItem>
-                                                                                        <asp:ListItem>between</asp:ListItem>
-                                                                                    </asp:DropDownList>
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    <asp:TextBox ID="TextBox7" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
-                                                                                </td>
-                                                                                <td class="textCenter">
-                                                                                    <asp:Button ID="AddCond1" runat="server" Style="text-align: center" Text="Add" CssClass="button"
-                                                                                        ToolTip="Add Condition" Width="80" />
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <div class="right" style="padding-top: 20px;">
-                                                                            <asp:Button ID="modCondOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                            <asp:Button ID="modCondCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </asp:Panel>
-                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
