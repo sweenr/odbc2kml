@@ -94,6 +94,53 @@ namespace HCI
             return valid;
         }
 
+        //Seperating Long from Lat and vise versa
+        public void separate(string cord, int order)
+        {
+            int mid;
+            if (cord.Contains(','))
+                mid = cord.IndexOf(',');
+            else if (cord.Contains('|'))
+                mid = cord.IndexOf('|');
+            else if (cord.Contains('-'))
+                mid = cord.IndexOf('-');
+            else if (cord.Contains('/'))
+                mid = cord.IndexOf('/');
+            else if (cord.Contains('\\'))
+                mid = cord.IndexOf('\\');
+            else if (cord.Contains(' '))
+                mid = cord.IndexOf(' ');
+            else
+            {
+                // return an Error...
+            }
+            
+            String p1, p2;
+            for (int i = 0; i < mid; i++)
+                p1 += cord[i];
+            for (++i; i <= cord.Length; i++)
+                p2 += cord[i];
+
+            if ((int)p1 && (int)p2)
+            {
+                if (order.Equals(LATFIRST))
+                {
+                    latFieldName = p1;
+                    longFieldName = p2;
+                }
+                else
+                {
+                    latFieldName = p2;
+                    longFieldName = p1;
+                }
+            }
+            else
+            {
+                //return an error
+            }
+        }
+
+
         public static Mapping getMapping(int connID)
         {
             Mapping mapping = new Mapping();
@@ -122,6 +169,13 @@ namespace HCI
                         case "format":
                             mapping.setFormat((int)row[col]);
                             break;
+                        case "latlongFieldName":
+                            mapping.separate(row[col].ToString(), LATFIRST);
+                            break;
+                        case "longlatFieldName":
+                            mapping.separate(row[col].ToString(), LONGFIRST);
+                            break;
+
                     }
                 }
             }//End outer loop
