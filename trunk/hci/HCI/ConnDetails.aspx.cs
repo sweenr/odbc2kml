@@ -197,14 +197,12 @@ namespace HCI
                 mpe.ID = "MPE_" + iconId.ToString();
                 mpe.BackgroundCssClass = "modalBackground";
                 mpe.DropShadow = true;
-                mpe.PopupControlID = OverlayPanel.ID.ToString();
+                mpe.PopupControlID = testPanel1.ID.ToString();
                 mpe.TargetControlID = modifyButton.ID.ToString();
                 mpe.CancelControlID = cancelIconCondition.ID.ToString();
                 IconConditionPanel.Controls.Add(mpe);
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-
-                IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }
