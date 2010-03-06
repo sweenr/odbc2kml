@@ -1,0 +1,31 @@
+#summary How to properly handle errors in our code.
+#labels errorHandling
+
+= Introduction =
+
+This wiki has information on how the ODBC2KML project uniformly handles errors.
+
+
+= Details =
+
+First add the ODBC2KMLException.cs file to your project.
+
+If you are working on a support class (one not tied to an .aspx page) do the following:
+  * When you encounter an error, type: 
+{{{
+throw new ODBC2KMLException("Error Text Here");
+}}}
+
+If you are working on a .aspx page, you need to catch ODBC2KMLExceptions.  Here is how you do that:
+  * Put a try block around any code that could have an error
+  * Have this code as your catch block: 
+        {{{
+catch (ODBC2KMLException ex)
+{
+     ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+     eh.displayError();
+     return;
+}
+}}}
+
+You can look at Database.cs and DBTest.cs as examples.
