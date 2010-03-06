@@ -28,6 +28,7 @@ namespace HCI
                 if (Request.QueryString.Get("ConnID") == null)
                 {
                     Response.Redirect("Main.aspx");
+                    return;
                 }
                 else
                 {
@@ -71,6 +72,7 @@ namespace HCI
                     connInfo = null;
                 }
             }
+            
             genIconConditionTable(sender, e);
             BuildTypeList();
         }
@@ -168,6 +170,7 @@ namespace HCI
                 dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
                 foreach (DataRow dr2 in dt2.Rows)
                 {
+                    //IconConditionPanel.Controls.Add(new LiteralControl("<tr><td>"));
                     Condition condition = new Condition(dr2.ItemArray.ElementAt(0).ToString(), dr2.ItemArray.ElementAt(1).ToString(),
                         dr2.ItemArray.ElementAt(2).ToString(), dr2.ItemArray.ElementAt(3).ToString(),
                         dr2.ItemArray.ElementAt(4).ToString(), dr2.ItemArray.ElementAt(5).ToString());
@@ -177,6 +180,7 @@ namespace HCI
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                         IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + " " + condition.getUpperOperator() + " "));
                     IconConditionPanel.Controls.Add(new LiteralControl("<br />\n"));
+                    //IconConditionPanel.Controls.Add(new LiteralControl("</td></tr>"));
                 }
                 IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
@@ -199,7 +203,7 @@ namespace HCI
                 mpe.DropShadow = true;
                 mpe.PopupControlID = testPanel1.ID.ToString();
                 mpe.TargetControlID = modifyButton.ID.ToString();
-                mpe.CancelControlID = cancelIconCondition.ID.ToString();
+                mpe.CancelControlID = testPanelCancel1.ID.ToString();
                 IconConditionPanel.Controls.Add(mpe);
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -240,7 +244,7 @@ namespace HCI
             mpe1.DropShadow = true;
             mpe1.PopupControlID = testPanel1.ID.ToString();
             mpe1.TargetControlID = addButton.ID.ToString();
-            mpe1.CancelControlID = cancelIconCondition.ID.ToString();
+            mpe1.CancelControlID = testPanelCancel1.ID.ToString();
 
 
             AddIconConditionPanel.Controls.Add(mpe1);
