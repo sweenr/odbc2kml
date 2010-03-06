@@ -18,8 +18,14 @@ namespace HCI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            
+
+            if (Session["Error"] != null)
+            {
+                ErrorHandler eh = new ErrorHandler(Session["Error"].ToString(), errorPanel1);
+                eh.displayError();
+                Session["Error"] = null;
+            }
+
             if (!IsPostBack)
             {
                 Database db = new Database();
@@ -35,13 +41,16 @@ namespace HCI
 
         }
 
+        protected void Page_Error(object sender, EventArgs e)
+        {
+            Session["Error"] = "Unknown Error";
+            Response.Redirect(Request.Url.AbsoluteUri);
+        }
+
         protected void executeQuery(object sender, EventArgs e)
         {
-            try
-            {
-                Exception exception = new Exception();
-                //throw exception;
-
+            //try
+            //{
                 Database db;
                 DataTable dt;
                 Label title = new Label();
@@ -49,23 +58,41 @@ namespace HCI
 
                 if (connectionSelector.SelectedItem.Text == "local")
                 {
-                    db = new Database();
+                    try
+                    {
+                        db = new Database();
 
-                    dt = db.executeQueryLocal(queryString.Text);
+                        dt = db.executeQueryLocal(queryString.Text);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else
                 {
                     ConnInfo info = new ConnInfo();
 
-                    db = new Database();
-
-                    string query = "SELECT * FROM Connection WHERE ID=" + connectionSelector.SelectedItem.Value;
-                    dt = db.executeQueryLocal(query);
-
-                    if (dt.HasErrors)
+                    try
                     {
-                        throw exception;
+                        db = new Database();
+
+                        string query = "SELECT * FROM Connection WHERE ID=" + connectionSelector.SelectedItem.Value;
+                        dt = db.executeQueryLocal(query);
+                        if (dt.HasErrors)
+                        {
+                            throw new ODBC2KMLException("Unknown Database error");
+                        }
                     }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                    
 
                     //Cycle through each row and column
                     foreach (DataRow row in dt.Rows)
@@ -113,7 +140,16 @@ namespace HCI
                     }//End outer loop
 
                     db.setConnInfo(info);
-                    dt = db.executeQueryRemote(queryString.Text);
+                    try
+                    {
+                        dt = db.executeQueryRemote(queryString.Text);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
 
 
@@ -153,13 +189,13 @@ namespace HCI
                 resultsPanel.Controls.Add(new LiteralControl("</span>"));
 
                 ModalPopupExtender6.Show();
-            }
-            catch(Exception exception)
+            //}
+            /*catch(Exception exception)
             {
                 errorPanel1.Visible = true;
                 errorPanel1.Controls.Add(new LiteralControl("<div style=\"color: black\"><p>"+exception.Message+"</p></div>"));
                 errorPanel1.Controls.Add(new LiteralControl("<script type=\"text/javascript\">$(\"#errorPanel1\").dialog('open')</script>"));
-            }
+            }*/
         }
     }
 }
