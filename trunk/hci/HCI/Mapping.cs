@@ -112,16 +112,20 @@ namespace HCI
                 mid = cord.IndexOf(' ');
             else
             {
-                throw new ODBC2KMLException("No Seperation of Lat and Long");
+                throw new ODBC2KMLException("No Seperation of Latitude and Longitude");
             }
             
             String p1, p2;
-            for (int i = 0; i < mid; i++)
+            int i;
+            for (i = 0; i < mid; i++)
                 p1 += cord[i];
             for (++i; i <= cord.Length; i++)
                 p2 += cord[i];
-
-            if ((int)p1 && (int)p2)
+            
+            int q1,q2;
+            int.TryParse(p1,q1);
+            int.TryParse(p2,q2);
+            if (q1 && q2)
             {
                 if (order.Equals(LATFIRST))
                 {
