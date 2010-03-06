@@ -112,7 +112,7 @@ namespace HCI
                 mid = cord.IndexOf(' ');
             else
             {
-                // return an Error...
+                throw new ODBC2KMLException("No Seperation of Lat and Long");
             }
             
             String p1, p2;
@@ -136,7 +136,7 @@ namespace HCI
             }
             else
             {
-                //return an error
+                throw new ODBC2KMLException("This is not a Longitude and Latitude Coordinate.");
             }
         }
 
