@@ -375,6 +375,8 @@ namespace HCI
             addConditionButton.Text = "Add";
             addConditionButton.ToolTip = "Add Condition";
             addConditionButton.Width = 80;
+            addConditionButton.CssClass = "button";
+            modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
