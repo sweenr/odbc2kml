@@ -113,7 +113,7 @@ namespace HCI
                 else if (ConnInfo.MSSQL == connInfo.getDatabaseType())
                 {
                     //MS SQL connection string
-                    connectionString = "Driver={SQL Native Client};Server="
+                    connectionString = "Driver={SQL Server Native Client 10.0};Server="
                         + this.connInfo.getServerAddress() + ";Database="
                         + this.connInfo.getDatabaseName() + ";Uid=" + this.connInfo.getUserName()
                         + ";Pwd=" + this.connInfo.getPassword() + ";";
