@@ -69,6 +69,10 @@ namespace HCI
                 //Close connection
                 connection.Close();
             }
+            catch (Exception ex)
+            {
+                throw new ODBC2KMLException("Database error");
+            }
             finally
             {
                 //Close the connection
@@ -126,9 +130,9 @@ namespace HCI
                 OdbcDataAdapter dataAdapter = new OdbcDataAdapter(query, connection);
 
                 // This is your table to hold the result set:
-                
-                //try
-                //{
+
+                try
+                {
                     //Open the connection to the database
                     connection.Open();
 
@@ -137,15 +141,19 @@ namespace HCI
 
                     //Close connection
                     connection.Close();
-                //}
-                //finally
-                //{
+                }
+                catch (Exception ex)
+                {
+                    throw new ODBC2KMLException("Database error");
+                }
+                finally
+                {
                     //Close the connection
                     if (connection.State != ConnectionState.Closed)
                     {
                         connection.Close();
                     }
-                //}
+                }
 
             }
             //Database type = oracle
@@ -177,14 +185,18 @@ namespace HCI
                     connection.Open();
 
                     OracleDataReader reader = command.ExecuteReader();
-                   // try
-                   // {
+                    try
+                    {
                         dataTable.Load(reader);
-                   // }
-                   // finally
-                   // {
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ODBC2KMLException("Database error");
+                    }
+                    finally
+                    {
                         reader.Close();
-                   // }
+                    }
 
                 }
             }
