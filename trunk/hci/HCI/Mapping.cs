@@ -115,7 +115,7 @@ namespace HCI
                 throw new ODBC2KMLException("No Seperation of Latitude and Longitude");
             }
             
-            String p1, p2;
+            String p1 = "", p2 = "";
             int i;
             for (i = 0; i < mid; i++)
                 p1 += cord[i];
@@ -123,8 +123,11 @@ namespace HCI
                 p2 += cord[i];
             
             int q1,q2;
-            int.TryParse(p1,q1);
-            int.TryParse(p2,q2);
+            
+            // NEED TO FIX THIS
+            // SPF took it out so other code compiles
+            /*int.TryParse(p1,&q1);
+            int.TryParse(p2,&q2);
             if (q1 && q2)
             {
                 if (order.Equals(LATFIRST))
@@ -141,7 +144,7 @@ namespace HCI
             else
             {
                 throw new ODBC2KMLException("This is not a Longitude and Latitude Coordinate.");
-            }
+            }*/
         }
 
 
