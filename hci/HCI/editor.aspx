@@ -14,11 +14,6 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
     <div>
-    <asp:DropDownList ID="odbcDBType" runat="server">
-                                                            <asp:ListItem Text="SQL"></asp:ListItem>
-                                                            <asp:ListItem Text="MySQL"></asp:ListItem>
-                                                            <asp:ListItem Text="Oracle"></asp:ListItem>
-                                                        </asp:DropDownList><p></p>
         <div class="mainBox">
             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
             <div class="full">
@@ -40,7 +35,7 @@
                     <tr>
                         <td class="mainBox3" valign="top">
                             <asp:GridView ID="GridViewTables" runat="server" AllowPaging="True" AutoGenerateColumns="False"
-                                CellPadding="4" DataSourceID="SQLTables" ForeColor="#333333" GridLines="None"
+                                CellPadding="4" ForeColor="#333333" GridLines="None"
                                 PageSize="10" ShowHeader="False" Width="100%" 
                                 onselectedindexchanged="GridViewTables_SelectedIndexChanged" 
                                 DataKeyNames="TABLE_NAME">
@@ -65,7 +60,7 @@
                         </td>
                         <td class="mainBox3" valign="top">  
                         <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
-                                CellPadding="4" DataSourceID="SQLColGen" ForeColor="#333333" GridLines="None"
+                                CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None"
                                 PageSize="10" ShowHeader="False" Width="100%" 
                                 onpageindexchanged="GridViewColumns_PageIndexChanged">
                                 <RowStyle BackColor="#EFF3FB" />
@@ -350,29 +345,12 @@
             </div>
         </div>
     </div>
-    Test :  
-    <asp:Label ID="Label1" runat="server" Text="<%$ ConnectionStrings:sqlCon %>"></asp:Label><br />
-    <asp:Label ID="Label2" runat="server" Text="<%$ ConnectionStrings:sqlCon.ProviderName %>"></asp:Label>
-    <br />
-    Test 2:
-     <asp:Label ID="Label3" runat="server" Text="<%$ ConnectionStrings:oracleCon %>"></asp:Label><br />
-    <asp:Label ID="Label4" runat="server" Text="<%$ ConnectionStrings:oracleCon.ProviderName %>"></asp:Label>
-    <br />
-   
+    
     <asp:SqlDataSource ID="SQLTables" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="SQLColGen" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
         
-        <asp:SqlDataSource ID="oracleTables" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:oracleCon %>" 
-        ProviderName="<%$ ConnectionStrings:oracleCon.ProviderName %>" 
-        
-        SelectCommand="SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'">
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="oracleColumns" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:oracleCon %>" 
-        ProviderName="<%$ ConnectionStrings:oracleCon.ProviderName %>" 
-        
-        SelectCommand="SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL  AND TABLE_NAME = 'COUNTRIES')"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="oracleTables" runat="server"></asp:SqlDataSource>
+    
     </form>
 </body>
 </html>
