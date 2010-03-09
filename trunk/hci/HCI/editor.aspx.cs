@@ -19,6 +19,9 @@ namespace HCI
 {
     public partial class editor : System.Web.UI.Page
     {
+        //Get ConID from value passed
+        //Right now just testing with numbers to make sure works
+        int conID = 2;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,22 +29,21 @@ namespace HCI
             {
 
                 //Grab and parse connection ID
-                int conID = 1;
+                
 
                 //Create ConnInfo object and populate elements
                 ConnInfo connInfo = ConnInfo.getConnInfo(conID);
 
                 string connectionString = "";
                 string providerName = "";
+
                 //Set drop down box accordingly
                 if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
-                    odbcDBType.SelectedValue = "SQL";
-                    odbcDBType.Visible = false;
                 }
+
                 else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
                 {
-                    odbcDBType.SelectedValue = "MySQL";
                     connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
                     providerName = "MySql.Data.MySqlClient";
                     SQLTables.ConnectionString = connectionString;
@@ -59,15 +61,40 @@ namespace HCI
                     iTableINBox.DataTextField = "TABLE_NAME";
                     iTableINBox.DataValueField = "TABLE_NAME";
                     iTableINBox.DataBind();
-                        
+                    GridViewTables.DataSource = SQLTables;
+                    GridViewTables.DataBind();
                 }
+
                 else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
-                    odbcDBType.SelectedValue = "Oracle";
+                    //Data Source=POLYTECH-DEV;Persist Security Info=True;User ID=polytech;Password=polytech;Unicode=True
+                    //System.Data.OracleClient 
+
+                    //Is database name the same as the username? It is not included in the connection string for datasources. :(
+
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                    providerName = "System.Data.OracleClient";
+                    oracleTables.ConnectionString = connectionString;
+                    oracleTables.ProviderName = providerName;
+                    oracleTables.SelectCommand = "SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'";
+                    iTableNBox.DataSource = oracleTables;
+                    iTableNBox.DataTextField = "TABLE_NAME";
+                    iTableNBox.DataValueField = "TABLE_NAME";
+                    iTableNBox.DataBind();
+                    iTableFNBox.DataSource = oracleTables;
+                    iTableFNBox.DataTextField = "TABLE_NAME";
+                    iTableFNBox.DataValueField = "TABLE_NAME";
+                    iTableFNBox.DataBind();
+                    iTableINBox.DataSource = oracleTables;
+                    iTableINBox.DataTextField = "TABLE_NAME";
+                    iTableINBox.DataValueField = "TABLE_NAME";
+                    iTableINBox.DataBind();
+                    GridViewTables.DataSource = oracleTables;
+                    GridViewTables.DataBind();
                 }
+
                 else //Default set to SQL
                 {
-                    odbcDBType.SelectedValue = "SQL";
                 }
 
                 //Garbage collection
@@ -180,15 +207,55 @@ namespace HCI
             string selectedTable = iTableFNBox.SelectedValue.ToString();
             if (selectedTable != "")
             {
-                SqlDataSource temp = new SqlDataSource();
-                temp.ConnectionString = SQLTables.ConnectionString;
-                temp.ProviderName = SQLTables.ProviderName;
-                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                iColFNBox.DataSource = temp;
-                iColFNBox.DataValueField = "COLUMN_NAME";
-                iColFNBox.DataTextField = "COLUMN_NAME";
-                iColFNBox.DataBind();
-                UpdateFieldCol.Update();
+                ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+
+                string connectionString = "";
+                string providerName = "";
+
+                //Set drop down box accordingly
+                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                }
+
+                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                    providerName = "MySql.Data.MySqlClient";
+                   
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.ProviderName = providerName;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                    iColFNBox.DataSource = temp;
+                    iColFNBox.DataValueField = "COLUMN_NAME";
+                    iColFNBox.DataTextField = "COLUMN_NAME";
+                    iColFNBox.DataBind();
+                    UpdateFieldCol.Update();
+
+                }
+
+                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                    providerName = "System.Data.OracleClient";
+
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.ProviderName = providerName;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+                    iColFNBox.DataSource = temp;
+                    iColFNBox.DataValueField = "COLUMN_NAME";
+                    iColFNBox.DataTextField = "COLUMN_NAME";
+                    iColFNBox.DataBind();
+                    UpdateFieldCol.Update();
+                }
+
+                else //Default set to SQL
+                {
+                }
+
+                //Garbage collection
+                connInfo = null;
             }
             else
             {
@@ -202,21 +269,60 @@ namespace HCI
             string selectedTable = iTableINBox.SelectedValue.ToString();
             if (selectedTable != "")
             {
-                SqlDataSource temp = new SqlDataSource();
-                temp.ConnectionString = SQLTables.ConnectionString;
-                temp.ProviderName = SQLTables.ProviderName;
-                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                iColFNBox.DataSource = temp;
-                iColINBox.DataValueField = "COLUMN_NAME";
-                iColINBox.DataTextField = "COLUMN_NAME";
-                iColINBox.DataBind();
-                UpdateImageCol.Update();
+                ConnInfo connInfo = ConnInfo.getConnInfo(conID);
 
+                string connectionString = "";
+                string providerName = "";
+
+                //Set drop down box accordingly
+                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                }
+
+                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                    providerName = "MySql.Data.MySqlClient";
+
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.ProviderName = providerName;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                    iColINBox.DataSource = temp;
+                    iColINBox.DataValueField = "COLUMN_NAME";
+                    iColINBox.DataTextField = "COLUMN_NAME";
+                    iColINBox.DataBind();
+                    UpdateFieldCol.Update();
+
+                }
+
+                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                    providerName = "System.Data.OracleClient";
+
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.ProviderName = providerName;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+                    iColINBox.DataSource = temp;
+                    iColINBox.DataValueField = "COLUMN_NAME";
+                    iColINBox.DataTextField = "COLUMN_NAME";
+                    iColINBox.DataBind();
+                    UpdateFieldCol.Update();
+                }
+
+                else //Default set to SQL
+                {
+                }
+
+                //Garbage collection
+                connInfo = null;
             }
             else
             {
                 iColINBox.Items.Clear();
-                UpdateImageCol.Update();
+                UpdateFieldCol.Update();
             }
         }
 
@@ -226,17 +332,100 @@ namespace HCI
             columnMessage.Visible = false;
             string selectedTable = GridViewTables.SelectedValue.ToString();
             selectedGVTable.Value = selectedTable;
-            SQLColGen.ConnectionString = SQLTables.ConnectionString;
-            SQLColGen.ProviderName = SQLTables.ProviderName;
-            SQLColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+
+            if (selectedTable != "")
+            {
+                ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+
+                string connectionString = "";
+                string providerName = "";
+
+                //Set drop down box accordingly
+                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                }
+
+                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                    providerName = "MySql.Data.MySqlClient";
+
+                    ColGen.ConnectionString = connectionString;
+                    ColGen.ProviderName = providerName;
+                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                    ColGen.DataBind();
+
+                }
+
+                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                    providerName = "System.Data.OracleClient";
+
+                    ColGen.ConnectionString = connectionString;
+                    ColGen.ProviderName = providerName;
+                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
+                    ColGen.DataBind();
+                   
+                }
+
+                else //Default set to SQL
+                {
+                }
+
+                //Garbage collection
+                connInfo = null;
+            }
+            else
+            {
+                iColFNBox.Items.Clear();
+                UpdateFieldCol.Update();
+            }
             
         }
 
         protected void GridViewColumns_PageIndexChanged(object sender, EventArgs e)
         {
-            SQLColGen.ConnectionString = SQLTables.ConnectionString;
-            SQLColGen.ProviderName = SQLTables.ProviderName;
-            SQLColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+            ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+
+            string connectionString = "";
+            string providerName = "";
+
+            //Set drop down box accordingly
+            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            {
+            }
+
+            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            {
+                connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                providerName = "MySql.Data.MySqlClient";
+
+                SqlDataSource temp = new SqlDataSource();
+                ColGen.ConnectionString = connectionString;
+                ColGen.ProviderName = providerName;
+                ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                ColGen.DataBind();
+
+            }
+
+            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+            {
+                connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                providerName = "System.Data.OracleClient";
+
+                ColGen.ConnectionString = connectionString;
+                ColGen.ProviderName = providerName;
+                ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
+                ColGen.DataBind();
+            }
+
+            else //Default set to SQL
+            {
+            }
+
+            //Garbage collection
+            connInfo = null;
         }
 
         protected void viewTable_Click(object sender, EventArgs e)
