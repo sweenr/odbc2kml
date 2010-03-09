@@ -112,24 +112,24 @@ namespace HCI
                 mid = cord.IndexOf(' ');
             else
             {
-                throw new ODBC2KMLException("No Seperation of Latitude and Longitude");
+                throw new ODBC2KMLException("Not a correct format of Latitude and Longitude");
             }
-            
+
             String p1 = "", p2 = "";
             int i;
             for (i = 0; i < mid; i++)
                 p1 += cord[i];
             for (++i; i <= cord.Length; i++)
                 p2 += cord[i];
-            
-            int q1,q2;
-            
+
+            double q1, q2;
+
             // NEED TO FIX THIS
             // SPF took it out so other code compiles
-            /*int.TryParse(p1,&q1);
-            int.TryParse(p2,&q2);
-            if (q1 && q2)
+            try
             {
+                q1.Equals(double.Parse(p1));
+                q2.Equals(double.Parse(p2));
                 if (order.Equals(LATFIRST))
                 {
                     latFieldName = p1;
@@ -140,13 +140,13 @@ namespace HCI
                     latFieldName = p2;
                     longFieldName = p1;
                 }
+
             }
-            else
+            catch (Exception e)
             {
                 throw new ODBC2KMLException("This is not a Longitude and Latitude Coordinate.");
-            }*/
+            }
         }
-
 
         public static Mapping getMapping(int connID)
         {
