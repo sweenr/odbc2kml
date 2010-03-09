@@ -18,6 +18,7 @@ namespace HCI
     {
         private string location;
         private ArrayList conditions;
+        private string iconId;
 
         public Icon()
         {
@@ -47,6 +48,16 @@ namespace HCI
         public void removeConditions(int arrayPosition)
         {
             this.conditions.RemoveAt(arrayPosition);
+        }
+
+        public string getId()
+        {
+            return this.iconId;
+        }
+
+        public void setId(string id)
+        {
+            this.iconId = id;
         }
 
         public static Icon getIcon(int connID, int iconID)

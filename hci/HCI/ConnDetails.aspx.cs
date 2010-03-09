@@ -273,14 +273,27 @@ namespace HCI
             addButton.Width = 135;
             AddIconConditionPanel.Controls.Add(addButton);
 
+            Panel addIconConditionPopupPanel = new Panel();
+            addIconConditionPopupPanel.ID = "IconConditionPopupPanel";
+            addIconConditionPopupPanel.CssClass = "boxPopupStyle";
+            genAddIconConditionPopup(addIconConditionPopupPanel);
+            Button addIconConditionSubmitButton = new Button();
+            addIconConditionSubmitButton.ID = "addIconConditionSubmitButton";
+            addIconConditionSubmitButton.Text = "Submit";
+            addIconConditionPopupPanel.Controls.Add(addIconConditionSubmitButton);
+            Button addIconConditionCancelButton = new Button();
+            addIconConditionCancelButton.ID = "addIconConditionCancelButton";
+            addIconConditionCancelButton.Text = "Cancel";
+            addIconConditionPopupPanel.Controls.Add(addIconConditionCancelButton);
+            AddIconConditionPanel.Controls.Add(addIconConditionPopupPanel);
 
             AjaxControlToolkit.ModalPopupExtender mpe1 = new AjaxControlToolkit.ModalPopupExtender();
             mpe1.ID = "MPE_AddCondition";
             mpe1.BackgroundCssClass = "modalBackground";
             mpe1.DropShadow = true;
-            mpe1.PopupControlID = testPanel1.ID.ToString();
+            mpe1.PopupControlID = addIconConditionPopupPanel.ID.ToString();
             mpe1.TargetControlID = addButton.ID.ToString();
-            mpe1.CancelControlID = testPanelCancel1.ID.ToString();
+            mpe1.CancelControlID = addIconConditionCancelButton.ID.ToString();
 
 
             AddIconConditionPanel.Controls.Add(mpe1);
@@ -471,6 +484,119 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
             
+        }
+
+        protected void genAddIconConditionPopup(Panel addIconConditionPopupPanel)
+        {
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Enter new conditions for this icon using the table below.\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<p>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</p>\n"));
+
+            // icon popup table's header
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Table\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Field\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            TextBox addLowerBound = new TextBox();
+            addLowerBound.ID = "addIconConditionLowerBound";
+            addLowerBound.Width = 50;
+            addIconConditionPopupPanel.Controls.Add(addLowerBound);
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            DropDownList list1 = new DropDownList();
+
+            DropDownList addLowerOperator = new DropDownList();
+            addLowerOperator.ID = "addIconConditionLowerOperator";
+            addLowerOperator.CssClass = "inputDD";
+            addLowerOperator.Width = 50;
+            addLowerOperator.Items.Add("<");
+            addLowerOperator.Items.Add("<=");
+            addLowerOperator.Items.Add("==");
+            addIconConditionPopupPanel.Controls.Add(addLowerOperator);
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            TextBox addTableName = new TextBox();
+            addTableName.ID = "addIconConditionTableName";
+            addTableName.Width = 50;
+            addIconConditionPopupPanel.Controls.Add(addTableName);
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            TextBox addFieldName = new TextBox();
+            addFieldName.ID = "addIconConditionFieldName";
+            addFieldName.Width = 50;
+            addIconConditionPopupPanel.Controls.Add(addFieldName);
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            DropDownList addUpperOperator = new DropDownList();
+            addUpperOperator.ID = "addIconConditionUpperOperator";
+            addUpperOperator.CssClass = "inputDD";
+            addUpperOperator.Width = 50;
+            addUpperOperator.Items.Add("<");
+            addUpperOperator.Items.Add("<=");
+            addUpperOperator.Items.Add("==");
+            addIconConditionPopupPanel.Controls.Add(addUpperOperator);
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            TextBox addUpperBound = new TextBox();
+            addUpperBound.ID = "addIconConditionUpperBound";
+            addUpperBound.MaxLength = 30;
+            addUpperBound.CssClass = "inputBox";
+            addUpperBound.Width = 50;
+            addIconConditionPopupPanel.Controls.Add(addUpperBound);
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+
+
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
+            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
         }
 
         protected void btnSubmitClick(object sender, EventArgs e)
