@@ -70,6 +70,7 @@ namespace HCI
 
                     //Garbage collection
                     connInfo = null;
+                    fillIconListFromDatabase();
                 }
             }
 
@@ -140,40 +141,69 @@ namespace HCI
 
         }
 
-
-        protected void genIconConditionTable(object sender, EventArgs e)
+        protected void fillIconListFromDatabase()
         {
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT DISTINCT iconID FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID"));
+            dt = db.executeQueryLocal("SELECT DISTINCT IconCondition.iconID, IconLibrary.location FROM IconCondition, IconLibrary WHERE IconCondition.connID = " + Request.QueryString.Get("ConnID") + " AND IconCondition.iconID = IconLibrary.ID");
             foreach (DataRow dr in dt.Rows)
             {
-                string iconId = dr.ItemArray.ElementAt(0).ToString();
-                IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/cycling.png\" alt=\"\" />\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
-                
+                string iconId = dr["iconID"].ToString();
+                string iconLoc = dr["location"].ToString();
+                Icon icon = new Icon();
+                icon.setId(iconId);
+                icon.setLocation(iconLoc);
+
                 Database db2 = new Database();
                 DataTable dt2;
                 dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
                 foreach (DataRow dr2 in dt2.Rows)
                 {
+                    Condition condition = new Condition();
+                    condition.setFieldName(dr2["fieldName"].ToString());
+                    condition.setTableName(dr2["tableName"].ToString());
+                    condition.setLowerBound(dr2["lowerBound"].ToString());
+                    condition.setUpperBound(dr2["upperBound"].ToString());
+                    if (dr2["lowerOperator"].ToString() != "")
+                        condition.setLowerOperator(Convert.ToInt32(dr2["lowerOperator"].ToString()));
+                    else
+                        condition.setLowerOperator(0);
+
+                    if (dr2["upperOperator"].ToString() != "")
+                        condition.setUpperOperator(Convert.ToInt32(dr2["upperOperator"].ToString()));
+                    else
+                        condition.setUpperOperator(0);
+                    icon.setConditions(condition);
+                }
+                iconList.Add(icon);
+            }
+        }
+
+
+        protected void genIconConditionTable(object sender, EventArgs e)
+        {
+            foreach (Icon icon in iconList)
+            {
+                IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/cycling.png\" alt=\"\" />\n"));  // TODO: change this to pic from icon.location
+                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
+                
+                foreach (Condition condition in icon.getConditions())
+                {
                     //IconConditionPanel.Controls.Add(new LiteralControl("<tr><td>"));
-                    Condition condition = new Condition(dr2.ItemArray.ElementAt(0).ToString(), dr2.ItemArray.ElementAt(1).ToString(),
-                        dr2.ItemArray.ElementAt(2).ToString(), dr2.ItemArray.ElementAt(3).ToString(),
-                        dr2.ItemArray.ElementAt(4).ToString(), dr2.ItemArray.ElementAt(5).ToString());
                     if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                         IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + " " + condition.getLowerOperator() + " "));
                     IconConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "." + condition.getFieldName() + " "));
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
-                        IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + " " + condition.getUpperOperator() + " "));
+                        IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + " " + condition.getUpperBound() + " "));
                     IconConditionPanel.Controls.Add(new LiteralControl("<br />\n"));
                     //IconConditionPanel.Controls.Add(new LiteralControl("</td></tr>"));
                 }
+                
                 IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -183,28 +213,28 @@ namespace HCI
                 modifyButton.Text = "Modify Condition";
                 modifyButton.CssClass = "button";
                 modifyButton.Width = 135;
-                modifyButton.ID = "modifyIconCondition_" + iconId.ToString();
+                modifyButton.ID = "modifyIconCondition_" + icon.getId();
                 IconConditionPanel.Controls.Add(modifyButton);
 
                 Panel modifyIconConditionPopupPanel = new Panel();
-                modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + iconId.ToString();
+                modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                 modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
                 Panel modifyIconConditionInsidePopupPanel = new Panel();
-                modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + iconId.ToString();
-                genIconConditionPopup(modifyIconConditionInsidePopupPanel, iconId.ToString());
+                modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + iconList.IndexOf(icon).ToString();
+                genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
                 modifyIconConditionPopupPanel.Controls.Add(modifyIconConditionInsidePopupPanel);
 
                 Button submitModifyConditionPopup = new Button();
-                submitModifyConditionPopup.ID = "submitModifyCondition" + iconId.ToString();
+                submitModifyConditionPopup.ID = "submitModifyCondition" + icon.getId();
                 submitModifyConditionPopup.Text = "Submit";
                 modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
                 Button cancelModifyConditionPopup = new Button();
-                cancelModifyConditionPopup.ID = "cancelModifyCondition" + iconId.ToString();
+                cancelModifyConditionPopup.ID = "cancelModifyCondition" + icon.getId();
                 cancelModifyConditionPopup.Text = "Cancel";
                 modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
 
                 AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-                mpe.ID = "MPE_" + iconId.ToString();
+                mpe.ID = "MPE_" + icon.getId();
                 mpe.BackgroundCssClass = "modalBackground";
                 mpe.DropShadow = true;
                 mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
@@ -215,9 +245,7 @@ namespace HCI
 
                 IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
 
-
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }
 
@@ -272,25 +300,22 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Tool Directions :)\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Add and remove conditions for this icon using the table below.\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<p>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</p>\n"));
 
-
-            Database db = new Database();
-            DataTable dt;
-            dt = db.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + args);
-            foreach (DataRow dr in dt.Rows)
-            {
-                
-            }
-
-
+            // icon popup table's header
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Table\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -298,80 +323,137 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Field\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Operator\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Value\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("&nbsp;\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("TheOnlyTable\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("VehicleType\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("==\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Tank\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
-            Button deleteConditionButton = new Button();
-            deleteConditionButton.ID = "delCondition" + args;
+            int i = 0;
             
-            deleteConditionButton.Text = "Remove";
-            deleteConditionButton.CssClass = "button";
-            deleteConditionButton.ToolTip = "Delete Condition";
-            deleteConditionButton.Width = 80;
-            modifyIconConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            foreach (Icon icon in iconList)
+            {
+                if (icon.getId() != args)
+                    continue;
+
+                foreach (Condition condition in icon.getConditions())
+                {
+                    i++;
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                    {
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    }
+                    else
+                    {
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                    }
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                    {
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    }
+                    else
+                    {
+                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                    }
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
+                    Button deleteConditionButton = new Button();
+                    deleteConditionButton.ID = "delCondition" + args + "_" + i++;
+
+                    deleteConditionButton.Text = "Remove";
+                    deleteConditionButton.CssClass = "button";
+                    deleteConditionButton.ToolTip = "Delete Condition";
+                    deleteConditionButton.Width = 80;
+                    modifyIconConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+                }
+            }
+
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            TextBox addLowerBound = new TextBox();
+            addLowerBound.ID = "addLowerBound" + args + "_" + i;
+            addLowerBound.Width = 50;
+            modifyIconConditionInsidePopupPanel.Controls.Add(addLowerBound);
+
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
             DropDownList list1 = new DropDownList();
-            list1.ID = "modIconConditionList1" + args;
-            list1.CssClass = "inputDD";
-            list1.Width = 100;
-            modifyIconConditionInsidePopupPanel.Controls.Add(list1);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            DropDownList list2 = new DropDownList();
-            list2.ID = "modIconConditionList2" + args;
-            list2.CssClass = "inputDD";
-            list2.Width = 100;
-            modifyIconConditionInsidePopupPanel.Controls.Add(list2);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            DropDownList list3 = new DropDownList();
-            list3.ID = "modIconConditionList3" + args;
-            list3.CssClass = "inputDD";
-            list3.Width = 100;
-            list3.Items.Add("==");
-            list3.Items.Add(">=");
-            list3.Items.Add("<=");
-            list3.Items.Add(">");
-            list3.Items.Add("<");
-            list3.Items.Add("between");
-            modifyIconConditionInsidePopupPanel.Controls.Add(list3);
+
+            DropDownList addLowerOperator = new DropDownList();
+            addLowerOperator.ID = "addLowerOperator" + args + "_" + i;
+            addLowerOperator.CssClass = "inputDD";
+            addLowerOperator.Width = 50;
+            addLowerOperator.Items.Add("<");
+            addLowerOperator.Items.Add("<=");
+            addLowerOperator.Items.Add("==");
+            modifyIconConditionInsidePopupPanel.Controls.Add(addLowerOperator);
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
 
-            TextBox textBox1 = new TextBox();
-            textBox1.ID = "modifyIconConditionTextBox1" + args;
-            textBox1.MaxLength = 30;
-            textBox1.CssClass = "inputBox";
-            textBox1.Width = 150;
+            TextBox addTableName = new TextBox();
+            addTableName.ID = "addTableName" + args + "_" + i;
+            addTableName.Width = 50;
+            modifyIconConditionInsidePopupPanel.Controls.Add(addTableName);
+
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            TextBox addFieldName = new TextBox();
+            addFieldName.ID = "addFieldName" + args + "_" + i;
+            addFieldName.Width = 50;
+            modifyIconConditionInsidePopupPanel.Controls.Add(addFieldName);
+
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            DropDownList addUpperOperator = new DropDownList();
+            addUpperOperator.ID = "modIconConditionList2" + args + "_" + i;
+            addUpperOperator.CssClass = "inputDD";
+            addUpperOperator.Width = 50;
+            addUpperOperator.Items.Add("<");
+            addUpperOperator.Items.Add("<=");
+            addUpperOperator.Items.Add("==");
+            modifyIconConditionInsidePopupPanel.Controls.Add(addUpperOperator);
+
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+
+            TextBox addUpperBound = new TextBox();
+            addUpperBound.ID = "addUpperBound" + args + "_" + i;
+            addUpperBound.MaxLength = 30;
+            addUpperBound.CssClass = "inputBox";
+            addUpperBound.Width = 50;
+            modifyIconConditionInsidePopupPanel.Controls.Add(addUpperBound);
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
+
             Button addConditionButton = new Button();
-            addConditionButton.ID = "addIconConditionButton" + args;
+            addConditionButton.ID = "addIconConditionButton" + args + "_" + i;
             addConditionButton.Text = "Add";
             addConditionButton.ToolTip = "Add Condition";
             addConditionButton.Width = 80;
@@ -379,6 +461,8 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            
+            
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
@@ -540,5 +624,7 @@ namespace HCI
         public static String tempSaveLoc = @"C:\odbc2kml\temp\";
         public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
         public ArrayList validTypes = new ArrayList();
+        private ArrayList iconList = new ArrayList();
+        private ArrayList overlayList = new ArrayList();
     }
 }
