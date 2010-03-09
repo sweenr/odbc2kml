@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using System.Collections;
 using HCI;
 
 namespace HCI
@@ -92,5 +93,246 @@ namespace HCI
             return description;
         }
 
+        public static ArrayList parseDesc(int connID)
+        {
+            Database DB = new Database();
+            DataTable mapping = DB.executeQueryLocal("SELECT 'tableName' FROM Mapping WHERE connID=\'" + connID + "\'");
+            ArrayList tablesToBeSearched = null;
+            foreach(DataRow row in mapping.Rows)
+            {
+                foreach(DataColumn col in mapping.Columns)
+                {
+                    tablesToBeSearched.Add(row[col].ToString());
+                }
+            }
+            DB.setConnInfo(ConnInfo.getConnInfo(connID));
+            int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
+            DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
+            String descString = desc.ToString();
+            ArrayList descArray = null;
+            foreach (String tableName in tablesToBeSearched)
+            { //change below to if/else
+                DataTable remote = null;
+                if(dbType==ConnInfo.MSSQL)
+                {
+                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
+                }
+                else if(dbType==ConnInfo.MYSQL)
+                {
+                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
+                }
+                else if(dbType==ConnInfo.ORACLE)
+                {
+                    remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
+                }
+                int rowCount=0;
+                foreach(DataRow row in remote.Rows)
+                {
+                    while (descString.Contains("[URL]"))
+                    {
+                        int URLindex = descString.IndexOf("[URL]");
+                        int URLendIndex = descString.IndexOf("[/URL]");
+                        int length = URLendIndex - URLindex;
+                        String descString1 = descString.Substring(0,URLindex);
+                        String descString2 = descString.Substring(URLendIndex);
+                        String URLstring = descString.Substring(URLindex, length);
+                        URLstring.Replace("[URL]", "");
+                        URLstring.Replace("[/URL]", "");
+                        String finalURL = "";
+                        if (URLstring.Contains("[TITLE]"))
+                        {
+                            int titleIndex = URLstring.IndexOf("[TITLE]");
+                            int titleEndIndex = URLstring.IndexOf("[/TITLE]");
+                            int titleLength = titleEndIndex - titleIndex;
+                            String URLsubString1 = URLstring.Substring(0, titleIndex);
+                            String URLsubString2 = URLstring.Substring(titleEndIndex);
+                            String titleString = URLstring.Substring(titleIndex, titleLength);
+                            titleString.Replace("[TITLE]", "");
+                            titleString.Replace("[/TITLE]", "");
+                            finalURL = "<a href\"" + URLsubString1 + URLsubString2 + "\">"
+                                + titleString + "</a>";
+                        }
+                        else
+                        {
+                            finalURL = "<a href\"" + URLstring + "\">" + URLstring + "</a>";
+                        }
+                        descString = descString1 + finalURL + descString2;
+                    }
+                    while(descString.Contains("[TABLE]"))
+                    {
+                        int tableIndex = descString.IndexOf("[TABLE]");
+                        int tableEndIndex = descString.IndexOf("[/TABLE]");
+                        int tableNameLength = tableEndIndex - tableIndex;
+                        String descString1 = descString.Substring(0,tableIndex);
+                        String descString2 = descString.Substring(tableEndIndex);
+                        descString = descString1 + tableName + descString2;
+                    }
+                    while(descString.Contains("[FIELD]"))
+                    {
+                        int fieldIndex = descString.IndexOf("[FIELD]");
+                        int fieldEndIndex = descString.IndexOf("[/FIELD]");
+                        int fieldLength = fieldEndIndex - fieldIndex;
+                        String descString1 = descString.Substring(0,fieldIndex);
+                        String descString2 = descString.Substring(fieldEndIndex);
+                        String fieldString = descString.Substring(fieldIndex, fieldLength);
+                        if(fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
+                        {
+                            int tblIndex = fieldString.IndexOf("[TBL]");
+                            int tblEndIndex = fieldString.IndexOf("[/TBL]");
+                            int tblLength = tblEndIndex - tblIndex;
+                            //String fieldString1 = fieldString.Substring(0,tblIndex);
+                            //String fieldString2 = fieldString.Substring(tblEndIndex);
+                            String tblString = fieldString.Substring(tblIndex, tblLength);
+                            tblString.Replace("[TBL]", "");
+                            tblString.Replace("[/TBL]", "");
+                            int colIndex = fieldString.IndexOf("[COL]");
+                            int colEndIndex = fieldString.IndexOf("[/COL]");
+                            int colLength = colEndIndex - colIndex;
+                            //String fieldString1 = fieldString.Substring(0,tblIndex);
+                            //String fieldString2 = fieldString.Substring(tblEndIndex);
+                            String colString = fieldString.Substring(colIndex, colLength);
+                            colString.Replace("[COL]", "");
+                            colString.Replace("[/COL]", "");
+                            DataTable remote2;
+                            //below isn't finished
+                            if(dbType == ConnInfo.MSSQL)
+                            {
+                                    remote2 = DB.executeQueryRemote("SELECT * FROM " + tblString + "WHERE" );
+                            }
+                            else if(dbType == ConnInfo.MYSQL)
+                            {
+                                    remote2 = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
+                            }
+                            else if(dbType == ConnInfo.ORACLE)
+                            {
+                                    remote2 = DB.executeQueryRemote("SELECT \"" + colString +"\" FROM \"" + tableName + "\" WHERE rownum=" + rowCount);
+                            }
+                        }
+                        if(fieldString.Contains("[TBL]") && !fieldString.Contains("[COL]"))
+                        {
+                            throw new ODBC2KMLException("Description doesn't contain field Column information");
+                        }
+                        if(!fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
+                        {
+                                throw new ODBC2KMLException("Description doesn't contain field Table information");
+                        }
+                    }
+                    while (descString.Contains("[IMAGE]"))
+                    {
+                        int imageIndex = descString.IndexOf("[IMAGE]");
+                        int imageEndIndex = descString.IndexOf("[/IMAGE]");
+                        int imageLength = imageEndIndex - imageIndex;
+                        String descString1 = descString.Substring(0, imageIndex);
+                        String descString2 = descString.Substring(imageEndIndex);
+                        String imageString = descString.Substring(imageIndex, imageLength);
+                        imageString.Replace("[IMAGE]", "");
+                        imageString.Replace("[/IMAGE]", "");
+                        if (imageString.Contains("[TBL]") && imageString.Contains("[COL]"))
+                        {
+                            int tblIndex = imageString.IndexOf("[TBL]");
+                            int tblEndIndex = imageString.IndexOf("[/TBL]");
+                            int tblLength = tblEndIndex - tblIndex;
+                            String tblString = imageString.Substring(tblIndex, tblLength);
+                            tblString.Replace("[TBL]", "");
+                            tblString.Replace("[/TBL]", "");
+                            int colIndex = imageString.IndexOf("[COL]");
+                            int colEndIndex = imageString.IndexOf("[/COL]");
+                            int colLength = colEndIndex - colIndex;
+                            String colString = imageString.Substring(colIndex, colLength);
+                            colString.Replace("[COL]", "");
+                            colString.Replace("[/COL]", "");
+                            imageString = "<img src=\"./ImageWebSVC.asmx/getImage?connID="
+                                + connID + "&table="
+                                + tblString + "&field="
+                                + colString + "&row="
+                                + rowCount + "\" />";
+                        }
+                        if (imageString.Contains("[TBL]") && !imageString.Contains("[COL]"))
+                        {
+                            throw new ODBC2KMLException("Description doesn't contain Image Column information");
+                        }
+                        if (!imageString.Contains("[TBL]") && imageString.Contains("[COL]"))
+                        {
+                            throw new ODBC2KMLException("Description doesn't contain Image Table information");
+                        }
+                        descString = descString1 + imageString + descString2;
+                    }
+                    rowCount++;
+                }
+                    //String URLstringFinal = @"<a href='" +
+                    //finish above line
+
+
+                    //String[] tempDescString = descString.Split("[URL]");
+                    //String[] URLstring = tempDescString[1].Split("[/URL]");
+                    ////tempDescString[1] = URLstring[1];
+                    //if (descString.Contains("[TITLE]"))
+                    //{
+                    //    String[] tempTitle = URLstring[0].Split("[TITLE]");
+                    //    String[] tempTitle2 = tempTitle[1].Split("[/TITLE]");
+                    //    String title = tempTitle2[0];
+                    //}
+                
+                
+                //the above is where the string will be split to begin parsing the description
+                descArray.Add(descString);
+            }
+
+            //foreach (DataRow rRow in remote.Rows)
+            //{
+            //    foreach (DataColumn rCol in remote.Columns)
+            //    {
+            //        remoteTables.Add(rRow[rCol].ToString());
+            //    }
+            //}
+
+            //ArrayList remoteTables;
+            //switch (dbType)
+            //{
+            //    case ConnInfo.MSSQL:
+            //        DataTable remote = DB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+            //        foreach (DataRow rRow in remote.Rows)
+            //        {
+            //            foreach (DataColumn rCol in remote.Columns)
+            //            {
+            //                remoteTables.Add(rRow[rCol].ToString());
+            //            }
+            //        }
+            //        break;
+            //    case ConnInfo.MYSQL:
+            //        DataTable remote = DB.executeQueryRemote("show tables;");
+            //        foreach (DataRow rRow in remote.Rows)
+            //        {
+            //            foreach (DataColumn rCol in remote.Columns)
+            //            {
+            //                remoteTables.Add(rRow[rCol].ToString());
+            //            }
+            //        }
+            //        break;
+            //    case ConnInfo.ORACLE:
+            //        DataTable remote = DB.executeQueryRemote("select OBJECT_NAME from user_objects where object_type='TABLE';");
+            //        foreach (DataRow rRow in remote.Rows)
+            //        {
+            //            foreach (DataColumn rCol in remote.Columns)
+            //            {
+            //                remoteTables.Add(rRow[rCol].ToString());
+            //            }
+            //        }
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //for (int x = 0; x < tablesToBeSearched.Count; x++)
+            //{
+            //    for (int y = 0; y < remoteTables.Count; y++)
+            //    {
+            //        if(tablesToBeSearched[x].Equals(remoteTables[y]))
+            //        {
+                        
+            //        }
+            //    }
+            //}
+            return descArray;
+        }
     }
 }

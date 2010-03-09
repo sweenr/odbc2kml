@@ -215,5 +215,43 @@ namespace HCI
         {
             connInfo = info;
         }
+
+        public DataTable getPrimaryKeys(string tableName)
+        {
+            int dbType = this.connInfo.getDatabaseType();
+            DataTable remote = null;
+            if(dbType == ConnInfo.MSSQL)
+            {
+                remote = this.executeQueryRemote("SELECT [name] "
+                                                  + "FROM syscolumns "
+                                                  + "WHERE [id] IN (SELECT [id] "
+                                                                  + "FROM sysobjects "
+                                                                  + "WHERE [name] = '" + tableName + "') "
+                                                  + "AND colid IN (SELECT SIK.colid "
+                                                                   + "FROM sysindexkeys SIK "
+                                                                   + "JOIN sysobjects SO ON SIK.[id] = SO.[id] "
+                                                                   + "WHERE SIK.indid = 1 "
+                                                                   + "AND SO.[name] = '" + tableName + "')");
+            }
+            else if (dbType == ConnInfo.MYSQL)
+            {
+                remote = this.executeQueryRemote("SELECT k.column_name "
+                                                + "FROM information_schema.table_constraints t "
+                                                + "JOIN information_schema.key_column_usage k "
+                                                + "USING(constraint_name,table_schema,table_name) "
+                                                + "WHERE t.constraint_type='PRIMARY KEY' "
+                                                  + "AND t.table_schema='" + this.connInfo.getDatabaseName() + "' "
+                                                  + "AND t.table_name='" + tableName + "';");
+            }
+            else if (dbType == ConnInfo.ORACLE)
+            {
+                //remote = this.executeQueryRemote("SELECT COLUMN_NAME FROM ALL_CONS_COLUMNS A JOIN ALL_CONSTRAINTS C  ON A.CONSTRAINT_NAME = C.CONSTRAINT_NAME WHERE C.TABLE_NAME = 'LOCKLOCATIONS' AND C.CONSTRAINT_TYPE = 'P');
+            }
+            else
+            {
+                remote = null;
+            }
+            return remote;
+        }
     }
 }
