@@ -347,33 +347,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel AddIconConditionPanel;
         
         /// <summary>
-        /// testPanel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel testPanel1;
-        
-        /// <summary>
-        /// testPanelOK1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button testPanelOK1;
-        
-        /// <summary>
-        /// testPanelCancel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button testPanelCancel1;
-        
-        /// <summary>
         /// ModalPopupExtender1 control.
         /// </summary>
         /// <remarks>
