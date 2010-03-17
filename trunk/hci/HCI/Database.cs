@@ -245,7 +245,7 @@ namespace HCI
             }
             else if (dbType == ConnInfo.ORACLE)
             {
-                //remote = this.executeQueryRemote("SELECT COLUMN_NAME FROM ALL_CONS_COLUMNS A JOIN ALL_CONSTRAINTS C  ON A.CONSTRAINT_NAME = C.CONSTRAINT_NAME WHERE C.TABLE_NAME = 'LOCKLOCATIONS' AND C.CONSTRAINT_TYPE = 'P');
+                remote = this.executeQueryRemote("SELECT COLUMN_NAME FROM ALL_CONS_COLUMNS A JOIN ALL_CONSTRAINTS C  ON A.CONSTRAINT_NAME = C.CONSTRAINT_NAME WHERE C.TABLE_NAME = '" + tableName + "' AND C.CONSTRAINT_TYPE = 'P'");
             }
             else
             {
