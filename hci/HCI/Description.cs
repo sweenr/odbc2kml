@@ -151,6 +151,10 @@ namespace HCI
                             titleString.Replace("[/TITLE]", "");
                             finalURL = "<a href\"" + URLsubString1 + URLsubString2 + "\">"
                                 + titleString + "</a>";
+                            if (finalURL.Contains("[TITLE]"))
+                            {
+                                throw new ODBC2KMLException("URL contains to many Titles");
+                            }
                         }
                         else
                         {
@@ -162,7 +166,6 @@ namespace HCI
                     {
                         int tableIndex = descString.IndexOf("[TABLE]");
                         int tableEndIndex = descString.IndexOf("[/TABLE]");
-                        int tableNameLength = tableEndIndex - tableIndex;
                         String descString1 = descString.Substring(0,tableIndex);
                         String descString2 = descString.Substring(tableEndIndex);
                         descString = descString1 + tableName + descString2;
@@ -214,7 +217,7 @@ namespace HCI
                         }
                         if(!fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
                         {
-                                throw new ODBC2KMLException("Description doesn't contain field Table information");
+                            throw new ODBC2KMLException("Description doesn't contain field Table information");
                         }
                     }
                     while (descString.Contains("[IMAGE]"))
