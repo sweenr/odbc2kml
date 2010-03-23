@@ -122,7 +122,8 @@ namespace HCI
             for (++i; i <= cord.Length; i++)
                 p2 += cord[i];
 
-            double q1, q2;
+            double q1 = 0;
+            double q2 = 0;
             try
             {
                 q1.Equals(double.Parse(p1));
