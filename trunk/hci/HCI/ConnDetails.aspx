@@ -83,6 +83,8 @@
 
 </head>
 <body>
+    <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
+        runat="server">na</a>
     <form id="connDetailsForm" runat="server">
     <asp:ScriptManager ID="ConnSMgr2" runat="server" />
     <div id="wrapIt">
@@ -318,8 +320,18 @@
                                                 </asp:Panel>
                                                 <asp:Panel ID="AddIconConditionPanel" runat="server" Visible="true">
                                                 </asp:Panel>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Panel ID="testPanel1" runat="server" CssClass="boxPopupStyle" Style="display: none;">                                                                             
+                                                                                <div class="right" style="padding-top: 20px;">
+                                                                                    <asp:Button ID="testPanelOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
+                                                                                    <asp:Button ID="testPanelCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
+                                                                                </div>
+                                                        </asp:Panel>
+                                                    </td>
+                                                </tr>
                                             </table>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
                                                 CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
                                                 TargetControlID="addIcon" />
                                             <asp:Panel ID="AddIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
@@ -342,110 +354,11 @@
                                                                             </p>
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="icons/1.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/2.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/3.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/4.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/5.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/6.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/7.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/8.png" alt="" />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="icons/arrow-reverse.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/arrow.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/arts.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/B.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/bars.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/blu-blank.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/blu-circle.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/blu-diamond.png" alt="" />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="icons/C.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/cabs.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/camera.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/campfire.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/campground.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/caution.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/coffee.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/convenience.png" alt="" />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="icons/donut.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/E.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/earthquake.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/electronics.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/euro.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/F.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/falling_rocks.png" alt="" />
-                                                                        </td>
-                                                                    </tr>
                                                                 </table>
+                                                                <asp:Panel ID="addIconToLibary" runat="server" Visible="true">
+                                                                </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
-                                                                    <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" />&nbsp;&nbsp;
+                                                                    <!-- <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" OnClick="addIconFromLibraryToConn" CommandArgument="none"/>&nbsp;&nbsp; -->
                                                                     <asp:Button ID="btnClose" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>
                                                             </td>
@@ -453,7 +366,7 @@
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk2"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 
                                                 CancelControlID="btnClose2" runat="server" PopupControlID="RemoveIconsPanel"
                                                 ID="ModalPopupExtender2" TargetControlID="removeIcon" />
                                             <asp:Panel ID="RemoveIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
@@ -476,49 +389,10 @@
                                                                             </p>
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td style="width: 64px;">
-                                                                        </td>
-                                                                        <td style="width: 64px;">
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/cycling.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/bus.png" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <img src="icons/electronics.png" alt="" />
-                                                                        </td>
-                                                                        <td style="width: 64px;">
-                                                                        </td>
-                                                                        <td style="width: 64px;">
-                                                                        </td>
-                                                                        <td style="width: 64px;">
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                        <td>
-                                                                        </td>
-                                                                    </tr>
                                                                 </table>
+                                                                <asp:Panel ID="removeIconFromConn" runat="server" Visible="true">
+                                                                </asp:Panel>
                                                                 <div class="right">
-                                                                    <asp:Button ID="btnOk2" runat="server" Text="Remove Icon" CssClass="button" />
-                                                                    &nbsp;&nbsp;
                                                                     <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>
                                                             </td>
@@ -1012,7 +886,8 @@
         </div>
         <div id="footer">
             <div class="right">
-                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" />
+            </div>
         </div>
     </div>
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">

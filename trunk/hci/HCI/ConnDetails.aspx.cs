@@ -70,13 +70,119 @@ namespace HCI
 
                     //Garbage collection
                     connInfo = null;
-                    fillIconListFromDatabase();
+                    
                 }
             }
+
+            fillIconLibraryPopup();
+
+            fillIconLibraryPopupRemove();
+
+            fillIconListFromDatabase();
 
             genIconConditionTable(sender, e);
             
             BuildTypeList();
+        }
+
+        //populates the popup panel for removing an icon from a connection
+        protected void fillIconLibraryPopupRemove()
+        {
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary,Icon Where IconLibrary.ID=Icon.ID AND Icon.ConnID="+Request.QueryString.Get("ConnID"));
+
+            int sizeOfBox = 8;
+            int currentBoxCount = 0;
+
+            removeIconFromConn.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (currentBoxCount == sizeOfBox)
+                {
+                    removeIconFromConn.Controls.Add(new LiteralControl("</tr>\n"));
+                    currentBoxCount = 0;
+                }
+                if (currentBoxCount == 0)
+                {
+                    removeIconFromConn.Controls.Add(new LiteralControl("<tr>\n"));
+                }
+
+                removeIconFromConn.Controls.Add(new LiteralControl("<td>"));
+                ImageButton imgBtn = new ImageButton();
+                imgBtn.ID = "imgLib_" + dr.ItemArray.ElementAt(0);
+                imgBtn.ImageUrl = dr.ItemArray.ElementAt(1).ToString();
+                imgBtn.Click += new ImageClickEventHandler(removeIconFromConnFunct);
+                imgBtn.CommandArgument = dr.ItemArray.ElementAt(0).ToString();
+
+                removeIconFromConn.Controls.Add(imgBtn);
+                removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
+
+
+                currentBoxCount += 1;
+            }
+            removeIconFromConn.Controls.Add(new LiteralControl("</table>\n"));
+        }
+
+        //populates the popup panel for adding an icon to a connection from the icon library
+        protected void fillIconLibraryPopup()
+        {
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary Where ID=((Select ID From IconLibrary) EXCEPT (Select ID from Icon Where connID="+Request.QueryString.Get("ConnID")+"))");
+
+            int sizeOfBox = 8;
+            int currentBoxCount = 0;
+
+            addIconToLibary.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (currentBoxCount == sizeOfBox)
+                {
+                    addIconToLibary.Controls.Add(new LiteralControl("</tr>\n"));
+                    currentBoxCount = 0;
+                }
+                if (currentBoxCount == 0)
+                {
+                    addIconToLibary.Controls.Add(new LiteralControl("<tr>\n"));
+                }
+
+                addIconToLibary.Controls.Add(new LiteralControl("<td>"));
+                ImageButton imgBtn = new ImageButton();
+                imgBtn.ID = "imgLib_" + dr.ItemArray.ElementAt(0);
+                imgBtn.ImageUrl = dr.ItemArray.ElementAt(1).ToString();
+                imgBtn.Click += new ImageClickEventHandler(addIconFromLibraryToConn);
+                imgBtn.CommandArgument = dr.ItemArray.ElementAt(0).ToString();
+
+                addIconToLibary.Controls.Add(imgBtn);
+                addIconToLibary.Controls.Add(new LiteralControl("</td>"));
+
+
+                currentBoxCount += 1;
+            }
+            addIconToLibary.Controls.Add(new LiteralControl("</table>\n"));
+        }
+
+        //Adds an icon to a connection from the library
+        protected void addIconFromLibraryToConn(object sender, EventArgs e)
+        {
+            ImageButton sendBtn = (ImageButton)sender;
+            String args = sendBtn.CommandArgument.ToString();
+
+            Database db = new Database();
+            db.executeQueryLocal("INSERT INTO ICON (ID, connID) VALUES ('" + args + "', '" + Request.QueryString.Get("ConnID") + "')");
+
+        }
+
+        //Removes an icon assocaiated with a connection and all conditions associated with it
+        protected void removeIconFromConnFunct(object sender, EventArgs e)
+        {
+            ImageButton sendBtn = (ImageButton)sender;
+            String args = sendBtn.CommandArgument.ToString();
+
+            Database db = new Database();
+            db.executeQueryLocal("DELETE FROM Icon WHERE ID=" + args + " AND connID=" + Request.QueryString.Get("ConnID"));
+
         }
 
         protected void genDBTCol(object sender, EventArgs e)
@@ -140,7 +246,7 @@ namespace HCI
             DBFields.Visible = true;
 
         }
-
+        
         protected void fillIconListFromDatabase()
         {
             Database db = new Database();
@@ -186,7 +292,7 @@ namespace HCI
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/cycling.png\" alt=\"\" />\n"));  // TODO: change this to pic from icon.location
+                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\""+icon.getLocation()+"\" alt=\"\" />\n"));  // TODO: change this to pic from icon.location
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
@@ -742,6 +848,7 @@ namespace HCI
                 contentType = registryKey.GetValue("Content Type").ToString();
             return contentType;
         }
+
         //private bool fetch;
         //private String URL;
         //private Database DB;
