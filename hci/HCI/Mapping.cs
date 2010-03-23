@@ -123,9 +123,6 @@ namespace HCI
                 p2 += cord[i];
 
             double q1, q2;
-
-            // NEED TO FIX THIS
-            // SPF took it out so other code compiles
             try
             {
                 q1.Equals(double.Parse(p1));
