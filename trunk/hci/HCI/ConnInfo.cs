@@ -143,7 +143,6 @@ namespace HCI
             this.oracleSID = oracleSID;
         }
 
-
         public bool isValid()
         {
             bool valid = false;
