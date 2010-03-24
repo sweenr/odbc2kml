@@ -738,11 +738,16 @@ namespace HCI
                 }
                 else if (!valid)
                 {
-                    //errorPanel1.Text = "Current File type = " + fileUpEx.PostedFile.ContentType + " File type not appropriate (only jpg, gif, tiff, png, bmp accepted)";
+                    String errorText = "Current File type = " + fileUpEx.PostedFile.ContentType + " File type not appropriate (only jpg, gif, tiff, png, bmp accepted)";
+                    ErrorHandler eh = new ErrorHandler(errorText, errorPanel1);
+                    eh.displayError();
+                    return;
                 }
                 else
                 {
-                    //errorPanel1.Text = "File dimensions to large (max 128 x 128)";
+                    ErrorHandler eh = new ErrorHandler("File dimensions to large (max 128 x 128)", errorPanel1);
+                    eh.displayError();
+                    return;
                 }
             }
             fileUpEx = new FileUpload();
@@ -798,13 +803,17 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    throw new ODBC2KMLException("URL contains to many TitlesYou linked to an invalid file type");
+                    ErrorHandler eh = new ErrorHandler("URL contains to many TitlesYou linked to an invalid file type", errorPanel1);
+                    eh.displayError();
+                    return;
                 }
                 else
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    throw new ODBC2KMLException("The file you linked to was to large (max 128 x 128)");
+                    ErrorHandler eh = new ErrorHandler("The file you linked to was to large (max 128 x 128)", errorPanel1);
+                    eh.displayError();
+                    return;
                 }
             }
             else
@@ -820,13 +829,17 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    throw new ODBC2KMLException("You linked to an invalid file type");
+                    ErrorHandler eh = new ErrorHandler("You linked to an invalid file type", errorPanel1);
+                    eh.displayError();
+                    return;
                 }
                 else
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    throw new ODBC2KMLException("The file you linked to was to large (max 128 x 128)");
+                    ErrorHandler eh = new ErrorHandler("The file you linked to was to large (max 128 x 128)", errorPanel1);
+                    eh.displayError();
+                    return;
                 }
             }
             fetchCheckBox.Checked = false;
