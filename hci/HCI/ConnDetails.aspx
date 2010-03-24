@@ -446,7 +446,7 @@
                                                                                                     Please enter the URL of the icon you would like to use</p>
                                                                                                 <p>
                                                                                                     <asp:TextBox ID="URLtextBox" runat="server" Width="270" />
-                                                                                                    <asp:Button ID="URLcorrect" runat="server" OnClick="URLcorrectClick" Text="Save" />
+                                                                                                    <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmitClick" Text="Save" />
                                                                                                 </p>
                                                                                             </li>
                                                                                         </ul>

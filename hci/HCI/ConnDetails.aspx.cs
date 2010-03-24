@@ -704,12 +704,18 @@ namespace HCI
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
         }
-
+        /// <summary>
+        /// used for uploading icons from local computer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSubmitClick(object sender, EventArgs e)
         {
             Boolean valid = false;
+            //checks to make sure there is an uploaded file
             if (fileUpEx.HasFile)
             {
+                //checks for valid filetype
                 foreach (String type in validTypes)
                 {
                     if (fileUpEx.PostedFile.ContentType.Equals(type))
@@ -717,6 +723,7 @@ namespace HCI
                         valid = true;
                     }
                 }
+                //checks for valid dimensions
                 if (valid && ValidateFileDimensions(fileUpEx.PostedFile.InputStream))
                 {
                     String filepath = fileUpEx.PostedFile.FileName;
@@ -747,17 +754,26 @@ namespace HCI
         //    URLsubmitLabel.Text = "You entered - " + "<a href=\"" + URL + "\" target=NEW>" + URL + "</a>";
         //    //DB.executeQueryLocal("");
         //}
-        protected void URLcorrectClick(object sender, EventArgs e)
+        /// <summary>
+        /// used for uploadinc icons from remote sources
+        /// if fetch is checked this function downloads the linked icon and saves its info to the db and saves the icon
+        /// if fetch is not checked it just saves the linked icon's info to the db
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void URLsubmitClick(object sender, EventArgs e)
         {
             String URL = URLtextBox.Text.Trim();
             Database DB = new Database();
             WebClient Client = new WebClient();
+            //below lines get information to check validity of icon and saves the icon temporarily
             String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
             String ext = System.IO.Path.GetExtension(URL);
             String suffix = GetRandomString();
             String tempName = tempSaveLoc + fileName + suffix + ext;
             Client.DownloadFile(URL, tempName);
             bool valid = false;
+            //checks to see if fileType of icon is valid
             foreach (String type in validTypes)
             {
                 String localFileType = GetContentType(tempName);
@@ -770,6 +786,7 @@ namespace HCI
             if (fetchCheckBox.Checked)
             {
                 String Name = fileSaveLoc + fileName + suffix + ext;
+                //checks if icon has valid dimensions
                 if (valid && ValidateFileDimensions(fs))
                 {
                     fs.Close();
@@ -781,17 +798,18 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    //errorPanel1.Text = "You linked to an invalid file type";
+                    throw new ODBC2KMLException("URL contains to many TitlesYou linked to an invalid file type");
                 }
                 else
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    //errorPanel1.Text = "The file you linked to was to large (max 128 x 128)";
+                    throw new ODBC2KMLException("The file you linked to was to large (max 128 x 128)");
                 }
             }
             else
             {
+                //checks if icon has valid dimensions
                 if (valid && ValidateFileDimensions(fs))
                 {
                     fs.Close();
@@ -802,24 +820,31 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    //errorPanel1.Text = "You linked to an invalid file type";
+                    throw new ODBC2KMLException("You linked to an invalid file type");
                 }
                 else
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    //errorPanel1.Text = "The file you linked to was to large (max 128 x 128)";
+                    throw new ODBC2KMLException("The file you linked to was to large (max 128 x 128)");
                 }
             }
             fetchCheckBox.Checked = false;
             URLtextBox.Text = "";
         }
+        /// <summary>
+        /// helper function used by saving icons without name overlap
+        /// </summary>
+        /// <returns></returns>
         public static string GetRandomString()
         {
             string path = Path.GetRandomFileName();
             path = path.Replace(".", ""); // Remove period.
             return path;
         }
+        /// <summary>
+        /// type list used to check for valid file types of icons
+        /// </summary>
         public void BuildTypeList()
         {
             this.validTypes.Add("image/bmp");
@@ -831,6 +856,11 @@ namespace HCI
             this.validTypes.Add("image/x-tiff");
             this.validTypes.Add("image/x-windows-bmp");
         }
+        /// <summary>
+        /// helper function to check dimensions of uploaded icons
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>bool, true if valid dimensions</returns>
         private bool ValidateFileDimensions(Stream input)
         {
             using (System.Drawing.Image myImage =
@@ -839,6 +869,11 @@ namespace HCI
                 return (myImage.Height <= height && myImage.Width <= width);
             }
         }
+        /// <summary>
+        /// helper function to get type of uploaded icons
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>contentType</returns>
         private string GetContentType(string fileName)
         {
             string contentType = "application/octetstream";
