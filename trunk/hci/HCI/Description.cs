@@ -100,7 +100,7 @@ namespace HCI
         /// <param name="inTable"></param>
         /// <param name="descString"></param>
         /// <returns>ArrayList of parsed descriptions</returns>
-        public static ArrayList parseDesc(DataTable inTable, String descString)
+        public static ArrayList parseDesc(DataTable inTable, String descString, String tableName)
         {
             //Database DB = new Database();
             //DataTable mapping = DB.executeQueryLocal("SELECT 'tableName' FROM Mapping WHERE connID=\'" + connID + "\'");
@@ -116,7 +116,7 @@ namespace HCI
             //int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
             //DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
             //String descString = desc.ToString();
-            //ArrayList descArray = null;
+            ArrayList descArray = null;
             //foreach (String tableName in tablesToBeSearched)
             //{
             //    DataTable remote = null;
@@ -263,11 +263,12 @@ namespace HCI
                             String colString = imageString.Substring(colIndex, colLength);
                             colString.Replace("[COL]", "");
                             colString.Replace("[/COL]", "");
-                            imageString = "<img src=\"./ImageWebSVC.asmx/getImage?connID="
-                                + connID + "&table="
-                                + tblString + "&field="
-                                + colString + "&row="
-                                + rowCount + "\" />";
+                            //imageString = "<img src=\"./ImageWebSVC.asmx/getImage?connID="
+                            //    + connID + "&table="
+                            //    + tblString + "&field="
+                            //    + colString + "&row="
+                            //    + rowCount + "\" />";
+                            imageString = "this function doesn't work right now";
                         }
                         if (imageString.Contains("[TBL]") && !imageString.Contains("[COL]"))
                         {
@@ -279,7 +280,7 @@ namespace HCI
                         }
                         descString = descString1 + imageString + descString2;
                     }
-                    rowCount++;
+                    //rowCount++;
                     descArray.Add(descString);
                 }
                     //String URLstringFinal = @"<a href='" +
