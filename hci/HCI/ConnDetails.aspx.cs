@@ -72,6 +72,7 @@ namespace HCI
                     connInfo = null;
 
                     fillIconLibraryLists();
+                    fillOverlayLibraryLists();
                     fillIconListFromDatabase();
                 }
             }
@@ -132,6 +133,12 @@ namespace HCI
 
         protected void updateConnection(object sender, EventArgs e)
         {
+
+        }
+
+        protected void fillOverlayLibraryLists()
+        {
+            overlayList.Clear();
 
         }
 
@@ -313,7 +320,11 @@ namespace HCI
 
             //Database db = new Database();
             //db.executeQueryLocal("DELETE FROM Icon WHERE ID=" + args + " AND connID=" + Request.QueryString.Get("ConnID"));
+        }
 
+        protected void addOverlayColorToConn(object sender, EventArgs e)
+        {
+                        
         }
 
         protected void genDBTCol(object sender, EventArgs e)
@@ -1008,6 +1019,8 @@ namespace HCI
         private static ArrayList iconList = new ArrayList();
         private static ArrayList iconListAvailableToAdd = new ArrayList();
         private static ArrayList iconListAvailableToRemove = new ArrayList();
+        private static ArrayList overlayListAvailableToAdd = new ArrayList();
+        private static ArrayList overlayListAvailableToRemove = new ArrayList();
         private ArrayList overlayList = new ArrayList();
     }
 }
