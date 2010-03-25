@@ -536,7 +536,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
+            
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "modIconConditionList2" + args + "_" + i;
             addUpperOperator.CssClass = "inputDD";
@@ -565,6 +565,8 @@ namespace HCI
             addConditionButton.ToolTip = "Add Condition";
             addConditionButton.Width = 80;
             addConditionButton.CssClass = "button";
+            addConditionButton.Click += new EventHandler(addConditionToIcon);
+            addConditionButton.CommandArgument = addLowerBound.Text + "|" + addLowerOperator.Text + "|" + addTableName.Text + "|" + addFieldName.Text + "|" + addUpperOperator.Text + "|" + addUpperBound.Text + "|" + args;
             modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -682,9 +684,6 @@ namespace HCI
 
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-
-
-
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -714,6 +713,81 @@ namespace HCI
                     {
                         icon.removeConditions(conditionId);
                     }
+                }
+            }
+        }
+
+        protected void addConditionToIcon(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int[] breaks;
+            breaks = new int[7];
+            int i = 0;
+            for (int j = 0; j < btn.CommandArgument.Length; j++)
+            {
+                if (i >= 7)
+                    continue;
+                if (btn.CommandArgument[j] == '|')
+                {
+                    breaks[i] = j;
+                    i++;
+                }
+            }
+            string lowerBound = btn.CommandArgument.Substring(0,breaks[0]);
+            string lowerOperator = btn.CommandArgument.Substring(breaks[0] + 1, breaks[1] - breaks[0] - 1);
+            string tableName = btn.CommandArgument.Substring(breaks[1] + 1, breaks[2] - breaks[1] - 1);
+            string fieldName = btn.CommandArgument.Substring(breaks[2] + 1, breaks[3] - breaks[2] - 1);
+            string upperOperator = btn.CommandArgument.Substring(breaks[3] + 1, breaks[4] - breaks[3] - 1);
+            string upperBound = btn.CommandArgument.Substring(breaks[4] + 1, breaks[5] - breaks[4] - 1);
+            string iconId = btn.CommandArgument.Substring(breaks[5] + 1);
+
+            Condition condition = new Condition();
+            condition.setLowerBound(lowerBound);
+            condition.setUpperBound(upperBound);
+            condition.setTableName(tableName);
+            condition.setFieldName(fieldName);
+            switch (lowerOperator)
+            {
+                case "<":
+                    condition.setLowerOperator(1);
+                    break;
+                case "<=":
+                    condition.setLowerOperator(2);
+                    break;
+                case "==":
+                    condition.setLowerOperator(5);
+                    break;
+                case "!=":
+                    condition.setLowerOperator(6);
+                    break;
+                default:
+                    condition.setLowerOperator(0);
+                    break;
+            }
+            switch (upperOperator)
+            {
+                case "<":
+                    condition.setUpperOperator(1);
+                    break;
+                case "<=":
+                    condition.setUpperOperator(2);
+                    break;
+                case "==":
+                    condition.setUpperOperator(5);
+                    break;
+                case "!=":
+                    condition.setUpperOperator(6);
+                    break;
+                default:
+                    condition.setUpperOperator(0);
+                    break;
+            }
+
+            foreach (Icon icon in iconList)
+            {
+                if (icon.getId() == iconId)
+                {
+                    icon.setConditions(condition);
                 }
             }
         }
