@@ -1221,12 +1221,12 @@ namespace HCI
         {
             Button btn = (Button)sender;
             string args = btn.CommandArgument.ToString();
-            TextBox lowerBound = (TextBox)Page.FindControl("addLowerBound" + args);
-            DropDownList lowerOperator = (DropDownList)Page.FindControl("addLowerOperator" + args);
-            TextBox tableName = (TextBox)Page.FindControl("addTableName" + args);
-            TextBox fieldName = (TextBox)Page.FindControl("addFieldName" + args);
-            DropDownList upperOperator = (DropDownList)Page.FindControl("addUpperOperator" + args);
-            TextBox upperBound = (TextBox)Page.FindControl("addUpperBound" + args);
+            TextBox lowerBound = (TextBox)Page.FindControl("addOverlayLowerBound" + args);
+            DropDownList lowerOperator = (DropDownList)Page.FindControl("addOverlayLowerOperator" + args);
+            TextBox tableName = (TextBox)Page.FindControl("addOverlayTableName" + args);
+            TextBox fieldName = (TextBox)Page.FindControl("addOverlayFieldName" + args);
+            DropDownList upperOperator = (DropDownList)Page.FindControl("addOverlayUpperOperator" + args);
+            TextBox upperBound = (TextBox)Page.FindControl("addOverlayUpperBound" + args);
             string overlayId = args;
 
             Condition condition = new Condition();
@@ -1459,6 +1459,6 @@ namespace HCI
         private static ArrayList iconListAvailableToRemove = new ArrayList();
         private static ArrayList overlayListAvailableToAdd = new ArrayList();
         private static ArrayList overlayListAvailableToRemove = new ArrayList();
-        private ArrayList overlayList = new ArrayList();
+        private static ArrayList overlayList = new ArrayList();
     }
 }
