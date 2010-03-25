@@ -70,36 +70,62 @@ namespace HCI
 
                     //Garbage collection
                     connInfo = null;
-                    
+
+                    fillIconLibraryLists();
+                    fillIconListFromDatabase();
                 }
             }
 
             fillIconLibraryPopup();
-
             fillIconLibraryPopupRemove();
-
-            if (!IsPostBack)
-            {
-                fillIconListFromDatabase();
-            }
 
             genIconConditionTable(sender, e);
             
             BuildTypeList();
         }
 
+        protected void fillIconLibraryLists()
+        {
+            iconListAvailableToAdd.Clear();
+            iconListAvailableToRemove.Clear();
+
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + " ) AND (ID = IL.ID)))");
+            foreach (DataRow dr in dt.Rows)
+            {
+                string iconId = dr["ID"].ToString();
+                string iconLoc = dr["location"].ToString();
+                Icon icon = new Icon();
+                icon.setId(iconId);
+                icon.setLocation(iconLoc);
+                iconListAvailableToAdd.Add(icon);
+            }
+            //fillIconLibraryPopup();
+
+            Database db2 = new Database();
+            DataTable dt2;
+            dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary,Icon Where IconLibrary.ID=Icon.ID AND Icon.ConnID=" + Request.QueryString.Get("ConnID"));
+            foreach (DataRow dr2 in dt2.Rows)
+            {
+                string iconId = dr2["ID"].ToString();
+                string iconLoc = dr2["location"].ToString();
+                Icon icon = new Icon();
+                icon.setId(iconId);
+                icon.setLocation(iconLoc);
+                iconListAvailableToRemove.Add(icon);
+            }
+            //fillIconLibraryPopupRemove();
+        }
+
         //populates the popup panel for removing an icon from a connection
         protected void fillIconLibraryPopupRemove()
         {
-            Database db = new Database();
-            DataTable dt;
-            dt = db.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary,Icon Where IconLibrary.ID=Icon.ID AND Icon.ConnID="+Request.QueryString.Get("ConnID"));
-
             int sizeOfBox = 8;
             int currentBoxCount = 0;
-
+            removeIconFromConn.Controls.Clear();
             removeIconFromConn.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
-            foreach (DataRow dr in dt.Rows)
+            foreach (Icon icn in iconListAvailableToRemove)
             {
                 if (currentBoxCount == sizeOfBox)
                 {
@@ -113,10 +139,10 @@ namespace HCI
 
                 removeIconFromConn.Controls.Add(new LiteralControl("<td>"));
                 ImageButton imgBtn = new ImageButton();
-                imgBtn.ID = "imgLib_" + dr.ItemArray.ElementAt(0);
-                imgBtn.ImageUrl = dr.ItemArray.ElementAt(1).ToString();
+                imgBtn.ID = "imgLib_" + icn.getId().ToString();
+                imgBtn.ImageUrl = icn.getLocation().ToString();
                 imgBtn.Click += new ImageClickEventHandler(removeIconFromConnFunct);
-                imgBtn.CommandArgument = dr.ItemArray.ElementAt(0).ToString();
+                imgBtn.CommandArgument = icn.getId().ToString();
 
                 removeIconFromConn.Controls.Add(imgBtn);
                 removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
@@ -130,15 +156,12 @@ namespace HCI
         //populates the popup panel for adding an icon to a connection from the icon library
         protected void fillIconLibraryPopup()
         {
-            Database db = new Database();
-            DataTable dt;
-            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = "+Request.QueryString.Get("ConnID")+" ) AND (ID = IL.ID)))");
-
             int sizeOfBox = 8;
             int currentBoxCount = 0;
 
+            addIconToLibary.Controls.Clear();
             addIconToLibary.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
-            foreach (DataRow dr in dt.Rows)
+            foreach (Icon icn in iconListAvailableToAdd)
             {
                 if (currentBoxCount == sizeOfBox)
                 {
@@ -152,10 +175,10 @@ namespace HCI
 
                 addIconToLibary.Controls.Add(new LiteralControl("<td>"));
                 ImageButton imgBtn = new ImageButton();
-                imgBtn.ID = "imgLib_" + dr.ItemArray.ElementAt(0);
-                imgBtn.ImageUrl = dr.ItemArray.ElementAt(1).ToString();
+                imgBtn.ID = "imgLib_" + icn.getId().ToString();
+                imgBtn.ImageUrl = icn.getLocation().ToString();
                 imgBtn.Click += new ImageClickEventHandler(addIconFromLibraryToConn);
-                imgBtn.CommandArgument = dr.ItemArray.ElementAt(0).ToString();
+                imgBtn.CommandArgument = icn.getId().ToString();
 
                 addIconToLibary.Controls.Add(imgBtn);
                 addIconToLibary.Controls.Add(new LiteralControl("</td>"));
@@ -172,9 +195,30 @@ namespace HCI
             ImageButton sendBtn = (ImageButton)sender;
             String args = sendBtn.CommandArgument.ToString();
 
-            Database db = new Database();
-            db.executeQueryLocal("INSERT INTO ICON (ID, connID) VALUES ('" + args + "', '" + Request.QueryString.Get("ConnID") + "')");
+            Icon icn = new Icon();
+            Icon iconSaved = new Icon();
+            icn.setId(args);
 
+            int i = 0;
+            foreach (Icon icon in iconListAvailableToAdd)
+            {
+                if (icon.getId().Equals(icn.getId()))
+                {
+                    iconSaved.setId(icon.getId());
+                    iconSaved.setLocation(icon.getLocation());
+                    iconListAvailableToAdd.RemoveAt(i);
+                    iconListAvailableToRemove.Add(iconSaved);
+                    iconList.Add(iconSaved);
+                    this.fillIconLibraryPopup();
+                    this.fillIconLibraryPopupRemove();
+                    this.genIconConditionTable(sender, e);
+                    break;
+                }
+                i += 1;
+            }
+
+            //Database db = new Database();
+            //db.executeQueryLocal("INSERT INTO ICON (ID, connID) VALUES ('" + args + "', '" + Request.QueryString.Get("ConnID") + "')");
         }
 
         //Removes an icon assocaiated with a connection and all conditions associated with it
@@ -183,8 +227,41 @@ namespace HCI
             ImageButton sendBtn = (ImageButton)sender;
             String args = sendBtn.CommandArgument.ToString();
 
-            Database db = new Database();
-            db.executeQueryLocal("DELETE FROM Icon WHERE ID=" + args + " AND connID=" + Request.QueryString.Get("ConnID"));
+            Icon icn = new Icon();
+            Icon iconSaved = new Icon();
+            icn.setId(args);
+
+            int i = 0;
+            foreach (Icon icon in iconList)
+            {
+                if (icon.getId().Equals(icn.getId()))
+                {
+                    iconList.RemoveAt(i);
+                    break;
+                }
+                i += 1;
+            }
+            i = 0;
+            foreach (Icon icon in iconListAvailableToRemove)
+            {
+                
+                if (icon.getId().Equals(icn.getId()))
+                {
+                    iconSaved.setId(icon.getId());
+                    iconSaved.setLocation(icon.getLocation());
+                    iconListAvailableToRemove.RemoveAt(i);
+                    iconListAvailableToAdd.Add(iconSaved);
+                    this.fillIconLibraryPopup();
+                    this.fillIconLibraryPopupRemove();
+                    this.genIconConditionTable(sender, e);
+                    break;
+                }
+                i += 1;
+            }
+
+
+            //Database db = new Database();
+            //db.executeQueryLocal("DELETE FROM Icon WHERE ID=" + args + " AND connID=" + Request.QueryString.Get("ConnID"));
 
         }
 
@@ -206,15 +283,6 @@ namespace HCI
             latLong.CssClass = "button";
             latLong.ToolTip = "Lat/Long Details";
 
-//Create Panel for latLong button................................
-//            Panel LatLongDetailsPopupPanel = new Panel();
-//            LatLongDetailsPopupPanel.ID = "LatLongDetailsPopupPanel";
-//            LatLongDetailsPopupPanel.CssClass = "boxPopupStyle";
-//
-//            AjaxControlToolkit.ModalPopupExtender lld = new AjaxControlToolkit.ModalPopupExtender();
-//            lld.PopupControlID = LatLongDetailsPopupPanel.ID.ToString();
-//            lld.TargetControlID = latLong.ID.ToString();
-//.......................................................
             Button preview = new Button();
             preview.ID = "preview";
             preview.Text = "View Table";
@@ -261,6 +329,7 @@ namespace HCI
         
         protected void fillIconListFromDatabase()
         {
+            iconList.Clear();
             Database db = new Database();
             DataTable dt;
             
@@ -276,11 +345,10 @@ namespace HCI
 
                 Database db2 = new Database();
                 DataTable dt2;
-                dt2 = db2.executeQueryLocal("SELECT ID, fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
+                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
                 foreach (DataRow dr2 in dt2.Rows)
                 {
                     Condition condition = new Condition();
-                    condition.setId(Convert.ToInt32(dr2["ID"].ToString()));
                     condition.setFieldName(dr2["fieldName"].ToString());
                     condition.setTableName(dr2["tableName"].ToString());
                     condition.setLowerBound(dr2["lowerBound"].ToString());
@@ -300,16 +368,7 @@ namespace HCI
             }
             Database db3 = new Database();
             DataTable dt3;
-            try
-            {
-                dt3 = db3.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE (ID = (SELECT ID FROM Icon AS IX WHERE (NOT EXISTS (SELECT DISTINCT iconID FROM IconCondition AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + ") AND (iconID = IX.ID))) AND (connID = " + Request.QueryString.Get("ConnID") + ")))");
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                eh.displayError();
-                return;
-            }
+            dt3 = db3.executeQueryLocal("SELECT IX.ID, IL.location FROM Icon AS IX INNER JOIN IconLibrary AS IL ON IX.ID = IL.ID WHERE (NOT EXISTS (SELECT DISTINCT iconID FROM IconCondition AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + ") AND (iconID = IX.ID))) AND (IX.connID = " + Request.QueryString.Get("ConnID") + ")");
             foreach (DataRow dr in dt3.Rows)
             {
                 string iconId = dr["ID"].ToString();
@@ -324,6 +383,7 @@ namespace HCI
 
         protected void genIconConditionTable(object sender, EventArgs e)
         {
+            IconConditionPanel.Controls.Clear();
             foreach (Icon icon in iconList)
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
@@ -396,6 +456,7 @@ namespace HCI
 
         protected void genIconConditionPopup(Panel modifyIconConditionInsidePopupPanel, String args)
         {
+            //modifyIconConditionInsidePopupPanel.Controls.Clear();
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
@@ -482,14 +543,12 @@ namespace HCI
                     }
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
-                    deleteConditionButton.ID = "delCondition" + condition.getId();
+                    deleteConditionButton.ID = "delCondition" + args + "_" + i++;
 
                     deleteConditionButton.Text = "Remove";
                     deleteConditionButton.CssClass = "button";
                     deleteConditionButton.ToolTip = "Delete Condition";
                     deleteConditionButton.Width = 80;
-                    deleteConditionButton.Click += new EventHandler(deleteIconCondition);
-                    deleteConditionButton.CommandArgument = icon.getId() + " " + condition.getId();
                     modifyIconConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -536,7 +595,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            
+
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "modIconConditionList2" + args + "_" + i;
             addUpperOperator.CssClass = "inputDD";
@@ -565,8 +624,6 @@ namespace HCI
             addConditionButton.ToolTip = "Add Condition";
             addConditionButton.Width = 80;
             addConditionButton.CssClass = "button";
-            addConditionButton.Click += new EventHandler(addConditionToIcon);
-            addConditionButton.CommandArgument = addLowerBound.Text + "|" + addLowerOperator.Text + "|" + addTableName.Text + "|" + addFieldName.Text + "|" + addUpperOperator.Text + "|" + addUpperBound.Text + "|" + args;
             modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -584,6 +641,7 @@ namespace HCI
 
         protected void genAddIconConditionPopup(Panel addIconConditionPopupPanel)
         {
+            //addIconConditionPopupPanel.Controls.Clear();
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
@@ -684,6 +742,9 @@ namespace HCI
 
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+
+
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -696,102 +757,6 @@ namespace HCI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// 
-
-        protected void deleteIconCondition(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            int lastSpace = btn.CommandArgument.LastIndexOf(" ");
-            if (lastSpace >= 0)
-            {
-                string iconId = btn.CommandArgument.Substring(0, lastSpace);
-                string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
-
-                foreach (Icon icon in iconList)
-                {
-                    if (icon.getId() == iconId)
-                    {
-                        icon.removeConditions(conditionId);
-                    }
-                }
-            }
-        }
-
-        protected void addConditionToIcon(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            int[] breaks;
-            breaks = new int[7];
-            int i = 0;
-            for (int j = 0; j < btn.CommandArgument.Length; j++)
-            {
-                if (i >= 7)
-                    continue;
-                if (btn.CommandArgument[j] == '|')
-                {
-                    breaks[i] = j;
-                    i++;
-                }
-            }
-            string lowerBound = btn.CommandArgument.Substring(0,breaks[0]);
-            string lowerOperator = btn.CommandArgument.Substring(breaks[0] + 1, breaks[1] - breaks[0] - 1);
-            string tableName = btn.CommandArgument.Substring(breaks[1] + 1, breaks[2] - breaks[1] - 1);
-            string fieldName = btn.CommandArgument.Substring(breaks[2] + 1, breaks[3] - breaks[2] - 1);
-            string upperOperator = btn.CommandArgument.Substring(breaks[3] + 1, breaks[4] - breaks[3] - 1);
-            string upperBound = btn.CommandArgument.Substring(breaks[4] + 1, breaks[5] - breaks[4] - 1);
-            string iconId = btn.CommandArgument.Substring(breaks[5] + 1);
-
-            Condition condition = new Condition();
-            condition.setLowerBound(lowerBound);
-            condition.setUpperBound(upperBound);
-            condition.setTableName(tableName);
-            condition.setFieldName(fieldName);
-            switch (lowerOperator)
-            {
-                case "<":
-                    condition.setLowerOperator(1);
-                    break;
-                case "<=":
-                    condition.setLowerOperator(2);
-                    break;
-                case "==":
-                    condition.setLowerOperator(5);
-                    break;
-                case "!=":
-                    condition.setLowerOperator(6);
-                    break;
-                default:
-                    condition.setLowerOperator(0);
-                    break;
-            }
-            switch (upperOperator)
-            {
-                case "<":
-                    condition.setUpperOperator(1);
-                    break;
-                case "<=":
-                    condition.setUpperOperator(2);
-                    break;
-                case "==":
-                    condition.setUpperOperator(5);
-                    break;
-                case "!=":
-                    condition.setUpperOperator(6);
-                    break;
-                default:
-                    condition.setUpperOperator(0);
-                    break;
-            }
-
-            foreach (Icon icon in iconList)
-            {
-                if (icon.getId() == iconId)
-                {
-                    icon.setConditions(condition);
-                }
-            }
-        }
-
         protected void btnSubmitClick(object sender, EventArgs e)
         {
             Boolean valid = false;
@@ -814,21 +779,10 @@ namespace HCI
                     String filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
                     String suffix = GetRandomString();
                     String file = filename + suffix + file_ext;
-                    String relativeName = relativeFileSaveLoc + file;
+
                     //save the file to the server
                     fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
                     //errorPanel1.Text = "File Saved to: " + fileSaveLoc + file;
-                    Database DB = new Database();
-                    try
-                    {
-                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
-                    }
-                    catch (ODBC2KMLException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
                 }
                 else if (!valid)
                 {
@@ -885,29 +839,19 @@ namespace HCI
             if (fetchCheckBox.Checked)
             {
                 String Name = fileSaveLoc + fileName + suffix + ext;
-                String relativeName = relativeFileSaveLoc + fileName + suffix + ext;
                 //checks if icon has valid dimensions
                 if (valid && ValidateFileDimensions(fs))
                 {
                     fs.Close();
                     File.Move(tempName, Name);
                     File.Delete(tempName);
-                    try
-                    {
-                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
-                    }
-                    catch (ODBC2KMLException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
+                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + Name + "\', 1)");
                 }
                 else if (!valid)
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("You linked to an invalid file type", errorPanel1);
+                    ErrorHandler eh = new ErrorHandler("URL contains to many TitlesYou linked to an invalid file type", errorPanel1);
                     eh.displayError();
                     return;
                 }
@@ -927,16 +871,7 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    try
-                    {
-                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
-                    }
-                    catch (ODBC2KMLException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
+                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
                 }
                 else if (!valid)
                 {
@@ -1016,10 +951,11 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         public static String tempSaveLoc = @"C:\odbc2kml\temp\";
-        public static String fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
-        public static String relativeFileSaveLoc = @"icons/";
+        public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
         public ArrayList validTypes = new ArrayList();
         private static ArrayList iconList = new ArrayList();
-        private static ArrayList overlayList = new ArrayList();
+        private static ArrayList iconListAvailableToAdd = new ArrayList();
+        private static ArrayList iconListAvailableToRemove = new ArrayList();
+        private ArrayList overlayList = new ArrayList();
     }
 }
