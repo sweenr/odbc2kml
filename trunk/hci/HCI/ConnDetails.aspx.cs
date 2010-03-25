@@ -78,7 +78,10 @@ namespace HCI
 
             fillIconLibraryPopupRemove();
 
-            fillIconListFromDatabase();
+            if (!IsPostBack)
+            {
+                fillIconListFromDatabase();
+            }
 
             genIconConditionTable(sender, e);
             
@@ -273,10 +276,11 @@ namespace HCI
 
                 Database db2 = new Database();
                 DataTable dt2;
-                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
+                dt2 = db2.executeQueryLocal("SELECT ID, fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
                 foreach (DataRow dr2 in dt2.Rows)
                 {
                     Condition condition = new Condition();
+                    condition.setId(Convert.ToInt32(dr2["ID"].ToString()));
                     condition.setFieldName(dr2["fieldName"].ToString());
                     condition.setTableName(dr2["tableName"].ToString());
                     condition.setLowerBound(dr2["lowerBound"].ToString());
@@ -296,7 +300,16 @@ namespace HCI
             }
             Database db3 = new Database();
             DataTable dt3;
-            dt3 = db3.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE (ID = (SELECT ID FROM Icon AS IX WHERE (NOT EXISTS (SELECT DISTINCT iconID FROM IconCondition AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + ") AND (iconID = IX.ID))) AND (connID = " + Request.QueryString.Get("ConnID") + ")))");
+            try
+            {
+                dt3 = db3.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE (ID = (SELECT ID FROM Icon AS IX WHERE (NOT EXISTS (SELECT DISTINCT iconID FROM IconCondition AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + ") AND (iconID = IX.ID))) AND (connID = " + Request.QueryString.Get("ConnID") + ")))");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             foreach (DataRow dr in dt3.Rows)
             {
                 string iconId = dr["ID"].ToString();
@@ -469,12 +482,14 @@ namespace HCI
                     }
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
-                    deleteConditionButton.ID = "delCondition" + args + "_" + i++;
+                    deleteConditionButton.ID = "delCondition" + condition.getId();
 
                     deleteConditionButton.Text = "Remove";
                     deleteConditionButton.CssClass = "button";
                     deleteConditionButton.ToolTip = "Delete Condition";
                     deleteConditionButton.Width = 80;
+                    deleteConditionButton.Click += new EventHandler(deleteIconCondition);
+                    deleteConditionButton.CommandArgument = icon.getId() + " " + condition.getId();
                     modifyIconConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -682,6 +697,27 @@ namespace HCI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+
+        protected void deleteIconCondition(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int lastSpace = btn.CommandArgument.LastIndexOf(" ");
+            if (lastSpace >= 0)
+            {
+                string iconId = btn.CommandArgument.Substring(0, lastSpace);
+                string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
+
+                foreach (Icon icon in iconList)
+                {
+                    if (icon.getId() == iconId)
+                    {
+                        icon.removeConditions(conditionId);
+                    }
+                }
+            }
+        }
+
         protected void btnSubmitClick(object sender, EventArgs e)
         {
             Boolean valid = false;
@@ -878,7 +914,7 @@ namespace HCI
         public static String tempSaveLoc = @"C:\odbc2kml\temp\";
         public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
         public ArrayList validTypes = new ArrayList();
-        private ArrayList iconList = new ArrayList();
-        private ArrayList overlayList = new ArrayList();
+        private static ArrayList iconList = new ArrayList();
+        private static ArrayList overlayList = new ArrayList();
     }
 }
