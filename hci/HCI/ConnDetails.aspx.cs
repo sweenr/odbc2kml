@@ -203,6 +203,15 @@ namespace HCI
             latLong.CssClass = "button";
             latLong.ToolTip = "Lat/Long Details";
 
+//Create Panel for latLong button................................
+//            Panel LatLongDetailsPopupPanel = new Panel();
+//            LatLongDetailsPopupPanel.ID = "LatLongDetailsPopupPanel";
+//            LatLongDetailsPopupPanel.CssClass = "boxPopupStyle";
+//
+//            AjaxControlToolkit.ModalPopupExtender lld = new AjaxControlToolkit.ModalPopupExtender();
+//            lld.PopupControlID = LatLongDetailsPopupPanel.ID.ToString();
+//            lld.TargetControlID = latLong.ID.ToString();
+//.......................................................
             Button preview = new Button();
             preview.ID = "preview";
             preview.Text = "View Table";
