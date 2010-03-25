@@ -45,9 +45,21 @@ namespace HCI
             this.conditions.Add(con);
         }
 
-        public void removeConditions(int arrayPosition)
+        public void removeConditions(string conditionId)
         {
-            this.conditions.RemoveAt(arrayPosition);
+            foreach (Condition condition in this.conditions)
+            {
+                if (condition.getId() == conditionId)
+                {
+                    this.conditions.Remove(condition);
+                    return;
+                }
+            }
+        }
+
+        public void removeConditions(Condition condition)
+        {
+            this.conditions.Remove(condition);
         }
 
         public string getId()
