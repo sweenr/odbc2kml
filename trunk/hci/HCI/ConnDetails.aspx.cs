@@ -129,7 +129,7 @@ namespace HCI
         {
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary Where ID=((Select ID From IconLibrary) EXCEPT (Select ID from Icon Where connID="+Request.QueryString.Get("ConnID")+"))");
+            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = "+Request.QueryString.Get("ConnID")+" ) AND (ID = IL.ID)))");
 
             int sizeOfBox = 8;
             int currentBoxCount = 0;
@@ -251,7 +251,9 @@ namespace HCI
         {
             Database db = new Database();
             DataTable dt;
+            
             dt = db.executeQueryLocal("SELECT DISTINCT IconCondition.iconID, IconLibrary.location FROM IconCondition, IconLibrary WHERE IconCondition.connID = " + Request.QueryString.Get("ConnID") + " AND IconCondition.iconID = IconLibrary.ID");
+            
             foreach (DataRow dr in dt.Rows)
             {
                 string iconId = dr["iconID"].ToString();
@@ -281,6 +283,18 @@ namespace HCI
                         condition.setUpperOperator(0);
                     icon.setConditions(condition);
                 }
+                iconList.Add(icon);
+            }
+            Database db3 = new Database();
+            DataTable dt3;
+            dt3 = db3.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE (ID = (SELECT ID FROM Icon AS IX WHERE (NOT EXISTS (SELECT DISTINCT iconID FROM IconCondition AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + ") AND (iconID = IX.ID))) AND (connID = " + Request.QueryString.Get("ConnID") + ")))");
+            foreach (DataRow dr in dt3.Rows)
+            {
+                string iconId = dr["ID"].ToString();
+                string iconLoc = dr["location"].ToString();
+                Icon icon = new Icon();
+                icon.setId(iconId);
+                icon.setLocation(iconLoc);
                 iconList.Add(icon);
             }
         }
@@ -353,58 +367,8 @@ namespace HCI
 
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            }
-
-            // Fill in Add Condition TR
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<img src=\"icons/electronics.png\" alt=\"\" />\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyleEmpty\">\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<table cellpadding=\"10\">\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<td>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
-
-            Button addButton = new Button();
-            addButton.Text = "Add Condition";
-            addButton.CssClass = "button";
-            addButton.ID = "addIconCondition";
-            addButton.Width = 135;
-            AddIconConditionPanel.Controls.Add(addButton);
-
-            Panel addIconConditionPopupPanel = new Panel();
-            addIconConditionPopupPanel.ID = "IconConditionPopupPanel";
-            addIconConditionPopupPanel.CssClass = "boxPopupStyle";
-            genAddIconConditionPopup(addIconConditionPopupPanel);
-            Button addIconConditionSubmitButton = new Button();
-            addIconConditionSubmitButton.ID = "addIconConditionSubmitButton";
-            addIconConditionSubmitButton.Text = "Submit";
-            addIconConditionPopupPanel.Controls.Add(addIconConditionSubmitButton);
-            Button addIconConditionCancelButton = new Button();
-            addIconConditionCancelButton.ID = "addIconConditionCancelButton";
-            addIconConditionCancelButton.Text = "Cancel";
-            addIconConditionPopupPanel.Controls.Add(addIconConditionCancelButton);
-            AddIconConditionPanel.Controls.Add(addIconConditionPopupPanel);
-
-            AjaxControlToolkit.ModalPopupExtender mpe1 = new AjaxControlToolkit.ModalPopupExtender();
-            mpe1.ID = "MPE_AddCondition";
-            mpe1.BackgroundCssClass = "modalBackground";
-            mpe1.DropShadow = true;
-            mpe1.PopupControlID = addIconConditionPopupPanel.ID.ToString();
-            mpe1.TargetControlID = addButton.ID.ToString();
-            mpe1.CancelControlID = addIconConditionCancelButton.ID.ToString();
-
-
-            AddIconConditionPanel.Controls.Add(mpe1);
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-            AddIconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            }           
+            
             
         }
 
