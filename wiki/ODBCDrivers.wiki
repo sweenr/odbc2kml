@@ -32,11 +32,9 @@ http://www.microsoft.com/downloads/details.aspx?familyid=6ccd8427-1017-4f33-a062
 Now both drivers should be incorporated into the project.
 
 == Oracle InstantClient ==
-
-  # For windows 32-bit download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-basic-win32-11.1.0.7.0.zip
-  # For windows 64-bit download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-basic-win-x86-64-11.1.0.7.0.zip
+Regardless of whether you have 32-bit or 64-bit install the 32-bit versions linked below.
+  # Download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-basic-win32-11.1.0.7.0.zip
   # Extract to c:\instantclient
-  # For windows 32-bit download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-odbc-win32-11.1.0.7.0.zip
-  # For windows 64-bit download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-odbc-win-x86-64-11.1.0.7.0.zip
+  # Download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-odbc-win32-11.1.0.7.0.zip
   # Extract to c:\instantclient
   # Add c:\instantclient to your PATH variable
