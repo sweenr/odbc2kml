@@ -82,6 +82,57 @@ namespace HCI
             genIconConditionTable(sender, e);
             
             BuildTypeList();
+
+            if (Request.QueryString.Get("locked") == "true")
+            {
+                LockPage();
+            }
+        }
+
+        /// <summary>
+        /// The following code is taken from http://www.codeproject.com/KB/aspnet/Enable_Disable_Controls.aspx
+        /// which is distributed under the CPOL license
+        /// </summary>
+        /// <param name="status"></param>
+        private void LockPage()
+        {
+
+            foreach (Control c in Page.Controls)
+                foreach (Control ctrl in c.Controls)
+
+                    if (ctrl is TextBox)
+                    {
+                        ((TextBox)ctrl).Enabled = false;
+                    }
+                    else if (ctrl is Button)
+                    {
+                        ((Button)ctrl).Visible = false;
+                    }
+                    else if (ctrl is RadioButton)
+                    {
+                        ((RadioButton)ctrl).Enabled = false;
+                    }
+                    else if (ctrl is ImageButton)
+                    {
+                        ((ImageButton)ctrl).Enabled = false;
+                    }
+                    else if (ctrl is CheckBox)
+                    {
+                        ((CheckBox)ctrl).Enabled = false;
+                    }
+                    else if (ctrl is DropDownList)
+                    {
+                        ((DropDownList)ctrl).Enabled = false;
+                    }
+                    else if (ctrl is HyperLink)
+                    {
+                        ((HyperLink)ctrl).Enabled = false;
+                    }
+        }
+
+        protected void updateConnection(object sender, EventArgs e)
+        {
+
         }
 
         protected void fillIconLibraryLists()
