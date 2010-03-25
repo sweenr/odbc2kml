@@ -72,12 +72,6 @@
           var elHPosition = "RIGHT";
           var elTOffset = 0;
           var elLOffset = 0;
-          var textBox = document.getElementById("<%= color.ClientID %>");
-          sender.setColor(OboutInc.ColorPicker.getStyle(textBox,"background-color"));
-          sender.setVerticalPosition  (elVPosition);
-          sender.setHorizontalPosition(elHPosition);
-          elTOffset.value = sender.setOffsetTop (elTOffset);
-          elLOffset.value = sender.setOffsetLeft(elLOffset);
         }
     </script>
 
@@ -621,251 +615,92 @@
                                                         </div>
                                                     </td>
                                                     <td class="buttonClass">
-                                                        <asp:Button ID="addOverlay1" runat="server" Text="Modify Overlay" CssClass="button"
-                                                            Width="135" />&nbsp;&nbsp;
-                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOOK1"
-                                                            CancelControlID="modOCancel1" runat="server" PopupControlID="OverlayPanel" ID="ModalPopupExtender4"
-                                                            TargetControlID="addOverlay1" />
-                                                        <asp:Panel ID="OverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Overlay Conditions</span>
-                                                            <div class="mainBoxP">
-                                                                <table cellspacing="0" cellpadding="5" class="mainBox2">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="omainBox4">
-                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <!--Color Info Here (Color Box? Color Drop Down?)--->
-                                                                                            <div class="colorPicker">
-                                                                                                <asp:TextBox ReadOnly="true" ID="color" Style="vertical-align: middle;" runat="server" />
-                                                                                                &nbsp;&nbsp;Click here:
-                                                                                                <obout:ColorPicker ID="ColorPicker1" EnableViewState="true" ZIndex="500000" runat="server"
-                                                                                                    OnClientOpen="OnColorOpen" TargetId="color" TargetProperty="style.backgroundColor" />
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr class="tableTRTitle">
-                                                                                        <td class="tableTD">
-                                                                                            Table
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            Field
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            Operator
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            Value
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            &nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="tableTD">
-                                                                                            TheOnlyTable
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            TableData
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            >=
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            5.0
-                                                                                        </td>
-                                                                                        <td class="textCenter">
-                                                                                            <asp:Button ID="Button2" runat="server" Style="text-align: center" Text="Remove"
-                                                                                                CssClass="button" ToolTip="Delete Condition" Width="80" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr class="tableTR">
-                                                                                        <td class="tableTD">
-                                                                                            <asp:DropDownList ID="DropDownList1" runat="server" CssClass="inputDD" Width="100">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            <asp:DropDownList ID="DropDownList2" runat="server" CssClass="inputDD" Width="100">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            <asp:DropDownList ID="DropDownList3" runat="server" CssClass="inputDD" Width="100">
-                                                                                                <asp:ListItem>==</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;</asp:ListItem>
-                                                                                                <asp:ListItem>between</asp:ListItem>
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            <asp:TextBox ID="TextBox1" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td class="textCenter">
-                                                                                            <asp:Button ID="Button3" runat="server" Style="text-align: center" Text="Add" CssClass="button"
-                                                                                                ToolTip="Add Condition" Width="80" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <div class="right" style="padding-top: 20px;">
-                                                                                    <asp:Button ID="modOOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                                    <asp:Button ID="modOCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                        </asp:Panel>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="iconBox">
-                                                        <div class="overlayBox" style="background-color: Yellow">
-                                                        </div>
-                                                    </td>
-                                                    <td class="conditionsBox">
-                                                        <div class="conditionsBoxStyle">
-                                                            <table cellpadding="10">
-                                                                <tr>
-                                                                    <td>
-                                                                        Condition 1<br />
-                                                                        Condition 2<br />
-                                                                        Condition 3<br />
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                    <td class="buttonClass">
-                                                        <asp:Button ID="addOverlay2" runat="server" Text="Modify Overlay" CssClass="button"
-                                                            Width="135" />&nbsp;&nbsp;
-                                                        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="modOOK2"
-                                                            CancelControlID="modOCancel2" runat="server" PopupControlID="OverlayPanel2" ID="ModalPopupExtender5"
-                                                            TargetControlID="addOverlay2" />
-                                                        <asp:Panel ID="OverlayPanel2" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                            <span class="connectionStyle">&nbsp;Modify Overlay Conditions</span>
-                                                            <div class="mainBoxP">
-                                                                <table cellspacing="0" cellpadding="5" class="mainBox2">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="omainBox4">
-                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <p>
-                                                                                </p>
-                                                                                <table class="omainBox4" cellspacing="0" cellpadding="0">
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <!--Color Info Here (Color Box? Color Drop Down?)--->
-                                                                                            <div class="colorPicker">
-                                                                                                <asp:TextBox ReadOnly="true" ID="TextBox2" Style="vertical-align: middle;" runat="server" />
-                                                                                                &nbsp;&nbsp;Click here:
-                                                                                                <obout:ColorPicker ID="ColorPicker2" EnableViewState="true" ZIndex="500000" runat="server"
-                                                                                                    OnClientOpen="OnColorOpen" TargetId="color" TargetProperty="style.backgroundColor" />
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <p>
-                                                                                </p>
-                                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                    <tr class="tableTRTitle">
-                                                                                        <td class="tableTD">
-                                                                                            Table
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            Field
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            Operator
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            Value
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            &nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="tableTD">
-                                                                                            TheOnlyTable
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            TableData
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            >=
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            5.0
-                                                                                        </td>
-                                                                                        <td class="textCenter">
-                                                                                            <asp:Button ID="Button1" runat="server" Style="text-align: center" Text="Remove"
-                                                                                                CssClass="button" ToolTip="Delete Condition" Width="80" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr class="tableTR">
-                                                                                        <td class="tableTD">
-                                                                                            <asp:DropDownList ID="DropDownList10" runat="server" CssClass="inputDD" Width="100">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            <asp:DropDownList ID="DropDownList11" runat="server" CssClass="inputDD" Width="100">
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            <asp:DropDownList ID="DropDownList12" runat="server" CssClass="inputDD" Width="100">
-                                                                                                <asp:ListItem>==</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                                <asp:ListItem>&gt;</asp:ListItem>
-                                                                                                <asp:ListItem>&lt;</asp:ListItem>
-                                                                                                <asp:ListItem>between</asp:ListItem>
-                                                                                            </asp:DropDownList>
-                                                                                        </td>
-                                                                                        <td class="tableTD">
-                                                                                            <asp:TextBox ID="TextBox4" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
-                                                                                        </td>
-                                                                                        <td class="textCenter">
-                                                                                            <asp:Button ID="Button7" runat="server" Style="text-align: center" Text="Add" CssClass="button"
-                                                                                                ToolTip="Add Condition" Width="80" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <div class="right" style="padding-top: 20px;">
-                                                                                    <asp:Button ID="Button8" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                                    <asp:Button ID="Button9" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                        </asp:Panel>
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeRemoveOverlay"
+                                                runat="server" PopupControlID="RemoveOverlayPanel" ID="RemoveOverlayPopupExtender" TargetControlID="RemoveOverlayButton" />
+                                            <asp:Panel ID="RemoveOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <div class="mainBoxP">
+                                                    <span class="connectionStyle">&nbsp;Remove Overlay Color</span>
+                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                        <tr>
+                                                            <td>
+                                                                <table class="boxPopupStyle2" cellpadding="5">
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="right" style="padding-top: 20px;">
+                                                                    <asp:Button ID="closeRemoveOverlay" runat="server" Text="Cancel" CssClass="button" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </asp:Panel>
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeAddOverlay"
+                                                    runat="server" PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender" TargetControlID="AddOverlayButton" />
+                                                <asp:Panel ID="AddOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                    <div class="mainBoxP">
+                                                        <span class="connectionStyle">&nbsp;Overlay Color Library</span>
+                                                        <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="boxPopupStyle2" cellpadding="5">
+                                                                        <tr>
+                                                                            <td colspan="8">
+                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                <p>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <!--Color Info Here (Color Box? Color Drop Down?)--->
+                                                                                <div class="colorPicker">
+                                                                                    <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="vertical-align: middle;" runat="server" />
+                                                                                    &nbsp;&nbsp;Click here:
+                                                                                    <obout:ColorPicker ID="ColorPicker1" EnableViewState="true" ZIndex="500000" runat="server"
+                                                                                        OnClientOpen="OnColorOpen" TargetId="ColorAddText" TargetProperty="style.backgroundColor" />
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <div class="right" style="padding-top: 20px;">
+                                                                        <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button" OnClick="addOverlayColorToConn" />
+                                                                        <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </asp:Panel>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <div class="right">
+                                                <asp:Button ID="RemoveOverlayButton" runat="server" Text="Remove Overlay" CssClass="button" />
+                                                &nbsp;&nbsp;
                                                 <asp:Button ID="AddOverlayButton" runat="server" Text="Add Overlay" CssClass="button" />
                                                 &nbsp;&nbsp;
                                             </div>
