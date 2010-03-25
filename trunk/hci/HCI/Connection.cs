@@ -153,7 +153,7 @@ namespace HCI
                 this.connInfo = ConnInfo.getConnInfo(this.connID);
                 this.overlays = Overlay.getOverlays(this.connID);
                 this.description = Description.getDescription(this.connID);
-                this.mapping = Mapping.getMapping(this.connID);
+                this.mapping = Mapping.getMapping(this.connID, "");
                 this.icons = Icon.getIcons(this.connID);
             }
             catch(Exception e) //Add whatever exceptions are needed and error handling code
