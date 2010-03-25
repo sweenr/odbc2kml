@@ -615,17 +615,14 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addLowerBound = new TextBox();
-            addLowerBound.ID = "addLowerBound" + args + "_" + i;
+            addLowerBound.ID = "addLowerBound" + args;
             addLowerBound.Width = 50;
             modifyIconConditionInsidePopupPanel.Controls.Add(addLowerBound);
-
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
-            DropDownList list1 = new DropDownList();
-
             DropDownList addLowerOperator = new DropDownList();
-            addLowerOperator.ID = "addLowerOperator" + args + "_" + i;
+            addLowerOperator.ID = "addLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
             addLowerOperator.Width = 50;
             addLowerOperator.Items.Add("");
@@ -633,28 +630,25 @@ namespace HCI
             addLowerOperator.Items.Add("<=");
             addLowerOperator.Items.Add("==");
             modifyIconConditionInsidePopupPanel.Controls.Add(addLowerOperator);
-
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
 
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addTableName = new TextBox();
-            addTableName.ID = "addTableName" + args + "_" + i;
+            addTableName.ID = "addTableName" + args;
             addTableName.Width = 50;
             modifyIconConditionInsidePopupPanel.Controls.Add(addTableName);
-
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
 
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addFieldName = new TextBox();
-            addFieldName.ID = "addFieldName" + args + "_" + i;
+            addFieldName.ID = "addFieldName" + args;
             addFieldName.Width = 50;
             modifyIconConditionInsidePopupPanel.Controls.Add(addFieldName);
-
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
 
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addUpperOperator = new DropDownList();
-            addUpperOperator.ID = "modIconConditionList2" + args + "_" + i;
+            addUpperOperator.ID = "modIconConditionList2" + args;
             addUpperOperator.CssClass = "inputDD";
             addUpperOperator.Width = 50;
             addUpperOperator.Items.Add("");
@@ -662,34 +656,31 @@ namespace HCI
             addUpperOperator.Items.Add("<=");
             addUpperOperator.Items.Add("==");
             modifyIconConditionInsidePopupPanel.Controls.Add(addUpperOperator);
-
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
 
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addUpperBound = new TextBox();
-            addUpperBound.ID = "addUpperBound" + args + "_" + i;
+            addUpperBound.ID = "addUpperBound" + args;
             addUpperBound.MaxLength = 30;
             addUpperBound.CssClass = "inputBox";
             addUpperBound.Width = 50;
             modifyIconConditionInsidePopupPanel.Controls.Add(addUpperBound);
-
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
 
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
             Button addConditionButton = new Button();
-            addConditionButton.ID = "addIconConditionButton" + args + "_" + i;
+            addConditionButton.ID = "addIconConditionButton" + args;
             addConditionButton.Text = "Add";
             addConditionButton.ToolTip = "Add Condition";
             addConditionButton.Width = 80;
             addConditionButton.CssClass = "button";
             addConditionButton.Click += new EventHandler(addConditionToIcon);
-            addConditionButton.CommandArgument = addLowerBound.Text + "|" + addLowerOperator.Text + "|" + addTableName.Text + "|" + addFieldName.Text + "|" + addUpperOperator.Text + "|" + addUpperBound.Text + "|" + args;
+            addConditionButton.CommandArgument = args;
+            //addConditionButton.CommandArgument = addLowerBound.Text.ToString() + "|" + addLowerOperator.SelectedItem.Text.ToString() + "|" + addTableName.Text.ToString() + "|" + addFieldName.Text.ToString() + "|" + addUpperOperator.SelectedItem.Text.ToString() + "|" + addUpperBound.Text.ToString() + "|" + args;
             modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            
-            
 
+            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -697,120 +688,6 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
             
-        }
-
-        protected void genAddIconConditionPopup(Panel addIconConditionPopupPanel)
-        {
-            //addIconConditionPopupPanel.Controls.Clear();
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Enter new conditions for this icon using the table below.\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<p>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</p>\n"));
-
-            // icon popup table's header
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Table\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Field\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            TextBox addLowerBound = new TextBox();
-            addLowerBound.ID = "addIconConditionLowerBound";
-            addLowerBound.Width = 50;
-            addIconConditionPopupPanel.Controls.Add(addLowerBound);
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
-            DropDownList list1 = new DropDownList();
-
-            DropDownList addLowerOperator = new DropDownList();
-            addLowerOperator.ID = "addIconConditionLowerOperator";
-            addLowerOperator.CssClass = "inputDD";
-            addLowerOperator.Width = 50;
-            addLowerOperator.Items.Add("<");
-            addLowerOperator.Items.Add("<=");
-            addLowerOperator.Items.Add("==");
-            addIconConditionPopupPanel.Controls.Add(addLowerOperator);
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
-            TextBox addTableName = new TextBox();
-            addTableName.ID = "addIconConditionTableName";
-            addTableName.Width = 50;
-            addIconConditionPopupPanel.Controls.Add(addTableName);
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
-            TextBox addFieldName = new TextBox();
-            addFieldName.ID = "addIconConditionFieldName";
-            addFieldName.Width = 50;
-            addIconConditionPopupPanel.Controls.Add(addFieldName);
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
-            DropDownList addUpperOperator = new DropDownList();
-            addUpperOperator.ID = "addIconConditionUpperOperator";
-            addUpperOperator.CssClass = "inputDD";
-            addUpperOperator.Width = 50;
-            addUpperOperator.Items.Add("<");
-            addUpperOperator.Items.Add("<=");
-            addUpperOperator.Items.Add("==");
-            addIconConditionPopupPanel.Controls.Add(addUpperOperator);
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-
-            TextBox addUpperBound = new TextBox();
-            addUpperBound.ID = "addIconConditionUpperBound";
-            addUpperBound.MaxLength = 30;
-            addUpperBound.CssClass = "inputBox";
-            addUpperBound.Width = 50;
-            addIconConditionPopupPanel.Controls.Add(addUpperBound);
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-
-
-
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
         }
 
 
@@ -830,82 +707,40 @@ namespace HCI
                     }
                 }
             }
+            genIconConditionTable(sender, e);
         }
 
         protected void addConditionToIcon(object sender, EventArgs e)
-	        {
-	            Button btn = (Button)sender;
-	            int[] breaks;
-	            breaks = new int[7];
-	            int i = 0;
-	            for (int j = 0; j < btn.CommandArgument.Length; j++)
-	            {
-	                if (i >= 7)
-	                    continue;
-	                if (btn.CommandArgument[j] == '|')
-	                {
-	                    breaks[i] = j;
-	                    i++;
-	                }
-	            }
-	            string lowerBound = btn.CommandArgument.Substring(0,breaks[0]);
-	            string lowerOperator = btn.CommandArgument.Substring(breaks[0] + 1, breaks[1] - breaks[0] - 1);
-                string tableName = btn.CommandArgument.Substring(breaks[1] + 1, breaks[2] - breaks[1] - 1);
-	            string fieldName = btn.CommandArgument.Substring(breaks[2] + 1, breaks[3] - breaks[2] - 1);
-	            string upperOperator = btn.CommandArgument.Substring(breaks[3] + 1, breaks[4] - breaks[3] - 1);
-	            string upperBound = btn.CommandArgument.Substring(breaks[4] + 1, breaks[5] - breaks[4] - 1);
-	            string iconId = btn.CommandArgument.Substring(breaks[5] + 1);
-	
-	            Condition condition = new Condition();
-	            condition.setLowerBound(lowerBound);
-	            condition.setUpperBound(upperBound);
-	            condition.setTableName(tableName);
-	            condition.setFieldName(fieldName);
-	            switch (lowerOperator)
-	            {
-	                case "<":
-	                    condition.setLowerOperator(1);
-	                    break;
-	                case "<=":
-	                    condition.setLowerOperator(2);
-	                    break;
-	                case "==":
-	                    condition.setLowerOperator(5);
-	                    break;
-	                case "!=":
-	                    condition.setLowerOperator(6);
-	                    break;
-	                default:
-	                    condition.setLowerOperator(0);
-	                    break;
-	            }
-	            switch (upperOperator)
-	            {
-	                case "<":
-	                    condition.setUpperOperator(1);
-	                    break;
-	                case "<=":
-	                    condition.setUpperOperator(2);
-	                    break;
-	                case "==":
-	                    condition.setUpperOperator(5);
-	                    break;
-	                case "!=":
-	                    condition.setUpperOperator(6);
-	                    break;
-	                default:
-	                    condition.setUpperOperator(0);
-	                    break;
-	            }
-	
-	            foreach (Icon icon in iconList)
-	            {
-	                if (icon.getId() == iconId)
-	                {
-	                    icon.setConditions(condition);
-	                }
-	            }
-	        }
+        {
+            Button btn = (Button)sender;
+            string args = btn.CommandArgument.ToString();
+            TextBox lowerBound = (TextBox)Page.FindControl("addLowerBound" + args);
+            DropDownList lowerOperator = (DropDownList)Page.FindControl("addLowerOperator" + args);
+            TextBox tableName = (TextBox)Page.FindControl("addTableName" + args);
+            TextBox fieldName = (TextBox)Page.FindControl("addFieldName" + args);
+            DropDownList upperOperator = (DropDownList)Page.FindControl("addUpperOperator" + args);
+            TextBox upperBound = (TextBox)Page.FindControl("addUpperBound" + args);
+            string iconId = args;
+
+            Condition condition = new Condition();
+            condition.setLowerBound(lowerBound.Text.ToString());
+            condition.setUpperBound(upperBound.Text.ToString());
+            condition.setTableName(tableName.Text.ToString());
+            condition.setFieldName(fieldName.Text.ToString());
+            if (lowerOperator != null)
+                condition.setLowerOperator(Condition.operatorStringToInt(lowerOperator.SelectedItem.Text.ToString()));
+            if (upperOperator != null)
+                condition.setUpperOperator(Condition.operatorStringToInt(upperOperator.SelectedItem.Text.ToString()));
+
+            foreach (Icon icon in iconList)
+            {
+                if (icon.getId() == iconId)
+                {
+                    icon.setConditions(condition);
+                }
+            }
+            genIconConditionTable(sender, e);
+        }
 
         /// <summary>
         /// used for uploading icons from local computer
