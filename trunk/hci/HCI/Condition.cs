@@ -31,6 +31,7 @@ namespace HCI
         private string upperBound;
         private int lowerOperator;
         private int upperOperator;
+        private int id;
 
         //Functions
         
@@ -117,6 +118,11 @@ namespace HCI
             return this.operatorIntToString(upperOperator);
         }
 
+        public string getId()
+        {
+            return this.id.ToString();
+        }
+
         //Setters
 
         //Set fieldName
@@ -153,6 +159,11 @@ namespace HCI
         public void setUpperOperator(int upperOperator)
         {
             this.upperOperator = upperOperator;
+        }
+
+        public void setId(int ID)
+        {
+            this.id = ID;
         }
 
         //Additional
