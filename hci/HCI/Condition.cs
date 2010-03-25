@@ -62,7 +62,7 @@ namespace HCI
                 upperOperator = NONE;
         }
 
-        private string operatorIntToString(int op)
+        public static string operatorIntToString(int op)
         {
             if (op == 1)
                 return "<";
@@ -73,11 +73,29 @@ namespace HCI
             else if (op == 4)
                 return ">=";
             else if (op == 5)
-                return "<=";
+                return "==";
             else if (op == 6)
                 return "!=";
             else  // NONE or invalid
                 return "";
+        }
+
+        public static int operatorStringToInt(string op)
+        {
+            if (op == "<")
+                return 1;
+            else if (op == "<=")
+                return 2;
+            else if (op == ">")
+                return 3;
+            else if (op == ">=")
+                return 4;
+            else if (op == "==")
+                return 5;
+            else if (op == "!=")
+                return 6;
+            else
+                return 0;
         }
 
         //Getters
@@ -109,13 +127,13 @@ namespace HCI
         //Retrieve lowerOperator
         public string getLowerOperator()
         {
-            return this.operatorIntToString(lowerOperator);
+            return operatorIntToString(lowerOperator);
         }
 
         //Retrieve upperOperator
         public string getUpperOperator()
         {
-            return this.operatorIntToString(upperOperator);
+            return operatorIntToString(upperOperator);
         }
 
         public string getId()
