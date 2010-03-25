@@ -214,7 +214,7 @@
                                                 </tr>
                                             </table>
                                             <div class="right">
-                                                <input type="submit" name="submit" value="Connect" class="button" />
+                                                <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Connect" CssClass="button"/>
                                             </div>
                                         </div>
                                     </td>
