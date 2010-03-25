@@ -81,6 +81,7 @@ namespace HCI
             fillIconLibraryPopupRemove();
 
             genIconConditionTable(sender, e);
+            genOverlayConditionTable(sender, e);
             
             BuildTypeList();
 
@@ -142,7 +143,16 @@ namespace HCI
 
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT ID,color FROM Overlay WHERE connID="+Request.QueryString.Get("ConnID"));
+            try
+            {
+                dt = db.executeQueryLocal("SELECT ID,color FROM Overlay WHERE connID=" + Request.QueryString.Get("ConnID"));
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -155,10 +165,20 @@ namespace HCI
 
                 Database db2 = new Database();
                 DataTable dt2;
-                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND overlayID = " + overID);
+                try
+                {
+                    dt2 = db2.executeQueryLocal("SELECT ID, fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM OverlayCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND overlayID = " + overID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
                 foreach (DataRow dr2 in dt2.Rows)
                 {
                     Condition condition = new Condition();
+                    condition.setId(Convert.ToInt32(dr2["ID"].ToString()));
                     condition.setFieldName(dr2["fieldName"].ToString());
                     condition.setTableName(dr2["tableName"].ToString());
                     condition.setLowerBound(dr2["lowerBound"].ToString());
@@ -360,7 +380,7 @@ namespace HCI
 
         protected void addOverlayColorToConn(object sender, EventArgs e)
         {
-                        
+                    
         }
 
         protected void genDBTCol(object sender, EventArgs e)
@@ -757,7 +777,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addUpperOperator = new DropDownList();
-            addUpperOperator.ID = "modIconConditionList2" + args;
+            addUpperOperator.ID = "addUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
             addUpperOperator.Width = 50;
             addUpperOperator.Items.Add("");
@@ -837,9 +857,9 @@ namespace HCI
             condition.setTableName(tableName.Text.ToString());
             condition.setFieldName(fieldName.Text.ToString());
             if (lowerOperator != null)
-                condition.setLowerOperator(Condition.operatorStringToInt(lowerOperator.SelectedItem.Text.ToString()));
+                condition.setLowerOperator(lowerOperator.SelectedItem.Text.ToString());
             if (upperOperator != null)
-                condition.setUpperOperator(Condition.operatorStringToInt(upperOperator.SelectedItem.Text.ToString()));
+                condition.setUpperOperator(upperOperator.SelectedItem.Text.ToString());
 
             foreach (Icon icon in iconList)
             {
@@ -850,6 +870,159 @@ namespace HCI
             }
             genIconConditionTable(sender, e);
         }
+
+
+
+
+
+
+        protected void genOverlayConditionTable(object sender, EventArgs e)
+        {
+            OverlayConditionPanel.Controls.Clear();
+            foreach (Overlay overlay in overlayList)
+            {
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"overlayBox\" style=\"background-color: #" + overlay.getColor() + ";\" />\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
+
+                if (overlay.getConditions().Count != 0)  // conditions exist; display them.
+                {
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("Table\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("Field\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+                    foreach (Condition condition in overlay.getConditions())
+                    {
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                        {
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        }
+                        else
+                        {
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        }
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                        {
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        }
+                        else
+                        {
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        }
+
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    }
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                }
+                else  // no conditions set. display table stating such.
+                {
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.<br />Add some using the button to the right.\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                }
+
+
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
+                Button modifyButton = new Button();
+                if (Request.QueryString.Get("locked") == "false")
+                {
+                    modifyButton.Text = "Modify Condition";
+                    modifyButton.CssClass = "button";
+                    modifyButton.Width = 135;
+                    modifyButton.ID = "modifyOverlayCondition_" + overlay.getId();
+                    OverlayConditionPanel.Controls.Add(modifyButton);
+                }
+                Panel modifyOverlayConditionPopupPanel = new Panel();
+                modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
+                modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
+                Panel modifyOverlayConditionInsidePopupPanel = new Panel();
+                modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlayList.IndexOf(overlay).ToString();
+                genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
+                modifyOverlayConditionPopupPanel.Controls.Add(modifyOverlayConditionInsidePopupPanel);
+
+                Button submitModifyConditionPopup = new Button();
+                submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
+                submitModifyConditionPopup.Text = "Submit";
+                modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
+                Button cancelModifyConditionPopup = new Button();
+                cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
+                cancelModifyConditionPopup.Text = "Cancel";
+                modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
+
+                if (Request.QueryString.Get("locked") == "false")
+                {
+                    AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+                    mpe.ID = "MPE_OVERLAY_" + overlay.getId();
+                    mpe.BackgroundCssClass = "modalBackground";
+                    mpe.DropShadow = true;
+                    mpe.PopupControlID = modifyOverlayConditionPopupPanel.ID.ToString();
+                    mpe.TargetControlID = modifyButton.ID.ToString();
+                    mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
+                    mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                    OverlayConditionPanel.Controls.Add(mpe);
+
+                    OverlayConditionPanel.Controls.Add(modifyOverlayConditionPopupPanel);
+                }
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            }
+
+
+        }
+
+
+        protected void genOverlayConditionPopup(Panel modifyOverlayConditionInsidePopupPanel, String args)
+        {
+
+        }
+
+
+
+
 
         /// <summary>
         /// used for uploading icons from local computer

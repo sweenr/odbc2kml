@@ -312,18 +312,6 @@
                                             <table width="100%">
                                                 <asp:Panel ID="IconConditionPanel" runat="server" Visible="true">
                                                 </asp:Panel>
-                                                <asp:Panel ID="AddIconConditionPanel" runat="server" Visible="true">
-                                                </asp:Panel>
-                                                <tr>
-                                                    <td>
-                                                        <asp:Panel ID="testPanel1" runat="server" CssClass="boxPopupStyle" Style="display: none;">                                                                             
-                                                                                <div class="right" style="padding-top: 20px;">
-                                                                                    <asp:Button ID="testPanelOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                                    <asp:Button ID="testPanelCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                                </div>
-                                                        </asp:Panel>
-                                                    </td>
-                                                </tr>
                                             </table>
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
                                                 CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
@@ -597,27 +585,9 @@
                                     <tr class="mainBox5" align="center">
                                         <td>
                                             <table width="100%">
-                                                <tr>
-                                                    <td class="iconBox">
-                                                        <div class="overlayBox" style="background-color: Red;" />
-                                                    </td>
-                                                    <td class="conditionsBox">
-                                                        <div class="conditionsBoxStyle">
-                                                            <table cellpadding="10">
-                                                                <tr>
-                                                                    <td>
-                                                                        Condition 1<br />
-                                                                        Condition 2<br />
-                                                                        Condition 3<br />
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                    <td class="buttonClass">
-                                                    </td>
-                                                </tr>
+                                                <asp:Panel ID="OverlayConditionPanel" runat="server" Visible="true"></asp:Panel>
                                             </table>
+
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeRemoveOverlay"
                                                 runat="server" PopupControlID="RemoveOverlayPanel" ID="RemoveOverlayPopupExtender" TargetControlID="RemoveOverlayButton" />
                                             <asp:Panel ID="RemoveOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
