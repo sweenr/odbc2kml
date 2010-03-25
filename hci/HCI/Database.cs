@@ -71,7 +71,7 @@ namespace HCI
             }
             catch (Exception ex)
             {
-                throw new ODBC2KMLException("Database error");
+                throw new ODBC2KMLException(ex.Message);
             }
             finally
             {
@@ -117,7 +117,7 @@ namespace HCI
                 else if (ConnInfo.MSSQL == connInfo.getDatabaseType())
                 {
                     //MS SQL connection string
-                    connectionString = "Driver={SQL Server Native Client 10.0};Server="
+                    connectionString = "Driver={SQL Native Client};Server="
                         + this.connInfo.getServerAddress() + ";Database="
                         + this.connInfo.getDatabaseName() + ";Uid=" + this.connInfo.getUserName()
                         + ";Pwd=" + this.connInfo.getPassword() + ";";
@@ -144,7 +144,7 @@ namespace HCI
                 }
                 catch (Exception ex)
                 {
-                    throw new ODBC2KMLException("Database error");
+                    throw new ODBC2KMLException(ex.Message);
                 }
                 finally
                 {
@@ -191,7 +191,7 @@ namespace HCI
                     }
                     catch (Exception ex)
                     {
-                        throw new ODBC2KMLException("Database error");
+                        throw new ODBC2KMLException(ex.Message);
                     }
                     finally
                     {
