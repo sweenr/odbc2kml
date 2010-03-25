@@ -344,13 +344,12 @@
                 </div>
             </div>
         </div>
-    </div>
-    
+    </div> 
     <asp:SqlDataSource ID="SQLTables" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
-        
+    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>      
     <asp:SqlDataSource ID="oracleTables" runat="server"></asp:SqlDataSource>
-    
+    <asp:SqlDataSource ID="MSQLTables" runat="server"></asp:SqlDataSource> 
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
     </form>
 </body>
 </html>

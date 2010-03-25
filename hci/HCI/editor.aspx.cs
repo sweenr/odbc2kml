@@ -21,25 +21,25 @@ namespace HCI
     {
         //Get ConID from value passed
         //Right now just testing with numbers to make sure works
-        int conID = 2;
+        int conID = 3;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-
-                //Grab and parse connection ID
-                
-
                 //Create ConnInfo object and populate elements
                 ConnInfo connInfo = ConnInfo.getConnInfo(conID);
 
                 string connectionString = "";
                 string providerName = "";
 
-                //Set drop down box accordingly
+                //Set Table Datasources & fill in gridview/boxes
+
                 if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                    MSQLTables.ConnectionString = connectionString;
+                    MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";    
                 }
 
                 else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
@@ -49,53 +49,22 @@ namespace HCI
                     SQLTables.ConnectionString = connectionString;
                     SQLTables.ProviderName = providerName;
                     SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
-                    iTableNBox.DataSource = SQLTables;
-                    iTableNBox.DataTextField = "TABLE_NAME";
-                    iTableNBox.DataValueField = "TABLE_NAME";
-                    iTableNBox.DataBind();
-                    iTableFNBox.DataSource = SQLTables;
-                    iTableFNBox.DataTextField = "TABLE_NAME";
-                    iTableFNBox.DataValueField = "TABLE_NAME";
-                    iTableFNBox.DataBind();
-                    iTableINBox.DataSource = SQLTables;
-                    iTableINBox.DataTextField = "TABLE_NAME";
-                    iTableINBox.DataValueField = "TABLE_NAME";
-                    iTableINBox.DataBind();
-                    GridViewTables.DataSource = SQLTables;
-                    GridViewTables.DataBind();
                 }
 
                 else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
-                    //Data Source=POLYTECH-DEV;Persist Security Info=True;User ID=polytech;Password=polytech;Unicode=True
-                    //System.Data.OracleClient 
-
-                    //Is database name the same as the username? It is not included in the connection string for datasources. :(
-
                     connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
                     providerName = "System.Data.OracleClient";
                     oracleTables.ConnectionString = connectionString;
                     oracleTables.ProviderName = providerName;
                     oracleTables.SelectCommand = "SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'";
-                    iTableNBox.DataSource = oracleTables;
-                    iTableNBox.DataTextField = "TABLE_NAME";
-                    iTableNBox.DataValueField = "TABLE_NAME";
-                    iTableNBox.DataBind();
-                    iTableFNBox.DataSource = oracleTables;
-                    iTableFNBox.DataTextField = "TABLE_NAME";
-                    iTableFNBox.DataValueField = "TABLE_NAME";
-                    iTableFNBox.DataBind();
-                    iTableINBox.DataSource = oracleTables;
-                    iTableINBox.DataTextField = "TABLE_NAME";
-                    iTableINBox.DataValueField = "TABLE_NAME";
-                    iTableINBox.DataBind();
-                    GridViewTables.DataSource = oracleTables;
-                    GridViewTables.DataBind();
                 }
 
                 else //Default set to SQL
                 {
                 }
+
+                updateTables(connInfo.getDatabaseType());
 
                 //Garbage collection
                 connInfo = null;
@@ -103,7 +72,64 @@ namespace HCI
             }
         }
 
-        
+        protected void updateTables(int type)
+        {
+            if (type == ConnInfo.MSSQL)
+            {
+                iTableNBox.DataSource = MSQLTables;
+                iTableNBox.DataTextField = "TABLE_NAME";
+                iTableNBox.DataValueField = "TABLE_NAME";
+                iTableNBox.DataBind();
+                iTableFNBox.DataSource = MSQLTables;
+                iTableFNBox.DataTextField = "TABLE_NAME";
+                iTableFNBox.DataValueField = "TABLE_NAME";
+                iTableFNBox.DataBind();
+                iTableINBox.DataSource = MSQLTables;
+                iTableINBox.DataTextField = "TABLE_NAME";
+                iTableINBox.DataValueField = "TABLE_NAME";
+                iTableINBox.DataBind();
+                GridViewTables.DataSource = MSQLTables;
+                GridViewTables.DataBind();
+            }
+            else if (type == ConnInfo.MYSQL)
+            {
+                iTableNBox.DataSource = SQLTables;
+                iTableNBox.DataTextField = "TABLE_NAME";
+                iTableNBox.DataValueField = "TABLE_NAME";
+                iTableNBox.DataBind();
+                iTableFNBox.DataSource = SQLTables;
+                iTableFNBox.DataTextField = "TABLE_NAME";
+                iTableFNBox.DataValueField = "TABLE_NAME";
+                iTableFNBox.DataBind();
+                iTableINBox.DataSource = SQLTables;
+                iTableINBox.DataTextField = "TABLE_NAME";
+                iTableINBox.DataValueField = "TABLE_NAME";
+                iTableINBox.DataBind();
+                GridViewTables.DataSource = SQLTables;
+                GridViewTables.DataBind();
+            }
+            else if (type == ConnInfo.ORACLE)
+            {
+                iTableNBox.DataSource = oracleTables;
+                iTableNBox.DataTextField = "TABLE_NAME";
+                iTableNBox.DataValueField = "TABLE_NAME";
+                iTableNBox.DataBind();
+                iTableFNBox.DataSource = oracleTables;
+                iTableFNBox.DataTextField = "TABLE_NAME";
+                iTableFNBox.DataValueField = "TABLE_NAME";
+                iTableFNBox.DataBind();
+                iTableINBox.DataSource = oracleTables;
+                iTableINBox.DataTextField = "TABLE_NAME";
+                iTableINBox.DataValueField = "TABLE_NAME";
+                iTableINBox.DataBind();
+                GridViewTables.DataSource = oracleTables;
+                GridViewTables.DataBind();
+            }
+            else
+            {
+                //Default case goes here
+            }
+        }
 
         protected void dLink_Click(object sender, EventArgs e)
         {
@@ -112,6 +138,7 @@ namespace HCI
             dFieldPanel.Visible = false;
             dImagePanel.Visible = false;
         }
+
         protected void dLinkInsert_Click(object sender, EventArgs e)
         {
             string linkText = iLinkNBox.Text.ToString();
@@ -129,6 +156,7 @@ namespace HCI
                 descriptionBox.Text += descriptionInfo;
             }
         }
+
         protected void dTable_Click(object sender, EventArgs e)
         {
             dLinkPanel.Visible = false;
@@ -215,6 +243,15 @@ namespace HCI
                 //Set drop down box accordingly
                 if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                    iColFNBox.DataSource = temp;
+                    iColFNBox.DataValueField = "COLUMN_NAME";
+                    iColFNBox.DataTextField = "COLUMN_NAME";
+                    iColFNBox.DataBind();
+                    UpdateFieldCol.Update();
                 }
 
                 else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
@@ -277,6 +314,15 @@ namespace HCI
                 //Set drop down box accordingly
                 if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                    iColINBox.DataSource = temp;
+                    iColINBox.DataValueField = "COLUMN_NAME";
+                    iColINBox.DataTextField = "COLUMN_NAME";
+                    iColINBox.DataBind();
+                    UpdateFieldCol.Update();
                 }
 
                 else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
@@ -343,6 +389,10 @@ namespace HCI
                 //Set drop down box accordingly
                 if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
+                    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                    ColGen.ConnectionString = connectionString;
+                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                    ColGen.DataBind();
                 }
 
                 else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
@@ -394,6 +444,12 @@ namespace HCI
             //Set drop down box accordingly
             if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
             {
+                connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                SqlDataSource temp = new SqlDataSource();
+                ColGen.ConnectionString = connectionString;
+                ColGen.ProviderName = providerName;
+                ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                ColGen.DataBind();
             }
 
             else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
@@ -430,7 +486,6 @@ namespace HCI
 
         protected void viewTable_Click(object sender, EventArgs e)
         {
-            
         }
         
     }
