@@ -140,6 +140,42 @@ namespace HCI
         {
             overlayList.Clear();
 
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT ID,color FROM Overlay WHERE connID="+Request.QueryString.Get("ConnID"));
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                string overColor = dr["color"].ToString();
+                string overID = dr["ID"].ToString();
+
+                Overlay over = new Overlay();
+                over.setColor(overColor);
+                over.setId(overID);
+
+                Database db2 = new Database();
+                DataTable dt2;
+                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND overlayID = " + overID);
+                foreach (DataRow dr2 in dt2.Rows)
+                {
+                    Condition condition = new Condition();
+                    condition.setFieldName(dr2["fieldName"].ToString());
+                    condition.setTableName(dr2["tableName"].ToString());
+                    condition.setLowerBound(dr2["lowerBound"].ToString());
+                    condition.setUpperBound(dr2["upperBound"].ToString());
+                    if (dr2["lowerOperator"].ToString() != "")
+                        condition.setLowerOperator(Convert.ToInt32(dr2["lowerOperator"].ToString()));
+                    else
+                        condition.setLowerOperator(0);
+
+                    if (dr2["upperOperator"].ToString() != "")
+                        condition.setUpperOperator(Convert.ToInt32(dr2["upperOperator"].ToString()));
+                    else
+                        condition.setUpperOperator(0);
+                    over.setConditions(condition);
+                }
+                overlayList.Add(over);
+            }
         }
 
         protected void fillIconLibraryLists()

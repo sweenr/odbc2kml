@@ -16,6 +16,7 @@ namespace HCI
 {
     public class Overlay
     {
+        private string id;
         private string color;
         private ArrayList conditions;
 
@@ -23,6 +24,16 @@ namespace HCI
         public Overlay()
         {
             conditions = new ArrayList();
+        }
+
+        public string getId()
+        {
+            return this.id;
+        }
+
+        public void setId(string id)
+        {
+            this.id = id;
         }
 
         public string getColor()
