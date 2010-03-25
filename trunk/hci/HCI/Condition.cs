@@ -44,6 +44,7 @@ namespace HCI
             upperBound = "";
             lowerOperator = NONE;
             upperOperator = NONE;
+            id = 0;
         }
 
         public Condition(string FieldName, string TableName, string LowerBound, string UpperBound, string LowerOperator, string UpperOperator)
@@ -60,6 +61,7 @@ namespace HCI
                 upperOperator = Convert.ToInt32(UpperOperator);
             else
                 upperOperator = NONE;
+            id = 0;
         }
 
         public static string operatorIntToString(int op)
@@ -173,10 +175,20 @@ namespace HCI
             this.lowerOperator = lowerOperator;
         }
 
+        public void setLowerOperator(string lowerOperator)
+        {
+            this.lowerOperator = operatorStringToInt(lowerOperator);
+        }
+
         //Set upperOperator
         public void setUpperOperator(int upperOperator)
         {
             this.upperOperator = upperOperator;
+        }
+
+        public void setUpperOperator(string upperOperator)
+        {
+            this.upperOperator = operatorStringToInt(upperOperator);
         }
 
         public void setId(int ID)
