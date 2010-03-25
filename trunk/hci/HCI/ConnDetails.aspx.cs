@@ -461,14 +461,15 @@ namespace HCI
                 IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
-
                 Button modifyButton = new Button();
-                modifyButton.Text = "Modify Condition";
-                modifyButton.CssClass = "button";
-                modifyButton.Width = 135;
-                modifyButton.ID = "modifyIconCondition_" + icon.getId();
-                IconConditionPanel.Controls.Add(modifyButton);
-
+                if (Request.QueryString.Get("locked") == "false")
+                {
+                    modifyButton.Text = "Modify Condition";
+                    modifyButton.CssClass = "button";
+                    modifyButton.Width = 135;
+                    modifyButton.ID = "modifyIconCondition_" + icon.getId();
+                    IconConditionPanel.Controls.Add(modifyButton);
+                }
                 Panel modifyIconConditionPopupPanel = new Panel();
                 modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                 modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
@@ -486,18 +487,20 @@ namespace HCI
                 cancelModifyConditionPopup.Text = "Cancel";
                 modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
 
-                AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-                mpe.ID = "MPE_" + icon.getId();
-                mpe.BackgroundCssClass = "modalBackground";
-                mpe.DropShadow = true;
-                mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
-                mpe.TargetControlID = modifyButton.ID.ToString();
-                mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
-                IconConditionPanel.Controls.Add(mpe);
+                if (Request.QueryString.Get("locked") == "false")
+                {
+                    AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+                    mpe.ID = "MPE_" + icon.getId();
+                    mpe.BackgroundCssClass = "modalBackground";
+                    mpe.DropShadow = true;
+                    mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
+                    mpe.TargetControlID = modifyButton.ID.ToString();
+                    mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
+                    mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                    IconConditionPanel.Controls.Add(mpe);
 
-                IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
-
+                    IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
+                }
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }           
@@ -594,12 +597,14 @@ namespace HCI
                     }
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
-                    deleteConditionButton.ID = "delCondition" + args + "_" + i++;
+                    deleteConditionButton.ID = "delCondition_" + args + "_" + i.ToString();
 
                     deleteConditionButton.Text = "Remove";
                     deleteConditionButton.CssClass = "button";
                     deleteConditionButton.ToolTip = "Delete Condition";
                     deleteConditionButton.Width = 80;
+                    deleteConditionButton.Click += new EventHandler(deleteIconCondition);
+                    deleteConditionButton.CommandArgument = icon.getId() + " " + condition.getId();
                     modifyIconConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
                     modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -623,6 +628,7 @@ namespace HCI
             addLowerOperator.ID = "addLowerOperator" + args + "_" + i;
             addLowerOperator.CssClass = "inputDD";
             addLowerOperator.Width = 50;
+            addLowerOperator.Items.Add("");
             addLowerOperator.Items.Add("<");
             addLowerOperator.Items.Add("<=");
             addLowerOperator.Items.Add("==");
@@ -651,6 +657,7 @@ namespace HCI
             addUpperOperator.ID = "modIconConditionList2" + args + "_" + i;
             addUpperOperator.CssClass = "inputDD";
             addUpperOperator.Width = 50;
+            addUpperOperator.Items.Add("");
             addUpperOperator.Items.Add("<");
             addUpperOperator.Items.Add("<=");
             addUpperOperator.Items.Add("==");
@@ -675,6 +682,8 @@ namespace HCI
             addConditionButton.ToolTip = "Add Condition";
             addConditionButton.Width = 80;
             addConditionButton.CssClass = "button";
+            addConditionButton.Click += new EventHandler(addConditionToIcon);
+            addConditionButton.CommandArgument = addLowerBound.Text + "|" + addLowerOperator.Text + "|" + addTableName.Text + "|" + addFieldName.Text + "|" + addUpperOperator.Text + "|" + addUpperBound.Text + "|" + args;
             modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -803,6 +812,101 @@ namespace HCI
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</table>\n"));
             addIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
         }
+
+
+        protected void deleteIconCondition(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int lastSpace = btn.CommandArgument.LastIndexOf(" ");
+            if (lastSpace >= 0)
+            {
+                string iconId = btn.CommandArgument.Substring(0, lastSpace);
+                string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
+                foreach (Icon icon in iconList)
+                {
+                    if (icon.getId() == iconId)
+                    {
+                        icon.removeConditions(conditionId);
+                    }
+                }
+            }
+        }
+
+        protected void addConditionToIcon(object sender, EventArgs e)
+	        {
+	            Button btn = (Button)sender;
+	            int[] breaks;
+	            breaks = new int[7];
+	            int i = 0;
+	            for (int j = 0; j < btn.CommandArgument.Length; j++)
+	            {
+	                if (i >= 7)
+	                    continue;
+	                if (btn.CommandArgument[j] == '|')
+	                {
+	                    breaks[i] = j;
+	                    i++;
+	                }
+	            }
+	            string lowerBound = btn.CommandArgument.Substring(0,breaks[0]);
+	            string lowerOperator = btn.CommandArgument.Substring(breaks[0] + 1, breaks[1] - breaks[0] - 1);
+                string tableName = btn.CommandArgument.Substring(breaks[1] + 1, breaks[2] - breaks[1] - 1);
+	            string fieldName = btn.CommandArgument.Substring(breaks[2] + 1, breaks[3] - breaks[2] - 1);
+	            string upperOperator = btn.CommandArgument.Substring(breaks[3] + 1, breaks[4] - breaks[3] - 1);
+	            string upperBound = btn.CommandArgument.Substring(breaks[4] + 1, breaks[5] - breaks[4] - 1);
+	            string iconId = btn.CommandArgument.Substring(breaks[5] + 1);
+	
+	            Condition condition = new Condition();
+	            condition.setLowerBound(lowerBound);
+	            condition.setUpperBound(upperBound);
+	            condition.setTableName(tableName);
+	            condition.setFieldName(fieldName);
+	            switch (lowerOperator)
+	            {
+	                case "<":
+	                    condition.setLowerOperator(1);
+	                    break;
+	                case "<=":
+	                    condition.setLowerOperator(2);
+	                    break;
+	                case "==":
+	                    condition.setLowerOperator(5);
+	                    break;
+	                case "!=":
+	                    condition.setLowerOperator(6);
+	                    break;
+	                default:
+	                    condition.setLowerOperator(0);
+	                    break;
+	            }
+	            switch (upperOperator)
+	            {
+	                case "<":
+	                    condition.setUpperOperator(1);
+	                    break;
+	                case "<=":
+	                    condition.setUpperOperator(2);
+	                    break;
+	                case "==":
+	                    condition.setUpperOperator(5);
+	                    break;
+	                case "!=":
+	                    condition.setUpperOperator(6);
+	                    break;
+	                default:
+	                    condition.setUpperOperator(0);
+	                    break;
+	            }
+	
+	            foreach (Icon icon in iconList)
+	            {
+	                if (icon.getId() == iconId)
+	                {
+	                    icon.setConditions(condition);
+	                }
+	            }
+	        }
+
         /// <summary>
         /// used for uploading icons from local computer
         /// </summary>
