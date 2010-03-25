@@ -146,13 +146,13 @@ namespace HCI
             }
         }
 
-        public static Mapping getMapping(int connID)
+        public static Mapping getMapping(int connID, string tableName)
         {
             Mapping mapping = new Mapping();
             Database localDatabase = new Database();
 
             //Create mapping query and populate table
-            string query = "SELECT * FROM Mapping WHERE connID=" + connID;
+            string query = "SELECT * FROM Mapping WHERE connID=" + connID + " AND tableName=" + tableName;
             DataTable table = localDatabase.executeQueryLocal(query);
 
             foreach (DataRow row in table.Rows)
