@@ -104,16 +104,17 @@ namespace HCI
                 {
                     //Foreach row set the description for each row
                     String rowDesc = descArray[counter].ToString();
-                    /*foreach (DataColumn remoteCol in remote.Columns)
+
+                    if (map.getFormat() == Mapping.SEPARATE)
                     {
-                        if(remoteCol.col) 
-                        {
-                        }
-                    }*/
+
+                    }
+
                 }
 
 
             }
+            return desc;
         }
     }
 }
