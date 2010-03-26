@@ -69,6 +69,24 @@ namespace HCI
             return href;
         }
 
+        public static void insertDescription(int connID, string desc)
+        {
+            Description description = new Description();
+            Database localDatabase = new Database();
+
+            string query = "INSERT INTO DESCRIPTION VALUES ('" + connID + "', '" + desc + "')";
+            localDatabase.executeQueryLocal(query);
+        } 
+
+        public static void updateDescription(int connID, string desc)
+        {
+            Description description = new Description();
+            Database localDatabase = new Database();
+
+            string query = "UPDATE DESCRIPTION SET description = '" + desc + "' WHERE connID = '" + connID + "'";
+            localDatabase.executeQueryLocal(query);
+        } 
+
         public static Description getDescription(int connID)
         {
             Description description = new Description();
