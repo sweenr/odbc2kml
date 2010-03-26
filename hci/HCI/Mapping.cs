@@ -95,7 +95,7 @@ namespace HCI
         }
 
         //Seperating Long from Lat and vise versa
-        public void separate(string cord, int order)
+        public double[] separate(string cord, int order)
         {
             int mid;
             if (cord.Contains(','))
@@ -115,6 +115,7 @@ namespace HCI
                 throw new ODBC2KMLException("Not a correct format of Latitude and Longitude");
             }
 
+
             String p1 = "", p2 = "";
             int i;
             for (i = 0; i < mid; i++)
@@ -130,13 +131,24 @@ namespace HCI
                 q2.Equals(double.Parse(p2));
                 if (order.Equals(LATFIRST))
                 {
-                    latFieldName = p1;
-                    longFieldName = p2;
+                    double[] coordinates = new double[2];
+                    coordinates[0] = q1;
+                    coordinates[1] = q2;
+
+                    return coordinates;
+                    //latFieldName = p1;
+                    //longFieldName = p2;
                 }
                 else
                 {
-                    latFieldName = p2;
-                    longFieldName = p1;
+                    double[] coordinates = new double[2];
+                    coordinates[0] = q2;
+                    coordinates[1] = q1;
+
+                    return coordinates;
+
+                    //latFieldName = p2;
+                    //longFieldName = p1;
                 }
 
             }
