@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
+
 
 namespace HCI
 {
@@ -24,10 +15,10 @@ namespace HCI
         /// name
         /// </summary>
         /// <param name="kmlFileName">Desired file name</param>
-        KMLGenerationLibrary(String kmlFileName)
+        public KMLGenerationLibrary(String kmlFileName)
         {
             //Initialize KML basics
-            formattedKML = initializeKML(kmlFileName);
+            initializeKML(kmlFileName);
         }
 
         //Functions
@@ -36,7 +27,7 @@ namespace HCI
         /// Adds the basic necessities needed for a KML file to the KML string
         /// </summary>
         /// <param name="kmlFileName">Desired file name</param>
-        public void initiliazeKML(String kmlFileName)
+        public void initializeKML(String kmlFileName)
         {
             //XML/KML initialization
             formattedKML =
@@ -71,15 +62,20 @@ namespace HCI
         /// <param name="styleName">String --> Style Name</param>
         public void addPlacemark(String name, String description, double lat, double lon, String styleName)
         {
-            formattedKML += 
+            formattedKML +=
                 "\t<Placemark>\n" +
                 "\t\t<name>" + name + "</name>\n" +
                 "\t\t<description>\n" +
                 "\t\t\t<![CDATA[" + description + "]]>\n" +
-                "\t\t</description>\n" +
-                "\t\t\t<styleUrl>" + styleName + "</styleUrl>\n" +
+                "\t\t</description>\n";
+            if (styleName.Length != 0)
+            {
+                formattedKML += "\t\t\t<styleUrl>" + styleName + "</styleUrl>\n";
+            }
+            formattedKML +=       
                 "\t\t\t<Point>\n" +
-                "\t\t\t\t<coordinates>" + lon + ", " + lat + "</coordinates\n" +
+                "\t\t\t\t<altitudeMode>clampToGround</altitudeMode>\n" +
+                "\t\t\t\t<coordinates>" + lon + "," + lat + "</coordinates>\n" +
                 "\t\t\t</Point>\n" +
                 "\t</Placemark>\n";
         }
@@ -93,9 +89,6 @@ namespace HCI
         /// <param name="styleName">String --> associated styleName</param>
         public void addStyle(Icon ic, String color, String styleName)
         {
-            //Retrieve icon ID
-            String iconID = ic.getId();
-
             if (color.Length == 0) //Don't add a color
             {
                 formattedKML +=
