@@ -335,6 +335,13 @@
                             </asp:Panel>
                             <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
                                 TextMode="MultiLine"></asp:TextBox>
+                                <br /><br />
+                                
+                                                        <asp:Label ID="descSuccess" runat="server" Text="" CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                        <br />
+                                <div align="right">
+                                <asp:Button ID="updateDesc" runat="server" CssClass="descButton" OnClick="updateDescription"
+                                                            Text="Update Description" ToolTip="Update Description" /></div>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="dLinkInsert" EventName="Click" />

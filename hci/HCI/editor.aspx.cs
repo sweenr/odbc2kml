@@ -66,6 +66,10 @@ namespace HCI
 
                 updateTables(connInfo.getDatabaseType());
 
+
+                Description conDesc = Description.getDescription(conID);
+                string descBox = conDesc.getDesc();
+                descriptionBox.Text = descBox;
                 //Garbage collection
                 connInfo = null;
 
@@ -488,8 +492,26 @@ namespace HCI
             connInfo = null;
         }
 
-        protected void viewTable_Click(object sender, EventArgs e)
+        protected void updateDescription(object sender, EventArgs e)
         {
+            Description conDesc = Description.getDescription(conID);
+            string descBox = conDesc.getDesc();
+
+            string descText = descriptionBox.Text.ToString();
+
+            //No description entry exists
+            if (descBox == null)
+            {
+                Description.insertDescription(conID, descText);
+                descSuccess.Text = "Description inserted successfully!";
+            }
+
+            //Update existing description entry
+            else
+            {
+                Description.updateDescription(conID, descText);
+                descSuccess.Text = "Description updated successfully!";
+            }
 
         }
         
