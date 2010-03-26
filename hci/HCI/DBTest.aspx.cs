@@ -16,16 +16,49 @@ namespace HCI
 {
     public partial class DBTest : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        /// <summary>
+        /// The following code is taken from http://www.codeproject.com/KB/aspnet/Enable_Disable_Controls.aspx
+        /// which is distributed under the CPOL license
+        /// </summary>
+        /// <param name="status"></param>
+        private void ChangeControlStatus(bool status)
         {
 
-            if (Session["Error"] != null)
-            {
-                ErrorHandler eh = new ErrorHandler(Session["Error"].ToString(), errorPanel1);
-                eh.displayError();
-                Session["Error"] = null;
-            }
+            foreach (Control c in Page.Controls)
+                foreach (Control ctrl in c.Controls)
 
+                    if (ctrl is TextBox)
+
+                        ((TextBox)ctrl).Enabled = status;
+
+                    else if (ctrl is Button)
+
+                        ((Button)ctrl).Enabled = status;
+
+                    else if (ctrl is RadioButton)
+
+                        ((RadioButton)ctrl).Enabled = status;
+
+                    else if (ctrl is ImageButton)
+
+                        ((ImageButton)ctrl).Enabled = status;
+
+                    else if (ctrl is CheckBox)
+
+                        ((CheckBox)ctrl).Enabled = status;
+
+                    else if (ctrl is DropDownList)
+
+                        ((DropDownList)ctrl).Enabled = status;
+
+                    else if (ctrl is HyperLink)
+
+                        ((HyperLink)ctrl).Enabled = status; 
+
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
             if (!IsPostBack)
             {
                 Database db = new Database();
@@ -38,13 +71,11 @@ namespace HCI
                 connectionSelector.DataBind();
                 connectionSelector.Items.Add("local");
             }
+            if (Request.QueryString.Get("locked") == "1")
+            {
+                ChangeControlStatus(false);
+            }
 
-        }
-
-        protected void Page_Error(object sender, EventArgs e)
-        {
-            Session["Error"] = "Unknown Error";
-            Response.Redirect(Request.Url.AbsoluteUri);
         }
 
         protected void executeQuery(object sender, EventArgs e)
@@ -54,7 +85,6 @@ namespace HCI
                 Database db;
                 DataTable dt;
                 Label title = new Label();
-
 
                 if (connectionSelector.SelectedItem.Text == "local")
                 {
@@ -92,52 +122,8 @@ namespace HCI
                         eh.displayError();
                         return;
                     }
-                    
 
-                    //Cycle through each row and column
-                    foreach (DataRow row in dt.Rows)
-                    {
-
-                        foreach (DataColumn col in dt.Columns)
-                        {
-                            //Set all connInfo
-                            switch (col.ColumnName)
-                            {
-                                case "name":
-                                    info.setConnectionName(row[col].ToString());
-                                    break;
-                                case "dbName":
-                                    info.setDatabaseName(row[col].ToString());
-                                    break;
-                                case "userName":
-                                    info.setUserName(row[col].ToString());
-                                    break;
-                                case "password":
-                                    info.setPassword(row[col].ToString());
-                                    break;
-                                case "port":
-                                    info.setPortNumber(row[col].ToString());
-                                    break;
-                                case "address":
-                                    info.setServerAddress(row[col].ToString());
-                                    break;
-                                case "type":
-                                    info.setDatabaseType(int.Parse(row[col].ToString()));
-                                    break;
-                                case "protocol":
-                                    info.setOracleProtocol(row[col].ToString());
-                                    break;
-                                case "serviceName":
-                                    info.setOracleServiceName(row[col].ToString());
-                                    break;
-                                case "SID":
-                                    info.setOracleSID(row[col].ToString());
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }//End outer loop
+                    info = ConnInfo.getConnInfo(int.Parse(connectionSelector.SelectedItem.Value));
 
                     db.setConnInfo(info);
                     try
