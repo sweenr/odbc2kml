@@ -84,8 +84,7 @@
                         <table><tr><td>
                             <asp:Button ID="addLatLong" runat="server" Text="Add Lat/Long" ToolTip="Add Lat/Long" CssClass="button"/>
                         </td><td>
-                            <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table" 
-                                    CssClass="button" onclick="viewTable_Click"/>
+                            <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table" CssClass="button" CausesValidation="False" />
                         </td></tr></table>
                         </div>
                         </asp:Panel>
@@ -349,7 +348,6 @@
     <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>      
     <asp:SqlDataSource ID="oracleTables" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="MSQLTables" runat="server"></asp:SqlDataSource> 
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
     </form>
 </body>
 </html>

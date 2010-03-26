@@ -379,6 +379,10 @@ namespace HCI
             string selectedTable = GridViewTables.SelectedValue.ToString();
             selectedGVTable.Value = selectedTable;
 
+            string pageInfo = "viewTable.aspx?con=" + conID + "&tbl=" + selectedTable;
+            string window = "window.open('" + pageInfo  +"'); return false;";
+            viewTable.Attributes.Add("onclick", window);
+
             if (selectedTable != "")
             {
                 ConnInfo connInfo = ConnInfo.getConnInfo(conID);
@@ -486,6 +490,7 @@ namespace HCI
 
         protected void viewTable_Click(object sender, EventArgs e)
         {
+
         }
         
     }
