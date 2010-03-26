@@ -861,6 +861,14 @@ namespace HCI
             if (upperOperator != null)
                 condition.setUpperOperator(upperOperator.SelectedItem.Text.ToString());
 
+            string conditionErrors = condition.getErrorText();
+            if (conditionErrors != "")
+            {
+                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                eh.displayError();
+                return;
+            }
+
             foreach (Icon icon in iconList)
             {
                 if (icon.getId() == iconId)
@@ -1238,6 +1246,14 @@ namespace HCI
                 condition.setLowerOperator(lowerOperator.SelectedItem.Text.ToString());
             if (upperOperator != null)
                 condition.setUpperOperator(upperOperator.SelectedItem.Text.ToString());
+
+            string conditionErrors = condition.getErrorText();
+            if (conditionErrors != "")
+            {
+                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                eh.displayError();
+                return;
+            }
 
             foreach (Overlay overlay in overlayList)
             {

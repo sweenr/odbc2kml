@@ -199,37 +199,38 @@ namespace HCI
         //Additional
 
         //Add Comments
-        public bool isValid()
+        public string getErrorText()
         {
-            bool valid = false;
+            string errorString = "";
 
-            if ((fieldName != "") && (tableName != ""))
+            if (tableName == "")
+                errorString = "Must enter table name.";
+            else if (fieldName == "")
+                errorString = "Must enter field name.";
+            else if ((lowerBound == "") && (upperBound == ""))
+                errorString = "Must enter a lower bound or an upper bound.";
+            else if (lowerOperator != 0)
             {
-                Database db = new Database();
-                DataTable testTable = db.executeQueryLocal("SELECT " + fieldName + " FROM " + tableName);
-                if (testTable.Columns.Count != 0)  // If the table and column/field names are valid, go on
-                {
-                    if (!((lowerOperator == NONE) && (upperOperator == NONE)))  // at least 1 operator is selected
-                    {
-                        if (lowerOperator != NONE)
-                        {
-                            if (lowerBound != "")
-                            {
-                                valid = true;
-                            }
-                        }
-                        else if (upperOperator != NONE)
-                        {
-                            if (upperBound != "")
-                            {
-                                valid = true;
-                            }
-                        }
-                    }
-                }
+                if (lowerBound != "")
+                    errorString = "You entered a lower operator, so you must also enter a lower bound.";
             }
-
-            return valid;
+            else if (lowerBound != "")
+            {
+                if (lowerOperator != 0)
+                    errorString = "You entered a lower bound, so you must also enter a lower operator.";
+            }
+            else if (upperOperator != 0)
+            {
+                if (upperBound != "")
+                    errorString = "You entered a upper operator, so you must also enter an upper bound.";
+            }
+            else if (upperBound != "")
+            {
+                if (upperOperator != 0)
+                    errorString = "You entered a upper bound, so you must also enter an upper operator.";
+            }
+            
+            return errorString;
         }
 
     }
