@@ -34,10 +34,118 @@ namespace HCI
          */ 
         public string generateKML(int connID)
         {
-            string kml = "test";
+            //Create database
+            Database DB = new Database();
+            DataTable mapping = DB.executeQueryLocal("SELECT 'tableName' FROM Mapping WHERE connID=\'" + connID + "\'");
 
-            return kml;
-        }
+            //Create arraylist and add tables to it
+            ArrayList tablesToBeSearched = null;
+
+            foreach (DataRow row in mapping.Rows)
+            {
+                foreach (DataColumn col in mapping.Columns)
+                {
+                    tablesToBeSearched.Add(row[col].ToString());
+                }
+            }
+
+            DB.setConnInfo(ConnInfo.getConnInfo(connID));
+            int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
+
+            DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
+
+            //Format the description
+            String descString = desc.ToString();
+
+            //Create an array to store new description values
+            ArrayList descArray = null;
+
+            //Create data table to pass to parser
+            DataTable remote = null;
+
+            foreach (String tableName in tablesToBeSearched)
+            {
+                if (dbType == ConnInfo.MSSQL)
+                {
+                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
+                }
+                else if (dbType == ConnInfo.MYSQL)
+                {
+                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
+                }
+                else if (dbType == ConnInfo.ORACLE)
+                {
+                    remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
+                }
+
+                //Parsed descriptions for rows
+                descArray = Description.parseDesc(remote, descString, tableName);
+
+                //Create mapping and populate it.
+                Mapping map = Mapping.getMapping(connID, tableName); ;
+
+                int counter = 0;
+                foreach (DataRow remoteRow in remote.Rows)
+                {
+                    //Foreach row set the description for each row
+                    String rowDesc = descArray[counter].ToString();
+                    
+                    //Declare the lat and long holders
+                    Double lat, lon;
+
+                    //Check to see how many columns there are
+                    if (map.getFormat() != Mapping.SEPARATE)
+                    {
+                        //Select the column value
+                        String column = "";
+                        foreach(DataColumn remoteColumn in remote.Columns)
+                        {
+                            if(remoteColumn.ColumnName == map.getLatFieldName())
+                            {
+                                column = remoteRow[remoteColumn].ToString();
+                            }
+                        }
+
+                        //Create the array to hold the coordinates
+                        double[] coordinates;
+
+                        //Separate the coordinates
+                        //Order == Latitude First
+                        if (map.getFormat() == Mapping.LATFIRST)
+                        {
+                            coordinates = map.separate(column, Mapping.LATFIRST);
+                            lat = coordinates[0];
+                            lon = coordinates[1];
+                        }
+                        else //Order == Longitude first
+                        {
+                            coordinates = map.separate(column, Mapping.LONGFIRST);
+                            lon = coordinates[0];
+                            lat = coordinates[1];
+                        }
+                    }
+                    else//Two separate columns
+                    {
+                        //Get coordinates
+                        foreach (DataColumn remoteColumn in remote.Columns)
+                        {
+                            if (remoteColumn.ColumnName == map.getLatFieldName())
+                            {
+                                lat = Double.Parse(remoteRow[remoteColumn].ToString());
+                            }
+                            else if (remoteColumn.ColumnName == map.getLongFieldName())
+                            {
+                                lon = Double.Parse(remoteRow[remoteColumn].ToString());
+                            }
+                        }//End for each
+                    }//End else
+
+                    //TODO: DO SOMETHING WITH COORDINATES
+
+                }//End for each
+            }//End for each
+            return "ARGH STUPID NO RETURNS IN ALL PATHS";
+        }//End function
 
 
         /// <summary>
@@ -108,6 +216,17 @@ namespace HCI
                     if (map.getFormat() == Mapping.SEPARATE)
                     {
 
+                    }
+                    else
+                    {
+                        if (map.getFormat() == Mapping.LATFIRST)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
                     }
 
                 }
