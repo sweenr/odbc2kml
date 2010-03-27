@@ -725,7 +725,8 @@ namespace HCI
                 modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                 modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
                 UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
-                modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + iconList.IndexOf(icon).ToString();
+                modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + icon.getId().ToString();
+                modifyIconConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
                 genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
                 modifyIconConditionPopupPanel.Controls.Add(modifyIconConditionInsidePopupPanel);
 
@@ -1137,7 +1138,8 @@ namespace HCI
                 modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
                 modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
                 UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
-                modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlayList.IndexOf(overlay).ToString();
+                modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlay.getId();
+                modifyOverlayConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
                 genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
                 modifyOverlayConditionPopupPanel.Controls.Add(modifyOverlayConditionInsidePopupPanel);
 
@@ -1298,16 +1300,44 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            TextBox addTableName = new TextBox();
-            addTableName.ID = "addOverlayTableName" + args;
+            DropDownList addTableName = new DropDownList();
+            addTableName.ID = "addOverlayConditionTable" + args;
+            addTableName.CssClass = "inputDD";
             addTableName.Width = 50;
+            addTableName.AutoPostBack = true;
+            ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
+            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            {
+                addTableName.DataSource = MSQLTables;
+                addTableName.DataTextField = "TABLE_NAME";
+                addTableName.DataValueField = "TABLE_NAME";
+                addTableName.DataBind();
+            }
+            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            {
+                addTableName.DataSource = SQLTables;
+                addTableName.DataTextField = "TABLE_NAME";
+                addTableName.DataValueField = "TABLE_NAME";
+                addTableName.DataBind();
+            }
+            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+            {
+                addTableName.DataSource = oracleTables;
+                addTableName.DataTextField = "TABLE_NAME";
+                addTableName.DataValueField = "TABLE_NAME";
+                addTableName.DataBind();
+            }
+
+            addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            TextBox addFieldName = new TextBox();
-            addFieldName.ID = "addOverlayFieldName" + args;
+            DropDownList addFieldName = new DropDownList();
+            addFieldName.ID = "addOverlayConditionField" + args;
+            addFieldName.CssClass = "inputDD";
             addFieldName.Width = 50;
+            addFieldName.AutoPostBack = true;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1450,7 +1480,11 @@ namespace HCI
 
             DropDownList tableList = (DropDownList)sender;
             string selectedTable = tableList.SelectedItem.ToString();
-            string fieldListId = "addIconConditionField" + tableList.ID.Substring(tableList.ID.LastIndexOf("addIconConditionTable") + 1);
+            string fieldListId;
+            if (tableList.ID.ToString().LastIndexOf("addIconConditionTable") != -1)
+                fieldListId= "addIconConditionField" + tableList.ID.Substring(tableList.ID.LastIndexOf("e") + 1);
+            else
+                fieldListId = "addOverlayConditionField" + tableList.ID.Substring(tableList.ID.LastIndexOf("e") + 1);
             DropDownList fieldList = (DropDownList)Page.FindControl(fieldListId);
             if (selectedTable == "")
             {
@@ -1498,6 +1532,14 @@ namespace HCI
             {
                 //Default case goes here
             }
+            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
+            UpdatePanel up;
+            if (tableList.ID.ToString().LastIndexOf("addIconConditionTable") != -1)
+                up = (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + id);
+            else
+                up = (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + id);
+            
+            up.Update();
         }
 
         
@@ -1721,5 +1763,6 @@ namespace HCI
         private static SqlDataSource MSQLTables = new SqlDataSource();
         private static SqlDataSource SQLTables = new SqlDataSource();
         private static SqlDataSource oracleTables = new SqlDataSource();
+        private static SqlDataSource colDataSource = new SqlDataSource();
     }
 }
