@@ -65,14 +65,16 @@
         @import "odbcStyle.css";
     </style>
 
+
     <script type="text/JavaScript">
-        function OnColorOpen(sender)
-        {
-          var elVPosition = "BOTTOM";
-          var elHPosition = "RIGHT";
-          var elTOffset = 0;
-          var elLOffset = 0;
-        }
+function OnColorOpen(sender){
+  var textBox = document.getElementById("<%= ColorAddText.ClientID %>");
+  sender.setColor(OboutInc.ColorPicker.getStyle(textBox,"background-color"));
+}
+function OnColorPicked(sender){
+  var hidden  =document.getElementById("<%=HiddenValue.ClientID %>");
+  hidden.value=sender.getColor();
+}
     </script>
 
 </head>
@@ -280,7 +282,7 @@
                                     <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton"
                                         ToolTip="Add Field/Image" />&nbsp;&nbsp;
                                     <asp:Button ID="DescPopup" runat="server" Text="Table and Field" CssClass="descbutton"
-                                        ToolTipe="Set Table and Field name" />&nbsp;&nbsp;
+                                        ToolTip="Set Table and Field name" />&nbsp;&nbsp;
                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="DescPopupOk"
                                         CancelControlID="DescPopupCan" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender6"
                                         TargetControlID="DescPopup" />
@@ -611,6 +613,8 @@
                                                                         </td>
                                                                     </tr>
                                                                 </table>
+                                                                <asp:Panel ID="removeOverlayInteriorPanel" runat="server" Visible="true">
+                                                                </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <asp:Button ID="closeRemoveOverlay" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>
@@ -642,20 +646,24 @@
                                                                             </td>
                                                                         </tr>
                                                                     </table>
+                                                                    <asp:HiddenField runat="server"  id="HiddenValue" value="" />
+                                                                    <asp:label id="addColorMessage" runat="server"  Text="&nbsp;" /> 
                                                                     <table class="omainBox5" cellspacing="0" cellpadding="0">
                                                                         <tr>
                                                                             <td>
                                                                                 <!--Color Info Here (Color Box? Color Drop Down?)--->
                                                                                 <div class="colorPicker">
-                                                                                    <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="vertical-align: middle;" runat="server" />
                                                                                     &nbsp;&nbsp;Click here:
-                                                                                    <obout:ColorPicker ID="ColorPicker1" EnableViewState="true" ZIndex="500000" runat="server"
-                                                                                        OnClientOpen="OnColorOpen" TargetId="ColorAddText" TargetProperty="style.backgroundColor" />
+                                                                                    <obout:ColorPicker ID="ColorPicker1" runat="server" ZIndex="500000" OnClientOpen="OnColorOpen" OnClientPicked="OnColorPicked"
+                                                                                        TargetId="ColorAddText" TargetProperty="style.backgroundColor">
+                                                                                        <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="cursor: pointer;" runat="server" />
+                                                                                    </obout:ColorPicker>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
                                                                     <div class="right" style="padding-top: 20px;">
+                                                                        <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" />
                                                                         <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button" OnClick="addOverlayColorToConn" />
                                                                         <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" />
                                                                     </div>

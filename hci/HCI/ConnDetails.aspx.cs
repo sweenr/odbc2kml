@@ -38,6 +38,9 @@ namespace HCI
                     
                     //Create ConnInfo object and populate elements
                     ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+                    ColorPicker1.InitialColor = "#000000";
+                    ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
+                    curOverlayCount = -1;
 
                     //Set Connection Information accordingly
                     odbcAdd.Text = connInfo.getServerAddress();
@@ -93,6 +96,8 @@ namespace HCI
             }
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
+            //fillOverlayPopupAdd();
+            fillOverlayPopupRemove();
 
             genIconConditionTable(sender, e);
             genOverlayConditionTable(sender, e);
@@ -154,6 +159,7 @@ namespace HCI
         protected void fillOverlayLibraryLists()
         {
             overlayList.Clear();
+            overlayListAvailableToRemove.Clear();
 
             Database db = new Database();
             DataTable dt;
@@ -209,6 +215,7 @@ namespace HCI
                     over.setConditions(condition);
                 }
                 overlayList.Add(over);
+                overlayListAvailableToRemove.Add(over);
             }
         }
 
@@ -244,6 +251,43 @@ namespace HCI
                 iconListAvailableToRemove.Add(icon);
             }
             //fillIconLibraryPopupRemove();
+        }
+
+        protected void fillOverlayPopupRemove()
+        {
+            int sizeOfBox = 8;
+            int currentBoxCount = 0;
+            removeOverlayInteriorPanel.Controls.Clear();
+            removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
+            foreach (Overlay over in overlayListAvailableToRemove)
+            {
+                if (currentBoxCount == sizeOfBox)
+                {
+                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    currentBoxCount = 0;
+                }
+                if (currentBoxCount == 0)
+                {
+                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                }
+
+                removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<td>"));
+                ImageButton imgBtn = new ImageButton();
+                imgBtn.ID = "overlayLib_" + over.getId().ToString();
+                System.Drawing.ColorConverter colConvert = new System.Drawing.ColorConverter();
+                imgBtn.BackColor = (System.Drawing.Color)colConvert.ConvertFromString("#"+over.getColor());
+                imgBtn.CssClass = "overlayBox";
+                imgBtn.Click += new ImageClickEventHandler(removeOverlayColorFromConn);
+                imgBtn.CommandArgument = over.getColor().ToString();
+                imgBtn.AlternateText = "   Remove Color   ";
+
+                removeOverlayInteriorPanel.Controls.Add(imgBtn);
+                removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</td>"));
+
+
+                currentBoxCount += 1;
+            }
+            removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</table>\n"));
         }
 
         //populates the popup panel for removing an icon from a connection
@@ -387,14 +431,78 @@ namespace HCI
                 i += 1;
             }
 
-
-            //Database db = new Database();
-            //db.executeQueryLocal("DELETE FROM Icon WHERE ID=" + args + " AND connID=" + Request.QueryString.Get("ConnID"));
         }
 
         protected void addOverlayColorToConn(object sender, EventArgs e)
         {
-                    
+            Button sendBtn = (Button)sender;
+            String args = HiddenValue.Value.ToString();
+            args = args.Substring(1);
+
+            Overlay ovr = new Overlay();
+            ovr.setColor(args);
+
+            bool exists = false;
+            foreach (Overlay over in overlayList)
+            {
+                if (over.getColor().Equals(ovr.getColor()))
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (exists)
+            {
+                overColorExists.Visible = true;
+                this.AddOverlayPopupExtender.Hide();
+                this.AddOverlayPopupExtender.Show();
+            }
+            else
+            {
+                overColorExists.Visible = false;
+                ovr.setId(curOverlayCount.ToString());
+                curOverlayCount -= 1;
+                overlayListAvailableToRemove.Add(ovr);
+                overlayList.Add(ovr);
+                this.fillOverlayPopupRemove();
+                this.genOverlayConditionTable(sender, e);
+            }
+                 
+        }
+
+        protected void removeOverlayColorFromConn(object sender, EventArgs e)
+        {
+            ImageButton sendBtn = (ImageButton)sender;
+            String args = sendBtn.CommandArgument.ToString();
+
+            Overlay ovr = new Overlay();
+            ovr.setColor(args);
+
+            int i = 0;
+            foreach (Overlay over in overlayList)
+            {
+                if (over.getColor().Equals(ovr.getColor()))
+                {
+                    overlayList.RemoveAt(i);
+                    break;
+                }
+                i += 1;
+            }
+            i = 0;
+            foreach (Overlay over in overlayListAvailableToRemove)
+            {
+
+                if (over.getColor().Equals(ovr.getColor()))
+                {
+                    overlayListAvailableToRemove.RemoveAt(i);
+                    this.fillOverlayPopupRemove();
+                    this.genOverlayConditionTable(sender, e);
+                    break;
+                }
+                i += 1;
+            }
+
         }
 
         protected void genDBTCol(object sender, EventArgs e)
@@ -1600,13 +1708,13 @@ namespace HCI
         //private Database DB;
         public const int height = 128;
         public const int width = 128;
+        private static int curOverlayCount = -1;
         public static String tempSaveLoc = @"C:\odbc2kml\temp\";
         public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
         public ArrayList validTypes = new ArrayList();
         private static ArrayList iconList = new ArrayList();
         private static ArrayList iconListAvailableToAdd = new ArrayList();
         private static ArrayList iconListAvailableToRemove = new ArrayList();
-        private static ArrayList overlayListAvailableToAdd = new ArrayList();
         private static ArrayList overlayListAvailableToRemove = new ArrayList();
         private static ArrayList overlayList = new ArrayList();
         private static ArrayList tableNameList = new ArrayList();
