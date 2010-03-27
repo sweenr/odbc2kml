@@ -285,7 +285,7 @@ namespace HCI
                 DataTable dt2;
                 try
                 {
-                    dt2 = db2.executeQueryLocal("SELECT ID, fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM OverlayCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND overlayID = " + overID);
+                    dt2 = db2.executeQueryLocal("SELECT * FROM OverlayCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND overlayID = " + overID);
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -683,10 +683,11 @@ namespace HCI
 
                 Database db2 = new Database();
                 DataTable dt2;
-                dt2 = db2.executeQueryLocal("SELECT fieldName, tableName, lowerBound, upperBound, lowerOperator, upperOperator FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
+                dt2 = db2.executeQueryLocal("SELECT * FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
                 foreach (DataRow dr2 in dt2.Rows)
                 {
                     Condition condition = new Condition();
+                    condition.setId(Convert.ToInt32(dr2["ID"]));
                     condition.setFieldName(dr2["fieldName"].ToString());
                     condition.setTableName(dr2["tableName"].ToString());
                     condition.setLowerBound(dr2["lowerBound"].ToString());
@@ -831,11 +832,12 @@ namespace HCI
                 Button submitModifyConditionPopup = new Button();
                 submitModifyConditionPopup.ID = "submitModifyCondition" + icon.getId();
                 submitModifyConditionPopup.Text = "Submit";
+                submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
                 modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-                Button cancelModifyConditionPopup = new Button();
+                /*Button cancelModifyConditionPopup = new Button();
                 cancelModifyConditionPopup.ID = "cancelModifyCondition" + icon.getId();
                 cancelModifyConditionPopup.Text = "Cancel";
-                modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
+                modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
 
                 if (Request.QueryString.Get("locked") == "false")
                 {
@@ -845,8 +847,8 @@ namespace HCI
                     mpe.DropShadow = true;
                     mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
                     mpe.TargetControlID = modifyButton.ID.ToString();
-                    mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                    mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                    //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
+                    //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
                     IconConditionPanel.Controls.Add(mpe);
 
                     IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
@@ -1103,6 +1105,7 @@ namespace HCI
             string iconId = args;
 
             Condition condition = new Condition();
+            condition.setId(tempId--);
             condition.setLowerBound(lowerBound.Text.ToString());
             condition.setUpperBound(upperBound.Text.ToString());
             condition.setTableName(tableName.Text.ToString());
@@ -1244,11 +1247,12 @@ namespace HCI
                 Button submitModifyConditionPopup = new Button();
                 submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
                 submitModifyConditionPopup.Text = "Submit";
+                submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
                 modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-                Button cancelModifyConditionPopup = new Button();
+                /*Button cancelModifyConditionPopup = new Button();
                 cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
                 cancelModifyConditionPopup.Text = "Cancel";
-                modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
+                modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
 
                 if (Request.QueryString.Get("locked") == "false")
                 {
@@ -1258,8 +1262,8 @@ namespace HCI
                     mpe.DropShadow = true;
                     mpe.PopupControlID = modifyOverlayConditionPopupPanel.ID.ToString();
                     mpe.TargetControlID = modifyButton.ID.ToString();
-                    mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                    mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                    //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
+                    //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
                     OverlayConditionPanel.Controls.Add(mpe);
 
                     OverlayConditionPanel.Controls.Add(modifyOverlayConditionPopupPanel);
@@ -1517,6 +1521,7 @@ namespace HCI
             string overlayId = args;
 
             Condition condition = new Condition();
+            condition.setId(tempId--);
             condition.setLowerBound(lowerBound.Text.ToString());
             condition.setUpperBound(upperBound.Text.ToString());
             condition.setTableName(tableName.Text.ToString());
@@ -2109,5 +2114,6 @@ namespace HCI
         private static SqlDataSource SQLTables = new SqlDataSource();
         private static SqlDataSource oracleTables = new SqlDataSource();
         private static SqlDataSource colDataSource = new SqlDataSource();
+        private static int tempId = -1;
     }
 }
