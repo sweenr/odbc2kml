@@ -88,10 +88,14 @@ namespace HCI
 
                     //Garbage collection
                     connInfo = null;
-                    
-                    fillIconLibraryLists();
-                    fillOverlayLibraryLists();
-                    fillIconListFromDatabase();
+
+                    if (!alreadySetupLists)
+                    {
+                        fillIconLibraryLists();
+                        fillOverlayLibraryLists();
+                        fillIconListFromDatabase();
+                        alreadySetupLists = true;
+                    }
                 }
             }
             fillIconLibraryPopup();
@@ -566,7 +570,7 @@ namespace HCI
             DBFields.Visible = true;
 
         }
-        
+
         protected void fillIconListFromDatabase()
         {
             iconList.Clear();
@@ -867,14 +871,14 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addLowerBound = new TextBox();
-            addLowerBound.ID = "addLowerBound" + args;
+            addLowerBound.ID = "addIconLowerBound" + args;
             addLowerBound.Width = 50;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addLowerOperator = new DropDownList();
-            addLowerOperator.ID = "addLowerOperator" + args;
+            addLowerOperator.ID = "addIconLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
             addLowerOperator.Width = 50;
             addLowerOperator.Items.Add("");
@@ -887,7 +891,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addTableName = new DropDownList();
-            addTableName.ID = "addIconConditionTable" + args;
+            addTableName.ID = "addIconTable" + args;
             addTableName.CssClass = "inputDD";
             addTableName.Width = 50;
             addTableName.AutoPostBack = true;
@@ -920,7 +924,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addFieldName = new DropDownList();
-            addFieldName.ID = "addIconConditionField" + args;
+            addFieldName.ID = "addIconField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 50;
             addFieldName.AutoPostBack = true;
@@ -929,7 +933,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addUpperOperator = new DropDownList();
-            addUpperOperator.ID = "addUpperOperator" + args;
+            addUpperOperator.ID = "addIconUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
             addUpperOperator.Width = 50;
             addUpperOperator.Items.Add("");
@@ -942,7 +946,7 @@ namespace HCI
 
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addUpperBound = new TextBox();
-            addUpperBound.ID = "addUpperBound" + args;
+            addUpperBound.ID = "addIconUpperBound" + args;
             addUpperBound.MaxLength = 30;
             addUpperBound.CssClass = "inputBox";
             addUpperBound.Width = 50;
@@ -996,12 +1000,12 @@ namespace HCI
         {
             Button btn = (Button)sender;
             string args = btn.CommandArgument.ToString();
-            TextBox lowerBound = (TextBox)Page.FindControl("addLowerBound" + args);
-            DropDownList lowerOperator = (DropDownList)Page.FindControl("addLowerOperator" + args);
-            TextBox tableName = (TextBox)Page.FindControl("addTableName" + args);
-            TextBox fieldName = (TextBox)Page.FindControl("addFieldName" + args);
-            DropDownList upperOperator = (DropDownList)Page.FindControl("addUpperOperator" + args);
-            TextBox upperBound = (TextBox)Page.FindControl("addUpperBound" + args);
+            TextBox lowerBound = (TextBox)Page.FindControl("addIconLowerBound" + args);
+            DropDownList lowerOperator = (DropDownList)Page.FindControl("addIconLowerOperator" + args);
+            DropDownList tableName = (DropDownList)Page.FindControl("addIconTable" + args);
+            DropDownList fieldName = (DropDownList)Page.FindControl("addIconField" + args);
+            DropDownList upperOperator = (DropDownList)Page.FindControl("addIconUpperOperator" + args);
+            TextBox upperBound = (TextBox)Page.FindControl("addIconUpperBound" + args);
             string iconId = args;
 
             Condition condition = new Condition();
@@ -1301,7 +1305,7 @@ namespace HCI
 
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addTableName = new DropDownList();
-            addTableName.ID = "addOverlayConditionTable" + args;
+            addTableName.ID = "addOverlayTable" + args;
             addTableName.CssClass = "inputDD";
             addTableName.Width = 50;
             addTableName.AutoPostBack = true;
@@ -1334,7 +1338,7 @@ namespace HCI
 
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addFieldName = new DropDownList();
-            addFieldName.ID = "addOverlayConditionField" + args;
+            addFieldName.ID = "addOverlayField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 50;
             addFieldName.AutoPostBack = true;
@@ -1412,8 +1416,8 @@ namespace HCI
             string args = btn.CommandArgument.ToString();
             TextBox lowerBound = (TextBox)Page.FindControl("addOverlayLowerBound" + args);
             DropDownList lowerOperator = (DropDownList)Page.FindControl("addOverlayLowerOperator" + args);
-            TextBox tableName = (TextBox)Page.FindControl("addOverlayTableName" + args);
-            TextBox fieldName = (TextBox)Page.FindControl("addOverlayFieldName" + args);
+            DropDownList tableName = (DropDownList)Page.FindControl("addOverlayTable" + args);
+            DropDownList fieldName = (DropDownList)Page.FindControl("addOverlayField" + args);
             DropDownList upperOperator = (DropDownList)Page.FindControl("addOverlayUpperOperator" + args);
             TextBox upperBound = (TextBox)Page.FindControl("addOverlayUpperBound" + args);
             string overlayId = args;
@@ -1481,10 +1485,10 @@ namespace HCI
             DropDownList tableList = (DropDownList)sender;
             string selectedTable = tableList.SelectedItem.ToString();
             string fieldListId;
-            if (tableList.ID.ToString().LastIndexOf("addIconConditionTable") != -1)
-                fieldListId= "addIconConditionField" + tableList.ID.Substring(tableList.ID.LastIndexOf("e") + 1);
+            if (tableList.ID.ToString().LastIndexOf("addIconTable") != -1)
+                fieldListId= "addIconField" + tableList.ID.Substring(tableList.ID.LastIndexOf("e") + 1);
             else
-                fieldListId = "addOverlayConditionField" + tableList.ID.Substring(tableList.ID.LastIndexOf("e") + 1);
+                fieldListId = "addOverlayField" + tableList.ID.Substring(tableList.ID.LastIndexOf("e") + 1);
             DropDownList fieldList = (DropDownList)Page.FindControl(fieldListId);
             if (selectedTable == "")
             {
@@ -1534,12 +1538,12 @@ namespace HCI
             }
             string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
             UpdatePanel up;
-            if (tableList.ID.ToString().LastIndexOf("addIconConditionTable") != -1)
+            if (tableList.ID.ToString().LastIndexOf("addIconTable") != -1)
                 up = (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + id);
             else
                 up = (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + id);
             
-            up.Update();
+            //up.Update();
         }
 
         
@@ -1754,6 +1758,7 @@ namespace HCI
         public static String tempSaveLoc = @"C:\odbc2kml\temp\";
         public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
         public ArrayList validTypes = new ArrayList();
+        private static bool alreadySetupLists = false;
         private static ArrayList iconList = new ArrayList();
         private static ArrayList iconListAvailableToAdd = new ArrayList();
         private static ArrayList iconListAvailableToRemove = new ArrayList();
