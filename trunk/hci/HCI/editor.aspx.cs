@@ -21,7 +21,7 @@ namespace HCI
     {
         //Get ConID from value passed
         //Right now just testing with numbers to make sure works
-        int conID = 3;
+        int conID = 2;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -66,10 +66,11 @@ namespace HCI
 
                 updateTables(connInfo.getDatabaseType());
 
-
+                //Get Description
                 Description conDesc = Description.getDescription(conID);
                 string descBox = conDesc.getDesc();
                 descriptionBox.Text = descBox;
+
                 //Garbage collection
                 connInfo = null;
 
@@ -431,6 +432,27 @@ namespace HCI
                 {
                 }
 
+
+                Mapping conMapping = Mapping.getMapping2(conID, selectedTable);
+
+                string dbTable = conMapping.getTableName();
+
+                int dbFormat = conMapping.getFormat();
+
+                string dbLat = conMapping.getLatFieldName();
+                string dbLong = conMapping.getLongFieldName();
+
+                //No information about the table yet
+                if (dbTable == null)
+                {
+                    mapUpdates(ColGen);
+                }
+
+                else
+                {
+                    mapUpdates(ColGen, dbLat, dbLong, dbFormat);
+                }
+
                 //Garbage collection
                 connInfo = null;
             }
@@ -453,7 +475,6 @@ namespace HCI
             if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
             {
                 connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
-                SqlDataSource temp = new SqlDataSource();
                 ColGen.ConnectionString = connectionString;
                 ColGen.ProviderName = providerName;
                 ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
@@ -464,8 +485,6 @@ namespace HCI
             {
                 connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
                 providerName = "MySql.Data.MySqlClient";
-
-                SqlDataSource temp = new SqlDataSource();
                 ColGen.ConnectionString = connectionString;
                 ColGen.ProviderName = providerName;
                 ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
@@ -477,7 +496,6 @@ namespace HCI
             {
                 connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
                 providerName = "System.Data.OracleClient";
-
                 ColGen.ConnectionString = connectionString;
                 ColGen.ProviderName = providerName;
                 ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
@@ -514,7 +532,260 @@ namespace HCI
             }
 
         }
-        
+
+        protected void mapTogether_Click(object sender, EventArgs e)
+        {
+            LLSepPanel.Visible = false;
+            LLTogetherPanel.Visible = true;
+        }
+
+        protected void mapSeparate_Click(object sender, EventArgs e)
+        {
+            LLTogetherPanel.Visible = false;
+            LLSepPanel.Visible = true;
+        }
+
+        protected void mapUpdates(SqlDataSource temp)
+        {
+            latDD.DataSource = temp;
+            latDD.DataValueField = "COLUMN_NAME";
+            latDD.DataTextField = "COLUMN_NAME";
+            latDD.DataBind();
+            latUP.Update();
+            longDD.DataSource = temp;
+            longDD.DataValueField = "COLUMN_NAME";
+            longDD.DataTextField = "COLUMN_NAME";
+            longDD.DataBind();
+            longUP.Update();
+            llDD.DataSource = temp;
+            llDD.DataValueField = "COLUMN_NAME";
+            llDD.DataTextField = "COLUMN_NAME";
+            llDD.DataBind();
+            llUP.Update();
+
+            LLSepPanel.Visible = true;
+            LLTogetherPanel.Visible = false;
+
+            mapError1.Visible = false;
+            mapError2.Visible = false;
+            mapSuccess.Visible = false;
+
+        }
+
+        protected void mapUpdates(SqlDataSource temp, string latitude, string longitude, int format)
+        {
+            latDD.DataSource = temp;
+            latDD.DataValueField = "COLUMN_NAME";
+            latDD.DataTextField = "COLUMN_NAME";
+            latDD.DataBind();
+            latDD.SelectedValue = latitude;
+            latUP.Update();
+            longDD.DataSource = temp;
+            longDD.DataValueField = "COLUMN_NAME";
+            longDD.DataTextField = "COLUMN_NAME";
+            longDD.DataBind();
+            longDD.SelectedValue = longitude;
+            longUP.Update();
+            llDD.DataSource = temp;
+            llDD.DataValueField = "COLUMN_NAME";
+            llDD.DataTextField = "COLUMN_NAME";
+            llDD.DataBind();
+            llDD.SelectedValue = latitude;
+            llUP.Update();
+
+            if (format == 1)
+            {
+                LLSepPanel.Visible = true;
+                LLTogetherPanel.Visible = false;
+            }
+            else
+            {
+                if (format == 2)
+                {
+                    LatLongCheck.Checked = true;
+                    LongLatCheck.Checked = false;
+                }
+                else
+                {
+                    LatLongCheck.Checked = false;
+                    LongLatCheck.Checked = true;
+                }
+
+                LLSepPanel.Visible = false;
+                LLTogetherPanel.Visible = true;
+            }
+
+            mapError1.Visible = false;
+            mapError2.Visible = false;
+            mapSuccess.Visible = false;
+
+        }
+
+        protected void addLatLong_Click(object sender, EventArgs e)
+        {
+            ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+
+            string selectedTable = GridViewTables.SelectedValue.ToString();
+            string connectionString = "";
+            string providerName = "";
+
+            SqlDataSource temp = new SqlDataSource();
+
+            //Set drop down box accordingly
+            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            {
+                connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                temp.ConnectionString = connectionString;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                
+            }
+
+            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            {
+                connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                providerName = "MySql.Data.MySqlClient";
+
+                temp.ConnectionString = connectionString;
+                temp.ProviderName = providerName;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+               
+
+            }
+
+            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+            {
+                connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                providerName = "System.Data.OracleClient";
+
+                temp.ConnectionString = connectionString;
+                temp.ProviderName = providerName;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+               
+            }
+
+            else //Default set to SQL
+            {
+            }
+
+
+            Mapping conMapping = Mapping.getMapping2(conID, selectedTable);
+            
+            string dbTable = conMapping.getTableName();
+            
+            int dbFormat = conMapping.getFormat();
+            
+            string dbLat = conMapping.getLatFieldName();
+            string dbLong = conMapping.getLongFieldName();
+
+            //No information about the table yet
+            if (dbTable == null)
+            {
+                mapUpdates(temp);
+            }
+
+            else
+            {
+                mapUpdates(temp, dbLat, dbLong, dbFormat);    
+            }
+
+
+            //Garbage collection
+            connInfo = null;
+
+            viewGrid.Visible = true;
+            saveLatLong.Visible = true;
+            addLatLong.Visible = false;
+            tblColumnsPanel.Visible = false;
+            mapColumnsPanel.Visible = true;
+           
+        }
+
+        protected void viewGrid_Click(object sender, EventArgs e)
+        {
+            viewGrid.Visible = false;
+            saveLatLong.Visible = false;
+            addLatLong.Visible = true;
+            mapColumnsPanel.Visible = false;
+            tblColumnsPanel.Visible = true;
+        }
+
+        protected void saveLatLong_Click(object sender, EventArgs e)
+        {
+            string tableName = GridViewTables.SelectedValue.ToString();
+            string latFieldName = "";
+            string longFieldName = "";
+            int format = 1;
+
+            Mapping saveMapping = Mapping.getMapping2(conID, tableName);
+            string mapTblName = saveMapping.getTableName();
+
+            if (LLSepPanel.Visible == true)
+            {
+                latFieldName = latDD.SelectedValue.ToString();
+                longFieldName = longDD.SelectedValue.ToString();
+                if (latFieldName.Equals(longFieldName))
+                {
+                    mapError1.Visible = true;
+                    mapSuccess.Visible = false;
+                }
+                else
+                {
+                    mapError1.Visible = false;
+                    mapError2.Visible = false;
+
+                    if (mapTblName == null)
+                    {
+                        Mapping.insertMapping(conID, tableName, latFieldName, longFieldName, format);
+                        mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
+                        mapSuccess.Visible = true;
+                    }
+                    else
+                    {
+                        Mapping.updateMapping(conID, tableName, latFieldName, longFieldName, format);
+                        mapSuccess.Text = "Lat/Long Mapping updated successfully!";
+                        mapSuccess.Visible = true;
+                    }
+
+                }
+            }
+            else if (LLTogetherPanel.Visible == true)
+            {
+                latFieldName = llDD.SelectedValue.ToString();
+                longFieldName = latFieldName;
+                if ((LatLongCheck.Checked && LongLatCheck.Checked) || (!LatLongCheck.Checked && !LongLatCheck.Checked))
+                {
+                    mapSuccess.Visible = false;
+                    mapError2.Visible = true;
+                }
+                else
+                {
+                    mapError1.Visible = false;
+                    mapError2.Visible = false;
+
+                    if (LongLatCheck.Checked)
+                    {
+                        format = 3;
+                    }
+                    else
+                    {
+                        format = 2;
+                    }
+                    if (mapTblName == null)
+                    {
+                        Mapping.insertMapping(conID, tableName, latFieldName, longFieldName, format);
+                        mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
+                        mapSuccess.Visible = true;
+                    }
+                    else
+                    {
+                        Mapping.updateMapping(conID, tableName, latFieldName, longFieldName, format);
+                        mapSuccess.Text = "Lat/Long Mapping updated successfully!";
+                        mapSuccess.Visible = true;
+                    }
+
+                }
+            }
+        }
     }
 }
 

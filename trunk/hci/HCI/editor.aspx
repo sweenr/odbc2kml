@@ -35,10 +35,8 @@
                     <tr>
                         <td class="mainBox3" valign="top">
                             <asp:GridView ID="GridViewTables" runat="server" AllowPaging="True" AutoGenerateColumns="False"
-                                CellPadding="4" ForeColor="#333333" GridLines="None"
-                                PageSize="10" ShowHeader="False" Width="100%" 
-                                onselectedindexchanged="GridViewTables_SelectedIndexChanged" 
-                                DataKeyNames="TABLE_NAME">
+                                CellPadding="4" ForeColor="#333333" GridLines="None" PageSize="10" ShowHeader="False"
+                                Width="100%" OnSelectedIndexChanged="GridViewTables_SelectedIndexChanged" DataKeyNames="TABLE_NAME">
                                 <RowStyle BackColor="#EFF3FB" />
                                 <Columns>
                                     <asp:BoundField DataField="TABLE_NAME" HeaderText="TABLE_NAME" ShowHeader="False"
@@ -58,50 +56,140 @@
                         </td>
                         <td class="tdSpace3">
                         </td>
-                        <td class="mainBox3" valign="top">  
-                        <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
-                                CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None"
-                                PageSize="10" ShowHeader="False" Width="100%" 
-                                onpageindexchanged="GridViewColumns_PageIndexChanged">
-                                <RowStyle BackColor="#EFF3FB" />
-                                  <Columns>
-                                   <asp:BoundField DataField="COLUMN_NAME" HeaderText="COLUMN_NAME" ShowHeader="False"
-                                        SortExpression="COLUMN_NAME" />
-                                        </Columns>
-                                <FooterStyle BackColor="#3C6A8E" Font-Bold="True" ForeColor="White" />
-                                <PagerStyle BackColor="#3C6A8E" ForeColor="White" HorizontalAlign="Center" />
-                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                                <EditRowStyle BackColor="#2461BF" />
-                                <AlternatingRowStyle BackColor="White" />
-                            </asp:GridView>
-                            <asp:Panel ID="columnMessage" runat="server" Visible="true"><p></p>
-                            <asp:Label ID="selectTableMessage" runat="server" Text="Select a database table to view the table's columns and latitude/longitude information." CssClass="descLabel"></asp:Label>
+                        <td class="mainBox3" valign="top">
+                            <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
+                                <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
+                                    <tr>
+                                        <td>
+                                            <asp:Label ID="mapLabel" runat="server" Text="Map Lat/Long: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                            <asp:Button ID="mapSeparate" runat="server" Text="Separately" CssClass="descButton"
+                                                ToolTip="Separately" OnClick="mapSeparate_Click" />&nbsp;&nbsp;
+                                            <asp:Button ID="mapTogether" runat="server" Text="Together" CssClass="descButton"
+                                                ToolTip="Together" OnClick="mapTogether_Click" />&nbsp;&nbsp;<p>
+                                                </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table class="descPanelTable" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td>
+                                                        <asp:Panel ID="LLSepPanel" runat="server" Visible="true">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="latLabel" runat="server" Text="Latitude: " CssClass="descLabel"></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="latUP" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="latDD" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="longLabel" runat="server" Text="Longitude: " CssClass="descLabel"></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="longUP" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="longDD" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <p></p>
+                                                                <asp:Label ID="mapError1" runat="server" CssClass="descLabelError" Text="Please selected different columns for latitude and longitude."
+                                                            Visible="false"></asp:Label>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="LLTogetherPanel" runat="server" Visible="false">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="latLongLabel" runat="server" Text="Latitude/Longitude: " CssClass="descLabel"></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="llUP" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="llDD" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="2">
+                                                                        <asp:CheckBox ID="LatLongCheck" runat="server" />Map column as Lat/Long
+                                                                        <br />
+                                                                        <asp:CheckBox ID="LongLatCheck" runat="server" />Map column as Long/Lat
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            
+                                                            <p></p>
+                                                                <asp:Label ID="mapError2" runat="server" CssClass="descLabelError" Text="Please select either 'Map column as Lat/Long' or 'Map column as Long/Lat'."
+                                                            Visible="false"></asp:Label>
+                                                        </asp:Panel>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
                             </asp:Panel>
-                            <asp:Panel ID="columnButtons" runat="server" Visible="false">
-                            <p></p>
-                        <div class="right">
-                        <table><tr><td>
-                            <asp:Button ID="addLatLong" runat="server" Text="Add Lat/Long" ToolTip="Add Lat/Long" CssClass="button"/>
-                            
-                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="LatLongCancel"
-                                runat="server" PopupControlID="LatLongPanel" ID="LatLongPopUp" TargetControlID="addLatLong" />
-                            <asp:Panel ID="LatLongPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                <div class="mainBoxP">
-                                    <span id="Doit" visible="true" class="connectionStyle">&nbsp;Specify Lat/Long</span>
-                                    &nbsp;&nbsp;
-                                    <asp:Button ID="LatLongSubmit" runat="server" Text="Submit" CssClass="button" ToolTip="Submit"/>
-                                    &nbsp;&nbsp;
-                                    <asp:Button ID="LatLongCancel" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />                                    
-                                        
+                            <asp:Panel ID="tblColumnsPanel" runat="server">
+                                <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
+                                    CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None" PageSize="10"
+                                    ShowHeader="False" Width="100%" OnPageIndexChanged="GridViewColumns_PageIndexChanged">
+                                    <RowStyle BackColor="#EFF3FB" />
+                                    <Columns>
+                                        <asp:BoundField DataField="COLUMN_NAME" HeaderText="COLUMN_NAME" ShowHeader="False"
+                                            SortExpression="COLUMN_NAME" />
+                                    </Columns>
+                                    <FooterStyle BackColor="#3C6A8E" Font-Bold="True" ForeColor="White" />
+                                    <PagerStyle BackColor="#3C6A8E" ForeColor="White" HorizontalAlign="Center" />
+                                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                                    <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                                    <EditRowStyle BackColor="#2461BF" />
+                                    <AlternatingRowStyle BackColor="White" />
+                                </asp:GridView>
+                            </asp:Panel>
+                            <asp:Panel ID="columnMessage" runat="server" Visible="true">
+                                <p>
+                                </p>
+                                <asp:Label ID="selectTableMessage" runat="server" Text="Select a database table to view the table's columns and latitude/longitude information."
+                                    CssClass="descLabel"></asp:Label>
+                            </asp:Panel>
+                            <asp:Panel ID="columnButtons" runat="server" Visible="false"><p></p>
+                                 &nbsp;&nbsp;<asp:Label ID="mapSuccess" runat="server" CssClass="descLabel"></asp:Label>
+                                                              <p>
+                                </p>
+                                <div class="right">
+                                    <table>
+                                        <tr>
+                                        <td>
+                                                <asp:Button ID="saveLatLong" runat="server" Text="Save" ToolTip="Save"
+                                                    CssClass="button" onclick="saveLatLong_Click" Visible="false"/>
+                                            </td>
+                                            <td>
+                                                <asp:Button ID="addLatLong" runat="server" Text="Map Lat/Long" ToolTip="Map Lat/Long"
+                                                    CssClass="button" onclick="addLatLong_Click" />
+                                                     <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
+                                                    CssClass="button" onclick="viewGrid_Click" />
+                                            </td>
+                                            <td>
+                                                <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table"
+                                                    CssClass="button" CausesValidation="False" />
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </asp:Panel>
-                            
-                        </td><td>
-                            <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table" CssClass="button" CausesValidation="False" />
-                        </td></tr></table>
-                        </div>
-                        </asp:Panel>
                         </td>
                     </tr>
                 </table>
@@ -349,13 +437,13 @@
                             </asp:Panel>
                             <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
                                 TextMode="MultiLine"></asp:TextBox>
-                                <br /><br />
-                                
-                                                        <asp:Label ID="descSuccess" runat="server" Text="" CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
-                                                        <br />
-                                <div align="right">
+                            <br />
+                            <br />
+                            <asp:Label ID="descSuccess" runat="server" Text="" CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                            <br />
+                            <div align="right">
                                 <asp:Button ID="updateDesc" runat="server" CssClass="descButton" OnClick="updateDescription"
-                                                            Text="Update Description" ToolTip="Update Description" /></div>
+                                    Text="Update Description" ToolTip="Update Description" /></div>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="dLinkInsert" EventName="Click" />
@@ -364,11 +452,11 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
     <asp:SqlDataSource ID="SQLTables" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>      
+    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="oracleTables" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="MSQLTables" runat="server"></asp:SqlDataSource> 
+    <asp:SqlDataSource ID="MSQLTables" runat="server"></asp:SqlDataSource>
     </form>
 </body>
 </html>
