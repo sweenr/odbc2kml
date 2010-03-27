@@ -185,6 +185,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button connectButton;
         
         /// <summary>
+        /// connectButton2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink connectButton2;
+        
+        /// <summary>
         /// DBLabel control.
         /// </summary>
         /// <remarks>
