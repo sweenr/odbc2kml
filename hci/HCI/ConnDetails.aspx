@@ -213,8 +213,7 @@ function OnColorPicked(sender){
                                                 <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
                                                 <asp:Label ID="unableToConnect" runat="server" Visible="false" Text="Unable to connect to the selected database!" />&nbsp;&nbsp;
                                                 <asp:Label ID="connectionEstablished" runat="server" Visible="false" Text="Successfully connected to the database!" />&nbsp;&nbsp;
-                                                <!-- <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Connect" CssClass="button"/> -->
-                                                <asp:HyperLink NavigateUrl="http://www.meatspin.com" runat="server" ID="connectButton2" Text="Connect" CssClass="button"/>
+                                                <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Connect" CssClass="button"/>
                                             </div>
                                         </div>
                                     </td>
