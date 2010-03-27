@@ -3,6 +3,7 @@
 
 = SQL =
 
+{{{
 INSERT INTO IconLibrary
 SELECT        '/icons/1.png' AS Expr1, 1 AS Expr2
 UNION ALL
@@ -95,7 +96,7 @@ UNION ALL
 SELECT        '/icons/G.png' AS Expr1, 1 AS Expr2
 UNION ALL
 SELECT        '/icons/gas_stations.png' AS Expr1, 1 AS Expr2
-
+}}}
 
 = Instructions =
 
