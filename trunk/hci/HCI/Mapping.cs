@@ -195,5 +195,65 @@ namespace HCI
             return mapping;
         }
 
+        public static void insertMapping(int connID, string tableName, string latFieldName, string longFieldName, int format)
+        {
+            Mapping mapping = new Mapping();
+            Database localDatabase = new Database();
+
+            string query = "INSERT INTO MAPPING VALUES ('" + tableName+ "', '" + latFieldName + "', '" + longFieldName + "', '" + format + "', '" + connID + "')";
+            localDatabase.executeQueryLocal(query);
+        }
+
+        public static void updateMapping(int connID, string tableName, string latFieldName, string longFieldName, int format)
+        {
+            Mapping mapping = new Mapping();
+            Database localDatabase = new Database();
+
+            string query = "UPDATE MAPPING SET latFieldName = '" + latFieldName + "', longFieldName = '" + longFieldName + "', format = '"+ format +"' WHERE connID = '" + connID + "' AND tableName = '" + tableName + "'";
+            localDatabase.executeQueryLocal(query);
+        }
+
+        public static Mapping getMapping2(int connID, string tableName)
+        {
+            Mapping mapping = new Mapping();
+            Database localDatabase = new Database();
+
+            //Create mapping query and populate table
+            string query = "SELECT * FROM Mapping WHERE connID='" + connID + "' AND tableName = '" + tableName + "'";
+            DataTable table = localDatabase.executeQueryLocal(query);
+
+            foreach (DataRow row in table.Rows)
+            {
+                foreach (DataColumn col in table.Columns)
+                {
+                    //Set mapping
+                    switch (col.ColumnName)
+                    {
+                        case "tableName":
+                            mapping.setTableName(row[col].ToString());
+                            break;
+                        case "latFieldName":
+                            mapping.setLatFieldName(row[col].ToString());
+                            break;
+                        case "longFieldName":
+                            mapping.setLongFieldName(row[col].ToString());
+                            break;
+                        case "format":
+                            mapping.setFormat((int)row[col]);
+                            break;
+                        case "latlongFieldName":
+                            mapping.separate(row[col].ToString(), LATFIRST);
+                            break;
+                        case "longlatFieldName":
+                            mapping.separate(row[col].ToString(), LONGFIRST);
+                            break;
+
+                    }
+                }
+            }//End outer loop
+
+            return mapping;
+        }
+
     }
 }
