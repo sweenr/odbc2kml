@@ -70,13 +70,13 @@ namespace HCI
 
                     //Garbage collection
                     connInfo = null;
-
+                    
                     fillIconLibraryLists();
                     fillOverlayLibraryLists();
                     fillIconListFromDatabase();
                 }
             }
-
+            genTableNameList();
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
 
@@ -506,7 +506,7 @@ namespace HCI
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\""+icon.getLocation()+"\" alt=\"\" />\n"));  // TODO: change this to pic from icon.location
+                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\""+icon.getLocation()+"\" alt=\"\" />\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
@@ -758,19 +758,27 @@ namespace HCI
             addLowerOperator.Items.Add("<");
             addLowerOperator.Items.Add("<=");
             addLowerOperator.Items.Add("==");
+            addLowerOperator.Items.Add("!=");
             modifyIconConditionInsidePopupPanel.Controls.Add(addLowerOperator);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            TextBox addTableName = new TextBox();
-            addTableName.ID = "addTableName" + args;
+            DropDownList addTableName = new DropDownList();
+            addTableName.ID = "addIconConditionTable" + args;
+            addTableName.CssClass = "inputDD";
             addTableName.Width = 50;
+            addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
+            foreach (string tableName in tableNameList)
+            {
+                addTableName.Items.Add(tableName);
+            }
             modifyIconConditionInsidePopupPanel.Controls.Add(addTableName);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
 
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            TextBox addFieldName = new TextBox();
-            addFieldName.ID = "addFieldName" + args;
+            DropDownList addFieldName = new DropDownList();
+            addFieldName.ID = "addIconConditionField" + args;
+            addFieldName.CssClass = "inputDD";
             addFieldName.Width = 50;
             modifyIconConditionInsidePopupPanel.Controls.Add(addFieldName);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
@@ -784,6 +792,7 @@ namespace HCI
             addUpperOperator.Items.Add("<");
             addUpperOperator.Items.Add("<=");
             addUpperOperator.Items.Add("==");
+            addUpperOperator.Items.Add("!=");
             modifyIconConditionInsidePopupPanel.Controls.Add(addUpperOperator);
             modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -864,6 +873,8 @@ namespace HCI
             string conditionErrors = condition.getErrorText();
             if (conditionErrors != "")
             {
+                genIconConditionTable(sender, e);
+                genOverlayConditionTable(sender, e);
                 ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
                 eh.displayError();
                 return;
@@ -878,11 +889,6 @@ namespace HCI
             }
             genIconConditionTable(sender, e);
         }
-
-
-
-
-
 
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
@@ -1144,6 +1150,7 @@ namespace HCI
             addLowerOperator.Items.Add("<");
             addLowerOperator.Items.Add("<=");
             addLowerOperator.Items.Add("==");
+            addLowerOperator.Items.Add("!=");
             modifyOverlayConditionInsidePopupPanel.Controls.Add(addLowerOperator);
             modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1170,6 +1177,7 @@ namespace HCI
             addUpperOperator.Items.Add("<");
             addUpperOperator.Items.Add("<=");
             addUpperOperator.Items.Add("==");
+            addUpperOperator.Items.Add("!=");
             modifyOverlayConditionInsidePopupPanel.Controls.Add(addUpperOperator);
             modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1250,6 +1258,8 @@ namespace HCI
             string conditionErrors = condition.getErrorText();
             if (conditionErrors != "")
             {
+                genIconConditionTable(sender, e);
+                genOverlayConditionTable(sender, e);
                 ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
                 eh.displayError();
                 return;
@@ -1265,9 +1275,120 @@ namespace HCI
             genOverlayConditionTable(sender, e);
         }
 
+        protected void addTableName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Database db = new Database();
+            DataTable dt;
+            try
+            {
+                dt = db.executeQueryLocal("SELECT * FROM Connection WHERE connID=" + Request.QueryString.Get("ConnID"));
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            string connectionString = "";
+            string providerName = "";
+            int type = 0;
+            string address = "";
+            string dbName = "";
+            string username = "";
+            string password = "";
+            foreach (DataRow dr in dt.Rows)  // it should just be the one row, but I don't know how to just grab 1 row.
+            {
+                type = Convert.ToInt32(dr["type"]);
+                address = dr["address"].ToString();
+                dbName = dr["dbName"].ToString();
+                username = dr["userName"].ToString();
+                password = dr["password"].ToString();
+            }
 
+            DropDownList tableList = (DropDownList)sender;
+            string selectedTable = tableList.SelectedItem.ToString();
+            string fieldListId = "addIconConditionField" + tableList.ID.Substring(tableList.ID.LastIndexOf("addIconConditionTable") + 1);
+            DropDownList fieldList = (DropDownList)Page.FindControl(fieldListId);
+            if (selectedTable == "")
+            {
+                return;
+            }
 
+            if (type == ConnInfo.MSSQL)
+            {
+                connectionString = "Data Source=" + address + ";Initial Catalog=" + dbName + ";Persist Security Info=True;User Id=" + username + ";Password=" + password;
+                SqlDataSource temp = new SqlDataSource();
+                temp.ConnectionString = connectionString;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                fieldList.DataSource = temp;
+                fieldList.DataValueField = "COLUMN_NAME";
+                fieldList.DataTextField = "COLUMN_NAME";
+                fieldList.DataBind();
+            }
+            else if (type == ConnInfo.MYSQL)
+            {
+                connectionString = "server=" + address + ";User Id=" + username + ";password=" + password + ";Persist Security Info=True;database=" + dbName;
+                providerName = "MySql.Data.MySqlClient";
+                SqlDataSource temp = new SqlDataSource();
+                temp.ConnectionString = connectionString;
+                temp.ProviderName = providerName;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                fieldList.DataSource = temp;
+                fieldList.DataValueField = "COLUMN_NAME";
+                fieldList.DataTextField = "COLUMN_NAME";
+                fieldList.DataBind();
+            }
+            else if (type == ConnInfo.ORACLE)
+            {
+                connectionString = "Data Source=" + address + ";Persist Security Info=True;User ID=" + username + ";Password=" + password + ";Unicode=True";
+                providerName = "System.Data.OracleClient";
+                SqlDataSource temp = new SqlDataSource();
+                temp.ConnectionString = connectionString;
+                temp.ProviderName = providerName;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+                fieldList.DataSource = temp;
+                fieldList.DataValueField = "COLUMN_NAME";
+                fieldList.DataTextField = "COLUMN_NAME";
+                fieldList.DataBind();
+            }
+            else
+            {
+                //Default case goes here
+            }
+        }
 
+        protected void genTableNameList()
+        {
+            tableNameList.Clear();
+
+            ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32((Request.QueryString.Get("ConnID"))));
+            Database db = new Database();
+            DataTable dt;
+            db.setConnInfo(connInfo);
+            string query = "";
+            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                    query = "SELECT TABLE_NAME FROM information_schema.TABLES";
+            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                    query = "SELECT TABLE_NAME FROM information_schema.TABLES";
+            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                    query = "SELECT TABLE_NAME FROM user_tables WHERE (OWNER IS NOT NULL)";
+
+            try
+            {
+                dt = db.executeQueryRemote(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                tableNameList.Add(dr["TABLE_NAME"].ToString());
+            }
+        }
 
         /// <summary>
         /// used for uploading icons from local computer
@@ -1476,5 +1597,6 @@ namespace HCI
         private static ArrayList overlayListAvailableToAdd = new ArrayList();
         private static ArrayList overlayListAvailableToRemove = new ArrayList();
         private static ArrayList overlayList = new ArrayList();
+        private static ArrayList tableNameList = new ArrayList();
     }
 }

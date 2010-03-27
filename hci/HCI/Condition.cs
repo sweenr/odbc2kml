@@ -209,26 +209,18 @@ namespace HCI
                 errorString = "Must enter field name.";
             else if ((lowerBound == "") && (upperBound == ""))
                 errorString = "Must enter a lower bound or an upper bound.";
-            else if (lowerOperator != 0)
-            {
-                if (lowerBound != "")
-                    errorString = "You entered a lower operator, so you must also enter a lower bound.";
-            }
-            else if (lowerBound != "")
-            {
-                if (lowerOperator != 0)
-                    errorString = "You entered a lower bound, so you must also enter a lower operator.";
-            }
-            else if (upperOperator != 0)
-            {
-                if (upperBound != "")
-                    errorString = "You entered a upper operator, so you must also enter an upper bound.";
-            }
-            else if (upperBound != "")
-            {
-                if (upperOperator != 0)
-                    errorString = "You entered a upper bound, so you must also enter an upper operator.";
-            }
+            else if ((lowerOperator != 0) && (lowerBound == ""))
+                errorString = "You entered a lower operator, so you must also enter a lower bound.";
+            else if ((lowerBound != "") && (lowerOperator == 0))
+                errorString = "You entered a lower bound, so you must also enter a lower operator.";
+            else if ((upperOperator != 0) && (upperBound == ""))
+                errorString = "You entered a upper operator, so you must also enter an upper bound.";
+            else if ((upperBound != "") && (upperOperator == 0))
+                errorString = "You entered a upper bound, so you must also enter an upper operator.";
+            else if (((upperOperator == 5) && (lowerOperator != 0)) || ((lowerOperator == 5) && (upperOperator != 0)))
+                errorString = "You cannot enter one \"==\" operator and also use another operator.";
+            else if (((upperOperator == 6) && (lowerOperator != 0)) || ((lowerOperator == 6) && (upperOperator != 0)))
+                errorString = "You cannot enter one \"!=\" operator and also use another operator.";
             
             return errorString;
         }
