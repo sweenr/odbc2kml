@@ -49,19 +49,34 @@ namespace HCI
                     odbcProtocol.Text = connInfo.getOracleProtocol();
                     odbcSName.Text = connInfo.getOracleServiceName();
                     odbcSID.Text = connInfo.getOracleSID();
-                    
+
+                    string connectionString = "";
+                    string providerName = "";
                     //Set drop down box accordingly
                     if (connInfo.getDatabaseType() == ConnInfo.MSSQL) 
                     {
                         odbcDBType.SelectedValue = "SQL";
+                        connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                        MSQLTables.ConnectionString = connectionString;
+                        MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";    
                     }
                     else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)                    
                     {
                         odbcDBType.SelectedValue = "MySQL";
+                        connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                        providerName = "MySql.Data.MySqlClient";
+                        SQLTables.ConnectionString = connectionString;
+                        SQLTables.ProviderName = providerName;
+                        SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
                     }
                     else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
                     {
                         odbcDBType.SelectedValue = "Oracle";
+                        connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                        providerName = "System.Data.OracleClient";
+                        oracleTables.ConnectionString = connectionString;
+                        oracleTables.ProviderName = providerName;
+                        oracleTables.SelectCommand = "SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'";
                     }
                     else //Default set to SQL
                     {
@@ -76,7 +91,6 @@ namespace HCI
                     fillIconListFromDatabase();
                 }
             }
-            genTableNameList();
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
 
@@ -602,7 +616,7 @@ namespace HCI
                 Panel modifyIconConditionPopupPanel = new Panel();
                 modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                 modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
-                Panel modifyIconConditionInsidePopupPanel = new Panel();
+                UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
                 modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + iconList.IndexOf(icon).ToString();
                 genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
                 modifyIconConditionPopupPanel.Controls.Add(modifyIconConditionInsidePopupPanel);
@@ -637,50 +651,50 @@ namespace HCI
             
         }
 
-        protected void genIconConditionPopup(Panel modifyIconConditionInsidePopupPanel, String args)
+        protected void genIconConditionPopup(UpdatePanel modifyIconConditionInsidePopupPanel, String args)
         {
-            //modifyIconConditionInsidePopupPanel.Controls.Clear();
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Add and remove conditions for this icon using the table below.\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<p>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</p>\n"));
+            //modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Clear();
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Add and remove conditions for this icon using the table below.\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<p>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</p>\n"));
 
             // icon popup table's header
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Table\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Field\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("&nbsp;\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Bound\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Operator\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Table\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Field\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Operator\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Bound\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("&nbsp;\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             int i = 0;
             
             foreach (Icon icon in iconList)
@@ -691,40 +705,40 @@ namespace HCI
                 foreach (Condition condition in icon.getConditions())
                 {
                     i++;
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
                     if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
                     }
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
                     }
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
                     deleteConditionButton.ID = "delCondition_" + args + "_" + i.ToString();
 
@@ -734,22 +748,22 @@ namespace HCI
                     deleteConditionButton.Width = 80;
                     deleteConditionButton.Click += new EventHandler(deleteIconCondition);
                     deleteConditionButton.CommandArgument = icon.getId() + " " + condition.getId();
-                    modifyIconConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(deleteConditionButton);
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
 
                 }
             }
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addLowerBound = new TextBox();
             addLowerBound.ID = "addLowerBound" + args;
             addLowerBound.Width = 50;
-            modifyIconConditionInsidePopupPanel.Controls.Add(addLowerBound);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addLowerOperator = new DropDownList();
             addLowerOperator.ID = "addLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
@@ -759,31 +773,52 @@ namespace HCI
             addLowerOperator.Items.Add("<=");
             addLowerOperator.Items.Add("==");
             addLowerOperator.Items.Add("!=");
-            modifyIconConditionInsidePopupPanel.Controls.Add(addLowerOperator);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerOperator);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addIconConditionTable" + args;
             addTableName.CssClass = "inputDD";
             addTableName.Width = 50;
-            addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
-            foreach (string tableName in tableNameList)
+            addTableName.AutoPostBack = true;
+            ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
+            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
             {
-                addTableName.Items.Add(tableName);
+                addTableName.DataSource = MSQLTables;
+                addTableName.DataTextField = "TABLE_NAME";
+                addTableName.DataValueField = "TABLE_NAME";
+                addTableName.DataBind();
             }
-            modifyIconConditionInsidePopupPanel.Controls.Add(addTableName);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            {
+                addTableName.DataSource = SQLTables;
+                addTableName.DataTextField = "TABLE_NAME";
+                addTableName.DataValueField = "TABLE_NAME";
+                addTableName.DataBind();
+            }
+            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+            {
+                addTableName.DataSource = oracleTables;
+                addTableName.DataTextField = "TABLE_NAME";
+                addTableName.DataValueField = "TABLE_NAME";
+                addTableName.DataBind();
+            }
+            
+            addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addIconConditionField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 50;
-            modifyIconConditionInsidePopupPanel.Controls.Add(addFieldName);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            addFieldName.AutoPostBack = true;
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "addUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
@@ -793,19 +828,19 @@ namespace HCI
             addUpperOperator.Items.Add("<=");
             addUpperOperator.Items.Add("==");
             addUpperOperator.Items.Add("!=");
-            modifyIconConditionInsidePopupPanel.Controls.Add(addUpperOperator);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperOperator);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addUpperBound = new TextBox();
             addUpperBound.ID = "addUpperBound" + args;
             addUpperBound.MaxLength = 30;
             addUpperBound.CssClass = "inputBox";
             addUpperBound.Width = 50;
-            modifyIconConditionInsidePopupPanel.Controls.Add(addUpperBound);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperBound);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
             Button addConditionButton = new Button();
             addConditionButton.ID = "addIconConditionButton" + args;
             addConditionButton.Text = "Add";
@@ -815,16 +850,16 @@ namespace HCI
             addConditionButton.Click += new EventHandler(addConditionToIcon);
             addConditionButton.CommandArgument = args;
             //addConditionButton.CommandArgument = addLowerBound.Text.ToString() + "|" + addLowerOperator.SelectedItem.Text.ToString() + "|" + addTableName.Text.ToString() + "|" + addFieldName.Text.ToString() + "|" + addUpperOperator.SelectedItem.Text.ToString() + "|" + addUpperBound.Text.ToString() + "|" + args;
-            modifyIconConditionInsidePopupPanel.Controls.Add(addConditionButton);
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addConditionButton);
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            modifyIconConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>\n"));
             
         }
 
@@ -993,7 +1028,7 @@ namespace HCI
                 Panel modifyOverlayConditionPopupPanel = new Panel();
                 modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
                 modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
-                Panel modifyOverlayConditionInsidePopupPanel = new Panel();
+                UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
                 modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlayList.IndexOf(overlay).ToString();
                 genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
                 modifyOverlayConditionPopupPanel.Controls.Add(modifyOverlayConditionInsidePopupPanel);
@@ -1029,50 +1064,50 @@ namespace HCI
         }
 
 
-        protected void genOverlayConditionPopup(Panel modifyOverlayConditionInsidePopupPanel, String args)
+        protected void genOverlayConditionPopup(UpdatePanel modifyOverlayConditionInsidePopupPanel, String args)
         {
             //modifyOverlayConditionInsidePopupPanel.Controls.Clear();
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Add and remove conditions for this overlay using the table below.\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<p>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</p>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Add and remove conditions for this overlay using the table below.\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<p>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</p>\n"));
 
             // overlay popup table's header
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Table\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Field\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("&nbsp;\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Bound\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Operator\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Table\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Field\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Operator\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Bound\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("&nbsp;\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             int i = 0;
 
             foreach (Overlay overlay in overlayList)
@@ -1083,40 +1118,40 @@ namespace HCI
                 foreach (Condition condition in overlay.getConditions())
                 {
                     i++;
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
                     if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
                     }
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
                     }
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
                     deleteConditionButton.ID = "delOverlayCondition_" + args + "_" + i.ToString();
 
@@ -1126,22 +1161,22 @@ namespace HCI
                     deleteConditionButton.Width = 80;
                     deleteConditionButton.Click += new EventHandler(deleteOverlayCondition);
                     deleteConditionButton.CommandArgument = overlay.getId() + " " + condition.getId();
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(deleteConditionButton);
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(deleteConditionButton);
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
 
                 }
             }
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addLowerBound = new TextBox();
             addLowerBound.ID = "addOverlayLowerBound" + args;
             addLowerBound.Width = 50;
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addLowerBound);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addLowerOperator = new DropDownList();
             addLowerOperator.ID = "addOverlayLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
@@ -1151,24 +1186,24 @@ namespace HCI
             addLowerOperator.Items.Add("<=");
             addLowerOperator.Items.Add("==");
             addLowerOperator.Items.Add("!=");
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addLowerOperator);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerOperator);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addTableName = new TextBox();
             addTableName.ID = "addOverlayTableName" + args;
             addTableName.Width = 50;
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addTableName);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addFieldName = new TextBox();
             addFieldName.ID = "addOverlayFieldName" + args;
             addFieldName.Width = 50;
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addFieldName);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "addOverlayUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
@@ -1178,19 +1213,19 @@ namespace HCI
             addUpperOperator.Items.Add("<=");
             addUpperOperator.Items.Add("==");
             addUpperOperator.Items.Add("!=");
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addUpperOperator);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperOperator);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addUpperBound = new TextBox();
             addUpperBound.ID = "addOverlayUpperBound" + args;
             addUpperBound.MaxLength = 30;
             addUpperBound.CssClass = "inputBox";
             addUpperBound.Width = 50;
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addUpperBound);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperBound);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
             Button addConditionButton = new Button();
             addConditionButton.ID = "addOverlayConditionButton" + args;
             addConditionButton.Text = "Add";
@@ -1200,16 +1235,16 @@ namespace HCI
             addConditionButton.Click += new EventHandler(addConditionToOverlay);
             addConditionButton.CommandArgument = args;
             //addConditionButton.CommandArgument = addLowerBound.Text.ToString() + "|" + addLowerOperator.SelectedItem.Text.ToString() + "|" + addTableName.Text.ToString() + "|" + addFieldName.Text.ToString() + "|" + addUpperOperator.SelectedItem.Text.ToString() + "|" + addUpperBound.Text.ToString() + "|" + args;
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(addConditionButton);
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addConditionButton);
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</table>\n"));
-            modifyOverlayConditionInsidePopupPanel.Controls.Add(new LiteralControl("</div>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>\n"));
 
         }
 
@@ -1281,7 +1316,7 @@ namespace HCI
             DataTable dt;
             try
             {
-                dt = db.executeQueryLocal("SELECT * FROM Connection WHERE connID=" + Request.QueryString.Get("ConnID"));
+                dt = db.executeQueryLocal("SELECT * FROM Connection WHERE ID=" + Request.QueryString.Get("ConnID"));
             }
             catch (ODBC2KMLException ex)
             {
@@ -1357,37 +1392,14 @@ namespace HCI
             }
         }
 
-        protected void genTableNameList()
+        
+        protected ArrayList getColumnsForTable(ConnInfo cInfo, string tableName)
         {
-            tableNameList.Clear();
+            ArrayList result = new ArrayList();
 
-            ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32((Request.QueryString.Get("ConnID"))));
-            Database db = new Database();
-            DataTable dt;
-            db.setConnInfo(connInfo);
-            string query = "";
-            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
-                    query = "SELECT TABLE_NAME FROM information_schema.TABLES";
-            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
-                    query = "SELECT TABLE_NAME FROM information_schema.TABLES";
-            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
-                    query = "SELECT TABLE_NAME FROM user_tables WHERE (OWNER IS NOT NULL)";
 
-            try
-            {
-                dt = db.executeQueryRemote(query);
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                eh.displayError();
-                return;
-            }
 
-            foreach (DataRow dr in dt.Rows)
-            {
-                tableNameList.Add(dr["TABLE_NAME"].ToString());
-            }
+            return result;
         }
 
         /// <summary>
@@ -1598,5 +1610,8 @@ namespace HCI
         private static ArrayList overlayListAvailableToRemove = new ArrayList();
         private static ArrayList overlayList = new ArrayList();
         private static ArrayList tableNameList = new ArrayList();
+        private static SqlDataSource MSQLTables = new SqlDataSource();
+        private static SqlDataSource SQLTables = new SqlDataSource();
+        private static SqlDataSource oracleTables = new SqlDataSource();
     }
 }
