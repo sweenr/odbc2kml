@@ -149,6 +149,33 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox odbcSID;
         
         /// <summary>
+        /// invalidConnInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label invalidConnInfo;
+        
+        /// <summary>
+        /// unableToConnect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label unableToConnect;
+        
+        /// <summary>
+        /// connectionEstablished control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label connectionEstablished;
+        
+        /// <summary>
         /// connectButton control.
         /// </summary>
         /// <remarks>

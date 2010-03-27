@@ -157,6 +157,100 @@ namespace HCI
 
         protected void updateConnection(object sender, EventArgs e)
         {
+            invalidConnInfo.Visible = false;
+            unableToConnect.Visible = false;
+            connectionEstablished.Visible = false;
+
+            String connName = odbcName.Text.ToString();
+            String connDBAddr = odbcAdd.Text.ToString();
+            String connDBPort = odbcPN.Text.ToString();
+            String connDBName = odbcDName.Text.ToString();
+            String connUser = odbcUser.Text.ToString();
+            String connPassword = odbcPass.Text.ToString();
+            String connDBType = odbcDBType.SelectedItem.ToString();
+            String oracleProtocol = odbcProtocol.Text.ToString();
+            String oracleSName = odbcSName.Text.ToString();
+            String oracleSID = odbcSID.Text.ToString();
+            String DBTypeNum;
+
+            ConnInfo cf = new ConnInfo();
+
+            if (connDBType.Equals("MySQL"))
+            {
+                DBTypeNum = "0";
+                cf.setDatabaseType(0);
+            }
+            else if (connDBType.Equals("SQL"))
+            {
+                DBTypeNum = "1";
+                cf.setDatabaseType(1);
+            }
+            else
+            {
+                DBTypeNum = "2";
+                cf.setDatabaseType(2);
+            }
+
+
+            if (DBTypeNum.Equals("2"))
+            {
+                if (oracleSName.Equals("") && oracleSID.Equals(""))
+                {
+                    invalidConnInfo.Visible = true;
+                    return;
+                }
+                if (oracleProtocol.Equals(""))
+                {
+                    invalidConnInfo.Visible = true;
+                    return;
+                }
+                cf.setOracleProtocol(oracleProtocol);
+                cf.setOracleServiceName(oracleSName);
+                cf.setOracleSID(oracleSID);
+            }
+
+            if (connName.Equals(""))
+            {
+                invalidConnInfo.Visible = true;
+                return;
+            }
+            else if (connDBAddr.Equals(""))
+            {
+                invalidConnInfo.Visible = true;
+                return;
+            }
+            else if (connDBPort.Equals(""))
+            {
+                invalidConnInfo.Visible = true;
+                return;
+            }
+            else if (connDBName.Equals(""))
+            {
+                invalidConnInfo.Visible = true;
+                return;
+            }
+            else if (connUser.Equals(""))
+            {
+                invalidConnInfo.Visible = true;
+                return;
+            }
+            else if (connPassword.Equals(""))
+            {
+                invalidConnInfo.Visible = true;
+                return;
+            }
+
+            
+            cf.setConnectionName(connName);
+            cf.setServerAddress(connDBAddr);
+            cf.setPortNumber(connDBPort);
+            cf.setDatabaseName(connDBName);
+            cf.setUserName(connUser);
+            cf.setPassword(connPassword);
+
+            Database connectionTableDatabase = new Database(cf);
+
+
 
         }
 
