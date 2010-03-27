@@ -83,6 +83,20 @@
                         <div class="right">
                         <table><tr><td>
                             <asp:Button ID="addLatLong" runat="server" Text="Add Lat/Long" ToolTip="Add Lat/Long" CssClass="button"/>
+                            
+                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="LatLongCancel"
+                                runat="server" PopupControlID="LatLongPanel" ID="LatLongPopUp" TargetControlID="addLatLong" />
+                            <asp:Panel ID="LatLongPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                <div class="mainBoxP">
+                                    <span id="Doit" visible="true" class="connectionStyle">&nbsp;Specify Lat/Long</span>
+                                    &nbsp;&nbsp;
+                                    <asp:Button ID="LatLongSubmit" runat="server" Text="Submit" CssClass="button" ToolTip="Submit"/>
+                                    &nbsp;&nbsp;
+                                    <asp:Button ID="LatLongCancel" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />                                    
+                                        
+                                </div>
+                            </asp:Panel>
+                            
                         </td><td>
                             <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table" CssClass="button" CausesValidation="False" />
                         </td></tr></table>
