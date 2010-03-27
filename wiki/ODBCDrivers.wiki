@@ -38,3 +38,4 @@ Regardless of whether you have 32-bit or 64-bit install the 32-bit versions link
   # Download: http://download.oracle.com/otn/nt/instantclient/111070/instantclient-odbc-win32-11.1.0.7.0.zip
   # Extract to c:\instantclient
   # Add c:\instantclient to your PATH variable
+  # Go into c:\instantclient and find the file called odbc_install and install it.
