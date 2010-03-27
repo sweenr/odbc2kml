@@ -164,7 +164,7 @@ namespace HCI
             Database localDatabase = new Database();
 
             //Create mapping query and populate table
-            string query = "SELECT * FROM Mapping WHERE connID=" + connID + " AND tableName=" + tableName;
+            string query = "SELECT * FROM Mapping WHERE connID=" + connID + " AND tableName='" + tableName + "'";
             DataTable table = localDatabase.executeQueryLocal(query);
 
             foreach (DataRow row in table.Rows)
@@ -186,13 +186,8 @@ namespace HCI
                         case "format":
                             mapping.setFormat((int)row[col]);
                             break;
-                        case "latlongFieldName":
-                            mapping.separate(row[col].ToString(), LATFIRST);
-                            break;
-                        case "longlatFieldName":
-                            mapping.separate(row[col].ToString(), LONGFIRST);
-                            break;
-
+                        default:
+                            break;                  
                     }
                 }
             }//End outer loop

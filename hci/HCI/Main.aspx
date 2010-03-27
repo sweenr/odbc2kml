@@ -226,6 +226,8 @@
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
         </div>
     </div>
+    <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
+    </asp:Panel>
     <asp:ScriptManager ID="ConnSMgr" runat="server">
     </asp:ScriptManager>
     </form>
