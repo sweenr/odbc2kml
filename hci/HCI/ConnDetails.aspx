@@ -210,6 +210,9 @@ function OnColorPicked(sender){
                                                 </tr>
                                             </table>
                                             <div class="right">
+                                                <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
+                                                <asp:Label ID="unableToConnect" runat="server" Visible="false" Text="Unable to connect to the selected database!" />&nbsp;&nbsp;
+                                                <asp:Label ID="connectionEstablished" runat="server" Visible="false" Text="Successfully connected to the database!" />&nbsp;&nbsp;
                                                 <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Connect" CssClass="button"/>
                                             </div>
                                         </div>
@@ -339,7 +342,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="addIconToLibary" runat="server" Visible="true">
+                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Vertical" runat="server" Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <!-- <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" OnClick="addIconFromLibraryToConn" CommandArgument="none"/>&nbsp;&nbsp; -->
@@ -374,7 +377,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeIconFromConn" runat="server" Visible="true">
+                                                                <asp:Panel ID="removeIconFromConn"  Height="300px" ScrollBars="Vertical" runat="server" Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right">
                                                                     <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
