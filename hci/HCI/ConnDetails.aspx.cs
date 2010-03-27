@@ -249,8 +249,69 @@ namespace HCI
             cf.setPassword(connPassword);
 
             Database connectionTableDatabase = new Database(cf);
+            DataTable dt;
 
+            connectionTables.Controls.Clear();
+            if (DBTypeNum.Equals("0"))
+            {
+                try
+                {
+                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+            }
+            else if (DBTypeNum.Equals("1"))
+            {
+                try
+                {
+                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+            }
+            else
+            {
+                try
+                {
+                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM dba_tab_tables");
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                } 
+            }
 
+            int tblNum = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                String tableName = dr[0].ToString();
+                Button btn = new Button();
+                btn.ID = "connTable_"+tblNum.ToString();
+                if(tblNum % 2 == 0)
+                {
+                    btn.CssClass="selectDB";
+                }else{
+                    btn.CssClass="selectDB2";
+                }
+                btn.Text=tableName;
+                btn.ToolTip=tableName;
+                btn.Click += new EventHandler(genDBTCol);
+                btn.CommandArgument = tableName;
+                connectionTables.Controls.Add(btn);
+                connectionTables.Controls.Add(new LiteralControl("<br/>"));
+                tblNum += 1;
+            }
 
         }
 
@@ -719,7 +780,6 @@ namespace HCI
             }
         }
 
-
         protected void genIconConditionTable(object sender, EventArgs e)
         {
             IconConditionPanel.Controls.Clear();
@@ -1089,7 +1149,6 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>\n"));
         }
 
-
         protected void deleteIconCondition(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -1310,7 +1369,6 @@ namespace HCI
 
         }
 
-
         protected void genOverlayConditionPopup(UpdatePanel modifyOverlayConditionInsidePopupPanel, String args)
         {
             //modifyOverlayConditionInsidePopupPanel.Controls.Clear();
@@ -1523,7 +1581,6 @@ namespace HCI
 
         }
 
-
         protected void deleteOverlayCondition(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -1680,7 +1737,6 @@ namespace HCI
             //up.Update();
         }
 
-        
         protected ArrayList getColumnsForTable(ConnInfo cInfo, string tableName)
         {
             ArrayList result = new ArrayList();

@@ -242,18 +242,8 @@ function OnColorPicked(sender){
                                     </tr>
                                     <tr>
                                         <td class="mainBox3" valign="top">
-                                            <asp:Button ID="DBTable1" runat="server" CssClass="selectDB" Text="Table 1" ToolTip="Table 1"
-                                                OnClick="genDBTCol" CommandArgument="Table 1 Name" />
-                                            <br />
-                                            <asp:Button ID="DBTable2" runat="server" CssClass="selectDB2" Text="Table 2" ToolTip="Table 2"
-                                                OnClick="genDBTCol" CommandArgument="Table 2 Name" />
-                                            <br />
-                                            <asp:Button ID="DBTable3" runat="server" CssClass="selectDB" Text="Table 3" ToolTip="Table 3"
-                                                OnClick="genDBTCol" CommandArgument="Table 3 Name" />
-                                            <br />
-                                            <asp:Button ID="DBTable4" runat="server" CssClass="selectDB2" Text="Table 4" ToolTip="Table 4"
-                                                OnClick="genDBTCol" CommandArgument="Table 4 Name" />
-                                            <br />
+                                            <asp:Panel ID="connectionTables" Visible="true" runat="server" CssClass="dbColumns">
+                                            </asp:Panel>
                                         </td>
                                         <td class="tdSpace3">
                                         </td>
