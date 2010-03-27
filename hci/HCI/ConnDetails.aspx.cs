@@ -723,140 +723,158 @@ namespace HCI
         protected void genIconConditionTable(object sender, EventArgs e)
         {
             IconConditionPanel.Controls.Clear();
-            foreach (Icon icon in iconList)
+            if (iconList.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<img src=\""+icon.getLocation()+"\" alt=\"\" />\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
-
-                if (icon.getConditions().Count != 0)  // conditions exist; display them.
-                {
-                    IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("Table\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("Field\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-
-                    foreach (Condition condition in icon.getConditions())
-                    {
-                        IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
-                        {
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        }
-                        else
-                        {
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
-                        }
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
-                        {
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        }
-                        else
-                        {
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
-                        }
-
-                        IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                    }
-                    IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
-                }
-                else  // no conditions set. display table stating such.
-                {
-                    IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.<br />Add some using the button to the right.\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
-                }
-
-
-                IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
-                Button modifyButton = new Button();
-                if (Request.QueryString.Get("locked") == "false")
-                {
-                    modifyButton.Text = "Modify Condition";
-                    modifyButton.CssClass = "button";
-                    modifyButton.Width = 135;
-                    modifyButton.ID = "modifyIconCondition_" + icon.getId();
-                    IconConditionPanel.Controls.Add(modifyButton);
-                }
-                Panel modifyIconConditionPopupPanel = new Panel();
-                modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
-                modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
-                UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
-                modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + icon.getId().ToString();
-                modifyIconConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
-                genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
-                modifyIconConditionPopupPanel.Controls.Add(modifyIconConditionInsidePopupPanel);
-
-                Button submitModifyConditionPopup = new Button();
-                submitModifyConditionPopup.ID = "submitModifyCondition" + icon.getId();
-                submitModifyConditionPopup.Text = "Submit";
-                submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
-                modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-                /*Button cancelModifyConditionPopup = new Button();
-                cancelModifyConditionPopup.ID = "cancelModifyCondition" + icon.getId();
-                cancelModifyConditionPopup.Text = "Cancel";
-                modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
-
-                if (Request.QueryString.Get("locked") == "false")
-                {
-                    AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-                    mpe.ID = "MPE_" + icon.getId();
-                    mpe.BackgroundCssClass = "modalBackground";
-                    mpe.DropShadow = true;
-                    mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
-                    mpe.TargetControlID = modifyButton.ID.ToString();
-                    //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                    //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
-                    IconConditionPanel.Controls.Add(mpe);
-
-                    IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
-                }
+                IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("No images are currently set for this connection.<br />Add some using the Add Icons button below.\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-            }           
-            
+                IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+            }
+            else
+            {
+                foreach (Icon icon in iconList)
+                {
+                    IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"" + icon.getLocation() + "\" alt=\"\" />\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
+
+                    if (icon.getConditions().Count != 0)  // conditions exist; display them.
+                    {
+                        IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("Table\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("Field\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+                        foreach (Condition condition in icon.getConditions())
+                        {
+                            IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                            if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                            {
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            }
+                            else
+                            {
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                            }
+                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                            {
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            }
+                            else
+                            {
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                            }
+
+                            IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                        }
+                        IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                    }
+                    else  // no conditions set. display table stating such.
+                    {
+                        IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.<br />Add some using the button to the right.\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                    }
+
+
+                    IconConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
+                    Button modifyButton = new Button();
+                    if (Request.QueryString.Get("locked") == "false")
+                    {
+                        modifyButton.Text = "Modify Condition";
+                        modifyButton.CssClass = "button";
+                        modifyButton.Width = 135;
+                        modifyButton.ID = "modifyIconCondition_" + icon.getId();
+                        IconConditionPanel.Controls.Add(modifyButton);
+                    }
+                    Panel modifyIconConditionPopupPanel = new Panel();
+                    modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
+                    modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
+                    UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
+                    modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + icon.getId().ToString();
+                    modifyIconConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
+                    genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
+                    modifyIconConditionPopupPanel.Controls.Add(modifyIconConditionInsidePopupPanel);
+
+                    Button submitModifyConditionPopup = new Button();
+                    submitModifyConditionPopup.ID = "submitModifyCondition" + icon.getId();
+                    submitModifyConditionPopup.Text = "Submit";
+                    submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
+                    modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
+                    /*Button cancelModifyConditionPopup = new Button();
+                    cancelModifyConditionPopup.ID = "cancelModifyCondition" + icon.getId();
+                    cancelModifyConditionPopup.Text = "Cancel";
+                    modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
+
+                    if (Request.QueryString.Get("locked") == "false")
+                    {
+                        AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+                        mpe.ID = "MPE_" + icon.getId();
+                        mpe.BackgroundCssClass = "modalBackground";
+                        mpe.DropShadow = true;
+                        mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
+                        mpe.TargetControlID = modifyButton.ID.ToString();
+                        //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
+                        //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                        IconConditionPanel.Controls.Add(mpe);
+
+                        IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
+                    }
+                    IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                }
+            }
             
         }
 
@@ -1013,7 +1031,7 @@ namespace HCI
                 addTableName.DataValueField = "TABLE_NAME";
                 addTableName.DataBind();
             }
-            
+            addTableName.Items.Insert(0, "");
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
@@ -1069,7 +1087,6 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>\n"));
-            
         }
 
 
@@ -1138,140 +1155,158 @@ namespace HCI
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
             OverlayConditionPanel.Controls.Clear();
-            foreach (Overlay overlay in overlayList)
+            if (iconList.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"overlayBox\" style=\"background-color: #" + overlay.getColor() + ";\" />\n"));
-                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
-
-                if (overlay.getConditions().Count != 0)  // conditions exist; display them.
-                {
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("Table\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("Field\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-
-                    foreach (Condition condition in overlay.getConditions())
-                    {
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
-                        {
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        }
-                        else
-                        {
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
-                        }
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
-                        {
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        }
-                        else
-                        {
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
-                        }
-
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                    }
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
-                }
-                else  // no conditions set. display table stating such.
-                {
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.<br />Add some using the button to the right.\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
-                }
-
-
-                OverlayConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("No overlays are currently set for this connection.<br />Add some using the Add Icons button below.\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
-                Button modifyButton = new Button();
-                if (Request.QueryString.Get("locked") == "false")
-                {
-                    modifyButton.Text = "Modify Condition";
-                    modifyButton.CssClass = "button";
-                    modifyButton.Width = 135;
-                    modifyButton.ID = "modifyOverlayCondition_" + overlay.getId();
-                    OverlayConditionPanel.Controls.Add(modifyButton);
-                }
-                Panel modifyOverlayConditionPopupPanel = new Panel();
-                modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
-                modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
-                UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
-                modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlay.getId();
-                modifyOverlayConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
-                genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
-                modifyOverlayConditionPopupPanel.Controls.Add(modifyOverlayConditionInsidePopupPanel);
-
-                Button submitModifyConditionPopup = new Button();
-                submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
-                submitModifyConditionPopup.Text = "Submit";
-                submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
-                modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-                /*Button cancelModifyConditionPopup = new Button();
-                cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
-                cancelModifyConditionPopup.Text = "Cancel";
-                modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
-
-                if (Request.QueryString.Get("locked") == "false")
-                {
-                    AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-                    mpe.ID = "MPE_OVERLAY_" + overlay.getId();
-                    mpe.BackgroundCssClass = "modalBackground";
-                    mpe.DropShadow = true;
-                    mpe.PopupControlID = modifyOverlayConditionPopupPanel.ID.ToString();
-                    mpe.TargetControlID = modifyButton.ID.ToString();
-                    //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                    //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
-                    OverlayConditionPanel.Controls.Add(mpe);
-
-                    OverlayConditionPanel.Controls.Add(modifyOverlayConditionPopupPanel);
-                }
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
             }
+            else
+            {
+                foreach (Overlay overlay in overlayList)
+                {
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"overlayBox\" style=\"background-color: #" + overlay.getColor() + ";\" />\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
 
+                    if (overlay.getConditions().Count != 0)  // conditions exist; display them.
+                    {
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("Table\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("Field\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+
+                        foreach (Condition condition in overlay.getConditions())
+                        {
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                            if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                            {
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            }
+                            else
+                            {
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                            }
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                            {
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                            }
+                            else
+                            {
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                            }
+
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                        }
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                    }
+                    else  // no conditions set. display table stating such.
+                    {
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.<br />Add some using the button to the right.\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("</table>\n"));
+                    }
+
+
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</div>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
+                    Button modifyButton = new Button();
+                    if (Request.QueryString.Get("locked") == "false")
+                    {
+                        modifyButton.Text = "Modify Condition";
+                        modifyButton.CssClass = "button";
+                        modifyButton.Width = 135;
+                        modifyButton.ID = "modifyOverlayCondition_" + overlay.getId();
+                        OverlayConditionPanel.Controls.Add(modifyButton);
+                    }
+                    Panel modifyOverlayConditionPopupPanel = new Panel();
+                    modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
+                    modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
+                    UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
+                    modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlay.getId();
+                    modifyOverlayConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
+                    genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
+                    modifyOverlayConditionPopupPanel.Controls.Add(modifyOverlayConditionInsidePopupPanel);
+
+                    Button submitModifyConditionPopup = new Button();
+                    submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
+                    submitModifyConditionPopup.Text = "Submit";
+                    submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
+                    modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
+                    /*Button cancelModifyConditionPopup = new Button();
+                    cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
+                    cancelModifyConditionPopup.Text = "Cancel";
+                    modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
+
+                    if (Request.QueryString.Get("locked") == "false")
+                    {
+                        AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+                        mpe.ID = "MPE_OVERLAY_" + overlay.getId();
+                        mpe.BackgroundCssClass = "modalBackground";
+                        mpe.DropShadow = true;
+                        mpe.PopupControlID = modifyOverlayConditionPopupPanel.ID.ToString();
+                        mpe.TargetControlID = modifyButton.ID.ToString();
+                        //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
+                        //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                        OverlayConditionPanel.Controls.Add(mpe);
+
+                        OverlayConditionPanel.Controls.Add(modifyOverlayConditionPopupPanel);
+                    }
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                }
+            }
 
         }
 
@@ -1429,7 +1464,7 @@ namespace HCI
                 addTableName.DataValueField = "TABLE_NAME";
                 addTableName.DataBind();
             }
-
+            addTableName.Items.Insert(0, "");
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
