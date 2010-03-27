@@ -690,8 +690,8 @@ function OnColorPicked(sender){
                         <br />
                         <br />
                         <div class="right">
-                            <input type="submit" name="submit" value="Cancel" class="button" />&nbsp;&nbsp;<input
-                                type="submit" name="submit" value="Modify Connection" class="button" />
+                            <input type="submit" name="submit" value="Cancel" class="button" />&nbsp;&nbsp;
+                            <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection" CssClass="button"/>
                         </div>
                     </td>
                 </tr>
