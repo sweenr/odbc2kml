@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Configuration;
 using System.Data;
@@ -140,8 +141,26 @@ namespace HCI
             //Generate the KML from the connection
             ImageButton sendBtn = (ImageButton)sender;
             string args = sendBtn.CommandArgument.ToString();
+            KMLGenerator kml = new KMLGenerator("testFile");
 
-            Response.Redirect("Main.aspx", true);
+            try
+            {
+                String blah = kml.generateKML(int.Parse(args));
+                blah = blah.Replace("<", "&lt;");
+                blah = blah.Replace(">", "&gt;");
+                Literal balh2 = new Literal();
+                balh2.ID = "abc123";
+                balh2.Text = "<pre>" + blah + "</pre>";
+                errorPanel1.Controls.Add(balh2);
+            }
+            catch (ODBC2KMLException error) 
+            {
+                ErrorHandler eh = new ErrorHandler(error.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+
+            //Response.Redirect("Main.aspx", true);
         }
 
         protected void createConnection(object sender, EventArgs e)

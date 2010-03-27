@@ -23,6 +23,12 @@ namespace HCI
     public class KMLGenerator
     {
         private DataTable kmlInformation;
+        private String fileName;
+
+        public KMLGenerator(String fileName)
+        {
+            this.fileName = fileName;
+        }
 
         /*
          * This functions pulls all of the required information about a connection from the local
@@ -31,209 +37,143 @@ namespace HCI
          * 
          * return kml (returns a string associated with the file name and location)
          * 
-         */ 
+         */
         public string generateKML(int connID)
         {
-            //Create database
-            Database DB = new Database();
-            DataTable mapping = DB.executeQueryLocal("SELECT 'tableName' FROM Mapping WHERE connID=\'" + connID + "\'");
+            //Needed to generate KML, parameter is desired file name within KML file
+            KMLGenerationLibrary kmlGenerator = new KMLGenerationLibrary(this.fileName);
 
-            //Create arraylist and add tables to it
-            ArrayList tablesToBeSearched = null;
-
-            foreach (DataRow row in mapping.Rows)
+            try
             {
-                foreach (DataColumn col in mapping.Columns)
+                //Create database
+                Database DB = new Database();
+                DataTable mapping = DB.executeQueryLocal("SELECT tableName FROM Mapping WHERE connID=\'" + connID + "\'");
+
+                //Create arraylist and add tables to it
+                ArrayList tablesToBeSearched = new ArrayList();
+
+                foreach (DataRow row in mapping.Rows)
                 {
-                    tablesToBeSearched.Add(row[col].ToString());
-                }
-            }
-
-            DB.setConnInfo(ConnInfo.getConnInfo(connID));
-            int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
-
-            DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
-
-            //Format the description
-            String descString = desc.ToString();
-
-            //Create an array to store new description values
-            ArrayList descArray = null;
-
-            //Create data table to pass to parser
-            DataTable remote = null;
-
-            foreach (String tableName in tablesToBeSearched)
-            {
-                if (dbType == ConnInfo.MSSQL)
-                {
-                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
-                }
-                else if (dbType == ConnInfo.MYSQL)
-                {
-                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
-                }
-                else if (dbType == ConnInfo.ORACLE)
-                {
-                    remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
-                }
-
-                //Parsed descriptions for rows
-                descArray = Description.parseDesc(remote, descString, tableName);
-
-                //Create mapping and populate it.
-                Mapping map = Mapping.getMapping(connID, tableName); ;
-
-                int counter = 0;
-                foreach (DataRow remoteRow in remote.Rows)
-                {
-                    //Foreach row set the description for each row
-                    String rowDesc = descArray[counter].ToString();
-                    
-                    //Declare the lat and long holders
-                    Double lat, lon;
-
-                    //Check to see how many columns there are
-                    if (map.getFormat() != Mapping.SEPARATE)
+                    foreach (DataColumn col in mapping.Columns)
                     {
-                        //Select the column value
-                        String column = "";
-                        foreach(DataColumn remoteColumn in remote.Columns)
-                        {
-                            if(remoteColumn.ColumnName == map.getLatFieldName())
-                            {
-                                column = remoteRow[remoteColumn].ToString();
-                            }
-                        }
+                        tablesToBeSearched.Add(row[col]);
+                    }
+                }
 
-                        //Create the array to hold the coordinates
-                        double[] coordinates;
+                DB.setConnInfo(ConnInfo.getConnInfo(connID));
+                int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
 
-                        //Separate the coordinates
-                        //Order == Latitude First
-                        if (map.getFormat() == Mapping.LATFIRST)
+                DataTable desc = DB.executeQueryLocal("SELECT description FROM Description WHERE connID=\'" + connID + "\'");
+
+                //Sort through the table and format the description
+                String descString = "";
+
+                foreach (DataRow descRow in desc.Rows)
+                {
+                    foreach (DataColumn descCol in desc.Columns)
+                    {
+                        if (descRow[descCol] == "description")
                         {
-                            coordinates = map.separate(column, Mapping.LATFIRST);
-                            lat = coordinates[0];
-                            lon = coordinates[1];
-                        }
-                        else //Order == Longitude first
-                        {
-                            coordinates = map.separate(column, Mapping.LONGFIRST);
-                            lon = coordinates[0];
-                            lat = coordinates[1];
+                            descString = descRow[descCol].ToString();
                         }
                     }
-                    else//Two separate columns
+                }
+
+                //Create an array to store new description values
+                ArrayList descArray = new ArrayList();
+
+                //Create data table to pass to parser
+                DataTable remote = null;
+
+                foreach (String tableName in tablesToBeSearched)
+                {
+                    if (dbType == ConnInfo.MSSQL)
                     {
-                        //Get coordinates
-                        foreach (DataColumn remoteColumn in remote.Columns)
+                        remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
+                    }
+                    else if (dbType == ConnInfo.MYSQL)
+                    {
+                        remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
+                    }
+                    else if (dbType == ConnInfo.ORACLE)
+                    {
+                        remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
+                    }
+
+                    //Parsed descriptions for rows
+                    descArray = Description.parseDesc(remote, descString, tableName);
+
+                    //Create mapping and populate it.
+                    Mapping map = Mapping.getMapping(connID, tableName); ;
+
+                    int counter = 0;
+                    foreach (DataRow remoteRow in remote.Rows)
+                    {
+                        //Foreach row set the description for each row
+                        String rowDesc = descArray[counter].ToString();
+
+                        //Declare the lat and long holders
+                        Double rowLat = 0, rowLon = 0;
+
+                        //Check to see how many columns there are
+                        if (map.getFormat() != Mapping.SEPARATE)
                         {
-                            if (remoteColumn.ColumnName == map.getLatFieldName())
+                            //Select the column value
+                            String column = "";
+                            foreach (DataColumn remoteColumn in remote.Columns)
                             {
-                                lat = Double.Parse(remoteRow[remoteColumn].ToString());
+                                if (remoteColumn.ColumnName == map.getLatFieldName())
+                                {
+                                    column = remoteRow[remoteColumn].ToString();
+                                }
                             }
-                            else if (remoteColumn.ColumnName == map.getLongFieldName())
+
+                            //Create the array to hold the coordinates
+                            double[] coordinates;
+
+                            //Separate the coordinates
+                            //Order == Latitude First
+                            if (map.getFormat() == Mapping.LATFIRST)
                             {
-                                lon = Double.Parse(remoteRow[remoteColumn].ToString());
+                                coordinates = map.separate(column, Mapping.LATFIRST);
+                                rowLat = coordinates[0];
+                                rowLon = coordinates[1];
                             }
-                        }//End for each
-                    }//End else
+                            else //Order == Longitude first
+                            {
+                                coordinates = map.separate(column, Mapping.LONGFIRST);
+                                rowLon = coordinates[0];
+                                rowLat = coordinates[1];
+                            }
+                        }
+                        else//Two separate columns
+                        {
+                            //Get coordinates
+                            foreach (DataColumn remoteColumn in remote.Columns)
+                            {
+                                if (remoteColumn.ColumnName == map.getLatFieldName())
+                                {
+                                    rowLat = Double.Parse(remoteRow[remoteColumn].ToString());
+                                }
+                                else if (remoteColumn.ColumnName == map.getLongFieldName())
+                                {
+                                    rowLon = Double.Parse(remoteRow[remoteColumn].ToString());
+                                }
+                            }//End for each
+                        }//End else
 
-                    //TODO: DO SOMETHING WITH COORDINATES
+                        //TODO: DO SOMETHING WITH COORDINATES
+                        kmlGenerator.addPlacemark(tableName, rowDesc, rowLat, rowLon, "");
+                        counter++;
 
+                    }//End for each
                 }//End for each
-            }//End for each
-            return "ARGH STUPID NO RETURNS IN ALL PATHS";
-        }//End function
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="connID"></param>
-        /// <returns></returns>
-        /// Grab table names and descriptions
-        /// lattitude, longitude, description, icons, overlays
-        public DataTable generateInfoForDesc(int connID)
-        {
-            //Create database
-            Database DB = new Database();
-            DataTable mapping = DB.executeQueryLocal("SELECT 'tableName' FROM Mapping WHERE connID=\'" + connID + "\'");
-            
-            //Create arraylist and add tables to it
-            ArrayList tablesToBeSearched = null;
-            
-            foreach(DataRow row in mapping.Rows)
+            }
+            catch (ODBC2KMLException e)
             {
-                foreach(DataColumn col in mapping.Columns)
-                {
-                    tablesToBeSearched.Add(row[col].ToString());
-                }
+                throw e;
             }
-            
-            DB.setConnInfo(ConnInfo.getConnInfo(connID));
-            int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
-            
-            DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
-            
-            //Format the description
-            String descString = desc.ToString();
-            
-            //Create an array to store new description values
-            ArrayList descArray = null;
-           
-            //Create data table to pass to parser
-            DataTable remote = null;
-
-            foreach (String tableName in tablesToBeSearched)
-            { 
-                if (dbType == ConnInfo.MSSQL)
-                {
-                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
-                }
-                else if (dbType == ConnInfo.MYSQL)
-                {
-                    remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
-                }
-                else if (dbType == ConnInfo.ORACLE)
-                {
-                    remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
-                }
-
-                //Parsed descriptions for rows
-                descArray = Description.parseDesc(remote, descString, tableName);
-
-                //Create mapping and populate it.
-                Mapping map = Mapping.getMapping(connID, tableName); ;
-
-                int counter = 0;
-                foreach (DataRow remoteRow in remote.Rows)
-                {
-                    //Foreach row set the description for each row
-                    String rowDesc = descArray[counter].ToString();
-
-                    if (map.getFormat() == Mapping.SEPARATE)
-                    {
-
-                    }
-                    else
-                    {
-                        if (map.getFormat() == Mapping.LATFIRST)
-                        {
-
-                        }
-                        else
-                        {
-
-                        }
-                    }
-
-                }
-
-
-            }
-            return desc;
-        }
+            return kmlGenerator.finalizeKML();
+        }//End function
     }
 }

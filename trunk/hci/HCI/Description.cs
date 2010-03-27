@@ -134,7 +134,7 @@ namespace HCI
             //int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
             //DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
             //String descString = desc.ToString();
-            ArrayList descArray = null;
+            ArrayList descArray = new ArrayList();
             //foreach (String tableName in tablesToBeSearched)
             //{
             //    DataTable remote = null;
