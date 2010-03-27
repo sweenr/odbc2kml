@@ -195,6 +195,35 @@ namespace HCI
         {
             this.id = ID;
         }
+        /// <summary>
+        /// below class will be used when editing IconConditions already in the database
+        /// </summary>
+        /// <param name="connID"></param>
+        /// <param name="iconID"></param>
+        public void setIDfromDB(int connID, int iconID)
+        {
+            Database DB = new Database();
+            DataTable id = new DataTable();
+            try
+            {
+                 id = DB.executeQueryLocal("SELECT ID FROM IconCondition WHERE connID=" 
+                     + connID + " and iconID=" + iconID + " "
+                     + "and lowerBound=\'" + this.lowerBound + "\' "
+                     + "and upperBound=\'" + this.upperBound + "\' " 
+                     + "and lowerOperator=\'" + this.lowerOperator + "\' " 
+                     + "and upperOperator=\'" + this.upperOperator + "\' " 
+                     + "and fieldName=\'" + this.fieldName + "\' " 
+                     + "and tableName=\'" + this.tableName + "\'");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw new ODBC2KMLException(ex.errorText);
+            }
+            foreach (DataRow row in id.Rows)
+            {
+                this.id = (int)row[0];
+            }
+        }
 
         //Additional
 

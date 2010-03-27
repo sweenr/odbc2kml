@@ -788,6 +788,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button AddOverlayButton;
         
         /// <summary>
+        /// saveConn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button saveConn;
+        
+        /// <summary>
         /// scriptHandler control.
         /// </summary>
         /// <remarks>

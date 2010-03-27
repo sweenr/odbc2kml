@@ -1748,6 +1748,252 @@ namespace HCI
                 contentType = registryKey.GetValue("Content Type").ToString();
             return contentType;
         }
+        protected void modifyConnection(object sender, EventArgs e)
+        {
+            saveIconList();
+        }
+        private void saveIconList()
+        {
+            //int connID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
+            int connID = int.Parse(Request.QueryString.Get("ConnID"));
+            Database DB = new Database();
+            DataTable iconTable = new DataTable();
+            try
+            {
+                iconTable = DB.executeQueryLocal("SELECT * FROM Icon WHERE connID=" + connID);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            ArrayList addedIcons = new ArrayList();
+            ArrayList deletedIcons = new ArrayList();
+            ArrayList modifiedIcons = new ArrayList();
+            foreach (DataRow row in iconTable.Rows)
+            {
+                bool deleted = true;
+                foreach (Icon icon in iconList)
+                {
+                    int iconID = Convert.ToInt32(icon.getId());
+                    if(iconID == (int)row[0])
+                    {
+                        deleted = false;
+                        modifiedIcons.Add(icon);
+                    }
+                }
+                if(deleted)
+                {
+                    deletedIcons.Add((int)row[0]);
+                }
+            }
+            foreach (Icon icon in iconList)
+            {
+                bool newIcon = true;
+                foreach (DataRow row in iconTable.Rows)
+                {
+                    int iconID = Convert.ToInt32(icon.getId());
+                    if(iconID == (int)row[0])
+                    {
+                        newIcon = false;
+                    }
+                }
+                if(newIcon)
+                {
+                    addedIcons.Add(icon);
+                }
+            }
+            foreach (Icon icon in addedIcons)
+            {
+                int iconID = Convert.ToInt32(icon.getId());
+                //int iconID = int.Parse(icon.getId());
+                try
+                {
+                    DB.executeQueryLocal("INSERT INTO Icon (ID, connID) VALUES (" + iconID + ", " + connID + ")");
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+                ArrayList condArray = icon.getConditions();
+                foreach (Condition condition in condArray)
+                {
+                    int ID, lowerOperator, upperOperator = 0;
+                    String lowerBound, upperBound, fieldName, tableName = "";
+                    ID = Convert.ToInt32(condition.getId());
+                    if ( ID != 0)
+                    {
+                        ErrorHandler eh = new ErrorHandler("Error saving condition (already used)", errorPanel1);
+                        eh.displayError();
+                        return; 
+                    }
+                    //ID = int.Parse(condition.getId());
+                    //lowerOperator = Convert.ToInt32(condition.getLowerOperator());
+                    //upperOperator = Convert.ToInt32(condition.getUpperOperator());
+                    //lowerOperator = int.Parse(condition.getLowerOperator());
+                    //upperOperator = int.Parse(condition.getUpperOperator());
+                    lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
+                    upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
+                    lowerBound = condition.getLowerBound();
+                    upperBound = condition.getUpperBound();
+                    fieldName = condition.getFieldName();
+                    tableName = condition.getTableName();
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconCondition (connID, iconID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
+                            + connID + ", "
+                            + iconID + ", \'" + lowerBound + "\', \'"
+                            + upperBound + "\', \'" + lowerOperator + "\', \'"
+                            + upperOperator + "\', \'" + fieldName + "\', \'"
+                            + tableName + "\')");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+            }
+            foreach (Icon icon in modifiedIcons)
+            {
+                int iconID = Convert.ToInt32(icon.getId());
+                DataTable conditions = new DataTable();
+                try
+                {
+                    conditions = DB.executeQueryLocal("SELECT * FROM IconCondition WHERE connID="
+                               + connID + " and iconID=" + iconID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+                //int iconID = Convert.ToInt32(icon.getId());
+                //int iconID = int.Parse(icon.getId());
+                ArrayList condArray = icon.getConditions();
+                ArrayList deletedCond = new ArrayList();
+                foreach (DataRow row in conditions.Rows)
+                {
+                    bool deleted = true;
+                    foreach (Condition condition in condArray)
+                    {
+                        try
+                        {
+                            condition.setIDfromDB(connID, iconID);
+                        }
+                        catch (ODBC2KMLException ex)
+                        {
+                            ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                            eh.displayError();
+                            return;
+                        }
+                        if ((int)row[0] == Convert.ToInt32(condition.getId()))
+                        {
+                            deleted = false;
+                        }
+                    }
+                    if(deleted)
+                    {
+                        deletedCond.Add((int)row[0]);
+                    }
+                }
+                ArrayList newArray = new ArrayList();
+                foreach (Condition condition in condArray)
+                {
+                    //try
+                    //{
+                    //    condition.setIDfromDB(connID, iconID);
+                    //}
+                    //catch (ODBC2KMLException ex)
+                    //{
+                    //    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    //    eh.displayError();
+                    //    return;
+                    //}
+                    bool alreadyExists = false;
+                    foreach (DataRow row in conditions.Rows)
+                    {
+                        if ((int)row[0] == Convert.ToInt32(condition.getId()))
+                        {
+                            alreadyExists = true;
+                        }
+                    }
+                    if (!alreadyExists)
+                    {
+                        newArray.Add(condition);
+                    }
+                }
+                foreach (Condition condition in newArray)
+                {
+                    //condition.setIDfromDB(connID, iconID);
+                    int lowerOperator, upperOperator = 0;
+                    String lowerBound, upperBound, fieldName, tableName = "";
+                    //ID = Convert.ToInt32(condition.getId());
+                    //ID = int.Parse(condition.getId());
+                    lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
+                    upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
+                    //lowerOperator = int.Parse(condition.getLowerOperator());
+                    //upperOperator = int.Parse(condition.getUpperOperator());
+                    lowerBound = condition.getLowerBound();
+                    upperBound = condition.getUpperBound();
+                    fieldName = condition.getFieldName();
+                    tableName = condition.getTableName();
+                    try
+                    {
+                        //DB.executeQueryLocal("UPDATE IconCondition SET lowerBound=\'" + lowerBound
+                        //    + "\', upperBound=\'" + upperBound
+                        //    + "\', lowerOperator=" + lowerOperator
+                        //    + ", upperOperator=" + upperOperator
+                        //    + ", fieldName=\'" + fieldName
+                        //    + "\', tableName=\'" + tableName + "\' "
+                        //    + "WHERE ID=" + ID + " and connID=" + connID + " and iconID=" + iconID);
+                        DB.executeQueryLocal("INSERT INTO IconCondition (connID, iconID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
+                            + connID + ", "
+                            + iconID + ", \'" + lowerBound + "\', \'"
+                            + upperBound + "\', \'" + lowerOperator + "\', \'"
+                            + upperOperator + "\', \'" + fieldName + "\', \'"
+                            + tableName + "\')");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+                foreach (int int1 in deletedCond)
+                {
+                    try
+                    {
+                        DB.executeQueryLocal("DELETE FROM IconCondition WHERE ID=" + int1);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+            }
+            foreach (int iconID in deletedIcons)
+            {
+                try
+                {
+                    DB.executeQueryLocal("DELETE FROM Icon WHERE ID=" + iconID + " and connID=" + connID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+            }
+        }
 
         //private bool fetch;
         //private String URL;
