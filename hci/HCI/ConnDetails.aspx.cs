@@ -171,6 +171,10 @@ namespace HCI
         {
 
             foreach (Control c in Page.Controls)
+            {
+                if (c == homeIcon)
+                    continue;
+
                 foreach (Control ctrl in c.Controls)
 
                     if (ctrl is TextBox)
@@ -179,7 +183,7 @@ namespace HCI
                     }
                     else if (ctrl is Button)
                     {
-                        ((Button)ctrl).Visible = false;
+                            ((Button)ctrl).Visible = false;
                     }
                     else if (ctrl is RadioButton)
                     {
@@ -187,7 +191,8 @@ namespace HCI
                     }
                     else if (ctrl is ImageButton)
                     {
-                        ((ImageButton)ctrl).Enabled = false;
+                        if(ctrl.ClientID != homeIcon.ClientID)
+                            ((ImageButton)ctrl).Enabled = false;
                     }
                     else if (ctrl is CheckBox)
                     {
@@ -201,6 +206,7 @@ namespace HCI
                     {
                         ((HyperLink)ctrl).Enabled = false;
                     }
+            }
         }
 
         protected void updateConnection(object sender, EventArgs e)
