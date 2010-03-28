@@ -148,12 +148,6 @@ namespace HCI
 
         }
 
-        protected void Page_Error(object sender, EventArgs e)
-        {
-            Session["Error"] = "Unknown Error";
-            Response.Redirect(Request.Url.AbsoluteUri);
-        }
-
         protected void executeQuery(object sender, EventArgs e)
         {
 
