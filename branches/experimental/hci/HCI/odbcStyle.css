@@ -1,0 +1,685 @@
+
+body
+{
+	height: 100%;
+	margin: 15px;
+	font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: black;
+	background: rgb(0,0,0) url( 'graphics/globe.jpg' ) center bottom no-repeat;
+	background-attachment: fixed;
+}
+
+/*Alignment Info*/
+
+.right
+{
+	float: right;
+}
+
+.left
+{
+	float: left;
+}
+
+.center 
+{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.clear 
+{
+  clear: both;
+}
+
+.full
+{
+	width: 100%;
+}
+
+.textCenter
+{
+	text-align:center;
+}
+
+/*Wrappers for Content*/
+
+#wrapIt
+{
+	width: 900px;
+	position: absolute;
+	left: 50%;
+	margin-left: -450px;
+	padding: 0px;
+	background: white;
+	border:0;
+}
+
+#wrap
+{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	width: 900px;
+}
+
+/* Content Boxes & Text Styles */
+
+#mainTable
+{
+	width: 100%;
+	padding-left: 8px; 
+	padding-right: 12px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.mainBox
+{
+	border: solid 2px rgb(26,49,76);
+	background-color: rgb(26,49,76);
+	width: 100%;
+}
+
+.mainBoxInfo
+{
+	border: solid 2px rgb(65,115,152);
+	background-color: rgb(70,124,165);
+	width: 100%;
+}
+
+.connTitle
+{
+	font-weight: bold;
+	font-size:16px;
+	color: black;
+}
+
+.mainBoxP
+{
+	border: solid 2px rgb(26,49,76);
+	background-color: rgb(26,49,76);
+		width:750px;
+}
+
+.omainBox
+{
+	border: solid 2px rgb(26,49,76);
+    background-color: rgb(26,49,76);
+}
+
+.omainBox2
+{
+    background-color: rgb(60,106,142);
+}
+
+.omainBox3
+{
+    background-color: White;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(26,49,76);
+}
+
+.omainBox4
+{
+	background-color: white;
+	padding: 10px;	        
+	margin: 0px;
+}
+
+.omainBox5
+{
+	width: 100%;
+	border: solid 1px rgb(60,106,142);
+}
+
+.omainBox6
+{
+	width: 100%;
+	border: solid 1px rgb(60,106,142);
+	background-color: rgb(200,225,250);
+}
+
+.tableTD
+{
+	border-right: solid 1px rgb(60,106,142);
+	padding: 5px;
+}
+
+.tableTRTitle
+{
+	background-color: rgb(26,49,76);
+	color:White;
+	font-weight: bold;
+}
+
+
+.tableTR
+{
+	background-color: rgb(200,225,250);
+}
+
+.connectionStyle
+{
+	color: white;
+	font-weight: bold;
+	font-size:14px;
+	padding-bottom:10px;
+}
+
+.mainBox2
+{
+	width: 100%;
+	background-color: rgb(60,106,142);
+}
+
+table.tableClass
+{
+	font-size:.9em;
+}
+
+table.tableClass td
+{
+	padding:5px;
+}
+
+.mainBox3
+{
+	background-color: white;
+	border: solid 1px white;
+	width: 45%;
+	font-size: .9em;
+}
+
+
+.mainBox3Panel
+{
+	background-color: white;
+	border: solid 1px white;
+	width: 100%;
+}
+.tdSpace3
+{
+	width: 10%;
+}
+
+.mainBox4
+{
+	background-color: rgb(60,106,142);
+	padding: 10px;
+}
+
+.mainBox5
+{
+	background-color: rgb(74,128,174);
+	border: solid 1px rgb(74,128,174);
+	font-size: .9em;
+}
+
+.boxPopupStyle
+{
+	background-color: rgb(26,49,76);
+	border:solid 2px rgb(26,49,76);
+}
+
+.boxPopupStyle1
+{
+	background-color: rgb(60,106,142);
+	font-size: .9em;
+}
+
+.boxPopupStyle2
+{
+	background-color: rgb(74,128,174);
+	border: solid 5px rgb(60,106,142);
+	width: 100%;
+}
+
+.dbTitle
+{
+	background-color: rgb(26,49,76);
+	border: solid 1px rgb(26,49,76);
+	padding: 2px;
+	margin: 0px;
+	color: White;
+	font-size:13px;
+	text-decoration: none;
+}
+
+.dbTitleSpan
+{
+	padding-left: 5px;
+}
+
+.selectDB
+{
+	background-color: white;
+	border: solid 1px white;
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
+	cursor: pointer, default;	
+}
+
+.selectDB:hover
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+}
+
+.selectDB2
+{
+	background-color: rgb(200,225,250);
+	border: solid 1px rgb(200,225,250);
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
+	cursor: pointer, default;	
+}
+
+.selectDB2:hover
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+}
+
+
+.dbColumns
+{
+	background-color: white;
+	border: solid 1px white;
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
+}
+
+.dbColumns2
+{
+	background-color: rgb(200,225,250);
+	border: solid 1px rgb(200,225,250);
+	padding: 2px;
+	margin: 0px;
+	color:Black;
+	width:100%;
+	text-align:left;
+}
+
+.selectTable, a.selectTable:link, a.selectTable:visited
+{
+	background-color: white;
+	border: solid 1px white;
+	padding: 3px;
+	margin: 0px;
+	text-decoration: none;
+	color:Black;
+}
+
+a.selectTable:hover
+{
+	background-color: rgb(140,176,214);
+	border: solid 1px rgb(97,140,183);
+	padding: 3px;
+	margin: 0px;
+	text-decoration: none;
+	color:Black;
+}
+
+.hrStyle
+{
+	border: solid 2px rgb(18,64,110);
+}
+
+.buttonClass
+{
+	width:200px;
+}
+
+.modalBackground {
+	/*background: rgba(255,255,255,0.5); */ /*works for FF but not IE*/
+	background:white;
+	filter: alpha(opacity=50); /*for IE*/
+	opacity: 0.5; /*for IE*/
+	-moz-opacity:0.5; /*for FF & Chrome*/
+	/*Need to check these properties on other browsers*/
+}
+
+
+.conditionsBox
+{
+	width:75%;
+	padding:5px;
+	vertical-align:top;
+	text-align: center;
+}
+
+.conditionsBoxStyle
+{
+	background: rgb(255,255,255);
+	width:100%;
+	color:Black;
+}
+
+.conditionsBoxStyleEmpty
+{
+	width:100%;
+	color:Black;
+}
+
+.overlayBox
+{
+	width:70px;
+	height:70px;
+}
+
+.handleImage
+{
+	width: 16px;
+    height: 16px;
+    cursor: se-resize;
+}
+        
+.overlayStyle
+{
+	color: white;
+	font-weight: bold;
+
+}     
+
+.iconBox
+{
+	width:145px;
+	text-align:center;
+}
+
+.connectionTitle
+{
+	color: black;
+	font-size: .9em;
+}
+
+.inputBox
+{
+	border: solid 1px rgb(205,205,216);
+}
+
+.inputDD
+{
+	border: solid 1px rgb(205,205,216);
+}
+
+.button
+{
+	background: rgb(26,49,76) url('graphics/buttonBack.gif');
+	border: solid 1px rgb(26,49,76);
+	color: white;
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
+.button:hover
+{
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
+}
+
+.descLabel
+{
+	color: rgb(26,49,76);
+	font-weight: bold;
+	height: 22px;
+}
+
+.descLabelError
+{
+	color: red;
+	font-weight: bold;
+	height: 22px;
+}
+
+.descLabel2
+{
+	color: rgb(26,49,76);
+	font-weight: bold;
+	height: 22px;
+	font-size:1.1em;
+}
+
+.descPanelTable
+{
+	background-color:rgb(200,225,250);
+	border: solid 1px rgb(176,211,243);
+	width:100%;
+}
+
+.descPanel
+{
+	width:99%;
+}
+
+.descButton
+{
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
+.descButton:hover
+{
+	background: rgb(26,49,76) url('graphics/buttonBack.gif');
+	border: solid 1px rgb(26,49,76);
+	color: white;
+}
+
+#header
+{
+	width: 900px;
+	height: 160px;
+	margin: 0 auto;
+	background: rgb(26,49,76);
+	border-bottom: solid 4px rgb(18,64,110);
+}
+
+#logo
+{
+	width: 750px;
+	height: 85px;
+	color: white;
+	background:  url('graphics/odbc2kml.gif') left bottom no-repeat;
+}
+
+#siteInfo
+{
+	padding: 10px 10px 10px 100px;
+	font-weight: bold;
+	font-size:20px;
+	color: white;
+}
+
+#home
+{
+	font-size:13px;
+	font-weight:normal;
+	padding: 10px;
+	color: white;
+}
+
+#page
+{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#footer
+{
+	width: 900px;
+	height: 40px;
+	margin: 0 auto;
+	padding: 5px 0 0px 0;
+	background: White;
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+}
+
+#footer p
+{
+	margin: 0;
+	line-height: normal;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+#footer a
+{
+	color: #FFFFFF;
+}
+
+/* Connection Link Icons */
+
+.newIcon{
+	background: url('/graphics/newH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
+}
+
+.newIcon:hover { 
+	background-position: 0 -20px;
+}
+
+.homeIcon{
+	background: url('/graphics/homeH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
+}
+
+.homeIcon:hover { 
+	background-position: 0 -20px;
+}
+
+
+.openIcon
+{
+	background: url('/graphics/openH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
+}
+
+.openIcon:hover
+{
+	background-position: 0 -20px;
+}
+
+.editIcon
+{
+	background: url('/graphics/editH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;	
+}
+
+.editIcon:hover
+{
+	background-position: 0 -20px;
+}
+
+.deleteIcon
+{
+	background: url('/graphics/deleteH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;	
+}
+
+.deleteIcon:hover
+{
+	background-position: 0 -20px;
+}
+
+.kmlIcon
+{
+	background: url('/graphics/kmlH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;	
+}
+
+.kmlIcon:hover
+{
+	background-position: 0 -20px;
+}
+
+/* Connection Page Styles */
+
+.connectionBox
+{
+	background-color: white;
+	width: 100%;
+}
+
+.oddConn
+{
+	background-color: white;
+	vertical-align:top;
+}
+
+.evenConn
+{
+	background-color: rgb(200,225,250);
+	vertical-align:top;
+}
+
+.newConn
+{
+    color: white;
+    vertical-align:top;
+	text-align:right;
+	width:100%;
+	font-weight:bold;
+}
+
+
+.newConnA a:link, a:visited, a:active 
+{
+	color:white; 
+	text-decoration:none; 
+	font-weight:bold; 
+	padding:0px;
+	
+}
+.newConnA a:hover
+{
+	background-color:transparent; 
+	color:rgb(100,172,234); 
+	text-decoration:none; 
+	font-weight:bold; 
+	padding:0px;
+}
+
+.connIcons
+{
+	width: 100px;
+}
+
+
+
