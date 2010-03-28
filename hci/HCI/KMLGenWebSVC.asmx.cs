@@ -8,6 +8,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
 using System.Xml.Linq;
+using HCI;
 
 namespace KMLGenWebSVC
 {
@@ -35,8 +36,14 @@ namespace KMLGenWebSVC
             }
             else
             {
-                //return KMLGenerator.generate(connID);
-                return new XmlDocument();
+                Connection conn = new Connection(connID);
+                conn.populateFields();
+                string name = conn.getConnInfo().getConnectionName();
+                KMLGenerator kmlGen = new KMLGenerator(name);
+                string kml = kmlGen.generateKML(connID);
+                XmlDocument kmlDoc = new XmlDocument();
+                kmlDoc.LoadXml(kml);
+                return kmlDoc;
             }
         }
     }
