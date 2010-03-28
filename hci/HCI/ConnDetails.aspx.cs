@@ -1827,6 +1827,7 @@ namespace HCI
                 if (localFileType.Equals(type))
                 {
                     valid = true;
+                    break;
                 }
             }
             FileStream fs = File.OpenRead(tempName);
@@ -1851,6 +1852,7 @@ namespace HCI
                 }
                 else
                 {
+                    //ModalPopupExtender3.Hide();
                     fs.Close();
                     File.Delete(tempName);
                     ErrorHandler eh = new ErrorHandler("The file you linked to was to large (max 128 x 128)", errorPanel1);

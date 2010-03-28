@@ -34,6 +34,24 @@
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
+	$(function() {
+		$("#errorPanel1").dialog({
+			bgiframe: true,
+			modal: true,
+			autoOpen: false,
+			title: 'Error!',
+			resizable: false,
+			dialogClass: 'alert',
+			buttons: {
+				Ok: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	});
+	</script>
+	
+    <script type="text/javascript">
     
       $(document).ready(function() {
 		   $("#uploadTabs").tabs();
@@ -403,7 +421,6 @@ function OnColorPicked(sender){
                                                                     <tr>
                                                                         <td>
                                                                             <div id="container">
-                                                                                <% //Maybe %>
                                                                                 <div id="uploadTabs" class="ui-widget">
                                                                                     <ul class="ui-tabs-nav">
                                                                                         <li><a href="#remote">Upload Icon From Link</a></li>
