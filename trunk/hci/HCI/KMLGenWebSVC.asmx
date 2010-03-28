@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="KMLGenWebSVC.asmx.cs" Class="KMLGenWebSVC.Service1" %>
