@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DB7D1E30-92D0-4D66-B731-C5AE28BC4EF4}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -126,6 +126,7 @@
     <Content Include="jquery\jquery-1.4.1.js" />
     <Content Include="jquery\jquery-ui-1.7.2.custom.css" />
     <Content Include="jquery\jquery-ui-1.7.2.custom.min.js" />
+    <Content Include="KMLGenWebSVC.asmx" />
     <Content Include="Main.aspx" />
     <Content Include="MainPage.aspx" />
     <Content Include="Modify.aspx" />
@@ -218,6 +219,12 @@
     </Compile>
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="Icon.cs" />
+    <Compile Include="KMLGenerationLibrary.cs" />
+    <Compile Include="KMLGenerator.cs" />
+    <Compile Include="KMLGenWebSVC.asmx.cs">
+      <DependentUpon>KMLGenWebSVC.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Main.aspx.cs">
       <DependentUpon>Main.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
