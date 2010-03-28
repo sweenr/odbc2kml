@@ -49,8 +49,8 @@
 			}
 		});
 	});
-	</script>
-	
+    </script>
+
     <script type="text/javascript">
     
       $(document).ready(function() {
@@ -82,7 +82,6 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
-
 
     <script type="text/JavaScript">
 function OnColorOpen(sender){
@@ -231,7 +230,8 @@ function OnColorPicked(sender){
                                                 <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
                                                 <asp:Label ID="unableToConnect" runat="server" Visible="false" Text="Unable to connect to the selected database!" />&nbsp;&nbsp;
                                                 <asp:Label ID="connectionEstablished" runat="server" Visible="false" Text="Successfully connected to the database!" />&nbsp;&nbsp;
-                                                <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Connect" CssClass="button"/>
+                                                <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Connect"
+                                                    CssClass="button" />
                                             </div>
                                         </div>
                                     </td>
@@ -260,16 +260,164 @@ function OnColorPicked(sender){
                                     </tr>
                                     <tr>
                                         <td class="mainBox3" valign="top">
-                                            <asp:Panel ID="connectionTables" Visible="true" runat="server" CssClass="dbColumns">
-                                            </asp:Panel>
+                                            <asp:GridView ID="GridViewTables" runat="server" AllowPaging="True" AutoGenerateColumns="False"
+                                                CellPadding="4" ForeColor="#333333" GridLines="None" PageSize="10" ShowHeader="False"
+                                                Width="100%" OnSelectedIndexChanged="GridViewTables_SelectedIndexChanged" DataKeyNames="TABLE_NAME">
+                                                <RowStyle BackColor="#EFF3FB" />
+                                                <Columns>
+                                                    <asp:BoundField DataField="TABLE_NAME" HeaderText="TABLE_NAME" ShowHeader="False"
+                                                        SortExpression="TABLE_NAME" />
+                                                    <asp:CommandField ShowSelectButton="True">
+                                                        <ItemStyle Width="50px" />
+                                                    </asp:CommandField>
+                                                </Columns>
+                                                <FooterStyle BackColor="#3C6A8E" Font-Bold="True" ForeColor="White" />
+                                                <PagerStyle BackColor="#3C6A8E" ForeColor="White" HorizontalAlign="Center" />
+                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                                                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                                                <EditRowStyle BackColor="#2461BF" />
+                                                <AlternatingRowStyle BackColor="White" />
+                                            </asp:GridView>
+                                            <asp:HiddenField ID="selectedGVTable" runat="server" />
                                         </td>
                                         <td class="tdSpace3">
                                         </td>
                                         <td class="mainBox3" valign="top">
-                                            <asp:Panel ID="DBFields0" runat="server" Visible="true" CssClass="mainBox3Panel">
-                                                Click on the appropriate database table to view table columns
+                                            <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
+                                                <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="mapLabel" runat="server" Text="Map Lat/Long: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                            <asp:Button ID="mapSeparate" runat="server" Text="Separately" CssClass="descButton"
+                                                                ToolTip="Separately" OnClick="mapSeparate_Click" />&nbsp;&nbsp;
+                                                            <asp:Button ID="mapTogether" runat="server" Text="Together" CssClass="descButton"
+                                                                ToolTip="Together" OnClick="mapTogether_Click" />&nbsp;&nbsp;<p>
+                                                                </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <table class="descPanelTable" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Panel ID="LLSepPanel" runat="server" Visible="true">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <asp:Label ID="latLabel" runat="server" Text="Latitude: " CssClass="descLabel"></asp:Label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:UpdatePanel ID="latUP" runat="server" UpdateMode="Conditional">
+                                                                                            <ContentTemplate>
+                                                                                                <asp:DropDownList ID="latDD" runat="server">
+                                                                                                </asp:DropDownList>
+                                                                                            </ContentTemplate>
+                                                                                        </asp:UpdatePanel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <asp:Label ID="longLabel" runat="server" Text="Longitude: " CssClass="descLabel"></asp:Label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:UpdatePanel ID="longUP" runat="server" UpdateMode="Conditional">
+                                                                                            <ContentTemplate>
+                                                                                                <asp:DropDownList ID="longDD" runat="server">
+                                                                                                </asp:DropDownList>
+                                                                                            </ContentTemplate>
+                                                                                        </asp:UpdatePanel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                            <asp:Label ID="mapError1" runat="server" CssClass="descLabelError" Text="Please selected different columns for latitude and longitude."
+                                                                                Visible="false"></asp:Label>
+                                                                        </asp:Panel>
+                                                                        <asp:Panel ID="LLTogetherPanel" runat="server" Visible="false">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <asp:Label ID="latLongLabel" runat="server" Text="Latitude/Longitude: " CssClass="descLabel"></asp:Label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:UpdatePanel ID="llUP" runat="server" UpdateMode="Conditional">
+                                                                                            <ContentTemplate>
+                                                                                                <asp:DropDownList ID="llDD" runat="server">
+                                                                                                </asp:DropDownList>
+                                                                                            </ContentTemplate>
+                                                                                        </asp:UpdatePanel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2">
+                                                                                        <asp:CheckBox ID="LatLongCheck" runat="server" />Map column as Lat/Long
+                                                                                        <br />
+                                                                                        <asp:CheckBox ID="LongLatCheck" runat="server" />Map column as Long/Lat
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                            <asp:Label ID="mapError2" runat="server" CssClass="descLabelError" Text="Please select either 'Map column as Lat/Long' or 'Map column as Long/Lat'."
+                                                                                Visible="false"></asp:Label>
+                                                                        </asp:Panel>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="DBFields" runat="server" Visible="false" CssClass="mainBox3Panel">
+                                            <asp:Panel ID="tblColumnsPanel" runat="server">
+                                                <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
+                                                    CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None" PageSize="10"
+                                                    ShowHeader="False" Width="100%" OnPageIndexChanged="GridViewColumns_PageIndexChanged">
+                                                    <RowStyle BackColor="#EFF3FB" />
+                                                    <Columns>
+                                                        <asp:BoundField DataField="COLUMN_NAME" HeaderText="COLUMN_NAME" ShowHeader="False"
+                                                            SortExpression="COLUMN_NAME" />
+                                                    </Columns>
+                                                    <FooterStyle BackColor="#3C6A8E" Font-Bold="True" ForeColor="White" />
+                                                    <PagerStyle BackColor="#3C6A8E" ForeColor="White" HorizontalAlign="Center" />
+                                                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                                                    <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                                                    <EditRowStyle BackColor="#2461BF" />
+                                                    <AlternatingRowStyle BackColor="White" />
+                                                </asp:GridView>
+                                            </asp:Panel>
+                                            <asp:Panel ID="columnMessage" runat="server" Visible="true">
+                                                <p>
+                                                </p>
+                                                <asp:Label ID="selectTableMessage" runat="server" Text="Select a database table to view the table's columns and latitude/longitude information."
+                                                    CssClass="descLabel"></asp:Label>
+                                            </asp:Panel>
+                                            <asp:Panel ID="columnButtons" runat="server" Visible="false">
+                                                <p>
+                                                </p>
+                                                &nbsp;&nbsp;<asp:Label ID="mapSuccess" runat="server" CssClass="descLabel"></asp:Label>
+                                                <p>
+                                                </p>
+                                                <div class="right">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <asp:Button ID="saveLatLong" runat="server" Text="Save" ToolTip="Save" CssClass="button"
+                                                                    OnClick="saveLatLong_Click" Visible="false" />
+                                                            </td>
+                                                            <td>
+                                                                <asp:Button ID="addLatLong" runat="server" Text="Map Lat/Long" ToolTip="Map Lat/Long"
+                                                                    CssClass="button" OnClick="addLatLong_Click" />
+                                                                <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
+                                                                    CssClass="button" OnClick="viewGrid_Click" />
+                                                            </td>
+                                                            <td>
+                                                                <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table"
+                                                                    CssClass="button" CausesValidation="False" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </asp:Panel>
                                         </td>
                                     </tr>
@@ -283,33 +431,253 @@ function OnColorPicked(sender){
                             <br />
                             <div class="mainBox4">
                                 <div style="background-color: white; padding: 5px;">
-                                    <asp:Button ID="bText" runat="server" Text=" B " CssClass="descButton" Font-Bold="True"
-                                        ToolTip="Bold" />&nbsp;&nbsp;
-                                    <asp:Button ID="iText" runat="server" Text=" I  " CssClass="descButton" Font-Italic="True"
-                                        ToolTip="Italics" />&nbsp;&nbsp;
-                                    <asp:Button ID="uText" runat="server" Text=" U " CssClass="descButton" Font-Underline="True"
-                                        ToolTip="Underline" />&nbsp;&nbsp;
-                                    <asp:Button ID="dLink" runat="server" Text="Add Link" CssClass="descButton" ToolTip="Add Link" />&nbsp;&nbsp;
-                                    <asp:Button ID="dField" runat="server" Text="Add Field/Image" CssClass="descButton"
-                                        ToolTip="Add Field/Image" />&nbsp;&nbsp;
-                                    <asp:Button ID="DescPopup" runat="server" Text="Table and Field" CssClass="descbutton"
-                                        ToolTip="Set Table and Field name" />&nbsp;&nbsp;
-                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="DescPopupOk"
-                                        CancelControlID="DescPopupCan" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender6"
-                                        TargetControlID="DescPopup" />
-                                    <asp:Panel ID="Panel2" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                        <span class="connectionStyle">&nbsp;Table and Field</span>
-                                        <div class="mainBoxP">
-                                            <div class="right" style="padding-top: 20px;">
-                                                <asp:Button ID="DescPopupOk" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                <asp:Button ID="DescPopupCan" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                            </div>
-                                        </div>
-                                    </asp:Panel>
+                                    <asp:Label ID="dLabel" runat="server" Text="Insert: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                    <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
+                                        OnClick="dLink_Click" />&nbsp;&nbsp;
+                                    <asp:Button ID="dTable" runat="server" Text="Table" CssClass="descButton" ToolTip="Insert Table"
+                                        OnClick="dTable_Click" />&nbsp;&nbsp;
+                                    <asp:Button ID="dField" runat="server" Text="Field" CssClass="descButton" ToolTip="Insert Field"
+                                        OnClick="dField_Click" />&nbsp;&nbsp;
+                                    <asp:Button ID="dImage" runat="server" Text="Image" CssClass="descButton" ToolTip="Insert Image"
+                                        OnClick="dImage_Click" />&nbsp;&nbsp;
                                     <br />
                                     <br />
-                                    <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
-                                        TextMode="MultiLine"></asp:TextBox>
+                                    <asp:UpdatePanel runat="server" ID="dUpdatePanel">
+                                        <ContentTemplate>
+                                            <asp:Panel ID="dLinkPanel" runat="server" Visible="false" CssClass="descPanel">
+                                                <table class="descPanelTable">
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iLinkN" runat="server" Text="Site Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:TextBox ID="iLinkNBox" runat="server" CssClass="inputBox" Width="200px"></asp:TextBox>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iLinkURL" runat="server" CssClass="descLabel" Text="Site URL: "></asp:Label>
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:TextBox ID="iLinkURLBox" runat="server" CssClass="inputBox" Width="200px"></asp:TextBox>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Button ID="dLinkInsert" runat="server" CssClass="descButton" OnClick="dLinkInsert_Click"
+                                                                            Text="Insert Link" ToolTip="Insert Link" />
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <asp:Label ID="iLinkError" runat="server" CssClass="descLabelError" Text="Please insert a valid Site Name and URL."
+                                                                            Visible="false"></asp:Label>
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p>
+                                                </p>
+                                            </asp:Panel>
+                                            <asp:Panel ID="dTablePanel" runat="server" Visible="false" CssClass="descPanel">
+                                                <table class="descPanelTable">
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iTableN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="UpdateTables" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="iTableNBox" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Button ID="dTableInsert" runat="server" CssClass="descButton" OnClick="dTableInsert_Click"
+                                                                            Text="Insert Table" ToolTip="Insert Table" />
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <asp:Label ID="iTableError" runat="server" CssClass="descLabelError" Text="Please select a valid database table."
+                                                                            Visible="false"></asp:Label>
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p>
+                                                </p>
+                                            </asp:Panel>
+                                            <asp:Panel ID="dFieldPanel" runat="server" Visible="false" CssClass="descPanel">
+                                                <table class="descPanelTable">
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iTableFN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="UpdateFieldTable" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="iTableFNBox" runat="server" OnSelectedIndexChanged="iTableFNBox_SelectedIndexChanged"
+                                                                                    AutoPostBack="true" AppendDataBoundItems="true">
+                                                                                    <asp:ListItem Value="">--Select Table--</asp:ListItem>
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iColFN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="UpdateFieldCol" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="iColFNBox" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Button ID="dFieldInsert" runat="server" CssClass="descButton" OnClick="dFieldInsert_Click"
+                                                                            Text="Insert Field" ToolTip="Insert Field" />
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <asp:Label ID="dFieldError" runat="server" CssClass="descLabelError" Text="Please select a valid database table and column."
+                                                                            Visible="false"></asp:Label>
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p>
+                                                </p>
+                                            </asp:Panel>
+                                            <asp:Panel ID="dImagePanel" runat="server" Visible="false" CssClass="descPanel">
+                                                <table class="descPanelTable">
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iTableIN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="UpdateImageTable" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="iTableINBox" runat="server" OnSelectedIndexChanged="iTableINBox_SelectedIndexChanged"
+                                                                                    AutoPostBack="true" AppendDataBoundItems="true">
+                                                                                    <asp:ListItem Value="">--Select Table--</asp:ListItem>
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iColIN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:UpdatePanel ID="UpdateImageCol" runat="server" UpdateMode="Conditional">
+                                                                            <ContentTemplate>
+                                                                                <asp:DropDownList ID="iColINBox" runat="server">
+                                                                                </asp:DropDownList>
+                                                                            </ContentTemplate>
+                                                                        </asp:UpdatePanel>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Button ID="dImageInsert" runat="server" CssClass="descButton" OnClick="dImageInsert_Click"
+                                                                            Text="Insert Image" ToolTip="Insert Image" />
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <asp:Label ID="dImageError" runat="server" CssClass="descLabelError" Text="Please select a valid database table and column."
+                                                                            Visible="false"></asp:Label>
+                                                                        &nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p>
+                                                </p>
+                                            </asp:Panel>
+                                            <asp:TextBox ID="descriptionBox" runat="server" Width="99%" Height="250" BorderColor="#766640"
+                                                TextMode="MultiLine"></asp:TextBox>
+                                            <br />
+                                            <br />
+                                            <asp:Label ID="descSuccess" runat="server" Text="" CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                            <br />
+                                            <div align="right">
+                                                <asp:Button ID="updateDesc" runat="server" CssClass="descButton" OnClick="updateDescription"
+                                                    Text="Update Description" ToolTip="Update Description" /></div>
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="dLinkInsert" EventName="Click" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                                 </div>
                             </div>
                         </div>
@@ -326,9 +694,8 @@ function OnColorPicked(sender){
                                                 <asp:Panel ID="IconConditionPanel" runat="server" Visible="true">
                                                 </asp:Panel>
                                             </table>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
-                                                CancelControlID="btnClose" runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1"
-                                                TargetControlID="addIcon" />
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="btnClose"
+                                                runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1" TargetControlID="addIcon" />
                                             <asp:Panel ID="AddIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
                                                     <span class="connectionStyle">&nbsp;Icon Library</span>
@@ -350,7 +717,8 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Vertical" runat="server" Visible="true">
+                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Vertical" runat="server"
+                                                                    Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <!-- <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" OnClick="addIconFromLibraryToConn" CommandArgument="none"/>&nbsp;&nbsp; -->
@@ -361,9 +729,8 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 
-                                                CancelControlID="btnClose2" runat="server" PopupControlID="RemoveIconsPanel"
-                                                ID="ModalPopupExtender2" TargetControlID="removeIcon" />
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="btnClose2"
+                                                runat="server" PopupControlID="RemoveIconsPanel" ID="ModalPopupExtender2" TargetControlID="removeIcon" />
                                             <asp:Panel ID="RemoveIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
                                                     <span class="connectionStyle">&nbsp;Remove Icons</span>
@@ -385,7 +752,8 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeIconFromConn"  Height="300px" ScrollBars="Vertical" runat="server" Visible="true">
+                                                                <asp:Panel ID="removeIconFromConn" Height="300px" ScrollBars="Vertical" runat="server"
+                                                                    Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right">
                                                                     <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
@@ -477,11 +845,10 @@ function OnColorPicked(sender){
                                     <tr>
                                         <td>
                                             <div class="newConnA">
-                                            <asp:Button ID="Button4" runat="server" Text="Modify Overlay" CssClass="button"
-                                                            Width="135" style="display: none; visibility: hidden;" />
-                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 
-                                                    CancelControlID="modCondCancel1" runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7"
-                                                    TargetControlID="Button4" />
+                                                <asp:Button ID="Button4" runat="server" Text="Modify Overlay" CssClass="button" Width="135"
+                                                    Style="display: none; visibility: hidden;" />
+                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="modCondCancel1"
+                                                    runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7" TargetControlID="Button4" />
                                                 <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                     <span class="connectionStyle">&nbsp;Modify Condition</span>
                                                     <div class="mainBoxP">
@@ -597,11 +964,12 @@ function OnColorPicked(sender){
                                     <tr class="mainBox5" align="center">
                                         <td>
                                             <table width="100%">
-                                                <asp:Panel ID="OverlayConditionPanel" runat="server" Visible="true"></asp:Panel>
+                                                <asp:Panel ID="OverlayConditionPanel" runat="server" Visible="true">
+                                                </asp:Panel>
                                             </table>
-
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeRemoveOverlay"
-                                                runat="server" PopupControlID="RemoveOverlayPanel" ID="RemoveOverlayPopupExtender" TargetControlID="RemoveOverlayButton" />
+                                                runat="server" PopupControlID="RemoveOverlayPanel" ID="RemoveOverlayPopupExtender"
+                                                TargetControlID="RemoveOverlayButton" />
                                             <asp:Panel ID="RemoveOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
                                                     <span class="connectionStyle">&nbsp;Remove Overlay Color</span>
@@ -634,54 +1002,56 @@ function OnColorPicked(sender){
                                                 </div>
                                             </asp:Panel>
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeAddOverlay"
-                                                    runat="server" PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender" TargetControlID="AddOverlayButton" />
-                                                <asp:Panel ID="AddOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                    <div class="mainBoxP">
-                                                        <span class="connectionStyle">&nbsp;Overlay Color Library</span>
-                                                        <table cellspacing="0" cellpadding="5" class="mainBox2">
-                                                            <tr>
-                                                                <td>
-                                                                    <table class="boxPopupStyle2" cellpadding="5">
-                                                                        <tr>
-                                                                            <td colspan="8">
-                                                                                <table class="omainBox6" cellspacing="0" cellpadding="0">
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            Tool Directions Go Here! Yay User Friendliness! :)
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                                <p>
-                                                                                </p>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                    <asp:HiddenField runat="server"  id="HiddenValue" value="" />
-                                                                    <asp:label id="addColorMessage" runat="server"  Text="&nbsp;" /> 
-                                                                    <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <!--Color Info Here (Color Box? Color Drop Down?)--->
-                                                                                <div class="colorPicker">
-                                                                                    &nbsp;&nbsp;Click here:
-                                                                                    <obout:ColorPicker ID="ColorPicker1" runat="server" ZIndex="500000" OnClientOpen="OnColorOpen" OnClientPicked="OnColorPicked"
-                                                                                        TargetId="ColorAddText" TargetProperty="style.backgroundColor">
-                                                                                        <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="cursor: pointer;" runat="server" />
-                                                                                    </obout:ColorPicker>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                    <div class="right" style="padding-top: 20px;">
-                                                                        <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" />
-                                                                        <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button" OnClick="addOverlayColorToConn" />
-                                                                        <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" />
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </asp:Panel>
+                                                runat="server" PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender"
+                                                TargetControlID="AddOverlayButton" />
+                                            <asp:Panel ID="AddOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <div class="mainBoxP">
+                                                    <span class="connectionStyle">&nbsp;Overlay Color Library</span>
+                                                    <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                        <tr>
+                                                            <td>
+                                                                <table class="boxPopupStyle2" cellpadding="5">
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <asp:HiddenField runat="server" ID="HiddenValue" Value="" />
+                                                                <asp:Label ID="addColorMessage" runat="server" Text="&nbsp;" />
+                                                                <table class="omainBox5" cellspacing="0" cellpadding="0">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <!--Color Info Here (Color Box? Color Drop Down?)--->
+                                                                            <div class="colorPicker">
+                                                                                &nbsp;&nbsp;Click here:
+                                                                                <obout:ColorPicker ID="ColorPicker1" runat="server" ZIndex="500000" OnClientOpen="OnColorOpen"
+                                                                                    OnClientPicked="OnColorPicked" TargetId="ColorAddText" TargetProperty="style.backgroundColor">
+                                                                                    <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="cursor: pointer;" runat="server" />
+                                                                                </obout:ColorPicker>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                                <div class="right" style="padding-top: 20px;">
+                                                                    <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" />
+                                                                    <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button"
+                                                                        OnClick="addOverlayColorToConn" />
+                                                                    <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </asp:Panel>
                                         </td>
                                     </tr>
                                     <tr>
@@ -701,7 +1071,8 @@ function OnColorPicked(sender){
                         <br />
                         <div class="right">
                             <input type="submit" name="submit" value="Cancel" class="button" />&nbsp;&nbsp;
-                            <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection" CssClass="button"/>
+                            <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
+                                CssClass="button" />
                         </div>
                     </td>
                 </tr>
@@ -717,6 +1088,10 @@ function OnColorPicked(sender){
     </asp:Panel>
     <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
     </asp:Panel>
+    <asp:SqlDataSource ID="SQLTables" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="oracleTables" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="MSQLTables" runat="server"></asp:SqlDataSource>
     </form>
 </body>
 </html>
