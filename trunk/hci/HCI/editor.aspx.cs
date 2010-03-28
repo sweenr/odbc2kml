@@ -57,7 +57,7 @@ namespace HCI
                     providerName = "System.Data.OracleClient";
                     oracleTables.ConnectionString = connectionString;
                     oracleTables.ProviderName = providerName;
-                    oracleTables.SelectCommand = "SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'";
+                    oracleTables.SelectCommand = "select TABLE_NAME from user_tables";
                 }
 
                 else //Default set to SQL

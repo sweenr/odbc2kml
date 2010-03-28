@@ -26,7 +26,7 @@ namespace HCI
         public void displayError()
         {
             errorPanel.Visible = true;
-            errorPanel.Controls.Add(new LiteralControl("<div style=\"color: black\"><p>" + errorText + "</p></div>"));
+            errorPanel.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\"><p>" + errorText + "</p></div>"));
             errorPanel.Controls.Add(new LiteralControl("<script type=\"text/javascript\">$(\"#errorPanel1\").dialog('open')</script>"));
         }
     }
