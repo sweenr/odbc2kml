@@ -105,24 +105,8 @@ namespace HCI
 
             if (connInfo.getDatabaseType() == ConnInfo.MSSQL || connInfo.getDatabaseType() == ConnInfo.MYSQL)
             {
-                //Database type = My SQL
-                if (ConnInfo.MYSQL == connInfo.getDatabaseType())
-                {
-                    //My SQL connection string
-                    connectionString = "Driver={MySQL ODBC 5.1 Driver};Server="
-                        + this.connInfo.getServerAddress() + ";Database="
-                        + this.connInfo.getDatabaseName() + ";User=" + this.connInfo.getUserName()
-                        + "; Password=" + this.connInfo.getPassword() + ";Option=3;";
-                }//Database type = MS SQL
-                else if (ConnInfo.MSSQL == connInfo.getDatabaseType())
-                {
-                    //MS SQL connection string
-                    connectionString = "Driver={SQL Native Client};Server="
-                        + this.connInfo.getServerAddress() + ";Database="
-                        + this.connInfo.getDatabaseName() + ";Uid=" + this.connInfo.getUserName()
-                        + ";Pwd=" + this.connInfo.getPassword() + ";";
-                }
-
+                connectionString = Database.getConnectionString(connInfo);
+                
                 //Create the Odbc Connection
                 OdbcConnection connection = new OdbcConnection(connectionString);
 
@@ -159,10 +143,7 @@ namespace HCI
             //Database type = oracle
             else if (ConnInfo.ORACLE == connInfo.getDatabaseType())
             {
-                //My SQL connection string
-                connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS="
-                    + "(PROTOCOL=" + connInfo.getOracleProtocol() + ")(HOST=" + connInfo.getServerAddress()
-                    + ")(PORT=" + connInfo.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)";
+                connectionString = Database.getConnectionString(connInfo);
                 
                 if(connInfo.getOracleServiceName().Length != 0)
                 {
@@ -214,6 +195,35 @@ namespace HCI
         public void setConnInfo(ConnInfo info)
         {
             connInfo = info;
+        }
+
+        public static String getConnectionString(ConnInfo info)
+        {
+            if (ConnInfo.MYSQL == info.getDatabaseType())
+            {
+                //My SQL connection string
+                return "Driver={MySQL ODBC 5.1 Driver};Server="
+                    + info.getServerAddress() + ";Database="
+                    + info.getDatabaseName() + ";User=" + info.getUserName()
+                    + "; Password=" + info.getPassword() + ";Option=3;";
+            }//Database type = MS SQL
+            else if (ConnInfo.MSSQL == info.getDatabaseType())
+            {
+                //MS SQL connection string
+                return "Driver={SQL Native Client};Server="
+                    + info.getServerAddress() + ";Database="
+                    + info.getDatabaseName() + ";Uid=" + info.getUserName()
+                    + ";Pwd=" + info.getPassword() + ";";
+            }
+            else if (ConnInfo.ORACLE == info.getDatabaseType())
+            {
+                //Oracle connection string
+                return "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS="
+                    + "(PROTOCOL=" + info.getOracleProtocol() + ")(HOST=" + info.getServerAddress()
+                    + ")(PORT=" + info.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)";
+            }
+
+            return "";
         }
 
         public DataTable getPrimaryKeys(string tableName)
