@@ -87,10 +87,25 @@ namespace HCI
         }
 
         //Additional
-        public bool isValid()
+        public bool isValid(DataTable LLTable)
         {
-            bool valid = false;
-
+            bool valid = true;
+            
+            try
+            {             
+                foreach (DataRow dr in LLTable.Rows)
+                {
+                    foreach (Object data in dr.ItemArray)
+                    {
+                        double test = double.Parse(data.ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                valid = false;
+                return valid;
+            }
             return valid;
         }
 
