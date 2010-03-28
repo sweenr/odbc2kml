@@ -27,7 +27,7 @@ namespace HCI
         //Functions
 
         //Constructor
-        Connection()
+        public Connection()
         {
             icons = new ArrayList();
             overlays = new ArrayList();
@@ -36,7 +36,7 @@ namespace HCI
             connInfo = new ConnInfo();
         }
 
-        Connection(int connID)
+        public Connection(int connID)
         {
             this.connID = connID;
         }
