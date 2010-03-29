@@ -50,6 +50,42 @@ namespace HCI {
         protected global::System.Web.UI.ScriptManager ConnSMgr2;
         
         /// <summary>
+        /// SQLTables_Mapping control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SQLTables_Mapping;
+        
+        /// <summary>
+        /// ColGen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource ColGen;
+        
+        /// <summary>
+        /// oracleTables_Mapping control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource oracleTables_Mapping;
+        
+        /// <summary>
+        /// MSQLTables_Mapping control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource MSQLTables_Mapping;
+        
+        /// <summary>
         /// homeIcon control.
         /// </summary>
         /// <remarks>
@@ -1301,6 +1337,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button AddOverlayButton;
         
         /// <summary>
+        /// cancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button cancel;
+        
+        /// <summary>
         /// saveConn control.
         /// </summary>
         /// <remarks>
@@ -1326,14 +1371,5 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel errorPanel1;
-        
-        /// <summary>
-        /// ColGen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource ColGen;
     }
 }
