@@ -32,3 +32,6 @@ To run queries in visual studio do steps 1-2 above
   # Add SID to Connection table as varchar(150)
   # Add serviceName to Connection table as varchar(150)
   # Add type to Connection table (int)
+
+= More Fixes =
+  # Change your local database for IconConcition and OverlayCondition to have default operator values of 0, NOT NULL.
