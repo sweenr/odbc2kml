@@ -213,16 +213,44 @@ namespace HCI
                                 switch (nCol.ColumnName)
                                 {
                                     case "lowerBound":
-                                        condition.setLowerBound(nRow[nCol].ToString());
+                                        if (nRow[nCol] != null)
+                                        {
+                                            condition.setLowerBound(nRow[nCol].ToString());
+                                        }
+                                        else
+                                        {
+                                            condition.setLowerBound("");
+                                        }
                                         break;
                                     case "upperBound":
-                                        condition.setUpperBound(nRow[nCol].ToString());
+                                        if (nRow[nCol] != null)
+                                        {
+                                            condition.setUpperBound(nRow[nCol].ToString());
+                                        }
+                                        else
+                                        {
+                                            condition.setUpperBound("");
+                                        }
                                         break;
                                     case "lowerOperator":
-                                        condition.setLowerOperator((int)nRow[nCol]);
+                                        if (nRow[nCol] != null)
+                                        {
+                                            condition.setLowerOperator((int)nRow[nCol]);
+                                        }
+                                        else
+                                        {
+                                            condition.setLowerOperator(0);
+                                        }
                                         break;
                                     case "upperOperator":
-                                        condition.setUpperOperator((int)nRow[nCol]);
+                                        if (nRow[nCol] != null)
+                                        {
+                                            condition.setUpperOperator((int)nRow[nCol]);
+                                        }
+                                        else
+                                        {
+                                            condition.setUpperOperator(0);
+                                        }
                                         break;
                                     case "fieldName":
                                         condition.setFieldName(nRow[nCol].ToString());

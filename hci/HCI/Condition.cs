@@ -261,5 +261,486 @@ namespace HCI
             return errorString;
         }
 
+        /// <summary>
+        /// Evaluate Condition determines if the current row is affected 
+        /// by the given condition. If it is, then it returns true; else, 
+        /// return false.
+        /// </summary>
+        /// <param name="row">DataRow --> The DataRow from the current DataTable
+        /// that is being analyzed</param>
+        /// <param name="condition">Condition --> The condition you want to check
+        /// the row against</param>
+        /// <returns>Boolean --> Does the condition apply or not?</returns>
+        public Boolean evaluateCondition(DataRow row, Condition condition, string tableName)
+        {
+            if (tableName == condition.getTableName())
+            {
+                if (row[condition.getFieldName()] != null)
+                {
+                    if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE && Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
+                    {
+                        Double lower;
+                        Double upper;
+                        //Check for what type of comparison should be done
+                        if (Double.TryParse(condition.getLowerBound(),out lower) && Double.TryParse(condition.getUpperBound(), out upper))
+                        {
+                            //Double lower = Double.Parse(condition.getLowerBound());
+                            //Double upper = Double.Parse(condition.getUpperBound());
+
+                            Double value = Double.Parse(row[condition.getFieldName()].ToString());
+
+                            Boolean passLowerOperator = false;
+                            Boolean passUpperOperator = false;
+
+                            //Check your operators against valid operators
+                            for (int count = 0; count < 6; count++)
+                            {
+                                //Check the lower operator
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
+                                {
+                                    if (lower < value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
+                                {
+                                    if (lower <= value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
+                                {
+                                    if (lower > value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
+                                {
+                                    if (lower >= value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
+                                {
+                                    if (lower == value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
+                                {
+                                    if (lower != value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+
+                                //Check the upper operator
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
+                                {
+                                    if (upper > value)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
+                                {
+                                    if (upper >= value)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
+                                {
+                                    if (upper < value)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
+                                {
+                                    if (upper <= value)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
+                                {
+                                    if (upper == value)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
+                                {
+                                    if (upper != value)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                            }//End for loop
+
+                            //If it meets the condition, return true
+                            if (passLowerOperator == true && passUpperOperator == true)
+                                return true;
+
+                            //Does not meet the condition
+                            return false;
+                        }
+                        else //Do string comparisons
+                        {
+                            String lowerS = condition.getLowerBound();
+                            String upperS = condition.getUpperBound();
+
+                            String valueS = row[condition.getFieldName()].ToString();
+
+                            Boolean passLowerOperator = false;
+                            Boolean passUpperOperator = false;
+
+                            //Check your operators against valid operators
+                            for (int count = 0; count < 6; count++)
+                            {
+                                //Check the lower operator
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
+                                {
+                                    if (lowerS.CompareTo(valueS) < 0) 
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
+                                {
+                                    if (lowerS.CompareTo(valueS) <= 0)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
+                                {
+                                    if (lowerS.CompareTo(valueS) > 0)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
+                                {
+                                    if (lowerS.CompareTo(valueS) >= 0)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
+                                {
+                                    if (lowerS.Equals(valueS))
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
+                                {
+                                    if (!lowerS.Equals(valueS))
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+
+                                //Check the upper operator
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
+                                {
+                                    if (upperS.CompareTo(valueS) > 0)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
+                                {
+                                    if (upperS.CompareTo(valueS) >= 0)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
+                                {
+                                    if (upperS.CompareTo(valueS) < 0)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
+                                {
+                                    if (upperS.CompareTo(valueS) <= 0)
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
+                                {
+                                    if (upperS.Equals(valueS))
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
+                                {
+                                    if (!upperS.Equals(valueS))
+                                    {
+                                        passUpperOperator = true;
+                                    }
+                                }
+                            }//End for loop
+
+                            //If it meets the condition, return true
+                            if (passLowerOperator == true && passUpperOperator == true)
+                                return true;
+
+                            //Does not meet the condition
+                            return false;
+                        }
+                    }
+                    else if (Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
+                    {
+                        Double lower;
+                        if (Double.TryParse(condition.getLowerBound(), out lower))
+                        {
+                            Double value = Double.Parse(row[condition.getFieldName()].ToString());
+
+                            //Check your operators against valid operators
+                            for (int count = 0; count < 6; count++)
+                            {
+                                //Check the lower operator
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
+                                {
+                                    if (lower < value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
+                                {
+                                    if (lower <= value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
+                                {
+                                    if (lower > value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
+                                {
+                                    if (lower >= value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
+                                {
+                                    if (lower == value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
+                                {
+                                    if (lower != value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }//End for loop
+
+                            //Does not meet condition
+                            return false;
+                        }
+                        else //String comparison
+                        {
+                            String lowerS = condition.getLowerBound();
+                            String value = row[condition.getFieldName()].ToString();
+
+                            //Check your operators against valid operators
+                            for (int count = 0; count < 6; count++)
+                            {
+                                //Check the lower operator
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
+                                {
+                                    if (lowerS.CompareTo(value) < 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
+                                {
+                                    if (lowerS.CompareTo(value) <= 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
+                                {
+                                    if (lowerS.CompareTo(value) > 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
+                                {
+                                    if (lowerS.CompareTo(value) >= 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
+                                {
+                                    if (lowerS.Equals(value))
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
+                                {
+                                    if (!lowerS.Equals(value))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }//End for loop
+
+                            //Does not meet condition
+                            return false;
+                        }
+                    }
+                    else if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE)
+                    {
+                        Double upper;
+                        if (Double.TryParse(condition.getUpperBound(), out upper))
+                        {
+                            Double value = Double.Parse(row[condition.getFieldName()].ToString());
+
+                            for (int count = 0; count < 6; count++)
+                            {
+                                //Check the upper operator
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
+                                {
+                                    if (upper > value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
+                                {
+                                    if (upper >= value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
+                                {
+                                    if (upper < value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
+                                {
+                                    if (upper <= value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
+                                {
+                                    if (upper == value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
+                                {
+                                    if (upper != value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }//End for loop
+                            
+                            //Does not meet condition
+                            return false;
+                        }
+                        else //String comparison
+                        {
+                            String upperS = condition.getUpperBound();
+                            String value = row[condition.getFieldName()].ToString();
+
+                            for (int count = 0; count < 6; count++)
+                            {
+                                //Check the upper operator
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
+                                {
+                                    if (upperS.CompareTo(value) > 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
+                                {
+                                    if (upperS.CompareTo(value) >= 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
+                                {
+                                    if (upperS.CompareTo(value) < 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
+                                {
+                                    if (upperS.CompareTo(value) <= 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
+                                {
+                                    if (upperS.Equals(value))
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
+                                {
+                                    if (!upperS.Equals(value))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }//End for loop
+
+                            //Does not meet condition
+                            return false;
+                        }
+                    }
+
+                    //If there are no operators
+                    return false;
+                }
+
+                //If field names are not equal
+                return false;
+            }
+
+            //If table names are not equal
+            return false;
+        }//End evaluate Condition
+
     }
 }
