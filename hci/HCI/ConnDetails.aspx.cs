@@ -109,26 +109,26 @@ namespace HCI
                     if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
                     {
                         connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
-                        MSQLTables.ConnectionString = connectionString_editor;
-                        MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                        MSQLTables_Mapping.ConnectionString = connectionString_editor;
+                        MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
                     }
 
                     else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
                     {
                         connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
                         providerName_editor = "MySql.Data.MySqlClient";
-                        SQLTables.ConnectionString = connectionString_editor;
-                        SQLTables.ProviderName = providerName_editor;
-                        SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                        SQLTables_Mapping.ConnectionString = connectionString_editor;
+                        SQLTables_Mapping.ProviderName = providerName_editor;
+                        SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
                     }
 
                     else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
                     {
                         connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
                         providerName_editor = "System.Data.OracleClient";
-                        oracleTables.ConnectionString = connectionString_editor;
-                        oracleTables.ProviderName = providerName_editor;
-                        oracleTables.SelectCommand = "select TABLE_NAME from user_tables";
+                        oracleTables_Mapping.ConnectionString = connectionString_editor;
+                        oracleTables_Mapping.ProviderName = providerName_editor;
+                        oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
                     }
 
                     else //Default set to SQL
@@ -169,21 +169,17 @@ namespace HCI
         /// <param name="status"></param>
         private void LockPage()
         {
-
             foreach (Control c in Page.Controls)
             {
-                if (c == homeIcon)
-                    continue;
-
                 foreach (Control ctrl in c.Controls)
-
+                {
                     if (ctrl is TextBox)
                     {
                         ((TextBox)ctrl).Enabled = false;
                     }
                     else if (ctrl is Button)
                     {
-                            ((Button)ctrl).Visible = false;
+                        ((Button)ctrl).Visible = false;
                     }
                     else if (ctrl is RadioButton)
                     {
@@ -191,7 +187,7 @@ namespace HCI
                     }
                     else if (ctrl is ImageButton)
                     {
-                        if(ctrl.ClientID != homeIcon.ClientID)
+                        if (ctrl.ClientID != homeIcon.ClientID)
                             ((ImageButton)ctrl).Enabled = false;
                     }
                     else if (ctrl is CheckBox)
@@ -206,6 +202,7 @@ namespace HCI
                     {
                         ((HyperLink)ctrl).Enabled = false;
                     }
+                }
             }
         }
 
@@ -2261,7 +2258,13 @@ namespace HCI
         private static SqlDataSource SQLTables = new SqlDataSource();
         private static SqlDataSource oracleTables = new SqlDataSource();
         private static SqlDataSource colDataSource = new SqlDataSource();
+        //private static SqlDataSource MSQLTables_Mapping = new SqlDataSource();
+        //private static SqlDataSource SQLTables_Mapping = new SqlDataSource();
+        //private static SqlDataSource oracleTables_Mapping = new SqlDataSource();
+        //private static SqlDataSource colDataSource_Mapping = new SqlDataSource();
+        //private static SqlDataSource ColGen = new SqlDataSource();
         private static int tempId = -1;
+
 
 
         //editor methods
@@ -2269,53 +2272,53 @@ namespace HCI
         {
             if (type == ConnInfo.MSSQL)
             {
-                iTableNBox.DataSource = MSQLTables;
+                iTableNBox.DataSource = MSQLTables_Mapping;
                 iTableNBox.DataTextField = "TABLE_NAME";
                 iTableNBox.DataValueField = "TABLE_NAME";
                 iTableNBox.DataBind();
-                iTableFNBox.DataSource = MSQLTables;
+                iTableFNBox.DataSource = MSQLTables_Mapping;
                 iTableFNBox.DataTextField = "TABLE_NAME";
                 iTableFNBox.DataValueField = "TABLE_NAME";
                 iTableFNBox.DataBind();
-                iTableINBox.DataSource = MSQLTables;
+                iTableINBox.DataSource = MSQLTables_Mapping;
                 iTableINBox.DataTextField = "TABLE_NAME";
                 iTableINBox.DataValueField = "TABLE_NAME";
                 iTableINBox.DataBind();
-                GridViewTables.DataSource = MSQLTables;
+                GridViewTables.DataSource = MSQLTables_Mapping;
                 GridViewTables.DataBind();
             }
             else if (type == ConnInfo.MYSQL)
             {
-                iTableNBox.DataSource = SQLTables;
+                iTableNBox.DataSource = SQLTables_Mapping;
                 iTableNBox.DataTextField = "TABLE_NAME";
                 iTableNBox.DataValueField = "TABLE_NAME";
                 iTableNBox.DataBind();
-                iTableFNBox.DataSource = SQLTables;
+                iTableFNBox.DataSource = SQLTables_Mapping;
                 iTableFNBox.DataTextField = "TABLE_NAME";
                 iTableFNBox.DataValueField = "TABLE_NAME";
                 iTableFNBox.DataBind();
-                iTableINBox.DataSource = SQLTables;
+                iTableINBox.DataSource = SQLTables_Mapping;
                 iTableINBox.DataTextField = "TABLE_NAME";
                 iTableINBox.DataValueField = "TABLE_NAME";
                 iTableINBox.DataBind();
-                GridViewTables.DataSource = SQLTables;
+                GridViewTables.DataSource = SQLTables_Mapping;
                 GridViewTables.DataBind();
             }
             else if (type == ConnInfo.ORACLE)
             {
-                iTableNBox.DataSource = oracleTables;
+                iTableNBox.DataSource = oracleTables_Mapping;
                 iTableNBox.DataTextField = "TABLE_NAME";
                 iTableNBox.DataValueField = "TABLE_NAME";
                 iTableNBox.DataBind();
-                iTableFNBox.DataSource = oracleTables;
+                iTableFNBox.DataSource = oracleTables_Mapping;
                 iTableFNBox.DataTextField = "TABLE_NAME";
                 iTableFNBox.DataValueField = "TABLE_NAME";
                 iTableFNBox.DataBind();
-                iTableINBox.DataSource = oracleTables;
+                iTableINBox.DataSource = oracleTables_Mapping;
                 iTableINBox.DataTextField = "TABLE_NAME";
                 iTableINBox.DataValueField = "TABLE_NAME";
                 iTableINBox.DataBind();
-                GridViewTables.DataSource = oracleTables;
+                GridViewTables.DataSource = oracleTables_Mapping;
                 GridViewTables.DataBind();
             }
             else

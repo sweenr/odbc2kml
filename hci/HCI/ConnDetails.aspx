@@ -100,6 +100,10 @@ function OnColorPicked(sender){
         runat="server">na</a>
     <form id="connDetailsForm" runat="server">
     <asp:ScriptManager ID="ConnSMgr2" runat="server" />
+    <asp:SqlDataSource ID="SQLTables_Mapping" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="oracleTables_Mapping" runat="server"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="MSQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <div id="wrapIt">
         <div id="header">
             <div id="logo">
@@ -1070,7 +1074,7 @@ function OnColorPicked(sender){
                         <br />
                         <br />
                         <div class="right">
-                            <input type="submit" name="submit" value="Cancel" class="button" />&nbsp;&nbsp;
+                            <asp:Button ID="cancel" runat="server" Text="Cancel Changes" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
                             <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
                                 CssClass="button" />
                         </div>
@@ -1088,10 +1092,6 @@ function OnColorPicked(sender){
     </asp:Panel>
     <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
     </asp:Panel>
-    <asp:SqlDataSource ID="SQLTables" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="oracleTables" runat="server"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="MSQLTables" runat="server"></asp:SqlDataSource>
     </form>
 </body>
 </html>
