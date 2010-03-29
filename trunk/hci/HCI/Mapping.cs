@@ -117,8 +117,6 @@ namespace HCI
                 mid = cord.IndexOf(',');
             else if (cord.Contains('|'))
                 mid = cord.IndexOf('|');
-            else if (cord.Contains('-'))
-                mid = cord.IndexOf('-');
             else if (cord.Contains('/'))
                 mid = cord.IndexOf('/');
             else if (cord.Contains('\\'))

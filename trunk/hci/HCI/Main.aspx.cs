@@ -145,6 +145,7 @@ namespace HCI
 
             try
             {
+                //TODO: REMOVE ALL TEST CODE FROM THIS BLOCK
                 String blah = kml.generateKML(int.Parse(args));
                 blah = blah.Replace("<", "&lt;");
                 blah = blah.Replace(">", "&gt;");
