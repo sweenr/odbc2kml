@@ -243,7 +243,7 @@ namespace HCI
                         //If there is a row style, add it to the placemark and the array list
                         if (rowStyle != null)
                         {
-                            rowPlacemark.setPlacemarkStyleName(rowStyle.getStyleName());
+                            rowPlacemark.setPlacemarkStyleName("#" + rowStyle.getStyleName());
                             styles.Add(rowStyle);
                         }
                         else
