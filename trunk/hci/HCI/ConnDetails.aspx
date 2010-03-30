@@ -710,7 +710,7 @@ function OnColorPicked(sender){
                                                                             <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                 <tr>
                                                                                     <td>
-                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        Select an icon from the icon library to add it to the connection.
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -745,7 +745,7 @@ function OnColorPicked(sender){
                                                                             <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                 <tr>
                                                                                     <td>
-                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        Select an icon to remove it from the connection.
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -1003,7 +1003,7 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeAddOverlay"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
                                                 runat="server" PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender"
                                                 TargetControlID="AddOverlayButton" />
                                             <asp:Panel ID="AddOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
@@ -1047,7 +1047,7 @@ function OnColorPicked(sender){
                                                                     <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" />
                                                                     <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button"
                                                                         OnClick="addOverlayColorToConn" />
-                                                                    <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" />
+                                                                    <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" OnClick="closeAddOverlayFunct" />
                                                                 </div>
                                                             </td>
                                                         </tr>

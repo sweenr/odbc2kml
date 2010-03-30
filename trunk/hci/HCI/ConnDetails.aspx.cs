@@ -26,8 +26,8 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\odbc2kml\temp\";
-        public String fileSaveLoc = @"C:\odbc2kml\uploads\";
+        public String tempSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\tmp\";
+        public String fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\tmp\";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
@@ -1884,6 +1884,13 @@ namespace HCI
             return result;
         }
 
+        protected void closeAddOverlayFunct(object sender, EventArgs e)
+        {
+            overColorExists.Visible = false;
+            this.AddOverlayPopupExtender.Hide();
+            sessionSave();
+        }
+
         /// <summary>
         /// used for uploading icons from local computer
         /// </summary>
@@ -1931,6 +1938,7 @@ namespace HCI
                 }
             }
             fileUpEx = new FileUpload();
+            fillIconLibraryLists();
             sessionSave();
         }
         //protected void URLsubmitClick(object sender, EventArgs e)
@@ -2027,6 +2035,7 @@ namespace HCI
             }
             fetchCheckBox.Checked = false;
             URLtextBox.Text = "";
+            fillIconLibraryLists();
             sessionSave();
         }
         /// <summary>
