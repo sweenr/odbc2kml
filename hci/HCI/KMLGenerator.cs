@@ -56,7 +56,7 @@ namespace HCI
 
                 //Create array list to hold places and styles
                 ArrayList placemarks = new ArrayList();
-                HashSet<Style> styles = new HashSet<Style>();
+                HashSet<Style> styles = new HashSet<Style>(new HashStyleComparer());
 
                 foreach (DataRow row in mapping.Rows)
                 {
