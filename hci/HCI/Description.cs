@@ -167,8 +167,8 @@ namespace HCI
                         int URLendIndex = descString.IndexOf("[/URL]");
                         int length = URLendIndex - URLindex;
                         String descString1 = descString.Substring(0,URLindex);
-                        String descString2 = descString.Substring(URLendIndex);
-                        String URLstring = descString.Substring(URLindex, length);
+                        String descString2 = descString.Substring(URLendIndex+6);
+                        String URLstring = descString.Substring(URLindex+5, length-5);
                         URLstring.Replace("[URL]", "");
                         URLstring.Replace("[/URL]", "");
                         String finalURL = "";
@@ -178,15 +178,15 @@ namespace HCI
                             int titleEndIndex = URLstring.IndexOf("[/TITLE]");
                             int titleLength = titleEndIndex - titleIndex;
                             String URLsubString1 = URLstring.Substring(0, titleIndex);
-                            String URLsubString2 = URLstring.Substring(titleEndIndex);
-                            String titleString = URLstring.Substring(titleIndex, titleLength);
+                            String URLsubString2 = URLstring.Substring(titleEndIndex+8);
+                            String titleString = URLstring.Substring(titleIndex+7, titleLength-7);
                             titleString.Replace("[TITLE]", "");
                             titleString.Replace("[/TITLE]", "");
-                            finalURL = "<a href\"" + URLsubString1 + URLsubString2 + "\">"
+                            finalURL = "<a href=\"" + URLsubString1 + URLsubString2 + "\">"
                                 + titleString + "</a>";
                             if (finalURL.Contains("[TITLE]"))
                             {
-                                throw new ODBC2KMLException("URL contains to many Titles");
+                                throw new ODBC2KMLException("URL contains to many Titles\n" + finalURL);
                             }
                         }
                         else
