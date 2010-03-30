@@ -824,6 +824,9 @@ function OnColorPicked(sender){
                                                                                                     <asp:FileUpload ID="fileUpEx" runat="server" /><br />
                                                                                                     <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" />
                                                                                                 </p>
+                                                                                                <br />
+                                                                                                <br />
+                                                                                                <br />
                                                                                             </li>
                                                                                         </ul>
                                                                                     </div>
