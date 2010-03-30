@@ -2361,10 +2361,6 @@ namespace HCI
                 iTableFNBox.DataTextField = "TABLE_NAME";
                 iTableFNBox.DataValueField = "TABLE_NAME";
                 iTableFNBox.DataBind();
-                iTableINBox.DataSource = MSQLTables_Mapping;
-                iTableINBox.DataTextField = "TABLE_NAME";
-                iTableINBox.DataValueField = "TABLE_NAME";
-                iTableINBox.DataBind();
                 GridViewTables.DataSource = MSQLTables_Mapping;
                 GridViewTables.DataBind();
             }
@@ -2378,10 +2374,6 @@ namespace HCI
                 iTableFNBox.DataTextField = "TABLE_NAME";
                 iTableFNBox.DataValueField = "TABLE_NAME";
                 iTableFNBox.DataBind();
-                iTableINBox.DataSource = SQLTables_Mapping;
-                iTableINBox.DataTextField = "TABLE_NAME";
-                iTableINBox.DataValueField = "TABLE_NAME";
-                iTableINBox.DataBind();
                 GridViewTables.DataSource = SQLTables_Mapping;
                 GridViewTables.DataBind();
             }
@@ -2395,10 +2387,6 @@ namespace HCI
                 iTableFNBox.DataTextField = "TABLE_NAME";
                 iTableFNBox.DataValueField = "TABLE_NAME";
                 iTableFNBox.DataBind();
-                iTableINBox.DataSource = oracleTables_Mapping;
-                iTableINBox.DataTextField = "TABLE_NAME";
-                iTableINBox.DataValueField = "TABLE_NAME";
-                iTableINBox.DataBind();
                 GridViewTables.DataSource = oracleTables_Mapping;
                 GridViewTables.DataBind();
             }
@@ -2414,7 +2402,6 @@ namespace HCI
             dLinkPanel.Visible = true;
             dTablePanel.Visible = false;
             dFieldPanel.Visible = false;
-            dImagePanel.Visible = false;
         }
 
         protected void dLinkInsert_Click(object sender, EventArgs e)
@@ -2435,12 +2422,18 @@ namespace HCI
             }
         }
 
+        protected void dNewline_Click(object sender, EventArgs e)
+        {
+            
+            string descriptionInfo = "[BR][/BR]";
+            descriptionBox.Text += descriptionInfo;
+        }
+
         protected void dTable_Click(object sender, EventArgs e)
         {
             dLinkPanel.Visible = false;
             dTablePanel.Visible = true;
             dFieldPanel.Visible = false;
-            dImagePanel.Visible = false;
         }
 
         protected void dTableInsert_Click(object sender, EventArgs e)
@@ -2458,7 +2451,6 @@ namespace HCI
             dLinkPanel.Visible = false;
             dTablePanel.Visible = false;
             dFieldPanel.Visible = true;
-            dImagePanel.Visible = false;
 
         }
 
@@ -2477,33 +2469,6 @@ namespace HCI
             else
             {
                 dFieldError.Visible = false;
-                descriptionBox.Text += descriptionInfo;
-            }
-        }
-
-        protected void dImage_Click(object sender, EventArgs e)
-        {
-            dLinkPanel.Visible = false;
-            dTablePanel.Visible = false;
-            dFieldPanel.Visible = false;
-            dImagePanel.Visible = true;
-        }
-
-        protected void dImageInsert_Click(object sender, EventArgs e)
-        {
-            string tableText = iTableINBox.SelectedValue.ToString();
-            string colText = iColINBox.SelectedValue.ToString();
-
-            string descriptionInfo = "[IMG][TBL]" + tableText + "[/TBL][COL]" + colText + "[/COL][/IMG]";
-
-
-            if (tableText.Equals("") || colText.Equals(""))
-            {
-                dImageError.Visible = true;
-            }
-            else
-            {
-                dImageError.Visible = false;
                 descriptionBox.Text += descriptionInfo;
             }
         }
@@ -2576,78 +2541,6 @@ namespace HCI
             else
             {
                 iColFNBox.Items.Clear();
-                UpdateFieldCol.Update();
-            }
-        }
-
-        protected void iTableINBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedTable = iTableINBox.SelectedValue.ToString();
-            if (selectedTable != "")
-            {
-                int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-                ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
-                string connectionString_editor = "";
-                string providerName_editor = "";
-
-                //Set drop down box accordingly
-                if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
-                {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
-                    SqlDataSource temp = new SqlDataSource();
-                    temp.ConnectionString = connectionString_editor;
-                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                    iColINBox.DataSource = temp;
-                    iColINBox.DataValueField = "COLUMN_NAME";
-                    iColINBox.DataTextField = "COLUMN_NAME";
-                    iColINBox.DataBind();
-                    UpdateFieldCol.Update();
-                }
-
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
-                {
-                    connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
-                    providerName_editor = "MySql.Data.MySqlClient";
-
-                    SqlDataSource temp = new SqlDataSource();
-                    temp.ConnectionString = connectionString_editor;
-                    temp.ProviderName = providerName_editor;
-                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                    iColINBox.DataSource = temp;
-                    iColINBox.DataValueField = "COLUMN_NAME";
-                    iColINBox.DataTextField = "COLUMN_NAME";
-                    iColINBox.DataBind();
-                    UpdateFieldCol.Update();
-
-                }
-
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
-                {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
-                    providerName_editor = "System.Data.OracleClient";
-
-                    SqlDataSource temp = new SqlDataSource();
-                    temp.ConnectionString = connectionString_editor;
-                    temp.ProviderName = providerName_editor;
-                    temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
-                    iColINBox.DataSource = temp;
-                    iColINBox.DataValueField = "COLUMN_NAME";
-                    iColINBox.DataTextField = "COLUMN_NAME";
-                    iColINBox.DataBind();
-                    UpdateFieldCol.Update();
-                }
-
-                else //Default set to SQL
-                {
-                }
-
-                //Garbage collection
-                connInfo_editor = null;
-            }
-            else
-            {
-                iColINBox.Items.Clear();
                 UpdateFieldCol.Update();
             }
         }
