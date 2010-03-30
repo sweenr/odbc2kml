@@ -28,6 +28,9 @@
 		});
 	});
 	</script>
+	  <style type="text/css" media="all">
+        @import "odbcStyle.css";
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
