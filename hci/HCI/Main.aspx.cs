@@ -206,9 +206,22 @@ namespace HCI
                 }
             }
 
+            Database dbCheck = new Database();
+            DataTable dtCheck;
+            dtCheck = dbCheck.executeQueryLocal("SELECT name FROM Connection WHERE name=\'" + ConnName + "\'");
+            if (dtCheck.Rows.Count > 0)
+            {
+                this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "Connection name already in use!";
+                validNewConn.Visible = true;
+                this.NewConn1ModalPopUp.Show();
+
+                return;
+            }
             if (ConnName.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "All fields must be completeted!";
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
@@ -216,6 +229,7 @@ namespace HCI
             }else if (ConnDBName.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "All fields must be completeted!";
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
@@ -223,6 +237,7 @@ namespace HCI
             }else if (ConnDBAddress.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "All fields must be completeted!";
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
@@ -230,6 +245,7 @@ namespace HCI
             }else if (ConnPortNum.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "All fields must be completeted!";
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
@@ -237,6 +253,7 @@ namespace HCI
             }else if(ConnUser.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "All fields must be completeted!";
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
@@ -244,6 +261,7 @@ namespace HCI
             }else if (ConnPWD.Equals(""))
             {
                 this.NewConn1ModalPopUp.Hide();
+                validNewConn.Text = "All fields must be completeted!";
                 validNewConn.Visible = true;
                 this.NewConn1ModalPopUp.Show();
 
