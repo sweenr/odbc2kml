@@ -425,6 +425,16 @@ a.selectTable:hover
 	cursor: pointer, default;	
 }
 
+.buttonGV
+{
+	background: white;
+	border: white;
+	color: rgb(26,49,76);
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
 .button:hover
 {
 	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
@@ -435,6 +445,14 @@ a.selectTable:hover
 .descLabel
 {
 	color: rgb(26,49,76);
+	font-weight: bold;
+	height: 22px;
+}
+
+
+.descLabel2
+{
+	color: green;
 	font-weight: bold;
 	height: 22px;
 }
