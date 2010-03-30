@@ -1,7 +1,12 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PreviewKMLTest.aspx.cs" Inherits="HCI.PreviewKMLTest" %>;
 
 <%
-    string file = Request.QueryString["name"];
+    //int connID = Request.QueryString["connID"];
+    //Test code
+    int connID = 1;
+    HCI.KMLGenerator generator = new HCI.KMLGenerator("Test_FILE");
+    String KML = generator.generateKML(connID);
+    KML = KML.Replace('\n', ' ');
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -9,33 +14,55 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <title>Google Maps</title> 
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAA2xKK7kwByh7EgVL6iAp38hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSxVtYegdPh_IerJZ-CiNXor1V9iQ" type="text/javascript"></script> 
+    <script src="http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ" type="text/javascript"></script>
   </head>
-  <body onunload="GUnload()"> 
-    <div id="map" style="width: 1000px; height: 700px"></div>
+  <body> 
+    <div id="map3d" style="height:800px; width:800px;"></div>
       <script type="text/javascript">
-        if (GBrowserIsCompatible()) {
 
-         var map = new GMap2(document.getElementById("map"));
-         map.setCenter(new GLatLng(53.763325,-2.579041), 15);
-         map.addControl(new GLargeMapControl());
-         map.addControl(new GMapTypeControl());
+         //var map = new GMap2(document.getElementById("map"));
+         
+         var ge;
+         
+          google.load("earth", "1");
+          
+         function init() {
+            google.earth.createInstance('map3d', initCB, failureCB);
+         }
+                   
+         function initCB(instance) {
+         ge = instance;
+         ge.getWindow().setVisibility(true);
+         var kmlString = "<%=KML%>";
+         var kmlObject = ge.parseKml(kmlString);
+         ge.getFeatures().appendChild(kmlObject);
+         ge.getView().setAbstractView(kmlObject.getAbstractView());
+      }
+
+      function failureCB(errorCode) {
+        alert("Google Earth did not load properly.");
+      }
+
+      google.setOnLoadCallback(init);
+
+
+
+         
+       
+         
+        // map.setCenter(new GLatLng(53.763325,-2.579041), 15);
+        // map.addControl(new GLargeMapControl());
+        // map.addControl(new GMapTypeControl());
+        // map.getFeatures().appendChild(kmlObject);
 
          // ==== Create a KML Overlay ====
          
          //Server path
-         var path = "http://www.campusbookmart.com/";
-         var actualPath = path + "<%=file%>";
+        // var path = "http://www.campusbookmart.com/";
+         //var actualPath = path + "=file";
 
          
-         map.addOverlay(new GGeoXml(actualPath));
-
-         }
-
-         // display a warning if the browser was not compatible
-         else {
-         alert("Sorry, the Google Maps API is not compatible with this browser");
-         }
+            //map.addOverlay(new GGeoXml(actualPath));
 
       </script>
   </body>
