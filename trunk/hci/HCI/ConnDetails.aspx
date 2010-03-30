@@ -710,7 +710,7 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="btnOk3"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
                                                 CancelControlID="btnClose3" runat="server" PopupControlID="UploadIconsPanel"
                                                 ID="ModalPopupExtender3" TargetControlID="uploadIcon" />
                                             <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
@@ -767,11 +767,14 @@ function OnColorPicked(sender){
                                                                                                     Please select the icon file you wish to upload</p>
                                                                                                 <p>
                                                                                                     <asp:FileUpload ID="fileUpEx" runat="server" /><br />
-                                                                                                    <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" />
                                                                                                 </p>
                                                                                                 <br />
                                                                                                 <br />
-                                                                                                <br />
+                                                                                                <div align="right">
+                                                                                                <p>
+                                                                                                    <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" />
+                                                                                                </p>
+                                                                                                </div>
                                                                                             </li>
                                                                                         </ul>
                                                                                     </div>
@@ -781,7 +784,7 @@ function OnColorPicked(sender){
                                                                     </tr>
                                                                 </table>
                                                                 <div class="right">
-                                                                    <asp:Button ID="btnOk3" runat="server" Text="" CssClass="button" />
+                                                                    
                                                                     &nbsp;&nbsp;
                                                                     <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>

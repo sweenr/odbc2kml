@@ -28,7 +28,7 @@ namespace HCI
         private int curOverlayCount = -1;
         public String tempSaveLoc = @"C:\odbc2kml\tmp\";
         public String fileSaveLoc = @"C:\odbc2kml\tmp\";
-        public String relativeFileSaveLoc = @"icons//";
+        public String relativeFileSaveLoc = @"icons/";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
