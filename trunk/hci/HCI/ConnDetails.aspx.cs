@@ -2164,15 +2164,15 @@ namespace HCI
                 ArrayList condArray = icon.getConditions();
                 foreach (Condition condition in condArray)
                 {
-                    int ID, lowerOperator, upperOperator = 0;
+                    int lowerOperator, upperOperator = 0;
                     String lowerBound, upperBound, fieldName, tableName = "";
-                    ID = Convert.ToInt32(condition.getId());
-                    if ( ID != 0)
-                    {
-                        ErrorHandler eh = new ErrorHandler("Error saving icon condition (already used)", errorPanel1);
-                        eh.displayError();
-                        return; 
-                    }
+                    //ID = Convert.ToInt32(condition.getId());
+                    //if ( ID != 0)
+                    //{
+                    //    ErrorHandler eh = new ErrorHandler("Error saving icon condition (already used)", errorPanel1);
+                    //    eh.displayError();
+                    //    return; 
+                    //}
                     //ID = int.Parse(condition.getId());
                     //lowerOperator = Convert.ToInt32(condition.getLowerOperator());
                     //upperOperator = Convert.ToInt32(condition.getUpperOperator());
