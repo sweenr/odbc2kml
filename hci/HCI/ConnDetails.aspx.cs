@@ -2134,6 +2134,7 @@ namespace HCI
         protected void modifyConnection(object sender, EventArgs e)
         {
             sessionSave();
+            updateDescription();
             saveIconList();
             saveOverlayList();
         }
@@ -3017,7 +3018,7 @@ namespace HCI
             sessionSave();
         }
 
-        protected void updateDescription(object sender, EventArgs e)
+        protected void updateDescription()
         {
             int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             Description conDesc_editor = Description.getDescription(conID);
