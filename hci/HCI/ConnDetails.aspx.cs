@@ -233,6 +233,8 @@ namespace HCI
         /// <param name="status"></param>
         private void LockPage()
         {
+            addLatLong.Visible = false;
+
             foreach (Control c in Page.Controls)
             {
                 foreach (Control ctrl in c.Controls)
@@ -2964,7 +2966,10 @@ namespace HCI
         {
             viewGrid.Visible = false;
             saveLatLong.Visible = false;
-            addLatLong.Visible = true;
+            if (Request.QueryString.Get("locked") != "true")
+            {
+                addLatLong.Visible = true;
+            }
             mapColumnsPanel.Visible = false;
             tblColumnsPanel.Visible = true;
         }
