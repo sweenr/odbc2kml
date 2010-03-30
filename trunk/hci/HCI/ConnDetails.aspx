@@ -986,7 +986,7 @@ function OnColorPicked(sender){
                                                                             <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                 <tr>
                                                                                     <td>
-                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        Select the overlay color you want to remove.
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -1020,7 +1020,7 @@ function OnColorPicked(sender){
                                                                             <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                 <tr>
                                                                                     <td>
-                                                                                        Tool Directions Go Here! Yay User Friendliness! :)
+                                                                                        Use the Color Picker to select an overlay color. Choose a color and click Save.
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
