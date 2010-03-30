@@ -26,8 +26,8 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\odbc2kml\tmp\";
-        public String fileSaveLoc = @"C:\odbc2kml\tmp\";
+        public String tempSaveLoc = @"C:\odbc2kml\temp\";
+        public String fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
         public String relativeFileSaveLoc = @"icons/";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
@@ -193,8 +193,9 @@ namespace HCI
             if (Session["curOverlayCount"] == null)
             {
                 curOverlayCount = -1;
-                tempSaveLoc = @"C:\odbc2kml\tmp\";
-                fileSaveLoc = @"C:\odbc2kml\tmp\";
+                tempSaveLoc = @"C:\odbc2kml\temp\";
+                fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
+                relativeFileSaveLoc = @"icons/";
                 tempId = -1;
                 fillIconLibraryLists();
                 fillOverlayLibraryLists();
@@ -1946,7 +1947,16 @@ namespace HCI
                     String file = filename + suffix + file_ext;
                     String relativeName = relativeFileSaveLoc + file;
                     //save the file to the server
-                    fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
+                    try
+                    {
+                        fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
+                    }
+                    catch (DirectoryNotFoundException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler("Error saving file, please ensure " + fileSaveLoc + " exists on this machine", errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                     //errorPanel1.Text = "File Saved to: " + fileSaveLoc + file;
                     Database DB = new Database();
                     try
@@ -2002,7 +2012,16 @@ namespace HCI
             String ext = System.IO.Path.GetExtension(URL);
             String suffix = GetRandomString();
             String tempName = tempSaveLoc + fileName + suffix + ext;
-            Client.DownloadFile(URL, tempName);
+            try
+            {
+                Client.DownloadFile(URL, tempName);
+            }
+            catch (WebException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("Error with temporary download, please ensure " + tempSaveLoc + " exists on this machine", errorPanel1);
+                eh.displayError();
+                return;
+            }
             bool valid = false;
             //checks to see if fileType of icon is valid
             foreach (String type in validTypes)
@@ -2023,7 +2042,16 @@ namespace HCI
                 if (valid && ValidateFileDimensions(fs))
                 {
                     fs.Close();
-                    File.Move(tempName, Name);
+                    try
+                    {
+                        File.Move(tempName, Name);
+                    }
+                    catch (DirectoryNotFoundException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler("Error saving file, please ensure " + fileSaveLoc + " exists on this machine", errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                     File.Delete(tempName);
                     try
                     {
