@@ -113,18 +113,18 @@ namespace HCI
             Page.Controls.Add(new LiteralControl("<span>&nbsp;Database Query Results</span>"));
             Page.Controls.Add(new LiteralControl("<div>"));
 
-            Page.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"2\" border=\"1\">"));
+            Page.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"2\" border=\"0\">"));
 
             Page.Controls.Add(new LiteralControl("<tr><td>"));
             Page.Controls.Add(new LiteralControl("<div>"));
-            Page.Controls.Add(new LiteralControl("<table cellspacing=\"2\" cellpadding=\"2\" style=\"border:0px\">"));
+            Page.Controls.Add(new LiteralControl("<table cellspacing=\"2\" cellpadding=\"2\" rules=\"all\" style=\"border:0px\">"));
 
             Page.Controls.Add(new LiteralControl("<tr>"));
             foreach (DataColumn dc in dt.Columns)
             {
                 Page.Controls.Add(new LiteralControl("<td><b>" + dc.ColumnName + "<br/></b></td>"));
             }
-            Page.Controls.Add(new LiteralControl("</tr><tr><td><br/></td></tr>"));
+            Page.Controls.Add(new LiteralControl("</tr>"));
             foreach (DataRow dr in dt.Rows)
             {
 
