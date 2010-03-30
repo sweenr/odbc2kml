@@ -26,9 +26,9 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\Users\JP\Documents\Senior Design\files\";
-        public String fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
-        public String relativeFileSaveLoc = @"icons/";
+        public String tempSaveLoc = @"C:\odbc2kml\tmp\";
+        public String fileSaveLoc = @"C:\odbc2kml\tmp\";
+        public String relativeFileSaveLoc = @"icons//";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
@@ -190,6 +190,19 @@ namespace HCI
 
         private void sessionLoad()
         {
+            if (Session["curOverlayCount"] == null)
+            {
+                curOverlayCount = -1;
+                tempSaveLoc = @"C:\odbc2kml\tmp\";
+                fileSaveLoc = @"C:\odbc2kml\tmp\";
+                tempId = -1;
+                fillIconLibraryLists();
+                fillOverlayLibraryLists();
+                fillIconListFromDatabase();
+                alreadySetupLists = true;
+                sessionSave();
+                return;
+            }
             curOverlayCount = (int)Session["curOverlayCount"];
             tempSaveLoc = (String)Session["tempSaveLoc"];
             fileSaveLoc = (String)Session["fileSaveLoc"];
@@ -435,6 +448,7 @@ namespace HCI
                 tblNum += 1;
             }
             */
+            sessionSave();
         }
 
         protected void fillOverlayLibraryLists()
@@ -1892,7 +1906,7 @@ namespace HCI
             ArrayList result = new ArrayList();
 
 
-
+            sessionSave();
             return result;
         }
 
@@ -2129,6 +2143,7 @@ namespace HCI
             Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
             if (registryKey != null && registryKey.GetValue("Content Type") != null)
                 contentType = registryKey.GetValue("Content Type").ToString();
+            sessionSave();
             return contentType;
         }
         protected void modifyConnection(object sender, EventArgs e)
@@ -2137,6 +2152,7 @@ namespace HCI
             updateDescription();
             saveIconList();
             saveOverlayList();
+            sessionSave();
         }
         private void saveIconList()
         {
@@ -2682,6 +2698,7 @@ namespace HCI
                     return;
                 }
             }
+            sessionSave();
         }
 
 
@@ -2739,6 +2756,7 @@ namespace HCI
             dLinkPanel.Visible = true;
             dTablePanel.Visible = false;
             dFieldPanel.Visible = false;
+            sessionSave();
         }
 
         protected void dLinkInsert_Click(object sender, EventArgs e)
@@ -2757,6 +2775,7 @@ namespace HCI
                 iLinkError.Visible = false;
                 descriptionBox.Text += descriptionInfo;
             }
+            sessionSave();
         }
 
         protected void dNewline_Click(object sender, EventArgs e)
@@ -2764,6 +2783,7 @@ namespace HCI
             
             string descriptionInfo = "[BR][/BR]";
             descriptionBox.Text += descriptionInfo;
+            sessionSave();
         }
 
         protected void dTable_Click(object sender, EventArgs e)
@@ -2771,6 +2791,7 @@ namespace HCI
             dLinkPanel.Visible = false;
             dTablePanel.Visible = true;
             dFieldPanel.Visible = false;
+            sessionSave();
         }
 
         protected void dTableInsert_Click(object sender, EventArgs e)
@@ -2779,7 +2800,7 @@ namespace HCI
             string descriptionInfo = "[TABLE]" + tableText + "[/TABLE]";
 
             descriptionBox.Text += descriptionInfo;
-
+            sessionSave();
         }
 
         protected void dField_Click(object sender, EventArgs e)
@@ -2788,7 +2809,7 @@ namespace HCI
             dLinkPanel.Visible = false;
             dTablePanel.Visible = false;
             dFieldPanel.Visible = true;
-
+            sessionSave();
         }
 
         protected void dFieldInsert_Click(object sender, EventArgs e)
@@ -2808,6 +2829,7 @@ namespace HCI
                 dFieldError.Visible = false;
                 descriptionBox.Text += descriptionInfo;
             }
+            sessionSave();
         }
 
         protected void iTableFNBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -2880,6 +2902,7 @@ namespace HCI
                 iColFNBox.Items.Clear();
                 UpdateFieldCol.Update();
             }
+            sessionSave();
         }
 
         protected void GridViewTables_SelectedIndexChanged(object sender, EventArgs e)
@@ -3046,12 +3069,14 @@ namespace HCI
         {
             LLSepPanel.Visible = false;
             LLTogetherPanel.Visible = true;
+            sessionSave();
         }
 
         protected void mapSeparate_Click(object sender, EventArgs e)
         {
             LLTogetherPanel.Visible = false;
             LLSepPanel.Visible = true;
+            sessionSave();
         }
 
         protected void mapUpdates(SqlDataSource temp)
@@ -3078,6 +3103,7 @@ namespace HCI
             mapError1.Visible = false;
             mapError2.Visible = false;
             mapSuccess.Visible = false;
+            sessionSave();
 
         }
 
@@ -3127,6 +3153,7 @@ namespace HCI
             mapError1.Visible = false;
             mapError2.Visible = false;
             mapSuccess.Visible = false;
+            sessionSave();
 
         }
 
@@ -3207,6 +3234,7 @@ namespace HCI
             addLatLong.Visible = false;
             tblColumnsPanel.Visible = false;
             mapColumnsPanel.Visible = true;
+            sessionSave();
 
         }
 
@@ -3220,6 +3248,7 @@ namespace HCI
             }
             mapColumnsPanel.Visible = false;
             tblColumnsPanel.Visible = true;
+            sessionSave();
         }
 
         protected void saveLatLong_Click(object sender, EventArgs e)
@@ -3299,6 +3328,7 @@ namespace HCI
 
                 }
             }
+            sessionSave();
         }
     }
 }
