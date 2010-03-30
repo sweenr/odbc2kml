@@ -13,9 +13,17 @@ using System.Collections.Generic;
 
 namespace HCI
 {
+    /// <summary>
+    /// This is a helper class used with hash sets and styles.
+    /// It ensures proper comparisons of styles when they are being placed
+    /// in the hash set.
+    /// </summary>
     public class HashStyleComparer : IEqualityComparer <Style>
     {
+        //Default constructor
         public HashStyleComparer() { }
+
+        //Comparison used for hash set
         public bool Equals(Style x, Style y)
         {
             if (x.getStyleName().Equals(y.getStyleName()))
@@ -26,7 +34,7 @@ namespace HCI
             return false;
     
    }
-      //Not so relevant in this scenario. So just returning 0
+        //Not important, just set something
         public int GetHashCode(Style x)
         {
             return x.getStyleName().GetHashCode();

@@ -14,6 +14,7 @@ namespace HCI
 {
     public class Style
     {
+        //Datatypes
         private Icon icon;
         private UInt64 color;
         private String styleName;
@@ -63,6 +64,7 @@ namespace HCI
             return false;
         }
 
+        //Override of == for Styles
         public static bool operator ==(Style a, Style b)
         {
             if (System.Object.ReferenceEquals(a, b))
@@ -79,6 +81,7 @@ namespace HCI
             return false;
         }
 
+        //Override of != 
         public static bool operator !=(Style a, Style b)
         {
             return !(a == b);

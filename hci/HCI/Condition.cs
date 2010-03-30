@@ -196,7 +196,7 @@ namespace HCI
             this.id = ID;
         }
         /// <summary>
-        /// below class will be used when editing IconConditions already in the database
+        /// below function will be used when editing IconConditions already in the database
         /// </summary>
         /// <param name="connID"></param>
         /// <param name="iconID"></param>
@@ -224,6 +224,7 @@ namespace HCI
                 this.id = (int)row[0];
             }
         }
+
         public void setIDfromDBoverlay(int connID, int overlayID)
         {
             Database DB = new Database();
@@ -296,22 +297,24 @@ namespace HCI
         /// <returns>Boolean --> Does the condition apply or not?</returns>
         public Boolean evaluateCondition(DataRow row, Condition condition, string tableName)
         {
-            if (tableName == condition.getTableName())
+            if (tableName == condition.getTableName()) //Valid table name?
             {
-                if (row[condition.getFieldName()] != null)
+                if (row[condition.getFieldName()] != null) //Valid field name?
                 {
+                    //Both operators set
                     if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE && Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
                     {
+                        //Basic doubles created to be used with Try Parse
                         Double lower;
                         Double upper;
-                        //Check for what type of comparison should be done
+
+                        //Check for double parse
                         if (Double.TryParse(condition.getLowerBound(),out lower) && Double.TryParse(condition.getUpperBound(), out upper))
                         {
-                            //Double lower = Double.Parse(condition.getLowerBound());
-                            //Double upper = Double.Parse(condition.getUpperBound());
-
+                            //Parsed value
                             Double value = Double.Parse(row[condition.getFieldName()].ToString());
 
+                            //Decision parameters
                             Boolean passLowerOperator = false;
                             Boolean passUpperOperator = false;
 
@@ -416,11 +419,12 @@ namespace HCI
                         }
                         else //Do string comparisons
                         {
+                            //String parameters
                             String lowerS = condition.getLowerBound();
                             String upperS = condition.getUpperBound();
-
                             String valueS = row[condition.getFieldName()].ToString();
 
+                            //Pass parameters
                             Boolean passLowerOperator = false;
                             Boolean passUpperOperator = false;
 
@@ -523,7 +527,7 @@ namespace HCI
                             //Does not meet the condition
                             return false;
                         }
-                    }
+                    }//Lower operator only
                     else if (Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
                     {
                         Double lower;
@@ -638,7 +642,7 @@ namespace HCI
                             //Does not meet condition
                             return false;
                         }
-                    }
+                    }//Upper operator only
                     else if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE)
                     {
                         Double upper;
@@ -764,6 +768,5 @@ namespace HCI
             //If table names are not equal
             return false;
         }//End evaluate Condition
-
     }
 }

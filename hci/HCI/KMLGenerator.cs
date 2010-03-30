@@ -14,78 +14,74 @@ using System.Collections.Generic;
 
 namespace HCI
 {
-    /****************************************************************************************************
-     * 
-     * 
-     * 
-     * 
-     ****************************************************************************************************/
-
+    /// <summary>
+    /// This class is designed to handle all manipulation and generation for KML associated tasks.
+    /// This class is used when the users generates KML from the main page and from the web service.
+    /// </summary>
     public class KMLGenerator
     {
-        //May not need the following data type, remove it if so
-        //private DataTable kmlInformation;
+        //Desired filename to appear within the KML file
         private String fileName;
 
+        /// <summary>
+        /// Default constructor. Takes the desired filename for the kml file.
+        /// </summary>
+        /// <param name="fileName">String --> KML file name</param>
         public KMLGenerator(String fileName)
         {
             this.fileName = fileName;
         }
 
-        /*
-         * This functions pulls all of the required information about a connection from the local
-         * database and transforms it into a KML file. It then stores that file on the server in a 
-         * temporary location. 
-         * 
-         * return kml (returns a string associated with the file name and location)
-         * 
-         */
+        /// <summary>
+        /// This function takes a connection ID and generates all the associated KML for that connection.
+        /// It works hand-in-hand with KMLGenerationLibrary, Styles, and Placemarks.
+        /// It also calls generateKMLFromConnection.
+        /// 
+        /// There is also a helper class used to prevent duplicate styles (HashStyleComparer).
+        /// </summary>
+        /// <param name="connID">int --> connection ID for the connection that you wish to generate KML for</param>
+        /// <returns>String --> A string that is the KML</returns>
         public string generateKML(int connID)
+        {
+            Connection connection = new Connection(connID);
+            connection.populateFields();
+
+            return generateKMLFromConnection(connection);
+        }
+
+        /// <summary>
+        /// This function takes a connection object and generates all the associated KML for that connection.
+        /// It works hand-in-hand with KMLGenerationLibrary, Styles, and Placemarks.
+        /// 
+        /// There is also a helper class used to prevent duplicate styles (HashStyleComparer).
+        /// </summary>
+        /// <param name="connection">Connection --> connection object for the connection that you wish to generate KML for</param>
+        /// <returns>String --> A string that is the KML</returns>
+        public string generateKMLFromConnection(Connection connection)
         {
             //Needed to generate KML, parameter is desired file name within KML file
             KMLGenerationLibrary kmlGenerator = new KMLGenerationLibrary(this.fileName);
 
             try
             {
-                //Create database
-                Database DB = new Database();
-                DataTable mapping = DB.executeQueryLocal("SELECT tableName FROM Mapping WHERE connID=\'" + connID + "\'");
+                //Get mappings fromc onnection object
+                ArrayList mappings = connection.getMapping();
 
-                //Create arraylist and add tables to it
-                ArrayList tablesToBeSearched = new ArrayList();
-
-                //Create array list to hold places and styles
+                //Create array list to hold places
                 ArrayList placemarks = new ArrayList();
+                //Create hashset to hold unique styles, takes HashStyleComparer which is a helper class
                 HashSet<Style> styles = new HashSet<Style>(new HashStyleComparer());
 
-                foreach (DataRow row in mapping.Rows)
-                {
-                    foreach (DataColumn col in mapping.Columns)
-                    {
-                        tablesToBeSearched.Add(row[col]);
-                    }
-                }
-
-                DB.setConnInfo(ConnInfo.getConnInfo(connID));
-                int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
-
-                DataTable desc = DB.executeQueryLocal("SELECT description FROM Description WHERE connID=" + connID);
-                
                 //Create the Icon array and grabs the icons for the connection
                 ArrayList icons = new ArrayList();
-                icons = Icon.getIcons(connID);
+                icons = connection.getIcons();
 
                 //Create the overlay array and grab the overlays for the connection
                 ArrayList overlays = new ArrayList();
-                overlays = Overlay.getOverlays(connID);
+                overlays = connection.getOverlays();
 
-                //Sort through the table and format the description
-                String descString = "";
-
-                foreach (DataRow descRow in desc.Rows)
-                {
-                    descString = descRow["description"].ToString();
-                }
+                //Retrieve description string
+                String descString = connection.getDescription().getDesc();
 
                 //Create an array to store new description values
                 ArrayList descArray = new ArrayList();
@@ -93,26 +89,30 @@ namespace HCI
                 //Create data table to pass to parser
                 DataTable remote = null;
 
-                foreach (String tableName in tablesToBeSearched)
+                //Create database
+                Database DB = new Database(connection.getConnInfo());
+
+                //originally took string table name, changed for test
+                foreach (Mapping map in mappings)
                 {
-                    if (dbType == ConnInfo.MSSQL)
+                    //Grab the tablename out of mapping
+                    String tableName = map.getTableName();
+
+                    if (connection.getConnInfo().getDatabaseType() == ConnInfo.MSSQL)
                     {
                         remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
                     }
-                    else if (dbType == ConnInfo.MYSQL)
+                    else if (connection.getConnInfo().getDatabaseType() == ConnInfo.MYSQL)
                     {
                         remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
                     }
-                    else if (dbType == ConnInfo.ORACLE)
+                    else if (connection.getConnInfo().getDatabaseType() == ConnInfo.ORACLE)
                     {
                         remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
                     }
 
                     //Parsed descriptions for rows
                     descArray = Description.parseDesc(remote, descString, tableName);
-
-                    //Create mapping and populate it.
-                    Mapping map = Mapping.getMapping(connID, tableName); ;
 
                     int counter = 0;
                     //For each row in the table!!!
@@ -183,7 +183,7 @@ namespace HCI
                             foreach (Condition c in i.getConditions())
                             {
                                 //See if the condition applies to the given row
-                                if(c.evaluateCondition(remoteRow, c, tableName))
+                                if (c.evaluateCondition(remoteRow, c, tableName))
                                 {
                                     //Set temp icon to row icon and tell it to break out
                                     rowIcon = i;
@@ -200,15 +200,16 @@ namespace HCI
                                 break;
                         }//End outer for each
 
+                        //Long unsigned int, needed to properly interpret colors
                         UInt64 color = 0;
                         foreach (Overlay o in overlays)
                         {
                             foreach (Condition c in o.getConditions())
                             {
                                 //See if the condition applies
-                                if(c.evaluateCondition(remoteRow, c, tableName))
+                                if (c.evaluateCondition(remoteRow, c, tableName))
                                 {
-                                    if(color == 0)
+                                    if (color == 0)
                                     {
                                         //Set the color to hex value
                                         color = 0xFF000000;
@@ -223,11 +224,12 @@ namespace HCI
                         Style rowStyle;
                         Placemark rowPlacemark;
 
-                        if(rowIcon.getLocation() != "")
+                        //if there is an icon, create the name of the style based on the icon name and color
+                        if (rowIcon.getLocation() != "")
                         {
                             rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                         }
-                        else if (rowIcon.getLocation() == "" && color != 0)
+                        else if (rowIcon.getLocation() == "" && color != 0) //Create the style name based on the color
                         {
                             rowStyle = new Style(rowIcon, color, color.ToString("X"));
                         }
@@ -270,7 +272,7 @@ namespace HCI
                     kmlGenerator.addPlacemark(p);
                 }
             }
-            catch (ODBC2KMLException e)
+            catch (ODBC2KMLException e) //If bad things happen pass it up to connection details
             {
                 throw e;
             }
