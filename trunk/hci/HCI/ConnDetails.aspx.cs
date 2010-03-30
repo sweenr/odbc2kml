@@ -26,8 +26,9 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\tmp\";
-        public String fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\tmp\";
+        public String tempSaveLoc = @"C:\Users\JP\Documents\Senior Design\files\";
+        public String fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
+        public String relativeFileSaveLoc = @"icons/";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
@@ -192,6 +193,7 @@ namespace HCI
             curOverlayCount = (int)Session["curOverlayCount"];
             tempSaveLoc = (String)Session["tempSaveLoc"];
             fileSaveLoc = (String)Session["fileSaveLoc"];
+            relativeFileSaveLoc = (String)Session["relativeFileSaveLoc"];
             validTypes = (ArrayList)Session["validTypes"];
             alreadySetupLists = (bool)Session["alreadySetupLists"];
             iconList = (ArrayList)Session["iconList"];
@@ -212,6 +214,7 @@ namespace HCI
             Session["curOverlayCount"] = curOverlayCount;
             Session["tempSaveLoc"] = tempSaveLoc;
             Session["fileSaveLoc"] = fileSaveLoc;
+            Session["relativeFileSaveLoc"] = relativeFileSaveLoc;
             Session["validTypes"] = validTypes;
             Session["alreadySetupLists"] = alreadySetupLists;
             Session["iconList"] = iconList;
@@ -1918,10 +1921,21 @@ namespace HCI
                     String filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
                     String suffix = GetRandomString();
                     String file = filename + suffix + file_ext;
-
+                    String relativeName = relativeFileSaveLoc + file;
                     //save the file to the server
                     fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
                     //errorPanel1.Text = "File Saved to: " + fileSaveLoc + file;
+                    Database DB = new Database();
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else if (!valid)
                 {
@@ -1981,19 +1995,29 @@ namespace HCI
             if (fetchCheckBox.Checked)
             {
                 String Name = fileSaveLoc + fileName + suffix + ext;
+                String relativeName = relativeFileSaveLoc + fileName + suffix + ext;
                 //checks if icon has valid dimensions
                 if (valid && ValidateFileDimensions(fs))
                 {
                     fs.Close();
                     File.Move(tempName, Name);
                     File.Delete(tempName);
-                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + Name + "\', 1)");
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else if (!valid)
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("URL contains to many TitlesYou linked to an invalid file type", errorPanel1);
+                    ErrorHandler eh = new ErrorHandler("You linked to an invalid file type", errorPanel1);
                     eh.displayError();
                     return;
                 }
@@ -2014,7 +2038,16 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else if (!valid)
                 {
