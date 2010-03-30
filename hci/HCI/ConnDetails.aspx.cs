@@ -26,8 +26,9 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\tmp\";
-        public String fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\tmp\";
+        public String tempSaveLoc = @"C:\Users\JP\Documents\Senior Design\files\";
+        public String fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
+        public String relativeFileSaveLoc = @"icons/";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
@@ -192,6 +193,7 @@ namespace HCI
             curOverlayCount = (int)Session["curOverlayCount"];
             tempSaveLoc = (String)Session["tempSaveLoc"];
             fileSaveLoc = (String)Session["fileSaveLoc"];
+            relativeFileSaveLoc = (String)Session["relativeFileSaveLoc"];
             validTypes = (ArrayList)Session["validTypes"];
             alreadySetupLists = (bool)Session["alreadySetupLists"];
             iconList = (ArrayList)Session["iconList"];
@@ -213,6 +215,7 @@ namespace HCI
             Session["curOverlayCount"] = curOverlayCount;
             Session["tempSaveLoc"] = tempSaveLoc;
             Session["fileSaveLoc"] = fileSaveLoc;
+            Session["relativeFileSaveLoc"] = relativeFileSaveLoc;
             Session["validTypes"] = validTypes;
             Session["alreadySetupLists"] = alreadySetupLists;
             Session["iconList"] = iconList;
@@ -1927,10 +1930,21 @@ namespace HCI
                     String filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
                     String suffix = GetRandomString();
                     String file = filename + suffix + file_ext;
-
+                    String relativeName = relativeFileSaveLoc + file;
                     //save the file to the server
                     fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
                     //errorPanel1.Text = "File Saved to: " + fileSaveLoc + file;
+                    Database DB = new Database();
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else if (!valid)
                 {
@@ -1990,19 +2004,29 @@ namespace HCI
             if (fetchCheckBox.Checked)
             {
                 String Name = fileSaveLoc + fileName + suffix + ext;
+                String relativeName = relativeFileSaveLoc + fileName + suffix + ext;
                 //checks if icon has valid dimensions
                 if (valid && ValidateFileDimensions(fs))
                 {
                     fs.Close();
                     File.Move(tempName, Name);
                     File.Delete(tempName);
-                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + Name + "\', 1)");
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else if (!valid)
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("URL contains to many TitlesYou linked to an invalid file type", errorPanel1);
+                    ErrorHandler eh = new ErrorHandler("You linked to an invalid file type", errorPanel1);
                     eh.displayError();
                     return;
                 }
@@ -2023,7 +2047,16 @@ namespace HCI
                 {
                     fs.Close();
                     File.Delete(tempName);
-                    DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                 }
                 else if (!valid)
                 {
@@ -2102,6 +2135,7 @@ namespace HCI
         {
             sessionSave();
             saveIconList();
+            saveOverlayList();
         }
         private void saveIconList()
         {
@@ -2172,15 +2206,15 @@ namespace HCI
                 ArrayList condArray = icon.getConditions();
                 foreach (Condition condition in condArray)
                 {
-                    int ID, lowerOperator, upperOperator = 0;
+                    int lowerOperator, upperOperator = 0;
                     String lowerBound, upperBound, fieldName, tableName = "";
-                    ID = Convert.ToInt32(condition.getId());
-                    if ( ID != 0)
-                    {
-                        ErrorHandler eh = new ErrorHandler("Error saving condition (already used)", errorPanel1);
-                        eh.displayError();
-                        return; 
-                    }
+                    //ID = Convert.ToInt32(condition.getId());
+                    //if ( ID != 0)
+                    //{
+                    //    ErrorHandler eh = new ErrorHandler("Error saving icon condition (already used)", errorPanel1);
+                    //    eh.displayError();
+                    //    return; 
+                    //}
                     //ID = int.Parse(condition.getId());
                     //lowerOperator = Convert.ToInt32(condition.getLowerOperator());
                     //upperOperator = Convert.ToInt32(condition.getUpperOperator());
@@ -2345,6 +2379,308 @@ namespace HCI
                 }
             }
             sessionSave();
+        }
+        private void saveOverlayList()
+        {
+            //int connID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
+            int connID = int.Parse(Request.QueryString.Get("ConnID"));
+            Database DB = new Database();
+            DataTable overlayTable = new DataTable();
+            try
+            {
+                overlayTable = DB.executeQueryLocal("SELECT * FROM Overlay WHERE connID=" + connID);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            ArrayList addedOverlays = new ArrayList();
+            ArrayList deletedOverlays = new ArrayList();
+            ArrayList modifiedOverlays = new ArrayList();
+            foreach (DataRow row in overlayTable.Rows)
+            {
+                bool deleted = true;
+                //ArrayList usedIDs = new ArrayList();
+                foreach (Overlay overlay in overlayList)
+                {
+                    foreach (DataRow row3 in overlayTable.Rows)
+                    {
+                        String color = overlay.getColor();
+                        if (color == (String)row3[2])
+                        {
+                            //bool used = false;
+                            int tempID = (int)row3[0];
+                            //foreach (int tID in usedIDs)
+                            //{
+                            //    if (tempID == tID)
+                            //    {
+                            //        used = true;
+                            //    }
+                            //}
+                            overlay.setId(Convert.ToString(tempID));
+                            //usedIDs.Add(tempID);
+                            break;
+                        }
+                    }
+                    //DataTable ids = new DataTable();
+                    //try
+                    //{
+                    //    ids = DB.executeQueryLocal("SELECT ID FROM Overlay WHERE connID=" + connID + " and color=\'" + overlay.getColor() + "\'");
+                    //}
+                    //catch (ODBC2KMLException ex)
+                    //{
+                    //    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    //    eh.displayError();
+                    //    return;
+                    //}
+                    //int id = 0;
+                    //foreach (DataRow row2 in ids.Rows)
+                    //{
+                    //    id = (int)row2[0];
+                    //}
+                    //finish above to get id to save
+                    //overlay.setId(Convert.ToString(id));
+                    int overlayID = Convert.ToInt32(overlay.getId());
+                    if(overlayID == (int)row[0])
+                    {
+                        deleted = false;
+                        modifiedOverlays.Add(overlay);
+                    }
+                }
+                if(deleted)
+                {
+                    deletedOverlays.Add((int)row[0]);
+                }
+            }
+            foreach (Overlay overlay in overlayList)
+            {
+                bool newOverlay = true;
+                foreach (DataRow row in overlayTable.Rows)
+                {
+                    int overlayID = Convert.ToInt32(overlay.getId());
+                    if(overlayID == (int)row[0])
+                    {
+                        newOverlay = false;
+                    }
+                }
+                if(newOverlay)
+                {
+                    addedOverlays.Add(overlay);
+                }
+            }
+            foreach (Overlay overlay in addedOverlays)
+            {
+                DataTable overlayTable2 = new DataTable();
+                //int overlayID = int.Parse(overlay.getId());
+                try
+                {
+                    //DB.executeQueryLocal("INSERT INTO Overlay (ID, connID, color) VALUES (" + overlayID + ", " + connID + ", '" + overlay.getColor() + "')");
+                    DB.executeQueryLocal("INSERT INTO Overlay (connID, color) VALUES (" + connID + ", \'" + overlay.getColor() + "\')");
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+                ArrayList condArray = overlay.getConditions();
+                try
+                {
+                    overlayTable2 = DB.executeQueryLocal("SELECT * FROM Overlay WHERE connID=" + connID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+                foreach (DataRow row3 in overlayTable2.Rows)
+                {
+                    String color = overlay.getColor();
+                    if (color == (String)row3[2])
+                    {
+                        int tempID = (int)row3[0];
+                        overlay.setId(Convert.ToString(tempID));
+                        break;
+                    }
+                }
+                int overlayID = Convert.ToInt32(overlay.getId());
+                foreach (Condition condition in condArray)
+                {
+                    int lowerOperator, upperOperator = 0;
+                    String lowerBound, upperBound, fieldName, tableName = "";
+                    //ID = Convert.ToInt32(condition.getId());
+                    //if ( ID != 0)
+                    //{
+                    //    ErrorHandler eh = new ErrorHandler("Error saving Overlay condition ID=" + ID + " (already used)", errorPanel1);
+                    //    eh.displayError();
+                    //    return; 
+                    //}
+                    //ID = int.Parse(condition.getId());
+                    //lowerOperator = Convert.ToInt32(condition.getLowerOperator());
+                    //upperOperator = Convert.ToInt32(condition.getUpperOperator());
+                    //lowerOperator = int.Parse(condition.getLowerOperator());
+                    //upperOperator = int.Parse(condition.getUpperOperator());
+                    lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
+                    upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
+                    lowerBound = condition.getLowerBound();
+                    upperBound = condition.getUpperBound();
+                    fieldName = condition.getFieldName();
+                    tableName = condition.getTableName();
+                    try
+                    {
+                        DB.executeQueryLocal("INSERT INTO OverlayCondition (connID, overlayID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
+                            + connID + ", "
+                            + overlayID + ", \'" + lowerBound + "\', \'"
+                            + upperBound + "\', \'" + lowerOperator + "\', \'"
+                            + upperOperator + "\', \'" + fieldName + "\', \'"
+                            + tableName + "\')");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+            }
+            foreach (Overlay overlay in modifiedOverlays)
+            {
+                int overlayID = Convert.ToInt32(overlay.getId());
+                DataTable conditions = new DataTable();
+                try
+                {
+                    conditions = DB.executeQueryLocal("SELECT * FROM OverlayCondition WHERE connID="
+                               + connID + " and overlayID=" + overlayID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+                //int overlayID = Convert.ToInt32(overlay.getId());
+                //int overlayID = int.Parse(overlay.getId());
+                ArrayList condArray = overlay.getConditions();
+                ArrayList deletedCond = new ArrayList();
+                foreach (DataRow row in conditions.Rows)
+                {
+                    bool deleted = true;
+                    foreach (Condition condition in condArray)
+                    {
+                        try
+                        {
+                            condition.setIDfromDBoverlay(connID, overlayID);
+                        }
+                        catch (ODBC2KMLException ex)
+                        {
+                            ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                            eh.displayError();
+                            return;
+                        }
+                        if ((int)row[0] == Convert.ToInt32(condition.getId()))
+                        {
+                            deleted = false;
+                        }
+                    }
+                    if(deleted)
+                    {
+                        deletedCond.Add((int)row[0]);
+                    }
+                }
+                ArrayList newArray = new ArrayList();
+                foreach (Condition condition in condArray)
+                {
+                    //try
+                    //{
+                    //    condition.setIDfromDB(connID, overlayID);
+                    //}
+                    //catch (ODBC2KMLException ex)
+                    //{
+                    //    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    //    eh.displayError();
+                    //    return;
+                    //}
+                    bool alreadyExists = false;
+                    foreach (DataRow row in conditions.Rows)
+                    {
+                        if ((int)row[0] == Convert.ToInt32(condition.getId()))
+                        {
+                            alreadyExists = true;
+                        }
+                    }
+                    if (!alreadyExists)
+                    {
+                        newArray.Add(condition);
+                    }
+                }
+                foreach (Condition condition in newArray)
+                {
+                    //condition.setIDfromDB(connID, overlayID);
+                    int lowerOperator, upperOperator = 0;
+                    String lowerBound, upperBound, fieldName, tableName = "";
+                    //ID = Convert.ToInt32(condition.getId());
+                    //ID = int.Parse(condition.getId());
+                    lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
+                    upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
+                    //lowerOperator = int.Parse(condition.getLowerOperator());
+                    //upperOperator = int.Parse(condition.getUpperOperator());
+                    lowerBound = condition.getLowerBound();
+                    upperBound = condition.getUpperBound();
+                    fieldName = condition.getFieldName();
+                    tableName = condition.getTableName();
+                    try
+                    {
+                        //DB.executeQueryLocal("UPDATE OverlayCondition SET lowerBound=\'" + lowerBound
+                        //    + "\', upperBound=\'" + upperBound
+                        //    + "\', lowerOperator=" + lowerOperator
+                        //    + ", upperOperator=" + upperOperator
+                        //    + ", fieldName=\'" + fieldName
+                        //    + "\', tableName=\'" + tableName + "\' "
+                        //    + "WHERE ID=" + ID + " and connID=" + connID + " and overlayID=" + overlayID);
+                        DB.executeQueryLocal("INSERT INTO OverlayCondition (connID, overlayID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
+                            + connID + ", "
+                            + overlayID + ", \'" + lowerBound + "\', \'"
+                            + upperBound + "\', \'" + lowerOperator + "\', \'"
+                            + upperOperator + "\', \'" + fieldName + "\', \'"
+                            + tableName + "\')");
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+                foreach (int int1 in deletedCond)
+                {
+                    try
+                    {
+                        DB.executeQueryLocal("DELETE FROM OverlayCondition WHERE ID=" + int1);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+            }
+            foreach (int overlayID in deletedOverlays)
+            {
+                try
+                {
+                    DB.executeQueryLocal("DELETE FROM Overlay WHERE ID=" + overlayID + " and connID=" + connID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+            }
         }
 
 
