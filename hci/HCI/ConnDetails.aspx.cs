@@ -19,6 +19,28 @@ namespace HCI
 {
     public partial class ConnDetails : System.Web.UI.Page
     {
+        
+        //private bool fetch;
+        //private String URL;
+        //private Database DB;
+        public const int height = 128;
+        public const int width = 128;
+        private int curOverlayCount = -1;
+        public String tempSaveLoc = @"C:\odbc2kml\temp\";
+        public String fileSaveLoc = @"C:\odbc2kml\uploads\";
+        public ArrayList validTypes = new ArrayList();
+        private bool alreadySetupLists = false;
+        private ArrayList iconList = new ArrayList();
+        private ArrayList iconListAvailableToAdd = new ArrayList();
+        private ArrayList iconListAvailableToRemove = new ArrayList();
+        private ArrayList overlayListAvailableToRemove = new ArrayList();
+        private ArrayList overlayList = new ArrayList();
+        private ArrayList tableNameList = new ArrayList();
+        private SqlDataSource MSQLTables = new SqlDataSource();
+        private SqlDataSource SQLTables = new SqlDataSource();
+        private SqlDataSource oracleTables = new SqlDataSource();
+        private SqlDataSource colDataSource = new SqlDataSource();
+        private int tempId = -1;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -144,8 +166,10 @@ namespace HCI
 
                     //Garbage collection
                     connInfo_editor = null;
+                    sessionSave();
                 }
             }
+            sessionLoad();
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
             //fillOverlayPopupAdd();
@@ -155,11 +179,51 @@ namespace HCI
             genOverlayConditionTable(sender, e);
             
             BuildTypeList();
+            sessionSave();
 
             if (Request.QueryString.Get("locked") == "true")
             {
                 LockPage();
             }
+        }
+
+        private void sessionLoad()
+        {
+            curOverlayCount = (int)Session["curOverlayCount"];
+            tempSaveLoc = (String)Session["tempSaveLoc"];
+            fileSaveLoc = (String)Session["fileSaveLoc"];
+            validTypes = (ArrayList)Session["validTypes"];
+            alreadySetupLists = (bool)Session["alreadySetupLists"];
+            iconList = (ArrayList)Session["iconList"];
+            iconListAvailableToAdd = (ArrayList)Session["iconListAvailableToAdd"];
+            iconListAvailableToRemove = (ArrayList)Session["iconListAvailableToRemove"];
+            overlayList = (ArrayList)Session["overlayList"];
+            tableNameList = (ArrayList)Session["tableNameList"];
+            MSQLTables = (SqlDataSource)Session["MSQLTables"];
+            SQLTables = (SqlDataSource)Session["SQLTables"];
+            oracleTables = (SqlDataSource)Session["oracleTables"];
+            colDataSource = (SqlDataSource)Session["colDataSource"];
+            tempId = (int)Session["tempId"];
+        }
+
+        private void sessionSave()
+        {
+            Session.Clear();
+            Session["curOverlayCount"] = curOverlayCount;
+            Session["tempSaveLoc"] = tempSaveLoc;
+            Session["fileSaveLoc"] = fileSaveLoc;
+            Session["validTypes"] = validTypes;
+            Session["alreadySetupLists"] = alreadySetupLists;
+            Session["iconList"] = iconList;
+            Session["iconListAvailableToAdd"] = iconListAvailableToAdd;
+            Session["iconListAvailableToRemove"] = iconListAvailableToRemove;
+            Session["overlayList"] = overlayList;
+            Session["tableNameList"] = overlayListAvailableToRemove;
+            Session["MSQLTables"] = MSQLTables;
+            Session["SQLTables"] = SQLTables;
+            Session["oracleTables"] = oracleTables;
+            Session["colDataSource"] = colDataSource;
+            Session["tempId"] = tempId;
         }
 
         /// <summary>
@@ -606,6 +670,7 @@ namespace HCI
                 i += 1;
             }
 
+            sessionSave();
             //Database db = new Database();
             //db.executeQueryLocal("INSERT INTO ICON (ID, connID) VALUES ('" + args + "', '" + Request.QueryString.Get("ConnID") + "')");
         }
@@ -647,7 +712,7 @@ namespace HCI
                 }
                 i += 1;
             }
-
+            sessionSave();
         }
 
         protected void addOverlayColorToConn(object sender, EventArgs e)
@@ -685,7 +750,7 @@ namespace HCI
                 this.fillOverlayPopupRemove();
                 this.genOverlayConditionTable(sender, e);
             }
-                 
+            sessionSave();
         }
 
         protected void removeOverlayColorFromConn(object sender, EventArgs e)
@@ -719,7 +784,7 @@ namespace HCI
                 }
                 i += 1;
             }
-
+            sessionSave();
         }
 
         /*protected void genDBTCol(object sender, EventArgs e)
@@ -1228,6 +1293,7 @@ namespace HCI
                 }
             }
             genIconConditionTable(sender, e);
+            sessionSave();
         }
 
         protected void addConditionToIcon(object sender, EventArgs e)
@@ -1271,6 +1337,7 @@ namespace HCI
                 }
             }
             genIconConditionTable(sender, e);
+            sessionSave();
         }
 
         protected void genOverlayConditionTable(object sender, EventArgs e)
@@ -1664,6 +1731,7 @@ namespace HCI
                 }
             }
             genOverlayConditionTable(sender, e);
+            sessionSave();
         }
 
         protected void addConditionToOverlay(object sender, EventArgs e)
@@ -1707,6 +1775,7 @@ namespace HCI
                 }
             }
             genOverlayConditionTable(sender, e);
+            sessionSave();
         }
 
         protected void addTableName_SelectedIndexChanged(object sender, EventArgs e)
@@ -1801,6 +1870,7 @@ namespace HCI
                 up = (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + id);
             
             //up.Update();
+            sessionSave();
         }
 
         protected ArrayList getColumnsForTable(ConnInfo cInfo, string tableName)
@@ -1859,6 +1929,7 @@ namespace HCI
                 }
             }
             fileUpEx = new FileUpload();
+            sessionSave();
         }
         //protected void URLsubmitClick(object sender, EventArgs e)
         //{
@@ -1954,6 +2025,7 @@ namespace HCI
             }
             fetchCheckBox.Checked = false;
             URLtextBox.Text = "";
+            sessionSave();
         }
         /// <summary>
         /// helper function used by saving icons without name overlap
@@ -2008,6 +2080,7 @@ namespace HCI
         }
         protected void modifyConnection(object sender, EventArgs e)
         {
+            sessionSave();
             saveIconList();
         }
         private void saveIconList()
@@ -2251,35 +2324,8 @@ namespace HCI
                     return;
                 }
             }
+            sessionSave();
         }
-
-        //private bool fetch;
-        //private String URL;
-        //private Database DB;
-        public const int height = 128;
-        public const int width = 128;
-        private static int curOverlayCount = -1;
-        public static String tempSaveLoc = @"C:\odbc2kml\temp\";
-        public static String fileSaveLoc = @"C:\odbc2kml\uploads\";
-        public ArrayList validTypes = new ArrayList();
-        private static bool alreadySetupLists = false;
-        private static ArrayList iconList = new ArrayList();
-        private static ArrayList iconListAvailableToAdd = new ArrayList();
-        private static ArrayList iconListAvailableToRemove = new ArrayList();
-        private static ArrayList overlayListAvailableToRemove = new ArrayList();
-        private static ArrayList overlayList = new ArrayList();
-        private static ArrayList tableNameList = new ArrayList();
-        private static SqlDataSource MSQLTables = new SqlDataSource();
-        private static SqlDataSource SQLTables = new SqlDataSource();
-        private static SqlDataSource oracleTables = new SqlDataSource();
-        private static SqlDataSource colDataSource = new SqlDataSource();
-        //private static SqlDataSource MSQLTables_Mapping = new SqlDataSource();
-        //private static SqlDataSource SQLTables_Mapping = new SqlDataSource();
-        //private static SqlDataSource oracleTables_Mapping = new SqlDataSource();
-        //private static SqlDataSource colDataSource_Mapping = new SqlDataSource();
-        //private static SqlDataSource ColGen = new SqlDataSource();
-        private static int tempId = -1;
-
 
 
         //editor methods
@@ -2340,6 +2386,7 @@ namespace HCI
             {
                 //Default case goes here
             }
+            sessionSave();
         }
 
         protected void dLink_Click(object sender, EventArgs e)
@@ -2670,7 +2717,7 @@ namespace HCI
                 iColFNBox.Items.Clear();
                 UpdateFieldCol.Update();
             }
-
+            sessionSave();
         }
 
         protected void GridViewColumns_PageIndexChanged(object sender, EventArgs e)
@@ -2718,6 +2765,7 @@ namespace HCI
 
             //Garbage collection
             connInfo_editor = null;
+            sessionSave();
         }
 
         protected void updateDescription(object sender, EventArgs e)
@@ -2741,7 +2789,7 @@ namespace HCI
                 Description.updateDescription(conID, descText);
                 descSuccess.Text = "Description updated successfully!";
             }
-
+            sessionSave();
         }
 
         protected void mapTogether_Click(object sender, EventArgs e)
