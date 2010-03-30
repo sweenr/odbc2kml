@@ -225,7 +225,7 @@ namespace HCI
 
                         if(rowIcon.getLocation() != "")
                         {
-                            rowStyle = new Style(rowIcon, color, (rowIcon.getId() + "_" + color.ToString("X")));
+                            rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                         }
                         else if (rowIcon.getLocation() == "" && color != 0)
                         {
