@@ -1237,7 +1237,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addLowerBound = new TextBox();
             addLowerBound.ID = "addIconLowerBound" + args;
-            addLowerBound.Width = 50;
+            addLowerBound.Width = 40;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1245,7 +1245,7 @@ namespace HCI
             DropDownList addLowerOperator = new DropDownList();
             addLowerOperator.ID = "addIconLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
-            addLowerOperator.Width = 50;
+            addLowerOperator.Width = 40;
             addLowerOperator.Items.Add("");
             addLowerOperator.Items.Add("<");
             addLowerOperator.Items.Add("<=");
@@ -1258,7 +1258,7 @@ namespace HCI
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addIconTable" + args;
             addTableName.CssClass = "inputDD";
-            addTableName.Width = 50;
+            addTableName.Width = 120;
             addTableName.AutoPostBack = true;
             ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
             if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
@@ -1291,7 +1291,7 @@ namespace HCI
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addIconField" + args;
             addFieldName.CssClass = "inputDD";
-            addFieldName.Width = 50;
+            addFieldName.Width = 120;
             addFieldName.AutoPostBack = true;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
@@ -1300,7 +1300,7 @@ namespace HCI
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "addIconUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
-            addUpperOperator.Width = 50;
+            addUpperOperator.Width = 40;
             addUpperOperator.Items.Add("");
             addUpperOperator.Items.Add("<");
             addUpperOperator.Items.Add("<=");
@@ -1314,7 +1314,7 @@ namespace HCI
             addUpperBound.ID = "addIconUpperBound" + args;
             addUpperBound.MaxLength = 30;
             addUpperBound.CssClass = "inputBox";
-            addUpperBound.Width = 50;
+            addUpperBound.Width = 40;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperBound);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1674,7 +1674,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
             TextBox addLowerBound = new TextBox();
             addLowerBound.ID = "addOverlayLowerBound" + args;
-            addLowerBound.Width = 50;
+            addLowerBound.Width = 40;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1682,7 +1682,7 @@ namespace HCI
             DropDownList addLowerOperator = new DropDownList();
             addLowerOperator.ID = "addOverlayLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
-            addLowerOperator.Width = 50;
+            addLowerOperator.Width = 40;
             addLowerOperator.Items.Add("");
             addLowerOperator.Items.Add("<");
             addLowerOperator.Items.Add("<=");
@@ -1695,7 +1695,7 @@ namespace HCI
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addOverlayTable" + args;
             addTableName.CssClass = "inputDD";
-            addTableName.Width = 50;
+            addTableName.Width = 120;
             addTableName.AutoPostBack = true;
             ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
             if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
@@ -1728,7 +1728,7 @@ namespace HCI
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addOverlayField" + args;
             addFieldName.CssClass = "inputDD";
-            addFieldName.Width = 50;
+            addFieldName.Width = 120;
             addFieldName.AutoPostBack = true;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
@@ -1737,7 +1737,7 @@ namespace HCI
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "addOverlayUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
-            addUpperOperator.Width = 50;
+            addUpperOperator.Width = 40;
             addUpperOperator.Items.Add("");
             addUpperOperator.Items.Add("<");
             addUpperOperator.Items.Add("<=");
@@ -1751,7 +1751,7 @@ namespace HCI
             addUpperBound.ID = "addOverlayUpperBound" + args;
             addUpperBound.MaxLength = 30;
             addUpperBound.CssClass = "inputBox";
-            addUpperBound.Width = 50;
+            addUpperBound.Width = 40;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperBound);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
