@@ -26,8 +26,8 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\odbc2kml\temp\";
-        public String fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
+        public String tempSaveLoc = @"C:\odbc2kml\tmp\";
+        public String fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\icons\";
         public String relativeFileSaveLoc = @"icons/";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
@@ -193,8 +193,8 @@ namespace HCI
             if (Session["curOverlayCount"] == null)
             {
                 curOverlayCount = -1;
-                tempSaveLoc = @"C:\odbc2kml\temp\";
-                fileSaveLoc = @"C:\Users\JP\Documents\Senior Design\hci\HCI\icons\";
+                tempSaveLoc = @"C:\odbc2kml\tmp\";
+                fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\icons";
                 relativeFileSaveLoc = @"icons/";
                 tempId = -1;
                 fillIconLibraryLists();
@@ -513,6 +513,24 @@ namespace HCI
                 overlayList.Add(over);
                 overlayListAvailableToRemove.Add(over);
             }
+        }
+
+        protected void addSingleIconToLib(String path)
+        {
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE location=\'"+path+"\'");
+            foreach (DataRow dr in dt.Rows)
+            {
+                string iconId = dr["ID"].ToString();
+                string iconLoc = dr["location"].ToString();
+                Icon icon = new Icon();
+                icon.setId(iconId);
+                icon.setLocation(iconLoc);
+                iconListAvailableToAdd.Add(icon);
+            }
+            fillIconLibraryPopup();
+            sessionSave();
         }
 
         protected void fillIconLibraryLists()
@@ -1926,6 +1944,7 @@ namespace HCI
         protected void btnSubmitClick(object sender, EventArgs e)
         {
             Boolean valid = false;
+            String pathToAdd = "";
             //checks to make sure there is an uploaded file
             if (fileUpEx.HasFile)
             {
@@ -1946,6 +1965,7 @@ namespace HCI
                     String suffix = GetRandomString();
                     String file = filename + suffix + file_ext;
                     String relativeName = relativeFileSaveLoc + file;
+                    pathToAdd = relativeName;
                     //save the file to the server
                     try
                     {
@@ -1985,7 +2005,7 @@ namespace HCI
                 }
             }
             fileUpEx = new FileUpload();
-            fillIconLibraryLists();
+            addSingleIconToLib(pathToAdd);
             sessionSave();
         }
         //protected void URLsubmitClick(object sender, EventArgs e)
@@ -2012,6 +2032,7 @@ namespace HCI
             String ext = System.IO.Path.GetExtension(URL);
             String suffix = GetRandomString();
             String tempName = tempSaveLoc + fileName + suffix + ext;
+            String pathToAdd = URL;
             try
             {
                 Client.DownloadFile(URL, tempName);
@@ -2038,6 +2059,7 @@ namespace HCI
             {
                 String Name = fileSaveLoc + fileName + suffix + ext;
                 String relativeName = relativeFileSaveLoc + fileName + suffix + ext;
+                pathToAdd = relativeName;
                 //checks if icon has valid dimensions
                 if (valid && ValidateFileDimensions(fs))
                 {
@@ -2119,7 +2141,7 @@ namespace HCI
             }
             fetchCheckBox.Checked = false;
             URLtextBox.Text = "";
-            fillIconLibraryLists();
+            addSingleIconToLib(pathToAdd);
             sessionSave();
         }
         /// <summary>
