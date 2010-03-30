@@ -105,6 +105,9 @@ function OnColorPicked(sender){
     <asp:SqlDataSource ID="oracleTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="MSQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <div id="wrapIt">
+    <asp:UpdatePanel ID="mainUP" runat="server" UpdateMode="Conditional">
+    <ContentTemplate>
+   
         <div id="header">
             <div id="logo">
             </div>
@@ -247,6 +250,7 @@ function OnColorPicked(sender){
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                             <div class="full">
+                          
                                 <table cellspacing="10" cellpadding="10" class="mainBox2">
                                     <tr>
                                         <td class="dbTitle">
@@ -1029,6 +1033,8 @@ function OnColorPicked(sender){
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" />
             </div>
         </div>
+         </ContentTemplate>
+    </asp:UpdatePanel>
     </div>
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">
     </asp:Panel>
