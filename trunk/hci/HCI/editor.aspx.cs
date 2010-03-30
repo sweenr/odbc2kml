@@ -433,7 +433,7 @@ namespace HCI
                 }
 
 
-                Mapping conMapping = Mapping.getMapping2(conID, selectedTable);
+                Mapping conMapping = Mapping.getMapping(conID, selectedTable);
 
                 string dbTable = conMapping.getTableName();
 
@@ -668,7 +668,7 @@ namespace HCI
             }
 
 
-            Mapping conMapping = Mapping.getMapping2(conID, selectedTable);
+            Mapping conMapping = Mapping.getMapping(conID, selectedTable);
             
             string dbTable = conMapping.getTableName();
             
@@ -716,7 +716,7 @@ namespace HCI
             string longFieldName = "";
             int format = 1;
 
-            Mapping saveMapping = Mapping.getMapping2(conID, tableName);
+            Mapping saveMapping = Mapping.getMapping(conID, tableName);
             string mapTblName = saveMapping.getTableName();
 
             if (LLSepPanel.Visible == true)

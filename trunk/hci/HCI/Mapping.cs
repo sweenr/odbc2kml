@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using System.Collections;
 using HCI;
 
 namespace HCI
@@ -171,38 +172,48 @@ namespace HCI
             }
         }
 
-        public static Mapping getMapping(int connID, string tableName)
+        /// <summary>
+        /// Get all of the mappings associated with a given connection.
+        /// </summary>
+        /// <param name="connID">int --> connection ID</param>
+        /// <returns>ArrayList --> Contains all mappings associated with this connection</returns>
+        public static ArrayList getMappings(int connID)
         {
-            Mapping mapping = new Mapping();
+            ArrayList mapping = new ArrayList();
             Database localDatabase = new Database();
 
             //Create mapping query and populate table
-            string query = "SELECT * FROM Mapping WHERE connID=" + connID + " AND tableName='" + tableName + "'";
+            string query = "SELECT * FROM Mapping WHERE connID=" + connID;
             DataTable table = localDatabase.executeQueryLocal(query);
 
             foreach (DataRow row in table.Rows)
             {
+                Mapping map = new Mapping();
+
                 foreach (DataColumn col in table.Columns)
                 {
                     //Set mapping
                     switch (col.ColumnName)
                     {
                         case "tableName":
-                            mapping.setTableName(row[col].ToString());
+                            map.setTableName(row[col].ToString());
                             break;
                         case "latFieldName":
-                            mapping.setLatFieldName(row[col].ToString());
+                            map.setLatFieldName(row[col].ToString());
                             break;
                         case "longFieldName":
-                            mapping.setLongFieldName(row[col].ToString());
+                            map.setLongFieldName(row[col].ToString());
                             break;
                         case "format":
-                            mapping.setFormat((int)row[col]);
+                            map.setFormat((int)row[col]);
                             break;
                         default:
                             break;                  
                     }
                 }
+                //Add mapping to list
+                mapping.Add(map);
+                map = null;
             }//End outer loop
 
             return mapping;
@@ -226,7 +237,13 @@ namespace HCI
             localDatabase.executeQueryLocal(query);
         }
 
-        public static Mapping getMapping2(int connID, string tableName)
+        /// <summary>
+        /// Get a specific mapping for a given tableName. Used to generate KML
+        /// </summary>
+        /// <param name="connID">int --> connection ID</param>
+        /// <param name="tableName">String --> Table name you want to fetch the mapping for</param>
+        /// <returns>Mapping --> Mapping of specific table name</returns>
+        public static Mapping getMapping(int connID, string tableName)
         {
             Mapping mapping = new Mapping();
             Database localDatabase = new Database();
@@ -254,11 +271,7 @@ namespace HCI
                         case "format":
                             mapping.setFormat((int)row[col]);
                             break;
-                        case "latlongFieldName":
-                            mapping.separate(row[col].ToString(), LATFIRST);
-                            break;
-                        case "longlatFieldName":
-                            mapping.separate(row[col].ToString(), LONGFIRST);
+                        default:
                             break;
 
                     }

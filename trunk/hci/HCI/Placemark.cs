@@ -14,6 +14,7 @@ namespace HCI
 {
     public class Placemark
     {
+        //Datatypes
         String name;
         String styleName;
         String description;
