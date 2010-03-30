@@ -278,6 +278,7 @@ namespace HCI
                     if (!addLookAt) //Add the first placemark as default lookat
                     {
                         kmlGenerator.addLookAt(p);
+                        addLookAt = true;
                     }
                 }
             }
