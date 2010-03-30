@@ -833,7 +833,7 @@ function OnColorPicked(sender){
                                                                     </tr>
                                                                 </table>
                                                                 <div class="right">
-                                                                    <asp:Button ID="btnOk3" runat="server" Text="Upload" CssClass="button" />
+                                                                    <asp:Button ID="btnOk3" runat="server" Text="" CssClass="button" />
                                                                     &nbsp;&nbsp;
                                                                     <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>
