@@ -1343,7 +1343,7 @@ namespace HCI
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
             OverlayConditionPanel.Controls.Clear();
-            if (iconList.Count == 0)  // No images set for the condition. Display a simple table stating such.
+            if (overlayList.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
