@@ -108,18 +108,18 @@ namespace HCI
 
 
             //resultsPanel.Visible = true;
+            bool altTables = true;
 
-
-            Page.Controls.Add(new LiteralControl("<span>&nbsp;Database Query Results</span>"));
+            Page.Controls.Add(new LiteralControl("<span style=\"color: white; font-weight:bold;\">&nbsp;" + table +" Database Query Results</span>"));
             Page.Controls.Add(new LiteralControl("<div>"));
 
-            Page.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"2\" border=\"0\">"));
+            Page.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"2\" border=\"1\">"));
 
             Page.Controls.Add(new LiteralControl("<tr><td>"));
             Page.Controls.Add(new LiteralControl("<div>"));
-            Page.Controls.Add(new LiteralControl("<table cellspacing=\"2\" cellpadding=\"2\" rules=\"all\" style=\"border:0px\">"));
+            Page.Controls.Add(new LiteralControl("<table cellspacing=\"2\" cellpadding=\"2\" rules=\"all\">"));
 
-            Page.Controls.Add(new LiteralControl("<tr>"));
+            Page.Controls.Add(new LiteralControl("<tr class=\"titleConn\">"));
             foreach (DataColumn dc in dt.Columns)
             {
                 Page.Controls.Add(new LiteralControl("<td><b>" + dc.ColumnName + "<br/></b></td>"));
@@ -127,20 +127,29 @@ namespace HCI
             Page.Controls.Add(new LiteralControl("</tr>"));
             foreach (DataRow dr in dt.Rows)
             {
-
-                Page.Controls.Add(new LiteralControl("<tr>"));
-                foreach (Object data in dr.ItemArray)
+                if (altTables)
                 {
-                    Page.Controls.Add(new LiteralControl("<td>" + data.ToString() + "</td>"));
+                    Page.Controls.Add(new LiteralControl("<tr class=\"evenConn\">"));
+                    foreach (Object data in dr.ItemArray)
+                    {
+                        Page.Controls.Add(new LiteralControl("<td>" + data.ToString() + "</td>"));
+                    }
+                    Page.Controls.Add(new LiteralControl("</tr>"));
                 }
-                Page.Controls.Add(new LiteralControl("</tr>"));
+                else
+                {
+                    Page.Controls.Add(new LiteralControl("<tr class=\"oddConn\">"));
+                    foreach (Object data in dr.ItemArray)
+                    {
+                        Page.Controls.Add(new LiteralControl("<td>" + data.ToString() + "</td>"));
+                    }
+                    Page.Controls.Add(new LiteralControl("</tr>"));
+                }
 
+                altTables = !altTables;
             }
 
             Page.Controls.Add(new LiteralControl("</table>"));
-            Page.Controls.Add(new LiteralControl("<div align=\"right\" style=\"padding-top: 20px;\">"));
-            Page.Controls.Add(new LiteralControl("<input type=\"submit\" ID=\"hideResults\" value=\"Hide Results\" />"));
-            Page.Controls.Add(new LiteralControl("</div>"));
             Page.Controls.Add(new LiteralControl("</td></tr>"));
             Page.Controls.Add(new LiteralControl("</div>"));
             Page.Controls.Add(new LiteralControl("</span>"));
