@@ -147,12 +147,14 @@ namespace HCI
             {
                 //TODO: REMOVE ALL TEST CODE FROM THIS BLOCK
                 String blah = kml.generateKML(int.Parse(args));
-                blah = blah.Replace("<", "&lt;");
-                blah = blah.Replace(">", "&gt;");
-                Literal balh2 = new Literal();
-                balh2.ID = "abc123";
-                balh2.Text = "<pre>" + blah + "</pre>";
-                errorPanel1.Controls.Add(balh2);
+                Connection conn = new Connection(int.Parse(args));
+                conn.populateFields();
+
+                Response.ClearHeaders();
+                Response.ClearContent();
+                Response.ContentType = "application/vnd.google-earth.kml+xml kml";
+                Response.AddHeader("Content-Disposition", "attachment; filename=\"" + (conn.getConnInfo()).getConnectionName() + ".kml");
+                Response.Write(blah);
             }
             catch (ODBC2KMLException error) 
             {
