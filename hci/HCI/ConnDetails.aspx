@@ -99,15 +99,13 @@ function OnColorPicked(sender){
     <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
         runat="server">na</a>
     <form id="connDetailsForm" runat="server">
-    <asp:ScriptManager ID="ConnSMgr2" runat="server" />
+    <asp:ScriptManager ID="ConnSMgr2" runat="server" EnablePartialRendering="true" />
     <asp:SqlDataSource ID="SQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="oracleTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="MSQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <div id="wrapIt">
-    <asp:UpdatePanel ID="mainUP" runat="server" UpdateMode="Conditional">
-    <ContentTemplate>
-   
+    
         <div id="header">
             <div id="logo">
             </div>
@@ -1051,8 +1049,7 @@ function OnColorPicked(sender){
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" />
             </div>
         </div>
-         </ContentTemplate>
-    </asp:UpdatePanel>
+
     </div>
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">
     </asp:Panel>

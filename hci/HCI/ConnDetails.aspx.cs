@@ -170,6 +170,7 @@ namespace HCI
                     sessionSave();
                 }
             }
+
             sessionLoad();
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
@@ -253,6 +254,7 @@ namespace HCI
         private void LockPage()
         {
             addLatLong.Visible = false;
+            descriptionBox.Enabled = false;
 
             foreach (Control c in Page.Controls)
             {
@@ -264,7 +266,8 @@ namespace HCI
                     }
                     else if (ctrl is Button)
                     {
-                        ((Button)ctrl).Visible = false;
+                        if(ctrl.ClientID != cancel.ClientID)
+                            ((Button)ctrl).Visible = false;
                     }
                     else if (ctrl is RadioButton)
                     {
