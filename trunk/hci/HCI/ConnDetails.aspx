@@ -233,7 +233,7 @@ function OnColorPicked(sender){
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <div class="right">
+                                            <div align="right">
                                                 <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
                                                 <asp:Label ID="unableToConnect" runat="server" Visible="false" Text="Unable to connect to the selected database!" />&nbsp;&nbsp;
                                                 <asp:Label ID="connectionEstablished" runat="server" Visible="false" Text="Successfully connected to the database!" />&nbsp;&nbsp;
@@ -291,7 +291,21 @@ function OnColorPicked(sender){
                                         <td class="tdSpace3">
                                         </td>
                                         <td class="mainBox3" valign="top" align="left">
+                                        <asp:Label ID="viewLatLongErrorLabel" runat="server" Visible ="false" CssClass="descLabelError" Text="There are not lat/long mappings for this table."></asp:Label>
+                                        <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1">
+                                        <table><tr><td>
+                                        <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel"></asp:Label></td><td>
+                                        &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
+                                        <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel"></asp:Label></td><td>
+                                        &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                        </td></tr></table>
+                                        </asp:Panel>
+                                        <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1">
+                                        <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel"></asp:Label>
+                                        <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                        </asp:Panel>
                                             <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
+                                            <br />
                                                 <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
                                                     <tr>
                                                         <td>
@@ -378,6 +392,8 @@ function OnColorPicked(sender){
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="tblColumnsPanel" runat="server">
+                                            <br />
+                                            
                                                 <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
                                                     CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None" PageSize="10"
                                                     ShowHeader="False" Width="100%" OnPageIndexChanged="GridViewColumns_PageIndexChanged">
@@ -395,10 +411,9 @@ function OnColorPicked(sender){
                                                 </asp:GridView>
                                             </asp:Panel>
                                             <asp:Panel ID="columnMessage" runat="server" Visible="true">
-                                                <p>
-                                                </p>
                                                 <asp:Label ID="selectTableMessage" runat="server" Text="Select a database table to view the table's columns and latitude/longitude information."
                                                     CssClass="descLabel"></asp:Label>
+                                                    <p></p>
                                             </asp:Panel>
                                             <asp:Panel ID="columnButtons" runat="server" Visible="false">
                                                 <p>
