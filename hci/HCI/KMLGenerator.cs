@@ -242,6 +242,8 @@ namespace HCI
                         rowPlacemark = new Placemark(rowLat, rowLon, rowDesc, "test");
                         placemarks.Add(rowPlacemark);
 
+              
+                      
                         //If there is a row style, add it to the placemark and the array list
                         if (rowStyle != null)
                         {
@@ -266,10 +268,17 @@ namespace HCI
                     kmlGenerator.addStyle(s);
                 }
 
+                //Used to check if a look at has been added
+                Boolean addLookAt = false;
+
                 //Add each placemark to the KML
                 foreach (Placemark p in placemarks)
                 {
                     kmlGenerator.addPlacemark(p);
+                    if (!addLookAt) //Add the first placemark as default lookat
+                    {
+                        kmlGenerator.addLookAt(p);
+                    }
                 }
             }
             catch (ODBC2KMLException e) //If bad things happen pass it up to connection details

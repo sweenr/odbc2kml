@@ -74,7 +74,7 @@ namespace HCI
             }
             formattedKML +=       
                 "\t\t\t<Point>\n" +
-                "\t\t\t\t<altitudeMode>clampToGround</altitudeMode>\n" +
+                "\t\t\t\t<altitudeMode>relativeToGround</altitudeMode>\n" +
                 "\t\t\t\t<coordinates>" + place.getPlacemarkLongitude() + "," + place.getPlacemarkLatitude() + "</coordinates>\n" +
                 "\t\t\t</Point>\n" +
                 "\t</Placemark>\n";
@@ -112,19 +112,50 @@ namespace HCI
             {
                 if (style.getStyleIcon().getLocation() == "")
                 {
+                    String color = style.getStyleColor().ToString("X");
+                    Char[] colorHandler = color.ToCharArray();
+
+                    //Swap the RGB to BGR, if not, google will not interpret the colors correctly
+                    for (int x = 0; x < 3; x++)
+                    {
+                        Char temp = colorHandler[x+2];
+                        colorHandler[x+2] = colorHandler[colorHandler.Length-x];
+                        colorHandler[colorHandler.Length-x] = temp;
+                    }
+
+                    //Set color
+                    color = colorHandler.ToString();
+                    colorHandler = null;
+
                     formattedKML +=
                         "\t<Style id='" + style.getStyleName() + "'>\n" +
                         "\t<IconStyle>\n" +
-                        "\t\t<color>" + style.getStyleColor().ToString("X") + "</color>\n" +
+                        "\t\t<color>" + color + "</color>\n" +
                         "\t</IconStyle>\n" +
                         "\t</Style>\n";
                 }
                 else
                 {
+                    String color = style.getStyleColor().ToString("X");
+                    Char[] colorHandler = color.ToCharArray();
+
+                    //Swap the RGB to BGR, if not, google will not interpret the colors correctly
+                    for (int x = 0; x < 3; x++)
+                    {
+                        Char temp = colorHandler[x + 2];
+                        colorHandler[x + 2] = colorHandler[colorHandler.Length - x];
+                        colorHandler[colorHandler.Length - x] = temp;
+                    }
+
+                    //Set color
+                    color = colorHandler.ToString();
+                    colorHandler = null;
+
+
                     formattedKML +=
                         "\t<Style id='" + style.getStyleName() + "'>\n" +
                         "\t<IconStyle>\n" +
-                        "\t\t<color>" + style.getStyleColor().ToString("X") + "</color>\n" +
+                        "\t\t<color>" + color + "</color>\n" +
                         "\t\t<Icon>\n" +
                         "\t\t\t<href>" + style.getStyleIcon().getLocation() + "</href>\n" +
                         "\t\t</Icon>\n" +
@@ -132,6 +163,23 @@ namespace HCI
                         "\t</Style>\n";
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a default position for the KML file to view.
+        /// It looks at the first placemark added.
+        /// </summary>
+        /// <param name="place">Placemark --> desired look at placemark</param>
+        public void addLookAt(Placemark place)
+        {
+            formattedKML += 
+                "\t<LookAt>" +
+                "\t\t<longitude>" + place.getPlacemarkLongitude() + "</longitude>" +
+                "<latitude>" + place.getPlacemarkLatitude() + "</latitude>" +
+                "<heading>0</heading> " + 
+                "<range>3000000</range>" +
+                "<altitudeMode>relativeToGround</altitudeMode>" +
+                "\t</LookAt>";
         }
     }
 }
