@@ -3011,7 +3011,6 @@ namespace HCI
                 {
                 }
 
-
                 Mapping conMapping = Mapping.getMapping2(conID, selectedTable);
 
                 string dbTable = conMapping.getTableName();
@@ -3155,6 +3154,11 @@ namespace HCI
             mapSuccess.Visible = false;
             sessionSave();
 
+
+            viewLatLongErrorLabel.Visible = true;
+            viewLatLongPanel.Visible = false;
+            viewLatLongPanel2.Visible = false;
+
         }
 
         protected void mapUpdates(SqlDataSource temp, string latitude, string longitude, int format)
@@ -3178,10 +3182,19 @@ namespace HCI
             llDD.SelectedValue = latitude;
             llUP.Update();
 
+
+            viewLatLongErrorLabel.Visible = false;
+
             if (format == 1)
             {
                 LLSepPanel.Visible = true;
                 LLTogetherPanel.Visible = false;
+
+                currentLatLabel.Text = latitude;
+                currentLongLabel.Text = longitude;
+
+                viewLatLongPanel.Visible = true;
+                viewLatLongPanel2.Visible = false;
             }
             else
             {
@@ -3189,11 +3202,20 @@ namespace HCI
                 {
                     LatLongCheck.Checked = true;
                     LongLatCheck.Checked = false;
+                    viewLatLongPanel.Visible = false;
+                    viewLatLongPanel2.Visible = true;
+                    viewLatLongLabel.Text = "Latitude/Longitude Field: ";
+                    currentLatLongLabel.Text = latitude;
                 }
                 else
                 {
                     LatLongCheck.Checked = false;
                     LongLatCheck.Checked = true;
+                    viewLatLongPanel.Visible = false;
+                    viewLatLongPanel2.Visible = true;
+
+                    viewLatLongLabel.Text = "Longitude/Latitude Field: ";
+                    currentLatLongLabel.Text = latitude;
                 }
 
                 LLSepPanel.Visible = false;
@@ -3307,6 +3329,7 @@ namespace HCI
             string latFieldName = "";
             string longFieldName = "";
             int format = 1;
+            viewLatLongErrorLabel.Visible = false;
 
             int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             Mapping saveMapping = Mapping.getMapping2(conID, tableName);
@@ -3325,6 +3348,12 @@ namespace HCI
                 {
                     mapError1.Visible = false;
                     mapError2.Visible = false;
+
+                    viewLatLongPanel.Visible = true;
+                    viewLatLongPanel2.Visible = false;
+
+                    currentLatLabel.Text = latFieldName;
+                    currentLongLabel.Text = longFieldName;
 
                     if (mapTblName == null)
                     {
@@ -3358,10 +3387,20 @@ namespace HCI
                     if (LongLatCheck.Checked)
                     {
                         format = 3;
+                        viewLatLongPanel.Visible = false;
+                        viewLatLongPanel2.Visible = true;
+
+                        viewLatLongLabel.Text = "Longitude/Latitude Field: ";
+                        currentLatLongLabel.Text = latFieldName;
                     }
                     else
                     {
                         format = 2;
+                        viewLatLongPanel.Visible = false;
+                        viewLatLongPanel2.Visible = true;
+
+                        viewLatLongLabel.Text = "Latitude/Longitude Field: ";
+                        currentLatLongLabel.Text = latFieldName;
                     }
                     if (mapTblName == null)
                     {
@@ -3380,5 +3419,6 @@ namespace HCI
             }
             sessionSave();
         }
+
     }
 }
