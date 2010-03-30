@@ -469,33 +469,40 @@ namespace HCI
             int currentBoxCount = 0;
             removeOverlayInteriorPanel.Controls.Clear();
             removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
-            foreach (Overlay over in overlayListAvailableToRemove)
+            if (overlayListAvailableToRemove.Count == 0)
             {
-                if (currentBoxCount == sizeOfBox)
+                removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">No overlays currently exist for this connection.</td></tr>\n"));
+            }
+            else
+            {
+                foreach (Overlay over in overlayListAvailableToRemove)
                 {
-                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                    currentBoxCount = 0;
+                    if (currentBoxCount == sizeOfBox)
+                    {
+                        removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                        currentBoxCount = 0;
+                    }
+                    if (currentBoxCount == 0)
+                    {
+                        removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    }
+
+                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<td>"));
+                    ImageButton imgBtn = new ImageButton();
+                    imgBtn.ID = "overlayLib_" + over.getId().ToString();
+                    System.Drawing.ColorConverter colConvert = new System.Drawing.ColorConverter();
+                    imgBtn.BackColor = (System.Drawing.Color)colConvert.ConvertFromString("#" + over.getColor());
+                    imgBtn.CssClass = "overlayBox";
+                    imgBtn.Click += new ImageClickEventHandler(removeOverlayColorFromConn);
+                    imgBtn.CommandArgument = over.getColor().ToString();
+                    imgBtn.AlternateText = "   Remove Color   ";
+
+                    removeOverlayInteriorPanel.Controls.Add(imgBtn);
+                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</td>"));
+
+
+                    currentBoxCount += 1;
                 }
-                if (currentBoxCount == 0)
-                {
-                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                }
-
-                removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<td>"));
-                ImageButton imgBtn = new ImageButton();
-                imgBtn.ID = "overlayLib_" + over.getId().ToString();
-                System.Drawing.ColorConverter colConvert = new System.Drawing.ColorConverter();
-                imgBtn.BackColor = (System.Drawing.Color)colConvert.ConvertFromString("#"+over.getColor());
-                imgBtn.CssClass = "overlayBox";
-                imgBtn.Click += new ImageClickEventHandler(removeOverlayColorFromConn);
-                imgBtn.CommandArgument = over.getColor().ToString();
-                imgBtn.AlternateText = "   Remove Color   ";
-
-                removeOverlayInteriorPanel.Controls.Add(imgBtn);
-                removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</td>"));
-
-
-                currentBoxCount += 1;
             }
             removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</table>\n"));
         }
