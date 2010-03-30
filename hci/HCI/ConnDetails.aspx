@@ -446,7 +446,7 @@ function OnColorPicked(sender){
                                         OnClick="dNewline_Click" />&nbsp;&nbsp;
                                     <br />
                                     <br />
-                                    <asp:UpdatePanel runat="server" ID="dUpdatePanel">
+                                    <asp:UpdatePanel runat="server" ID="dUpdatePanel" UpdateMode="Conditional">
                                         <ContentTemplate>
                                             <asp:Panel ID="dLinkPanel" runat="server" Visible="false" CssClass="descPanel">
                                                 <table class="descPanelTable">
@@ -615,7 +615,10 @@ function OnColorPicked(sender){
                                             
                                         </ContentTemplate>
                                         <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="dLinkInsert" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="dLink" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="dTable" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="dField" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="dBr" EventName="Click" />
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
