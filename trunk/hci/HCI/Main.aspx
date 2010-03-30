@@ -18,6 +18,8 @@
 <body>
     <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
         runat="server">na</a>
+        <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink2"
+        runat="server">na</a>
     <form id="mainForm" runat="server">
     <div id="wrapIt">
         <div id="header">
@@ -62,14 +64,14 @@
                                         <tr>
                                             <td>
                                                 <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
-                                                    AlternateText="Create Connection" ToolTip="New Connection" />
+                                                    AlternateText="Create Connection" ToolTip="New Connection" OnClick="launchNewConnection" />
                                             </td>
                                             <td>
                                                 <div class="newConnA">
-                                                    <asp:HyperLink ID="newConnectionA" runat="server" ToolTip="New Connection">New Connection</asp:HyperLink>
+                                                    <asp:Button ID="newConnectionA" runat="server" CssClass="button" ToolTip="New Connection" Text="New Connection" OnClick="launchNewConnection"></asp:Button>
                                                     <!-- Sample Extender for New Connection Button --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="newConnCancel"
-                                                        runat="server" PopupControlID="newConnPanel" ID="NewConn1ModalPopUp" TargetControlID="newConnection" />
+                                                        runat="server" PopupControlID="newConnPanel" ID="NewConn1ModalPopUp" TargetControlID="dummyLink2" />
                                                     <!-- Sample Panels for Connection Pop-Ups --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="cancelDelConn"
                                                         runat="server" PopupControlID="deleteConnPanel" ID="deletePopupExtender" TargetControlID="dummyLink" />
