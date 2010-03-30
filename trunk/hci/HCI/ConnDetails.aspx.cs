@@ -555,15 +555,19 @@ namespace HCI
                         removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     }
 
-                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<td>"));
+                    removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">"));
                     ImageButton imgBtn = new ImageButton();
                     imgBtn.ID = "overlayLib_" + over.getId().ToString();
                     System.Drawing.ColorConverter colConvert = new System.Drawing.ColorConverter();
                     imgBtn.BackColor = (System.Drawing.Color)colConvert.ConvertFromString("#" + over.getColor());
                     imgBtn.CssClass = "overlayBox";
+                    imgBtn.BorderColor = (System.Drawing.Color)colConvert.ConvertFromString("#000000");
+                    imgBtn.BorderWidth = Unit.Pixel(1);
+                    imgBtn.Width = Unit.Pixel(25);
+                    imgBtn.Height = Unit.Pixel(25);
                     imgBtn.Click += new ImageClickEventHandler(removeOverlayColorFromConn);
                     imgBtn.CommandArgument = over.getColor().ToString();
-                    imgBtn.AlternateText = "   Remove Color   ";
+                    imgBtn.AlternateText = "Remove";
 
                     removeOverlayInteriorPanel.Controls.Add(imgBtn);
                     removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</td>"));
@@ -600,6 +604,7 @@ namespace HCI
                 imgBtn.ImageUrl = icn.getLocation().ToString();
                 imgBtn.Click += new ImageClickEventHandler(removeIconFromConnFunct);
                 imgBtn.CommandArgument = icn.getId().ToString();
+                imgBtn.AlternateText = icn.getLocation().ToString();
 
                 removeIconFromConn.Controls.Add(imgBtn);
                 removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
@@ -636,6 +641,7 @@ namespace HCI
                 imgBtn.ImageUrl = icn.getLocation().ToString();
                 imgBtn.Click += new ImageClickEventHandler(addIconFromLibraryToConn);
                 imgBtn.CommandArgument = icn.getId().ToString();
+                imgBtn.AlternateText = icn.getLocation().ToString();
 
                 addIconToLibary.Controls.Add(imgBtn);
                 addIconToLibary.Controls.Add(new LiteralControl("</td>"));
