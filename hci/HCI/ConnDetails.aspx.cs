@@ -753,7 +753,21 @@ namespace HCI
                     iconSaved.setId(icon.getId());
                     iconSaved.setLocation(icon.getLocation());
                     iconListAvailableToRemove.RemoveAt(i);
-                    iconListAvailableToAdd.Add(iconSaved);
+                    int j = 0;
+                    foreach (Icon icon2 in iconListAvailableToAdd)
+                    {
+                        if (System.Convert.ToInt32(iconSaved.getId()) < System.Convert.ToInt32(icon2.getId()))
+                        {
+                            iconListAvailableToAdd.Insert(j,iconSaved);
+                            break;
+                        }
+                        j += 1;
+                        if (j == iconListAvailableToAdd.Count)
+                        {
+                            iconListAvailableToAdd.Add(iconSaved);
+                            break;
+                        }
+                    }
                     this.fillIconLibraryPopup();
                     this.fillIconLibraryPopupRemove();
                     this.genIconConditionTable(sender, e);
