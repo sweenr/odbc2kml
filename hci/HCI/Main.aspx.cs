@@ -166,9 +166,17 @@ namespace HCI
             //Response.Redirect("Main.aspx", true);
         }
 
+        protected void launchNewConnection(object sender, EventArgs e)
+        {
+            this.NewConn1ModalPopUp.Show();
+
+            return;
+        }
+
         protected void createConnection(object sender, EventArgs e)
         {
             //this.NewConn1ModalPopUp.Hide();
+            validNewConn.Visible = false;
 
             String ConnName = odbcNameE.Text.ToString();
             String ConnDBName = odbcDNameE.Text.ToString();
