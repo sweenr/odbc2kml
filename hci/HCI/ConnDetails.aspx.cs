@@ -199,6 +199,7 @@ namespace HCI
             iconList = (ArrayList)Session["iconList"];
             iconListAvailableToAdd = (ArrayList)Session["iconListAvailableToAdd"];
             iconListAvailableToRemove = (ArrayList)Session["iconListAvailableToRemove"];
+            overlayListAvailableToRemove = (ArrayList)Session["overlayListAvailableToRemove"];
             overlayList = (ArrayList)Session["overlayList"];
             tableNameList = (ArrayList)Session["tableNameList"];
             MSQLTables = (SqlDataSource)Session["MSQLTables"];
@@ -220,8 +221,9 @@ namespace HCI
             Session["iconList"] = iconList;
             Session["iconListAvailableToAdd"] = iconListAvailableToAdd;
             Session["iconListAvailableToRemove"] = iconListAvailableToRemove;
+            Session["overlayListAvailableToRemove"] = overlayListAvailableToRemove;
             Session["overlayList"] = overlayList;
-            Session["tableNameList"] = overlayListAvailableToRemove;
+            Session["tableNameList"] = tableNameList;
             Session["MSQLTables"] = MSQLTables;
             Session["SQLTables"] = SQLTables;
             Session["oracleTables"] = oracleTables;
@@ -906,6 +908,7 @@ namespace HCI
                 icon.setLocation(iconLoc);
                 iconList.Add(icon);
             }
+            sessionSave();
         }
 
         protected void genIconConditionTable(object sender, EventArgs e)
