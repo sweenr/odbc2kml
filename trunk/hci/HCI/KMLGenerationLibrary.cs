@@ -112,19 +112,18 @@ namespace HCI
             {
                 if (style.getStyleIcon().getLocation() == "")
                 {
-                    String color = style.getStyleColor().ToString("X");
-                    Char[] colorHandler = color.ToCharArray();
+                    Char[] colorHandler = style.getStyleColor().ToString("X").ToCharArray();
 
                     //Swap the RGB to BGR, if not, google will not interpret the colors correctly
                     for (int x = 0; x < 3; x++)
                     {
                         Char temp = colorHandler[x+2];
-                        colorHandler[x+2] = colorHandler[colorHandler.Length-x];
-                        colorHandler[colorHandler.Length-x] = temp;
+                        colorHandler[x+2] = colorHandler[colorHandler.Length-x-1];
+                        colorHandler[colorHandler.Length-x-1] = temp;
                     }
 
                     //Set color
-                    color = colorHandler.ToString();
+                    String color = new String(colorHandler);
                     colorHandler = null;
 
                     formattedKML +=
@@ -136,19 +135,18 @@ namespace HCI
                 }
                 else
                 {
-                    String color = style.getStyleColor().ToString("X");
-                    Char[] colorHandler = color.ToCharArray();
+                    Char[] colorHandler = style.getStyleColor().ToString("X").ToCharArray();
 
                     //Swap the RGB to BGR, if not, google will not interpret the colors correctly
                     for (int x = 0; x < 3; x++)
                     {
                         Char temp = colorHandler[x + 2];
-                        colorHandler[x + 2] = colorHandler[colorHandler.Length - x];
-                        colorHandler[colorHandler.Length - x] = temp;
+                        colorHandler[x + 2] = colorHandler[colorHandler.Length-x-1];
+                        colorHandler[colorHandler.Length-x-1] = temp;
                     }
 
                     //Set color
-                    color = colorHandler.ToString();
+                    String color = new String(colorHandler);
                     colorHandler = null;
 
 
