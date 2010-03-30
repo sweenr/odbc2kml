@@ -1036,7 +1036,12 @@ function OnColorPicked(sender){
                         <br />
                         <br />
                         <div class="right">
-                            <asp:Button ID="cancel" runat="server" Text="Cancel Changes" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
+                        <% if (Request.QueryString.Get("locked") == "true")
+                           { %>
+                            <asp:Button ID="cancel" runat="server" Text="Cancel" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
+                        <% } else {%>
+                            <asp:Button ID="Button1" runat="server" Text="Cancel Changes" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
+                        <% } %>
                             <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
                                 CssClass="button" />
                         </div>
