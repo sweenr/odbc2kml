@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">
-    <title>Database test</title>
+    <title>View Table Data</title>
    
     <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script> 
     <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
