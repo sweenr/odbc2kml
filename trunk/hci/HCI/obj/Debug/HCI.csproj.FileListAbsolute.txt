@@ -75,3 +75,8 @@ C:\Users\Administrator\Documents\SEDesign\odbc2kml\hci\HCI\bin\HCI.pdb
 C:\Users\Administrator\Documents\SEDesign\odbc2kml\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\SEDesign\odbc2kml\hci\HCI\obj\Debug\HCI.dll
 C:\Users\Administrator\Documents\SEDesign\odbc2kml\hci\HCI\obj\Debug\HCI.pdb
+C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\bin\HCI.dll
+C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\bin\HCI.pdb
+C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\obj\Debug\HCI.dll
+C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\obj\Debug\HCI.pdb

@@ -218,6 +218,7 @@
       <DependentUpon>editor.aspx</DependentUpon>
     </Compile>
     <Compile Include="ErrorHandler.cs" />
+    <Compile Include="HashStyleComparer.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="KMLGenerationLibrary.cs" />
     <Compile Include="KMLGenerator.cs" />
@@ -260,7 +261,9 @@
       <DependentUpon>Overlay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Overlay.cs" />
+    <Compile Include="Placemark.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Style.cs" />
     <Compile Include="Upload.aspx.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
