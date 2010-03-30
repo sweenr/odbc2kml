@@ -2166,8 +2166,8 @@ namespace HCI
                     //upperOperator = Convert.ToInt32(condition.getUpperOperator());
                     //lowerOperator = int.Parse(condition.getLowerOperator());
                     //upperOperator = int.Parse(condition.getUpperOperator());
-                    lowerOperator = Condition.lowerOperatorStringToInt(condition.getLowerOperator());
-                    upperOperator = Condition.upperOperatorStringToInt(condition.getUpperOperator());
+                    lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
+                    upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
                     lowerBound = condition.getLowerBound();
                     upperBound = condition.getUpperBound();
                     fieldName = condition.getFieldName();
@@ -2266,8 +2266,8 @@ namespace HCI
                     String lowerBound, upperBound, fieldName, tableName = "";
                     //ID = Convert.ToInt32(condition.getId());
                     //ID = int.Parse(condition.getId());
-                    lowerOperator = Condition.lowerOperatorStringToInt(condition.getLowerOperator());
-                    upperOperator = Condition.upperOperatorStringToInt(condition.getUpperOperator());
+                    lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
+                    upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
                     //lowerOperator = int.Parse(condition.getLowerOperator());
                     //upperOperator = int.Parse(condition.getUpperOperator());
                     lowerBound = condition.getLowerBound();

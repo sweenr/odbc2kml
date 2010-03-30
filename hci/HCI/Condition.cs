@@ -64,43 +64,7 @@ namespace HCI
             id = 0;
         }
 
-        public static string upperOperatorIntToString(int op)
-        {
-            if (op == 1)
-                return ">";
-            else if (op == 2)
-                return ">=";
-            else if (op == 3)
-                return "<";
-            else if (op == 4)
-                return "<=";
-            else if (op == 5)
-                return "==";
-            else if (op == 6)
-                return "!=";
-            else  // NONE or invalid
-                return "";
-        }
-
-        public static int upperOperatorStringToInt(string op)
-        {
-            if (op == ">")
-                return 1;
-            else if (op == ">=")
-                return 2;
-            else if (op == "<")
-                return 3;
-            else if (op == "<=")
-                return 4;
-            else if (op == "==")
-                return 5;
-            else if (op == "!=")
-                return 6;
-            else
-                return 0;
-        }
-
-        public static string lowerOperatorIntToString(int op)
+        public static string operatorIntToString(int op)
         {
             if (op == 1)
                 return "<";
@@ -118,7 +82,7 @@ namespace HCI
                 return "";
         }
 
-        public static int lowerOperatorStringToInt(string op)
+        public static int operatorStringToInt(string op)
         {
             if (op == "<")
                 return 1;
@@ -165,13 +129,13 @@ namespace HCI
         //Retrieve lowerOperator
         public string getLowerOperator()
         {
-            return lowerOperatorIntToString(lowerOperator);
+            return operatorIntToString(lowerOperator);
         }
 
         //Retrieve upperOperator
         public string getUpperOperator()
         {
-            return upperOperatorIntToString(upperOperator);
+            return operatorIntToString(upperOperator);
         }
 
         public string getId()
@@ -213,7 +177,7 @@ namespace HCI
 
         public void setLowerOperator(string lowerOperator)
         {
-            this.lowerOperator = lowerOperatorStringToInt(lowerOperator);
+            this.lowerOperator = operatorStringToInt(lowerOperator);
         }
 
         //Set upperOperator
@@ -224,7 +188,7 @@ namespace HCI
 
         public void setUpperOperator(string upperOperator)
         {
-            this.upperOperator = upperOperatorStringToInt(upperOperator);
+            this.upperOperator = operatorStringToInt(upperOperator);
         }
 
         public void setId(int ID)
@@ -313,7 +277,7 @@ namespace HCI
             {
                 if (row[condition.getFieldName()] != null)
                 {
-                    if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) != Condition.NONE && Condition.lowerOperatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
+                    if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE && Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
                     {
                         Double lower;
                         Double upper;
@@ -332,42 +296,42 @@ namespace HCI
                             for (int count = 0; count < 6; count++)
                             {
                                 //Check the lower operator
-                                if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 1)
-                                {
-                                    if (lower > value)
-                                    {
-                                        passLowerOperator = true;
-                                    }
-                                }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 2)
-                                {
-                                    if (lower >= value)
-                                    {
-                                        passLowerOperator = true;
-                                    }
-                                }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 3)
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
                                 {
                                     if (lower < value)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
                                 {
                                     if (lower <= value)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
+                                {
+                                    if (lower > value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
+                                {
+                                    if (lower >= value)
+                                    {
+                                        passLowerOperator = true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
                                 {
                                     if (lower == value)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
                                 {
                                     if (lower != value)
                                     {
@@ -376,42 +340,42 @@ namespace HCI
                                 }
 
                                 //Check the upper operator
-                                if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 1)
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
                                 {
                                     if (upper > value)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 2)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
                                 {
                                     if (upper >= value)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 3)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
                                 {
                                     if (upper < value)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
                                 {
                                     if (upper <= value)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
                                 {
                                     if (upper == value)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
                                 {
                                     if (upper != value)
                                     {
@@ -441,42 +405,42 @@ namespace HCI
                             for (int count = 0; count < 6; count++)
                             {
                                 //Check the lower operator
-                                if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 1)
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
                                 {
                                     if (lowerS.CompareTo(valueS) < 0) 
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 2)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
                                 {
                                     if (lowerS.CompareTo(valueS) <= 0)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 3)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
                                 {
                                     if (lowerS.CompareTo(valueS) > 0)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
                                 {
                                     if (lowerS.CompareTo(valueS) >= 0)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
                                 {
                                     if (lowerS.Equals(valueS))
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
                                 {
                                     if (!lowerS.Equals(valueS))
                                     {
@@ -485,42 +449,42 @@ namespace HCI
                                 }
 
                                 //Check the upper operator
-                                if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 1)
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
                                 {
                                     if (upperS.CompareTo(valueS) > 0)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 2)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
                                 {
                                     if (upperS.CompareTo(valueS) >= 0)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 3)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
                                 {
                                     if (upperS.CompareTo(valueS) < 0)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
                                 {
                                     if (upperS.CompareTo(valueS) <= 0)
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
                                 {
                                     if (upperS.Equals(valueS))
                                     {
                                         passUpperOperator = true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
                                 {
                                     if (!upperS.Equals(valueS))
                                     {
@@ -537,7 +501,7 @@ namespace HCI
                             return false;
                         }
                     }
-                    else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
+                    else if (Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
                     {
                         Double lower;
                         if (Double.TryParse(condition.getLowerBound(), out lower))
@@ -548,42 +512,42 @@ namespace HCI
                             for (int count = 0; count < 6; count++)
                             {
                                 //Check the lower operator
-                                if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 1)
-                                {
-                                    if (lower > value)
-                                    {
-                                        return true;
-                                    }
-                                }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 2)
-                                {
-                                    if (lower >= value)
-                                    {
-                                        return true;
-                                    }
-                                }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 3)
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
                                 {
                                     if (lower < value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
                                 {
                                     if (lower <= value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
+                                {
+                                    if (lower > value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
+                                {
+                                    if (lower >= value)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
                                 {
                                     if (lower == value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
                                 {
                                     if (lower != value)
                                     {
@@ -604,42 +568,42 @@ namespace HCI
                             for (int count = 0; count < 6; count++)
                             {
                                 //Check the lower operator
-                                if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 1)
+                                if (Condition.operatorStringToInt(condition.getLowerOperator()) == 1)
                                 {
                                     if (lowerS.CompareTo(value) < 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 2)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 2)
                                 {
                                     if (lowerS.CompareTo(value) <= 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 3)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 3)
                                 {
                                     if (lowerS.CompareTo(value) > 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 4)
                                 {
                                     if (lowerS.CompareTo(value) >= 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 5)
                                 {
                                     if (lowerS.Equals(value))
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getLowerOperator()) == 6)
                                 {
                                     if (!lowerS.Equals(value))
                                     {
@@ -652,7 +616,7 @@ namespace HCI
                             return false;
                         }
                     }
-                    else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) != Condition.NONE)
+                    else if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE)
                     {
                         Double upper;
                         if (Double.TryParse(condition.getUpperBound(), out upper))
@@ -662,42 +626,42 @@ namespace HCI
                             for (int count = 0; count < 6; count++)
                             {
                                 //Check the upper operator
-                                if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 1)
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
                                 {
                                     if (upper > value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 2)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
                                 {
                                     if (upper >= value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 3)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
                                 {
                                     if (upper < value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
                                 {
                                     if (upper <= value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
                                 {
                                     if (upper == value)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
                                 {
                                     if (upper != value)
                                     {
@@ -717,42 +681,42 @@ namespace HCI
                             for (int count = 0; count < 6; count++)
                             {
                                 //Check the upper operator
-                                if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 1)
+                                if (Condition.operatorStringToInt(condition.getUpperOperator()) == 1)
                                 {
                                     if (upperS.CompareTo(value) > 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 2)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 2)
                                 {
                                     if (upperS.CompareTo(value) >= 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 3)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 3)
                                 {
                                     if (upperS.CompareTo(value) < 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 4)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 4)
                                 {
                                     if (upperS.CompareTo(value) <= 0)
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 5)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 5)
                                 {
                                     if (upperS.Equals(value))
                                     {
                                         return true;
                                     }
                                 }
-                                else if (Condition.upperOperatorStringToInt(condition.getUpperOperator()) == 6)
+                                else if (Condition.operatorStringToInt(condition.getUpperOperator()) == 6)
                                 {
                                     if (!upperS.Equals(value))
                                     {
