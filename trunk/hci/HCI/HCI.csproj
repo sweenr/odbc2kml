@@ -186,12 +186,20 @@
     <Content Include="odbc.html" />
     <Content Include="odbcStyle.css" />
     <Content Include="Overlay.aspx" />
+    <Content Include="PreviewKMLFunction.aspx" />
+    <Content Include="PreviewKMLTest.aspx" />
     <Content Include="tableOptions.htm" />
     <Content Include="Upload.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Condition.cs" />
+    <Compile Include="config.ini.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="config.ini.designer.cs">
+      <DependentUpon>config.ini.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnDetails.aspx.cs">
       <DependentUpon>ConnDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -218,6 +226,7 @@
       <DependentUpon>editor.aspx</DependentUpon>
     </Compile>
     <Compile Include="ErrorHandler.cs" />
+    <Compile Include="HashStyleComparer.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="KMLGenerationLibrary.cs" />
     <Compile Include="KMLGenerator.cs" />
@@ -260,7 +269,23 @@
       <DependentUpon>Overlay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Overlay.cs" />
+    <Compile Include="Placemark.cs" />
+    <Compile Include="PreviewKMLFunction.aspx.cs">
+      <DependentUpon>PreviewKMLFunction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PreviewKMLFunction.aspx.designer.cs">
+      <DependentUpon>PreviewKMLFunction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewKMLTest.aspx.cs">
+      <DependentUpon>PreviewKMLTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PreviewKMLTest.aspx.designer.cs">
+      <DependentUpon>PreviewKMLTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Style.cs" />
     <Compile Include="Upload.aspx.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -270,6 +295,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="butler.kml" />
     <None Include="jquery\.svn\all-wcprops" />
     <None Include="jquery\.svn\entries" />
     <None Include="jquery\.svn\text-base\jquery-1.4.1.js.svn-base" />

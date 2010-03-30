@@ -334,28 +334,28 @@ namespace HCI
                                 //Check the lower operator
                                 if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 1)
                                 {
-                                    if (lower < value)
+                                    if (lower > value)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
                                 else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 2)
                                 {
-                                    if (lower <= value)
+                                    if (lower >= value)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
                                 else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 3)
                                 {
-                                    if (lower > value)
+                                    if (lower < value)
                                     {
                                         passLowerOperator = true;
                                     }
                                 }
                                 else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 4)
                                 {
-                                    if (lower >= value)
+                                    if (lower <= value)
                                     {
                                         passLowerOperator = true;
                                     }
@@ -550,28 +550,28 @@ namespace HCI
                                 //Check the lower operator
                                 if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 1)
                                 {
-                                    if (lower < value)
+                                    if (lower > value)
                                     {
                                         return true;
                                     }
                                 }
                                 else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 2)
                                 {
-                                    if (lower <= value)
+                                    if (lower >= value)
                                     {
                                         return true;
                                     }
                                 }
                                 else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 3)
                                 {
-                                    if (lower > value)
+                                    if (lower < value)
                                     {
                                         return true;
                                     }
                                 }
                                 else if (Condition.lowerOperatorStringToInt(condition.getLowerOperator()) == 4)
                                 {
-                                    if (lower >= value)
+                                    if (lower <= value)
                                     {
                                         return true;
                                     }
