@@ -26,6 +26,14 @@ namespace HCI
             conditions = new ArrayList();
         }
 
+        public Icon(Icon i)
+        {
+            location = i.getLocation();
+            conditions = i.getConditions();
+            iconId = i.getId();
+            isLocal = i.getLocality();
+        }
+
         ~Icon()
         {
             location = null;
