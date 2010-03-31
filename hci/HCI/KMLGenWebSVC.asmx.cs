@@ -13,7 +13,7 @@ using HCI;
 namespace KMLGenWebSVC
 {
     /// <summary>
-    /// Summary description for Service1
+    /// Web Service that, given a connID, return the KML generated for that connection
     /// </summary>
     [WebService(Namespace = "http://polytech-dev/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -22,29 +22,27 @@ namespace KMLGenWebSVC
     [System.Web.Script.Services.ScriptService]
     public class Service1 : System.Web.Services.WebService
     {
-
+        /// <summary>
+        /// Method to return a KML file in an XMLDocument  
+        /// </summary>
+        /// <param name="connID">int --> the connection ID used to generate KML</param>
+        /// <returns>XMLDocument --> contains the KML formatted in an XMLDocument</returns>
         [WebMethod]
         public XmlDocument getKML(int connID)
         {
-            //if this is a test, return the dummy kml file.
-            if (connID == -99)
-            {
-                XmlDocument kmlDoc = new XmlDocument();
-                String kml = "<kml xmlns=\"http://earth.google.com/kml/2.0\">\n  <Document>\n  <Placemark>\n   <name>Starkville</name>\n         <Point>\n     <coordinates>-88.790361, 33.457741</coordinates>\n   </Point>\n  </Placemark>\n </Document>\n</kml>";
-                kmlDoc.LoadXml(kml);
-                return kmlDoc;
-            }
-            else
-            {
-                Connection conn = new Connection(connID);
-                conn.populateFields();
-                string name = conn.getConnInfo().getConnectionName();
-                KMLGenerator kmlGen = new KMLGenerator(name);
-                string kml = kmlGen.generateKML(connID);
-                XmlDocument kmlDoc = new XmlDocument();
-                kmlDoc.LoadXml(kml);
-                return kmlDoc;
-            }
+            //create new connection a populate fields to get the connection name for KMLGenerator
+            Connection conn = new Connection(connID);
+            conn.populateFields();
+            string name = conn.getConnInfo().getConnectionName();
+            //create a new kml genereator with the connection name as the placemark name
+            KMLGenerator kmlGen = new KMLGenerator(name);
+            //generate the kml for the given connID
+            string kml = kmlGen.generateKML(connID);
+            //add the kml to an XMLDoc and return
+            XmlDocument kmlDoc = new XmlDocument();
+            kmlDoc.LoadXml(kml);
+            return kmlDoc;
         }
+        
     }
 }
