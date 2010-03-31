@@ -155,6 +155,8 @@ namespace HCI
                 Response.ContentType = "application/vnd.google-earth.kml+xml kml";
                 Response.AddHeader("Content-Disposition", "attachment; filename=\"" + (conn.getConnInfo()).getConnectionName() + ".kml");
                 Response.Write(blah);
+                Response.End();
+                return;
             }
             catch (ODBC2KMLException error) 
             {
