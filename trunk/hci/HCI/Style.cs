@@ -39,6 +39,13 @@ namespace HCI
             this.styleName = styleName;
         }
 
+        ~Style()
+        {
+            icon = null;
+            color = 0;
+            styleName = null;
+        }
+
         //return style icon
         public Icon getStyleIcon()
         {
@@ -51,11 +58,30 @@ namespace HCI
             return this.color;
         }
 
+        //set style name
+        public void setStyleName(String styleName)
+        {
+            this.styleName = styleName;
+        }
+
+        //set style icon
+        public void setStyleIcon(Icon icon)
+        {
+            this.icon = icon;
+        }
+
+        //set style color
+        public void setStyleColor(UInt64 color)
+        {
+            this.color = color;
+        }
+
         //Return style name
         public String getStyleName()
         {
             return this.styleName;
         }
+
 
         //Overloaded operator used for comparisons in the set
         public override bool Equals(Object a)
