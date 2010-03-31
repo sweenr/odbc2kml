@@ -30,12 +30,13 @@ namespace KMLGenWebSVC
         [WebMethod]
         public XmlDocument getKML(int connID)
         {
+            String serverPath = HttpContext.Current.Request.ServerVariables["SERVER_NAME"] + ":" + HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
             //create new connection a populate fields to get the connection name for KMLGenerator
             Connection conn = new Connection(connID);
             conn.populateFields();
             string name = conn.getConnInfo().getConnectionName();
             //create a new kml genereator with the connection name as the placemark name
-            KMLGenerator kmlGen = new KMLGenerator(name);
+            KMLGenerator kmlGen = new KMLGenerator(name, serverPath);
             //generate the kml for the given connID
             string kml = kmlGen.generateKML(connID);
             //add the kml to an XMLDoc and return
