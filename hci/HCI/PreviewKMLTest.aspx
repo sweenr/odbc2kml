@@ -3,8 +3,9 @@
 <%
     //int connID = Request.QueryString["connID"];
     //Test code
+    String serverPath = Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
     int connID = 1;
-    HCI.KMLGenerator generator = new HCI.KMLGenerator("Test_FILE");
+    HCI.KMLGenerator generator = new HCI.KMLGenerator("Test_FILE", serverPath);
 
     String KML = "";
     

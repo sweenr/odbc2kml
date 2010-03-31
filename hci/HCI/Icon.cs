@@ -19,6 +19,7 @@ namespace HCI
         private string location;
         private ArrayList conditions;
         private string iconId;
+        private Boolean isLocal;
 
         public Icon()
         {
@@ -72,6 +73,16 @@ namespace HCI
             this.iconId = id;
         }
 
+        public Boolean getLocality()
+        {
+            return this.isLocal;
+        }
+
+        public void setLocality(Boolean a)
+        {
+            this.isLocal = a;
+        }
+
         public static Icon getIcon(int connID, int iconID)
         {
             Database localDatabase = new Database();
@@ -96,13 +107,16 @@ namespace HCI
 
                     foreach (DataRow nRow in newTable.Rows)
                     {
-                        foreach (DataColumn nCol in newTable.Columns)
+                        //Set the location of the icon
+                        icon.setLocation(nRow["location"].ToString());
+                        
+                        if((int)nRow["isLocal"] == 0)
                         {
-                            //Set the location of the icon
-                            if (nCol.ColumnName == "location")
-                            {
-                                icon.setLocation(nRow[nCol].ToString());
-                            }
+                            icon.setLocality(false);
+                        }
+                        else
+                        {
+                            icon.setLocality(true);
                         }
                     }//End outer loop
 
@@ -185,13 +199,16 @@ namespace HCI
 
                         foreach (DataRow nRow in newTable.Rows)
                         {
-                            foreach (DataColumn nCol in newTable.Columns)
+                            //Set the location of the icon
+                            newIcon.setLocation(nRow["location"].ToString());
+
+                            if ((int)nRow["isLocal"] == 0)
                             {
-                                //Set the location of the icon
-                                if (nCol.ColumnName == "location")
-                                {
-                                    newIcon.setLocation(nRow[nCol].ToString());
-                                }
+                                newIcon.setLocality(false);
+                            }
+                            else
+                            {
+                                newIcon.setLocality(true);
                             }
                         }//End outer loop
 

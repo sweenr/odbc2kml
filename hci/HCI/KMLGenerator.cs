@@ -22,14 +22,16 @@ namespace HCI
     {
         //Desired filename to appear within the KML file
         private String fileName;
+        private String serverPath;
 
         /// <summary>
         /// Default constructor. Takes the desired filename for the kml file.
         /// </summary>
         /// <param name="fileName">String --> KML file name</param>
-        public KMLGenerator(String fileName)
+        public KMLGenerator(String fileName, String serverPath)
         {
             this.fileName = fileName;
+            this.serverPath = serverPath;
         }
 
         /// <summary>
@@ -227,7 +229,15 @@ namespace HCI
                         //if there is an icon, create the name of the style based on the icon name and color
                         if (rowIcon.getLocation() != "")
                         {
-                            rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                            if (rowIcon.getLocality() == false)
+                            {
+                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                            }
+                            else //If the icon is local, append server data
+                            {
+                                rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
+                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                            }
                         }
                         else if (rowIcon.getLocation() == "" && color != 0) //Create the style name based on the color
                         {
