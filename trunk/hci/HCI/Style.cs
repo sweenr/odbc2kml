@@ -24,6 +24,9 @@ namespace HCI
         /// </summary>
         public Style()
         {
+            icon = new Icon();
+            color = 0;
+            styleName = "";
         }
 
         /// <summary>
@@ -34,7 +37,16 @@ namespace HCI
         /// <param name="styleName">String --> unique style name</param>
         public Style(Icon icon, UInt64 color, String styleName)
         {
-            this.icon = icon;
+            this.icon = new Icon();
+            this.icon.setId(icon.getId());
+            this.icon.setLocality(icon.getLocality());
+            this.icon.setLocation(icon.getLocation());
+
+            foreach (Condition c in icon.getConditions())
+            {
+                this.icon.setConditions(c);
+            }
+
             this.color = color;
             this.styleName = styleName;
         }
