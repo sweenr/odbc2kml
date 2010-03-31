@@ -234,17 +234,44 @@ namespace HCI
                         {
                             if (rowIcon.getLocality() == false)
                             {
-                                rowStyle.setStyleIcon(rowIcon);
+                                //Create new icon
+                                Icon newIcon = new Icon();
+                                newIcon.setLocation(rowIcon.getLocation()); //Path is server information
+                                newIcon.setLocality(rowIcon.getLocality());
+                                newIcon.setId(rowIcon.getId());
+
+                                //Add every condition
+                                foreach (Condition x in rowIcon.getConditions())
+                                {
+                                    newIcon.setConditions(x);
+                                }
+
+                                rowStyle.setStyleIcon(newIcon);
                                 rowStyle.setStyleColor(color);
                                 rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                rowIcon.setLocation("");
                                 //rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                             }
                             else //If the icon is local, append server data
                             {
-                                rowIcon.setLocation(path + rowIcon.getLocation());
-                                rowStyle.setStyleIcon(rowIcon);
+                                //Create a new icon, and set all of its value equal to rowIcons
+                                Icon newIcon = new Icon();
+                                newIcon.setLocation(path + rowIcon.getLocation()); //Path is server information
+                                newIcon.setLocality(rowIcon.getLocality());
+                                newIcon.setId(rowIcon.getId());
+
+                                //Add every condition
+                                foreach (Condition x in rowIcon.getConditions())
+                                {
+                                    newIcon.setConditions(x);
+                                }
+
+                                //Set style information
+                                rowStyle.setStyleIcon(newIcon);
                                 rowStyle.setStyleColor(color);
                                 rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                
+                                //Reset rowIcon's location value to prevent memory over write
                                 rowIcon.setLocation("");
                                 //rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
                                 //rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
@@ -281,10 +308,10 @@ namespace HCI
                         counter++;
 
                         //Garbage collection
-                        rowPlacemark = null;
+                        /*rowPlacemark = null;
                         rowIcon = null;
                         rowStyle = null;
-                        GC.Collect();
+                        GC.Collect();*/
 
 
 
