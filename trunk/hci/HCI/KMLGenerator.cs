@@ -223,7 +223,7 @@ namespace HCI
                         }//End outer for each
 
                         //Create Style and placemark for this coordinate set
-                        Style rowStyle;
+                        Style rowStyle = new Style();
                         Placemark rowPlacemark;
 
                         //if there is an icon, create the name of the style based on the icon name and color
@@ -268,6 +268,11 @@ namespace HCI
 
                         //Increment counter for next row (associated with getting the row description)
                         counter++;
+
+                        rowPlacemark = null;
+                        rowIcon = null;
+
+
 
                     }//End for each
                 }//End for each

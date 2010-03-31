@@ -20,6 +20,13 @@ namespace HCI
         private String styleName;
 
         /// <summary>
+        /// Basic constructor.
+        /// </summary>
+        public Style()
+        {
+        }
+
+        /// <summary>
         /// Constructor. Sets the icon, color, and style name. 
         /// </summary>
         /// <param name="icon">Icon --> Used for icon location when creating styles in KML</param>
