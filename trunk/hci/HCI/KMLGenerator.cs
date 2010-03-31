@@ -97,7 +97,9 @@ namespace HCI
                 //Create database
                 Database DB = new Database(connection.getConnInfo());
 
-                Icon rowIcon = new Icon();
+                //Test code
+                //Icon rowIcon = new Icon();
+                
                 //originally took string table name, changed for test
                 foreach (Mapping map in mappings)
                 {
@@ -178,7 +180,7 @@ namespace HCI
                         }//End else
 
                         //Row's icon
-                        //Icon rowIcon = new Icon();
+                        Icon rowIcon = new Icon();
                         rowIcon.setLocation("");
 
                         //For each icon until the first one found, compare the icons
@@ -192,7 +194,7 @@ namespace HCI
                                 if (c.evaluateCondition(remoteRow, c, tableName))
                                 {
                                     //Set temp icon to row icon and tell it to break out
-                                    rowIcon = i;
+                                    rowIcon = new Icon(i);
                                     breakLoop = true;
                                 }
 
@@ -256,7 +258,7 @@ namespace HCI
                             else //If the icon is local, append server data
                             {
                                 //Create a new icon, and set all of its value equal to rowIcons
-                                Icon newIcon = new Icon();
+                               /* Icon newIcon = new Icon();
                                 newIcon.setLocation(path + rowIcon.getLocation()); //Path is server information
                                 newIcon.setLocality(rowIcon.getLocality());
                                 newIcon.setId(rowIcon.getId());
@@ -270,12 +272,13 @@ namespace HCI
                                 //Set style information
                                 rowStyle.setStyleIcon(newIcon);
                                 rowStyle.setStyleColor(color);
-                                rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));*/
                                 
                                 //Reset rowIcon's location value to prevent memory over write
+                                //rowIcon.setLocation("");
+                                rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
+                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                                 rowIcon.setLocation("");
-                                //rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
-                                //rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                             }
                         }
                         else if (rowIcon.getLocation() == "" && color != 0) //Create the style name based on the color
