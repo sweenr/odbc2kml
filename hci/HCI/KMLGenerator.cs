@@ -66,6 +66,9 @@ namespace HCI
 
             try
             {
+                //Test code, may be removed, will identify later
+                String path = this.serverPath;
+
                 //Get mappings fromc onnection object
                 ArrayList mappings = connection.getMapping();
 
@@ -231,12 +234,20 @@ namespace HCI
                         {
                             if (rowIcon.getLocality() == false)
                             {
-                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                                rowStyle.setStyleIcon(rowIcon);
+                                rowStyle.setStyleColor(color);
+                                rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                //rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                             }
                             else //If the icon is local, append server data
                             {
-                                rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
-                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                                rowIcon.setLocation(path + rowIcon.getLocation());
+                                rowStyle.setStyleIcon(rowIcon);
+                                rowStyle.setStyleColor(color);
+                                rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                rowIcon.setLocation("");
+                                //rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
+                                //rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                             }
                         }
                         else if (rowIcon.getLocation() == "" && color != 0) //Create the style name based on the color
@@ -269,8 +280,11 @@ namespace HCI
                         //Increment counter for next row (associated with getting the row description)
                         counter++;
 
+                        //Garbage collection
                         rowPlacemark = null;
                         rowIcon = null;
+                        rowStyle = null;
+                        GC.Collect();
 
 
 

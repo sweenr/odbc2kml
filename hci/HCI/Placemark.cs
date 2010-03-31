@@ -38,6 +38,14 @@ namespace HCI
             this.name = name;
         }
 
+        ~Placemark()
+        {
+            latitude = 500;
+            longitude = 500;
+            description = null;
+            name = null;
+        }
+
         //Return placemark name
         public String getPlacemarkName()
         {

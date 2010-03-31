@@ -25,6 +25,14 @@ namespace HCI
         {
             conditions = new ArrayList();
         }
+
+        ~Icon()
+        {
+            location = null;
+            conditions = null;
+            iconId = null;
+            isLocal = false;
+        }
        
         public string getLocation()
         {
@@ -110,7 +118,7 @@ namespace HCI
                         //Set the location of the icon
                         icon.setLocation(nRow["location"].ToString());
                         
-                        if((int)nRow["isLocal"] == 0)
+                        if((Boolean)nRow["isLocal"] == false)
                         {
                             icon.setLocality(false);
                         }
