@@ -97,6 +97,7 @@ namespace HCI
                 //Create database
                 Database DB = new Database(connection.getConnInfo());
 
+                Icon rowIcon = new Icon();
                 //originally took string table name, changed for test
                 foreach (Mapping map in mappings)
                 {
@@ -177,7 +178,7 @@ namespace HCI
                         }//End else
 
                         //Row's icon
-                        Icon rowIcon = new Icon();
+                        //Icon rowIcon = new Icon();
                         rowIcon.setLocation("");
 
                         //For each icon until the first one found, compare the icons
