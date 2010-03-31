@@ -30,7 +30,8 @@ namespace KMLGenWebSVC
         [WebMethod]
         public XmlDocument getKML(int connID)
         {
-            String serverPath = HttpContext.Current.Request.ServerVariables["SERVER_NAME"] + ":" + HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+            String serverPath = "http://" + HttpContext.Current.Request.ServerVariables["SERVER_NAME"] + ":"
+                + HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
             //create new connection a populate fields to get the connection name for KMLGenerator
             Connection conn = new Connection(connID);
             conn.populateFields();
