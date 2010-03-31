@@ -202,7 +202,7 @@ namespace HCI
                             //Set the location of the icon
                             newIcon.setLocation(nRow["location"].ToString());
 
-                            if ((Boolean)nRow["isLocal"] == 0)
+                            if ((Boolean)nRow["isLocal"] == false)
                             {
                                 newIcon.setLocality(false);
                             }
