@@ -57,6 +57,7 @@ namespace HCI
         private String oracleSName = "";
         private String oracleSID = "";
         private String DBTypeNum = "";
+        private ArrayList panels = new ArrayList();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -334,6 +335,7 @@ namespace HCI
             oracleSName = (String)Session["oracleSName"];
             oracleSID = (String)Session["oracleSID"];
             DBTypeNum = (String)Session["DBTypeNum"];
+            panels = (ArrayList)Session["panels"];
         }
 
         private void sessionSave()
@@ -371,6 +373,7 @@ namespace HCI
             Session["oracleSName"] = oracleSName;
             Session["oracleSID"] = oracleSID;
             Session["DBTypeNum"] = DBTypeNum;
+            Session["panels"] = panels;
         }
 
         /// <summary>
@@ -1200,6 +1203,8 @@ namespace HCI
                     }
                     Panel modifyIconConditionPopupPanel = new Panel();
                     modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
+                    panels.Add("modifyIconConditionPopupPanel" + icon.getId());
+                    sessionSave();
                     modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
                     UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
                     modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + icon.getId().ToString();
@@ -1672,6 +1677,8 @@ namespace HCI
                     }
                     Panel modifyOverlayConditionPopupPanel = new Panel();
                     modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
+                    panels.Add("modifyOverlayConditionPopupPanel" + overlay.getId());
+                    sessionSave();
                     modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
                     UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
                     modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlay.getId();
