@@ -261,7 +261,7 @@ function OnColorPicked(sender){
                                                 <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
                                                 <asp:Label ID="unableToConnect" runat="server" Visible="false" Text="Unable to connect to the selected database!" />&nbsp;&nbsp;
                                                 <asp:Label ID="connectionEstablished" runat="server" Visible="false" Text="Successfully connected to the database!" />&nbsp;&nbsp;
-                                                <asp:Button runat="server" ID="connectButton" OnClick="updateConnection" Text="Update"
+                                                <asp:Button runat="server" ID="connectButton" Text="Update"
                                                     CssClass="button" />
                                             </div>
                                         </div>
@@ -1085,23 +1085,28 @@ function OnColorPicked(sender){
         </div>
 
     </div>
-    <ajax:modalpopupextender OkControlId="continueUpdate" CancelControlId="cancelUpdate" runat="server" 
+    <ajax:modalpopupextender OkControlId="cancelUpdate" runat="server" 
         popupcontrolid="connUpdateWarning" TargetControlID="connectButton" ID="warningModal" 
         BackgroundCssClass="modalBackground" DropShadow="true">
     </ajax:modalpopupextender>
-    <asp:Panel ID="connUpdateWarning" runat="server" Width="500px" Visible="false">
-        <div class="mainBoxP">
-           <p>If there are any differences between the original database and the one being updated,<br />
-           description and any conditions associated with tables no longer present will be removed<br />
-           from the connection. Are you sure you would like to update the connection information?
-           <br /><br />
-           </p>
-           <asp:button ID="continueUpdate" runat="server" Text="Yes" OnClick="updateConnection" CssClass="button" />
-           <asp:Button ID="cancelUpdate" runat="server" Text="No" OnClick="hideWarningPopup" CssClass="button" /> 
-           <br />
-           </div>
-        </asp:Panel>
-
+    <asp:Panel ID="connUpdateWarning" runat="server" Visible="true" Style="display:none">
+        <div class='mainBoxP'>
+            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                If there are any differences between the original database and the one being updated,
+                description and any conditions associated with tables no longer present will be removed
+                from the connection. Are you sure you would like to update the connection information?
+                <br /><br />
+                    </td>
+                </tr>
+            </table>
+            <asp:button ID="continueUpdate" runat="server" 
+                    Text="Yes" OnClick="updateConnection" CssClass="button" />
+            <asp:button ID="cancelUpdate" runat="server"
+                    Text="No" CssClass="button" />
+        </div>
+    </asp:Panel>
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">
     </asp:Panel>
     </form>
