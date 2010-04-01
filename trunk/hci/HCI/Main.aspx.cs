@@ -193,6 +193,7 @@ namespace HCI
             String oracleSName = odbcSName.Text.ToString();
             String oracleSID = odbcSID.Text.ToString();
             String DBTypeNum;
+            odbcDBType.SelectedIndex = 0;
 
             if (ConnDBType.Equals("MySQL")){
                 DBTypeNum = "0";
@@ -204,20 +205,16 @@ namespace HCI
 
             if (DBTypeNum.Equals("2")){
                 if (oracleSName.Equals("") && oracleSID.Equals("")){
+                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1);
                     this.NewConn1ModalPopUp.Hide();
-                    validNewConn.Text = "Either Service Name or Service ID must be completed!";
-                    validNewConn.Visible = true;
-                    this.NewConn1ModalPopUp.Show();
-
+                    eh.displayError();
                     return;
                 }
                 if (oracleProtocol.Equals(""))
                 {
+                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1);
                     this.NewConn1ModalPopUp.Hide();
-                    validNewConn.Text = "Oracle protocol must be provided!";
-                    validNewConn.Visible = true;
-                    this.NewConn1ModalPopUp.Show();
-
+                    eh.displayError();
                     return;
                 }
             }
@@ -227,60 +224,46 @@ namespace HCI
             dtCheck = dbCheck.executeQueryLocal("SELECT name FROM Connection WHERE name=\'" + ConnName + "\'");
             if (dtCheck.Rows.Count > 0)
             {
+                ErrorHandler eh = new ErrorHandler("Connection name already in use!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "Connection name already in use!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }
             if (ConnName.Equals(""))
             {
+                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "All fields must be completeted!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }else if (ConnDBName.Equals(""))
             {
+                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "All fields must be completeted!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }else if (ConnDBAddress.Equals(""))
             {
+                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "All fields must be completeted!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }else if (ConnPortNum.Equals(""))
             {
+                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "All fields must be completeted!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }else if(ConnUser.Equals(""))
             {
+                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "All fields must be completeted!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }else if (ConnPWD.Equals(""))
             {
+                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
-                validNewConn.Text = "All fields must be completeted!";
-                validNewConn.Visible = true;
-                this.NewConn1ModalPopUp.Show();
-
+                eh.displayError();
                 return;
             }
 
@@ -315,7 +298,7 @@ namespace HCI
                 }
                 else
                 {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM dba_tab_tables");
+                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM user_tables");
                 }
 
             }
