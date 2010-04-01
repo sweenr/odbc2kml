@@ -29,7 +29,7 @@ namespace HCI
         public Icon(Icon i)
         {
             location = i.getLocation();
-            conditions = i.getConditions();
+            conditions = i.getDeepCopyOfConditions();
             iconId = i.getId();
             isLocal = i.getLocality();
         }
@@ -57,9 +57,19 @@ namespace HCI
             return this.conditions;
         }
 
+        public ArrayList getDeepCopyOfConditions()
+        {
+            return new ArrayList(this.conditions);
+        }
+
         public void setConditions(Condition con)
         {
             this.conditions.Add(con);
+        }
+
+        public void setConditions(ArrayList conList)
+        {
+            this.conditions = conList;
         }
 
         public void removeConditions(string conditionId)
@@ -72,6 +82,11 @@ namespace HCI
                     return;
                 }
             }
+        }
+
+        public void removeConditions()
+        {
+            this.conditions.Clear();
         }
 
         public void removeConditions(Condition condition)
