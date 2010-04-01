@@ -8,6 +8,24 @@
     <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script>
 
     <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+	$(function() {
+		$("#errorPanel1").dialog({
+			bgiframe: true,
+			modal: true,
+			autoOpen: false,
+			title: 'Error!',
+			resizable: false,
+			dialogClass: 'alert',
+			buttons: {
+				Ok: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	});
+    </script>
 
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
     
@@ -193,6 +211,11 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <asp:TextBox runat="server" ID="odbcSID" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="odbcInfoRow">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">&nbsp; &nbsp; Only Service Name or Service ID is required, not both</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>

@@ -251,6 +251,11 @@ function OnColorPicked(sender){
                                                         <asp:TextBox runat="server" ID="odbcSID" Width="300" CssClass="inputBox" />
                                                     </td>
                                                 </tr>
+                                                <tr id="odbcInfoRow">
+                                                    <td>
+                                                        <span class="connectionTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Only Service Name or Service ID is required, not both</span>
+                                                    </td>
+                                                </tr>
                                             </table>
                                             <div align="right">
                                                 <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
@@ -698,7 +703,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Vertical" runat="server"
+                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Both" runat="server"
                                                                     Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
@@ -733,7 +738,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeIconFromConn" Height="300px" ScrollBars="Vertical" runat="server"
+                                                                <asp:Panel ID="removeIconFromConn" Height="300px" ScrollBars="Both" runat="server"
                                                                     Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right">
@@ -978,7 +983,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeOverlayInteriorPanel" runat="server" Visible="true">
+                                                                <asp:Panel ID="removeOverlayInteriorPanel" runat="server" ScrollBars="Both" Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <asp:Button ID="closeRemoveOverlay" runat="server" Text="Cancel" CssClass="button" />
