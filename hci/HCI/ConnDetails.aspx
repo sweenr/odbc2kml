@@ -33,6 +33,18 @@
 
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
 
+    <script type="text/javascript"> 
+
+        function stopRKey(evt) { 
+          var evt = (evt) ? evt : ((event) ? event : null); 
+          var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+          if ((evt.keyCode == 13) && ((node.type=="text") || (node.type=="password") || (node.type=="textarea")))  {return false;} 
+        } 
+
+        document.onkeypress = stopRKey; 
+
+    </script>
+
     <script type="text/javascript">
 	$(function() {
 		$("#errorPanel1").dialog({
@@ -99,7 +111,16 @@ function OnColorPicked(sender){
     <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
         runat="server">na</a>
     <form id="connDetailsForm" runat="server">
+    
     <asp:ScriptManager ID="ConnSMgr2" runat="server" EnablePartialRendering="true" />
+    
+    <asp:UpdatePanel runat="server" ID="errorUpdatePanel">
+    <ContentTemplate>
+        <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
+        </asp:Panel>
+    </ContentTemplate>
+    </asp:UpdatePanel>
+    
     <asp:SqlDataSource ID="SQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="oracleTables_Mapping" runat="server"></asp:SqlDataSource>
@@ -1057,8 +1078,6 @@ function OnColorPicked(sender){
 
     </div>
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">
-    </asp:Panel>
-    <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
     </asp:Panel>
     </form>
 </body>
