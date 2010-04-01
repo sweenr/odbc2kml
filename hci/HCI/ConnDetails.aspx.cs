@@ -1130,7 +1130,14 @@ namespace HCI
                     }
                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                }
+
+                    DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
+                    if (addTableName.Items.Count != 0)
+                    {
+                        addTableName.SelectedIndex = 0;
+                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                    }
+                }  // end of foreach icon in iconlist
             }
             
         }
@@ -1288,7 +1295,7 @@ namespace HCI
                 addTableName.DataValueField = "TABLE_NAME";
                 addTableName.DataBind();
             }
-            addTableName.Items.Insert(0, "");
+            //addTableName.Items.Insert(0, "");
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
@@ -1567,7 +1574,14 @@ namespace HCI
                     }
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
-                }
+
+                    DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
+                    if (addTableName.Items.Count != 0)
+                    {
+                        addTableName.SelectedIndex = 0;
+                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                    }
+                }  // end of foreach overlay in overlaylist
             }
 
         }
@@ -1725,7 +1739,6 @@ namespace HCI
                 addTableName.DataValueField = "TABLE_NAME";
                 addTableName.DataBind();
             }
-            addTableName.Items.Insert(0, "");
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
