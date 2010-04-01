@@ -831,7 +831,7 @@ namespace HCI
                 {
                     iconSaved.setId(icon.getId());
                     iconSaved.setLocation(icon.getLocation());
-                    iconListAvailableToAdd.RemoveAt(i);
+                    iconListAvailableToAdd.Remove(icon);
                     iconListAvailableToRemove.Add(new Icon(iconSaved));
                     iconList.Add(new Icon(iconSaved));
                     tempIconList.Add(new Icon(iconSaved));
@@ -863,7 +863,7 @@ namespace HCI
             {
                 if (icon.getId().Equals(icn.getId()))
                 {
-                    iconList.RemoveAt(i);
+                    iconList.Remove(icon);
                     break;
                 }
                 i += 1;
@@ -872,7 +872,7 @@ namespace HCI
             {
                 if (icon.getId().Equals(icn.getId()))
                 {
-                    tempIconList.RemoveAt(i);
+                    tempIconList.Remove(icon);
                     break;
                 }
                 i += 1;
@@ -885,7 +885,7 @@ namespace HCI
                 {
                     iconSaved.setId(icon.getId());
                     iconSaved.setLocation(icon.getLocation());
-                    iconListAvailableToRemove.RemoveAt(i);
+                    iconListAvailableToRemove.Remove(icon);
                     int j = 0;
                     foreach (Icon icon2 in iconListAvailableToAdd)
                     {
@@ -971,7 +971,7 @@ namespace HCI
             {
                 if (over.getColor().Equals(ovr.getColor()))
                 {
-                    overlayList.RemoveAt(i);
+                    overlayList.Remove(over);
                     break;
                 }
                 i += 1;
@@ -980,7 +980,7 @@ namespace HCI
             {
                 if (over.getColor().Equals(ovr.getColor()))
                 {
-                    tempOverlayList.RemoveAt(i);
+                    tempOverlayList.Remove(over);
                     break;
                 }
                 i += 1;
@@ -991,7 +991,7 @@ namespace HCI
 
                 if (over.getColor().Equals(ovr.getColor()))
                 {
-                    overlayListAvailableToRemove.RemoveAt(i);
+                    overlayListAvailableToRemove.Remove(over);
                     this.fillOverlayPopupRemove();
                     this.genOverlayConditionTable(sender, e);
                     break;
