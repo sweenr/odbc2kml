@@ -423,18 +423,37 @@ namespace HCI
                 }
             }
         }
-
+        /*
         protected void showWarning(object sender, EventArgs e)
         {
-            connUpdateWarning.Visible = true;
-            warningModal.Show();
-        }
+            UpdatePanel connUpdateWarningPopupPanel = new UpdatePanel();
+            String message = "If there are any differences between the original database and the one being updated,<br />" +
+                "description and any conditions associated with tables no longer present will be removed<br />" +
+                "from the connection. Are you sure you would like to update the connection information?" +
+                "<br /><br />";
 
-        protected void hideWarningPopup(object sender, EventArgs e)
+            connUpdateWarningPopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class='mainBoxP'>"));
+            connUpdateWarningPopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<p>" + message + "</p>"));
+            Button okButton = new Button();
+            okButton.ID = "connUpdateOk";
+            okButton.Text = "OK";
+            connUpdateWarningPopupPanel.ContentTemplateContainer.Controls.Add(okButton);
+            Button cancelButton = new Button();
+            cancelButton.ID = "connUpdateCancel";
+            cancelButton.Text = "Cancel";
+            connUpdateWarningPopupPanel.ContentTemplateContainer.Controls.Add(cancelButton);
+            connUpdateWarningPopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</div>"));
+            
+            connUpdateWarningPopupPanel.ContentTemplateContainer.Controls.Add(mpe);
+            connUpdateWarning.Controls.Add(connUpdateWarningPopupPanel);
+
+        }
+*/
+        /*protected void hideWarningPopup(object sender, EventArgs e)
         {
             connUpdateWarning.Visible = false;
-            warningModal.Show();
-        }
+            //warningModal.Show();
+        }*/
 
         protected void updateConnection(object sender, EventArgs e)
         {
