@@ -238,7 +238,7 @@ namespace HCI
                             if (rowIcon.getLocality() == false)
                             {
                                 //Create new icon
-                                Icon newIcon = new Icon();
+                               /* Icon newIcon = new Icon();
                                 newIcon.setLocation(rowIcon.getLocation()); //Path is server information
                                 newIcon.setLocality(rowIcon.getLocality());
                                 newIcon.setId(rowIcon.getId());
@@ -247,13 +247,13 @@ namespace HCI
                                 foreach (Condition x in rowIcon.getConditions())
                                 {
                                     newIcon.setConditions(x);
-                                }
+                                }*/
 
-                                rowStyle.setStyleIcon(newIcon);
-                                rowStyle.setStyleColor(color);
-                                rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                //rowStyle.setStyleIcon(rowIcon);
+                                //rowStyle.setStyleColor(color);
+                                //rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                                 rowIcon.setLocation("");
-                                //rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                             }
                             else //If the icon is local, append server data
                             {
