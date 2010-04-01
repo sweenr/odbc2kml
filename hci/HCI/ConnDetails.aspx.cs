@@ -314,7 +314,7 @@ namespace HCI
 
         private void sessionSave()
         {
-            Session.Clear();
+            //Session.Clear();
             Session["curOverlayCount"] = curOverlayCount;
             Session["tempSaveLoc"] = tempSaveLoc;
             Session["fileSaveLoc"] = fileSaveLoc;
@@ -725,31 +725,38 @@ namespace HCI
             int currentBoxCount = 0;
             removeIconFromConn.Controls.Clear();
             removeIconFromConn.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
-            foreach (Icon icn in iconListAvailableToRemove)
+            if (iconListAvailableToRemove.Count == 0)
             {
-                if (currentBoxCount == sizeOfBox)
+                removeIconFromConn.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">No icons currently exist for this connection.</td></tr>\n"));
+            }
+            else
+            {
+                foreach (Icon icn in iconListAvailableToRemove)
                 {
-                    removeIconFromConn.Controls.Add(new LiteralControl("</tr>\n"));
-                    currentBoxCount = 0;
+                    if (currentBoxCount == sizeOfBox)
+                    {
+                        removeIconFromConn.Controls.Add(new LiteralControl("</tr>\n"));
+                        currentBoxCount = 0;
+                    }
+                    if (currentBoxCount == 0)
+                    {
+                        removeIconFromConn.Controls.Add(new LiteralControl("<tr>\n"));
+                    }
+
+                    removeIconFromConn.Controls.Add(new LiteralControl("<td>"));
+                    ImageButton imgBtn = new ImageButton();
+                    imgBtn.ID = "imgLib_" + icn.getId().ToString();
+                    imgBtn.ImageUrl = icn.getLocation().ToString();
+                    imgBtn.Click += new ImageClickEventHandler(removeIconFromConnFunct);
+                    imgBtn.CommandArgument = icn.getId().ToString();
+                    imgBtn.AlternateText = icn.getLocation().ToString();
+
+                    removeIconFromConn.Controls.Add(imgBtn);
+                    removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
+
+
+                    currentBoxCount += 1;
                 }
-                if (currentBoxCount == 0)
-                {
-                    removeIconFromConn.Controls.Add(new LiteralControl("<tr>\n"));
-                }
-
-                removeIconFromConn.Controls.Add(new LiteralControl("<td>"));
-                ImageButton imgBtn = new ImageButton();
-                imgBtn.ID = "imgLib_" + icn.getId().ToString();
-                imgBtn.ImageUrl = icn.getLocation().ToString();
-                imgBtn.Click += new ImageClickEventHandler(removeIconFromConnFunct);
-                imgBtn.CommandArgument = icn.getId().ToString();
-                imgBtn.AlternateText = icn.getLocation().ToString();
-
-                removeIconFromConn.Controls.Add(imgBtn);
-                removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
-
-
-                currentBoxCount += 1;
             }
             removeIconFromConn.Controls.Add(new LiteralControl("</table>\n"));
         }
