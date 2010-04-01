@@ -2125,6 +2125,12 @@ namespace HCI
                 eh.displayError();
                 return;
             }
+            catch (ArgumentException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("No URL entered", errorPanel1);
+                eh.displayError();
+                return;
+            }
             bool valid = false;
             //checks to see if fileType of icon is valid
             foreach (String type in validTypes)
