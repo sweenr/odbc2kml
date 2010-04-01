@@ -2455,7 +2455,7 @@ namespace HCI
             foreach (DataRow row in iconTable.Rows)
             {
                 bool deleted = true;
-                foreach (Icon icon in iconList)
+                foreach (Icon icon in tempIconList)
                 {
                     int iconID = Convert.ToInt32(icon.getId());
                     if(iconID == (int)row[0])
@@ -2469,7 +2469,7 @@ namespace HCI
                     deletedIcons.Add((int)row[0]);
                 }
             }
-            foreach (Icon icon in iconList)
+            foreach (Icon icon in tempIconList)
             {
                 bool newIcon = true;
                 foreach (DataRow row in iconTable.Rows)
@@ -2699,7 +2699,7 @@ namespace HCI
             {
                 bool deleted = true;
                 //ArrayList usedIDs = new ArrayList();
-                foreach (Overlay overlay in overlayList)
+                foreach (Overlay overlay in tempOverlayList)
                 {
                     foreach (DataRow row3 in overlayTable.Rows)
                     {
@@ -2750,7 +2750,7 @@ namespace HCI
                     deletedOverlays.Add((int)row[0]);
                 }
             }
-            foreach (Overlay overlay in overlayList)
+            foreach (Overlay overlay in tempOverlayList)
             {
                 bool newOverlay = true;
                 foreach (DataRow row in overlayTable.Rows)
