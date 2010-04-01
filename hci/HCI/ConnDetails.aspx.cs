@@ -250,7 +250,7 @@ namespace HCI
             }
 
             sessionLoad();
-            ColorPicker1.InitialColor = "#000000";
+            ColorPicker1.InitialColor = "-111111";
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
             //fillOverlayPopupAdd();
@@ -681,7 +681,7 @@ namespace HCI
 
         protected void fillOverlayPopupRemove()
         {
-            int sizeOfBox = 8;
+            int sizeOfBox = 6;
             int currentBoxCount = 0;
             removeOverlayInteriorPanel.Controls.Clear();
             removeOverlayInteriorPanel.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
@@ -730,7 +730,7 @@ namespace HCI
         //populates the popup panel for removing an icon from a connection
         protected void fillIconLibraryPopupRemove()
         {
-            int sizeOfBox = 8;
+            int sizeOfBox = 6;
             int currentBoxCount = 0;
             removeIconFromConn.Controls.Clear();
             removeIconFromConn.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
@@ -773,14 +773,14 @@ namespace HCI
         //populates the popup panel for adding an icon to a connection from the icon library
         protected void fillIconLibraryPopup()
         {
-            int sizeOfBox = 8;
+            int sizeOfBox = 6;
             int currentBoxCount = 0;
 
             addIconToLibary.Controls.Clear();
             addIconToLibary.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
             if (iconListAvailableToAdd.Count == 0)
             {
-                removeIconFromConn.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">All icons in the icon library are currently being used in the connection.</td></tr>\n"));
+                addIconToLibary.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">All icons in the icon library are currently being used in the connection.</td></tr>\n"));
             }
             else
             {
@@ -929,8 +929,13 @@ namespace HCI
                     break;
                 }
             }
-
-            if (exists)
+            if (ovr.getColor().Equals("-111111"))
+            {
+                this.AddOverlayPopupExtender.Hide();
+                ErrorHandler eh = new ErrorHandler("Overlay color must be selected!", errorPanel1);
+                eh.displayError();
+            }
+            else if (exists)
             {
                 this.AddOverlayPopupExtender.Hide();
                 ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
