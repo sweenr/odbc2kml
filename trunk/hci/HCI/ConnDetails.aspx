@@ -38,7 +38,7 @@
         function stopRKey(evt) { 
           var evt = (evt) ? evt : ((event) ? event : null); 
           var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
-          if ((evt.keyCode == 13) && ((node.type=="text") || (node.type=="password") || (node.type=="textarea")))  {return false;} 
+          if ((evt.keyCode == 13) && ((node.type=="text") || (node.type=="password")))  {return false;} 
         } 
 
         document.onkeypress = stopRKey; 
@@ -114,7 +114,7 @@ function OnColorPicked(sender){
     
     <asp:ScriptManager ID="ConnSMgr2" runat="server" EnablePartialRendering="true" />
     
-    <asp:UpdatePanel runat="server" ID="errorUpdatePanel">
+    <asp:UpdatePanel runat="server" ID="errorUpdatePanel" UpdateMode="Always">
     <ContentTemplate>
         <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
         </asp:Panel>
