@@ -138,14 +138,15 @@ namespace HCI
 
         protected void genKMLFunction(object sender, EventArgs e)
         {
-            //Generate the KML from the connection
-            ImageButton sendBtn = (ImageButton)sender;
-            String serverPath = Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
-            string args = sendBtn.CommandArgument.ToString();
-            KMLGenerator kml = new KMLGenerator("testFile", serverPath);
-
             try
             {
+                //Generate the KML from the connection
+                ImageButton sendBtn = (ImageButton)sender;
+                String serverPath = Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
+                string args = sendBtn.CommandArgument.ToString();
+                KMLGenerator kml = new KMLGenerator("testFile", serverPath);
+
+
                 //Generate the KML string based on the connection id
                 String kmlString = kml.generateKML(int.Parse(args));
                 Connection conn = new Connection(int.Parse(args));
@@ -160,12 +161,12 @@ namespace HCI
                 Response.End();
                 return;
             }
-            catch (ODBC2KMLException error) 
+            catch (Exception error) 
             {
-                ErrorHandler err = new ErrorHandler(error.errorText, errorPanel1);
+                ErrorHandler err = new ErrorHandler("There was an exception generating KML.", errorPanel1);
                 err.displayError();
                 return;
-            }
+            } 
 
             //Response.Redirect("Main.aspx", true);
         }
