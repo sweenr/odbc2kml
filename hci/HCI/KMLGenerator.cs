@@ -66,9 +66,6 @@ namespace HCI
 
             try
             {
-                //Test code, may be removed, will identify later
-                String path = this.serverPath;
-
                 //Get mappings fromc onnection object
                 ArrayList mappings = connection.getMapping();
 
@@ -96,9 +93,6 @@ namespace HCI
 
                 //Create database
                 Database DB = new Database(connection.getConnInfo());
-
-                //Test code
-                //Icon rowIcon = new Icon();
                 
                 //originally took string table name, changed for test
                 foreach (Mapping map in mappings)
@@ -237,45 +231,13 @@ namespace HCI
                         {
                             if (rowIcon.getLocality() == false)
                             {
-                                //Create new icon
-                               /* Icon newIcon = new Icon();
-                                newIcon.setLocation(rowIcon.getLocation()); //Path is server information
-                                newIcon.setLocality(rowIcon.getLocality());
-                                newIcon.setId(rowIcon.getId());
-
-                                //Add every condition
-                                foreach (Condition x in rowIcon.getConditions())
-                                {
-                                    newIcon.setConditions(x);
-                                }*/
-
-                                //rowStyle.setStyleIcon(rowIcon);
-                                //rowStyle.setStyleColor(color);
-                                //rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));
+                                //Create new style with external icon
                                 rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                                 rowIcon.setLocation("");
                             }
                             else //If the icon is local, append server data
                             {
-                                //Create a new icon, and set all of its value equal to rowIcons
-                               /* Icon newIcon = new Icon();
-                                newIcon.setLocation(path + rowIcon.getLocation()); //Path is server information
-                                newIcon.setLocality(rowIcon.getLocality());
-                                newIcon.setId(rowIcon.getId());
-
-                                //Add every condition
-                                foreach (Condition x in rowIcon.getConditions())
-                                {
-                                    newIcon.setConditions(x);
-                                }
-
-                                //Set style information
-                                rowStyle.setStyleIcon(newIcon);
-                                rowStyle.setStyleColor(color);
-                                rowStyle.setStyleName(rowIcon.getLocation() + "_" + color.ToString("X"));*/
-                                
-                                //Reset rowIcon's location value to prevent memory over write
-                                //rowIcon.setLocation("");
+                                //Create the new style, with local icon
                                 rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
                                 rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
                                 rowIcon.setLocation("");
@@ -292,9 +254,7 @@ namespace HCI
 
                         //Create placemark and add it to array list
                         rowPlacemark = new Placemark(rowLat, rowLon, rowDesc, "test");
-                        placemarks.Add(rowPlacemark);
-
-              
+                        placemarks.Add(rowPlacemark);              
                       
                         //If there is a row style, add it to the placemark and the array list
                         if (rowStyle != null)
@@ -311,15 +271,7 @@ namespace HCI
                         //Increment counter for next row (associated with getting the row description)
                         counter++;
 
-                        //Garbage collection
-                        /*rowPlacemark = null;
-                        rowIcon = null;
-                        rowStyle = null;
-                        GC.Collect();*/
-
-
-
-                    }//End for each
+                       }//End for each
                 }//End for each
 
                 //Add each style to the KML
