@@ -273,9 +273,9 @@ namespace HCI
             if (Session["curOverlayCount"] == null)
             {
                 curOverlayCount = -1;
-                tempSaveLoc = @"C:\odbc2kml\tmp\";
-                fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\icons";
-                relativeFileSaveLoc = @"icons/";
+                tempSaveLoc = Server.MapPath("/temp/");
+                fileSaveLoc = Server.MapPath("/icons/");
+                relativeFileSaveLoc = @"/icons/";
                 tempId = -1;
                 fillIconLibraryLists();
                 fillOverlayLibraryLists();
