@@ -621,8 +621,8 @@ namespace HCI
                         condition.setUpperOperator(0);
                     over.setConditions(condition);
                 }
-                overlayList.Add(over);
-                tempOverlayList.Add(over);
+                overlayList.Add(new Overlay(over));
+                tempOverlayList.Add(new Overlay(over));
                 overlayListAvailableToRemove.Add(over);
             }
         }
@@ -945,8 +945,8 @@ namespace HCI
                 ovr.setId(curOverlayCount.ToString());
                 curOverlayCount -= 1;
                 overlayListAvailableToRemove.Add(ovr);
-                overlayList.Add(ovr);
-                tempOverlayList.Add(ovr);
+                overlayList.Add(new Overlay(ovr));
+                tempOverlayList.Add(new Overlay(ovr));
                 this.fillOverlayPopupRemove();
                 this.genOverlayConditionTable(sender, e);
             }
@@ -1521,7 +1521,7 @@ namespace HCI
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
             OverlayConditionPanel.Controls.Clear();
-            if (overlayList.Count == 0)  // No images set for the condition. Display a simple table stating such.
+            if (tempOverlayList.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
@@ -1541,7 +1541,7 @@ namespace HCI
             }
             else
             {
-                foreach (Overlay overlay in overlayList)
+                foreach (Overlay overlay in tempOverlayList)
                 {
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
@@ -1684,7 +1684,7 @@ namespace HCI
                         addTableName.SelectedIndex = 0;
                         addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
-                }  // end of foreach overlay in overlaylist
+                }  // end of foreach overlay in tempOverlaylist
             }
 
         }
@@ -1735,7 +1735,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             int i = 0;
 
-            foreach (Overlay overlay in overlayList)
+            foreach (Overlay overlay in tempOverlayList)
             {
                 if (overlay.getId() != args)
                     continue;
