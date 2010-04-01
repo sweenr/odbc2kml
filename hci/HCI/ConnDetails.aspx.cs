@@ -76,7 +76,6 @@ namespace HCI
                     
                     //Create ConnInfo object and populate elements
                     ConnInfo connInfo = ConnInfo.getConnInfo(conID);
-                    ColorPicker1.InitialColor = "#000000";
                     ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
                     curOverlayCount = -1;
 
@@ -249,6 +248,7 @@ namespace HCI
             }
 
             sessionLoad();
+            ColorPicker1.InitialColor = "#000000";
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
             //fillOverlayPopupAdd();
@@ -908,12 +908,12 @@ namespace HCI
 
             if (exists)
             {
+                this.AddOverlayPopupExtender.Hide();
                 ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
                 eh.displayError();
                 //return;
                 //overColorExists.Visible = true;
-                this.AddOverlayPopupExtender.Hide();
-                this.AddOverlayPopupExtender.Show();
+                
             }
             else
             {
