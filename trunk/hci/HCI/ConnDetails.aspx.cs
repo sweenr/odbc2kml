@@ -710,7 +710,7 @@ namespace HCI
                     imgBtn.BackColor = (System.Drawing.Color)colConvert.ConvertFromString("#" + over.getColor());
                     imgBtn.CssClass = "overlayBox";
                     imgBtn.BorderColor = (System.Drawing.Color)colConvert.ConvertFromString("#000000");
-                    imgBtn.BorderWidth = Unit.Pixel(1);
+                    imgBtn.BorderWidth = Unit.Pixel(2);
                     imgBtn.Width = Unit.Pixel(25);
                     imgBtn.Height = Unit.Pixel(25);
                     imgBtn.Click += new ImageClickEventHandler(removeOverlayColorFromConn);
@@ -1219,10 +1219,13 @@ namespace HCI
                     IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
                     DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
-                    if (addTableName.Items.Count != 0)
+                    if (addTableName != null)
                     {
-                        addTableName.SelectedIndex = 0;
-                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        if (addTableName.Items.Count != 0)
+                        {
+                            addTableName.SelectedIndex = 0;
+                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        }
                     }
                 }  // end of foreach icon in tempIconlist
             }
@@ -1550,7 +1553,7 @@ namespace HCI
                 {
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"overlayBox\" style=\"background-color: #" + overlay.getColor() + ";border:1px solid black;\" />\n"));
+                    OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"overlayBox\" style=\"background-color: #" + overlay.getColor() + ";border:2px solid black;\" />\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
@@ -1684,10 +1687,13 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
                     DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
-                    if (addTableName.Items.Count != 0)
+                    if (addTableName != null)
                     {
-                        addTableName.SelectedIndex = 0;
-                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        if (addTableName.Items.Count != 0)
+                        {
+                            addTableName.SelectedIndex = 0;
+                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        }
                     }
                 }  // end of foreach overlay in tempOverlaylist
             }
