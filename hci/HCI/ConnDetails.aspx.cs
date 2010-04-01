@@ -529,7 +529,7 @@ namespace HCI
             {
                 try
                 {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM dba_tab_tables");
+                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM user_tables");
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -778,31 +778,38 @@ namespace HCI
 
             addIconToLibary.Controls.Clear();
             addIconToLibary.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
-            foreach (Icon icn in iconListAvailableToAdd)
+            if (iconListAvailableToAdd.Count == 0)
             {
-                if (currentBoxCount == sizeOfBox)
+                removeIconFromConn.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">All icons in the icon library are currently being used in the connection.</td></tr>\n"));
+            }
+            else
+            {
+                foreach (Icon icn in iconListAvailableToAdd)
                 {
-                    addIconToLibary.Controls.Add(new LiteralControl("</tr>\n"));
-                    currentBoxCount = 0;
+                    if (currentBoxCount == sizeOfBox)
+                    {
+                        addIconToLibary.Controls.Add(new LiteralControl("</tr>\n"));
+                        currentBoxCount = 0;
+                    }
+                    if (currentBoxCount == 0)
+                    {
+                        addIconToLibary.Controls.Add(new LiteralControl("<tr>\n"));
+                    }
+
+                    addIconToLibary.Controls.Add(new LiteralControl("<td>"));
+                    ImageButton imgBtn = new ImageButton();
+                    imgBtn.ID = "imgLib_" + icn.getId().ToString();
+                    imgBtn.ImageUrl = icn.getLocation().ToString();
+                    imgBtn.Click += new ImageClickEventHandler(addIconFromLibraryToConn);
+                    imgBtn.CommandArgument = icn.getId().ToString();
+                    imgBtn.AlternateText = icn.getLocation().ToString();
+
+                    addIconToLibary.Controls.Add(imgBtn);
+                    addIconToLibary.Controls.Add(new LiteralControl("</td>"));
+
+
+                    currentBoxCount += 1;
                 }
-                if (currentBoxCount == 0)
-                {
-                    addIconToLibary.Controls.Add(new LiteralControl("<tr>\n"));
-                }
-
-                addIconToLibary.Controls.Add(new LiteralControl("<td>"));
-                ImageButton imgBtn = new ImageButton();
-                imgBtn.ID = "imgLib_" + icn.getId().ToString();
-                imgBtn.ImageUrl = icn.getLocation().ToString();
-                imgBtn.Click += new ImageClickEventHandler(addIconFromLibraryToConn);
-                imgBtn.CommandArgument = icn.getId().ToString();
-                imgBtn.AlternateText = icn.getLocation().ToString();
-
-                addIconToLibary.Controls.Add(imgBtn);
-                addIconToLibary.Controls.Add(new LiteralControl("</td>"));
-
-
-                currentBoxCount += 1;
             }
             addIconToLibary.Controls.Add(new LiteralControl("</table>\n"));
         }

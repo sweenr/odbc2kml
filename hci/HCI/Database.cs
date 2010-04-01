@@ -163,7 +163,15 @@ namespace HCI
                 {
                     OracleCommand command = new OracleCommand(query);
                     command.Connection = connection;
-                    connection.Open();
+                    try
+                    {
+
+                        connection.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ODBC2KMLException(ex.Message);
+                    }
 
                     OracleDataReader reader = command.ExecuteReader();
                     try
