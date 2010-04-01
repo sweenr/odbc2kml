@@ -46,7 +46,8 @@
                    
          function initCB(instance) {
          ge = instance;
-         ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO); 
+         ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);
+         ge.getInfoWindow().setVisibility(ge.VISBILITY_AUTO); 
          ge.getWindow().setVisibility(true);
          var kmlString = "<%=KML%>";
          var kmlObject = ge.parseKml(kmlString);

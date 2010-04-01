@@ -1364,6 +1364,42 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button saveConn;
         
         /// <summary>
+        /// warningModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender warningModal;
+        
+        /// <summary>
+        /// connUpdateWarning control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel connUpdateWarning;
+        
+        /// <summary>
+        /// continueUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button continueUpdate;
+        
+        /// <summary>
+        /// cancelUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button cancelUpdate;
+        
+        /// <summary>
         /// scriptHandler control.
         /// </summary>
         /// <remarks>
