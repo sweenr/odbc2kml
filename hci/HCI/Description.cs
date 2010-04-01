@@ -169,8 +169,12 @@ namespace HCI
                     String descString1 = descString.Substring(0,URLindex);
                     String descString2 = descString.Substring(URLendIndex+6);
                     String URLstring = descString.Substring(URLindex+5, length-5);
-                    URLstring.Replace("[URL]", "");
-                    URLstring.Replace("[/URL]", "");
+                    while (URLstring.Contains("[BR/]"))
+                    {
+                        URLstring = URLstring.Replace("[BR/]", "");
+                    }
+                    URLstring = URLstring.Replace("[URL]", "");
+                    URLstring = URLstring.Replace("[/URL]", "");
                     String finalURL = "";
                     if (URLstring.Contains("[TITLE]"))
                     {
@@ -180,8 +184,8 @@ namespace HCI
                         String URLsubString1 = URLstring.Substring(0, titleIndex);
                         String URLsubString2 = URLstring.Substring(titleEndIndex+8);
                         String titleString = URLstring.Substring(titleIndex+7, titleLength-7);
-                        titleString.Replace("[TITLE]", "");
-                        titleString.Replace("[/TITLE]", "");
+                        titleString = titleString.Replace("[TITLE]", "");
+                        titleString = titleString.Replace("[/TITLE]", "");
                         finalURL = "<a href=\"" + URLsubString1 + URLsubString2 + "\">"
                             + titleString + "</a>";
                         if (finalURL.Contains("[TITLE]"))
@@ -229,16 +233,16 @@ namespace HCI
                 //        //String fieldString1 = fieldString.Substring(0,tblIndex);
                 //        //String fieldString2 = fieldString.Substring(tblEndIndex);
                 //        String tblString = fieldString.Substring(tblIndex, tblLength);
-                //        tblString.Replace("[TBL]", "");
-                //        tblString.Replace("[/TBL]", "");
+                //        tblString = tblString.Replace("[TBL]", "");
+                //        tblString = tblString.Replace("[/TBL]", "");
                 //        int colIndex = fieldString.IndexOf("[COL]");
                 //        int colEndIndex = fieldString.IndexOf("[/COL]");
                 //        int colLength = colEndIndex - colIndex;
                 //        //String fieldString1 = fieldString.Substring(0,tblIndex);
                 //        //String fieldString2 = fieldString.Substring(tblEndIndex);
                 //        String colString = fieldString.Substring(colIndex, colLength);
-                //        colString.Replace("[COL]", "");
-                //        colString.Replace("[/COL]", "");
+                //        colString = colString.Replace("[COL]", "");
+                //        colString = colString.Replace("[/COL]", "");
                 //        //DataTable remote2;
                 //        //below isn't finished
                 //        //if(dbType == ConnInfo.MSSQL)
@@ -273,22 +277,22 @@ namespace HCI
                 //    String descString1 = descString.Substring(0, imageIndex);
                 //    String descString2 = descString.Substring(imageEndIndex);
                 //    String imageString = descString.Substring(imageIndex, imageLength);
-                //    imageString.Replace("[IMAGE]", "");
-                //    imageString.Replace("[/IMAGE]", "");
+                //    imageString = imageString.Replace("[IMAGE]", "");
+                //    imageString = imageString.Replace("[/IMAGE]", "");
                 //    if (imageString.Contains("[TBL]") && imageString.Contains("[COL]"))
                 //    {
                 //        int tblIndex = imageString.IndexOf("[TBL]");
                 //        int tblEndIndex = imageString.IndexOf("[/TBL]");
                 //        int tblLength = tblEndIndex - tblIndex;
                 //        String tblString = imageString.Substring(tblIndex, tblLength);
-                //        tblString.Replace("[TBL]", "");
-                //        tblString.Replace("[/TBL]", "");
+                //        tblString = tblString.Replace("[TBL]", "");
+                //        tblString = tblString.Replace("[/TBL]", "");
                 //        int colIndex = imageString.IndexOf("[COL]");
                 //        int colEndIndex = imageString.IndexOf("[/COL]");
                 //        int colLength = colEndIndex - colIndex;
                 //        String colString = imageString.Substring(colIndex, colLength);
-                //        colString.Replace("[COL]", "");
-                //        colString.Replace("[/COL]", "");
+                //        colString = colString.Replace("[COL]", "");
+                //        colString = colString.Replace("[/COL]", "");
                 //        //imageString = "<img src=\"./ImageWebSVC.asmx/getImage?connID="
                 //        //    + connID + "&table="
                 //        //    + tblString + "&field="
