@@ -2372,6 +2372,34 @@ namespace HCI
         }
         private void saveConnInfo()
         {
+            connName = odbcName.Text.ToString();
+            connDBAddr = odbcAdd.Text.ToString();
+            connDBPort = odbcPN.Text.ToString();
+            connDBName = odbcDName.Text.ToString();
+            connUser = odbcUser.Text.ToString();
+            connPassword = odbcPass.Text.ToString();
+            connDBType = odbcDBType.SelectedItem.ToString();
+            oracleProtocol = odbcProtocol.Text.ToString();
+            oracleSName = odbcSName.Text.ToString();
+            oracleSID = odbcSID.Text.ToString();
+
+            ConnInfo cf = new ConnInfo();
+
+            if (connDBType.Equals("MySQL"))
+            {
+                DBTypeNum = "0";
+                cf.setDatabaseType(0);
+            }
+            else if (connDBType.Equals("SQL"))
+            {
+                DBTypeNum = "1";
+                cf.setDatabaseType(1);
+            }
+            else
+            {
+                DBTypeNum = "2";
+                cf.setDatabaseType(2);
+            }
             Database DB = new Database();
             int connID = int.Parse(Request.QueryString.Get("ConnID"));
             try
