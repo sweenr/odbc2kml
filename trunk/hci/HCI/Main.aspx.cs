@@ -146,23 +146,24 @@ namespace HCI
 
             try
             {
-                //TODO: REMOVE ALL TEST CODE FROM THIS BLOCK
-                String blah = kml.generateKML(int.Parse(args));
+                //Generate the KML string based on the connection id
+                String kmlString = kml.generateKML(int.Parse(args));
                 Connection conn = new Connection(int.Parse(args));
                 conn.populateFields();
 
+                //Write the KML string to a downloadable file
                 Response.ClearHeaders();
                 Response.ClearContent();
                 Response.ContentType = "application/vnd.google-earth.kml+xml kml";
                 Response.AddHeader("Content-Disposition", "attachment; filename=\"" + (conn.getConnInfo()).getConnectionName() + ".kml");
-                Response.Write(blah);
+                Response.Write(kmlString);
                 Response.End();
                 return;
             }
             catch (ODBC2KMLException error) 
             {
-                ErrorHandler eh = new ErrorHandler(error.errorText, errorPanel1);
-                eh.displayError();
+                ErrorHandler err = new ErrorHandler(error.errorText, errorPanel1);
+                err.displayError();
                 return;
             }
 
