@@ -424,8 +424,23 @@ namespace HCI
             }
         }
 
+        protected void showWarning(object sender, EventArgs e)
+        {
+            connUpdateWarning.Visible = true;
+            warningModal.Show();
+        }
+
+        protected void hideWarningPopup(object sender, EventArgs e)
+        {
+            connUpdateWarning.Visible = false;
+            warningModal.Show();
+        }
+
         protected void updateConnection(object sender, EventArgs e)
         {
+            //connUpdateWarning.Attributes.Add(
+            //connUpdateWarning.Visible = true;
+
             invalidConnInfo.Visible = false;
             unableToConnect.Visible = false;
             connectionEstablished.Visible = false;
@@ -508,7 +523,7 @@ namespace HCI
                 return;
             }
 
-            
+
             cf.setConnectionName(connName);
             cf.setServerAddress(connDBAddr);
             cf.setPortNumber(connDBPort);
@@ -516,74 +531,45 @@ namespace HCI
             cf.setUserName(connUser);
             cf.setPassword(connPassword);
 
-            Database connectionTableDatabase = new Database(cf);
-            DataTable dt;
-
-            /*connectionTables.Controls.Clear();
-            if (DBTypeNum.Equals("0"))
+            //Connection string 
+            String connString = "";
+            if (cf.getDatabaseType() == ConnInfo.MSSQL)
             {
-                try
-                {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-            }
-            else if (DBTypeNum.Equals("1"))
-            {
-                try
-                {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-            }
-            else
-            {
-                try
-                {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM user_tables");
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
-                } 
+                connString = "Data Source=" + cf.getServerAddress() + ";Initial Catalog=" + cf.getDatabaseName() + ";Persist Security Info=True;User Id=" + cf.getUserName() + ";Password=" + cf.getPassword();
+                MSQLTables_Mapping.ConnectionString = connString;
+                MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
             }
 
-            int tblNum = 0;
-            foreach (DataRow dr in dt.Rows)
+            else if (cf.getDatabaseType() == ConnInfo.MYSQL)
             {
-                String tableName = dr[0].ToString();
-                Button btn = new Button();
-                btn.ID = "connTable_"+tblNum.ToString();
-                if(tblNum % 2 == 0)
-                {
-                    btn.CssClass="selectDB";
-                }else{
-                    btn.CssClass="selectDB2";
-                }
-                btn.Text=tableName;
-                btn.ToolTip=tableName;
-                btn.Click += new EventHandler(genDBTCol);
-                btn.CommandArgument = tableName;
-                connectionTables.Controls.Add(btn);
-                connectionTables.Controls.Add(new LiteralControl("<br/>"));
-                tblNum += 1;
+                String provider;
+                connString = "server=" + cf.getServerAddress() + ";User Id=" + cf.getUserName() + ";password=" + cf.getPassword() + ";Persist Security Info=True;database=" + cf.getDatabaseName();
+                provider = "MySql.Data.MySqlClient";
+                SQLTables_Mapping.ConnectionString = connString;
+                SQLTables_Mapping.ProviderName = provider;
+                SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
             }
-            */
+
+            else if (cf.getDatabaseType() == ConnInfo.ORACLE)
+            {
+                String provider = "";
+                connString = "Data Source=" + cf.getServerAddress() + ";Persist Security Info=True;User ID=" + cf.getUserName() + ";Password=" + cf.getPassword() + ";Unicode=True";
+                provider = "System.Data.OracleClient";
+                oracleTables_Mapping.ConnectionString = connString;
+                oracleTables_Mapping.ProviderName = provider;
+                oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
+            }
+
+            else //Default set to SQL
+            {
+            }
+
+            //Update the tables based on the new connection information
+            updateTables(cf.getDatabaseType());
+
             sessionSave();
         }
-
+        
         protected void fillOverlayLibraryLists()
         {
             overlayList.Clear();

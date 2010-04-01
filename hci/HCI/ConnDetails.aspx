@@ -1085,6 +1085,23 @@ function OnColorPicked(sender){
         </div>
 
     </div>
+    <ajax:modalpopupextender OkControlId="continueUpdate" CancelControlId="cancelUpdate" runat="server" 
+        popupcontrolid="connUpdateWarning" TargetControlID="connectButton" ID="warningModal" 
+        BackgroundCssClass="modalBackground" DropShadow="true">
+    </ajax:modalpopupextender>
+    <asp:Panel ID="connUpdateWarning" runat="server" Width="500px" Visible="false">
+        <div class="mainBoxP">
+           <p>If there are any differences between the original database and the one being updated,<br />
+           description and any conditions associated with tables no longer present will be removed<br />
+           from the connection. Are you sure you would like to update the connection information?
+           <br /><br />
+           </p>
+           <asp:button ID="continueUpdate" runat="server" Text="Yes" OnClick="updateConnection" CssClass="button" />
+           <asp:Button ID="cancelUpdate" runat="server" Text="No" OnClick="hideWarningPopup" CssClass="button" /> 
+           <br />
+           </div>
+        </asp:Panel>
+
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">
     </asp:Panel>
     </form>
