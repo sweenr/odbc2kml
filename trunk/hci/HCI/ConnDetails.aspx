@@ -1029,7 +1029,7 @@ function OnColorPicked(sender){
                                                                     </tr>
                                                                 </table>
                                                                 <div class="right" style="padding-top: 20px;">
-                                                                    <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" />
+                                                                    <!-- <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" /> -->
                                                                     <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button"
                                                                         OnClick="addOverlayColorToConn" />
                                                                     <asp:Button ID="closeAddOverlay" runat="server" Text="Cancel" CssClass="button" OnClick="closeAddOverlayFunct" />
