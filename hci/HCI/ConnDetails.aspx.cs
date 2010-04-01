@@ -44,6 +44,17 @@ namespace HCI
         private SqlDataSource oracleTables = new SqlDataSource();
         private SqlDataSource colDataSource = new SqlDataSource();
         private int tempId = -1;
+        private String connName = "";
+        private String connDBAddr = "";
+        private String connDBPort = "";
+        private String connDBName = "";
+        private String connUser = "";
+        private String connPassword = "";
+        private String connDBType = "";
+        private String oracleProtocol = "";
+        private String oracleSName = "";
+        private String oracleSID = "";
+        private String DBTypeNum = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -67,52 +78,114 @@ namespace HCI
                     ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
                     curOverlayCount = -1;
 
-                    //Set Connection Information accordingly
-                    odbcAdd.Text = connInfo.getServerAddress();
-                    odbcDName.Text = connInfo.getDatabaseName();
-                    odbcName.Text = connInfo.getConnectionName();
-                    odbcPass.Attributes.Add("value", connInfo.getPassword());
-                    odbcPN.Text = connInfo.getPortNumber();
-                    odbcUser.Text = connInfo.getUserName();
-                    odbcProtocol.Text = connInfo.getOracleProtocol();
-                    odbcSName.Text = connInfo.getOracleServiceName();
-                    odbcSID.Text = connInfo.getOracleSID();
+                    if (connDBAddr == "")
+                    {
+                        connDBAddr = connInfo.getServerAddress();
+                        connDBName = connInfo.getDatabaseName();
+                        connName = connInfo.getConnectionName();
+                        connPassword = connInfo.getPassword();
+                        connDBPort = connInfo.getPortNumber();
+                        connUser = connInfo.getUserName();
+                        oracleProtocol = connInfo.getOracleProtocol();
+                        oracleSName = connInfo.getOracleServiceName();
+                        oracleSID = connInfo.getOracleSID();
+                        connDBType = Convert.ToString(connInfo.getDatabaseType());
 
-                    string connectionString = "";
-                    string providerName = "";
-                    //Set drop down box accordingly
-                    if (connInfo.getDatabaseType() == ConnInfo.MSSQL) 
-                    {
-                        odbcDBType.SelectedValue = "SQL";
-                        connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
-                        MSQLTables.ConnectionString = connectionString;
-                        MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";    
-                    }
-                    else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)                    
-                    {
-                        odbcDBType.SelectedValue = "MySQL";
-                        connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
-                        providerName = "MySql.Data.MySqlClient";
-                        SQLTables.ConnectionString = connectionString;
-                        SQLTables.ProviderName = providerName;
-                        SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
-                    }
-                    else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
-                    {
-                        odbcDBType.SelectedValue = "Oracle";
-                        connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
-                        providerName = "System.Data.OracleClient";
-                        oracleTables.ConnectionString = connectionString;
-                        oracleTables.ProviderName = providerName;
-                        oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
-                    }
-                    else //Default set to SQL
-                    {
-                        odbcDBType.SelectedValue = "SQL";
-                    }
+                        ////Set Connection Information accordingly
+                        //odbcAdd.Text = connInfo.getServerAddress();
+                        //odbcDName.Text = connInfo.getDatabaseName();
+                        //odbcName.Text = connInfo.getConnectionName();
+                        //odbcPass.Attributes.Add("value", connInfo.getPassword());
+                        //odbcPN.Text = connInfo.getPortNumber();
+                        //odbcUser.Text = connInfo.getUserName();
+                        //odbcProtocol.Text = connInfo.getOracleProtocol();
+                        //odbcSName.Text = connInfo.getOracleServiceName();
+                        //odbcSID.Text = connInfo.getOracleSID();
 
-                    //Garbage collection
-                    connInfo = null;
+                        //string connectionString = "";
+                        //string providerName = "";
+                        ////Set drop down box accordingly
+                        //if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                        //{
+                        //    odbcDBType.SelectedValue = "SQL";
+                        //    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                        //    MSQLTables.ConnectionString = connectionString;
+                        //    MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                        //}
+                        //else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                        //{
+                        //    odbcDBType.SelectedValue = "MySQL";
+                        //    connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                        //    providerName = "MySql.Data.MySqlClient";
+                        //    SQLTables.ConnectionString = connectionString;
+                        //    SQLTables.ProviderName = providerName;
+                        //    SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                        //}
+                        //else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                        //{
+                        //    odbcDBType.SelectedValue = "Oracle";
+                        //    connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                        //    providerName = "System.Data.OracleClient";
+                        //    oracleTables.ConnectionString = connectionString;
+                        //    oracleTables.ProviderName = providerName;
+                        //    oracleTables.SelectCommand = "SELECT TABLE_NAME FROM all_tables WHERE TABLESPACE_NAME != 'SYSTEM' AND TABLESPACE_NAME != 'SYSAUX'";
+                        //}
+                        //else //Default set to SQL
+                        //{
+                        //    odbcDBType.SelectedValue = "SQL";
+                        //}
+
+                        ////Garbage collection
+                        //connInfo = null;
+                    }
+                    //else
+                    //{
+                        odbcAdd.Text = connDBAddr;
+                        odbcDName.Text = connDBName;
+                        odbcName.Text = connName;
+                        odbcPass.Attributes.Add("value", connPassword);
+                        odbcPN.Text = connDBPort;
+                        odbcUser.Text = connUser;
+                        odbcProtocol.Text = oracleProtocol;
+                        odbcSName.Text = oracleSName;
+                        odbcSID.Text = oracleSID;
+                        //change below
+                        string connectionString = "";
+                        string providerName = "";
+                        //Set drop down box accordingly
+                        if (Convert.ToInt32(connDBType) == ConnInfo.MSSQL)
+                        {
+                            odbcDBType.SelectedValue = "SQL";
+                            connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                            MSQLTables.ConnectionString = connectionString;
+                            MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                        }
+                        else if (Convert.ToInt32(connDBType) == ConnInfo.MYSQL)
+                        {
+                            odbcDBType.SelectedValue = "MySQL";
+                            connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                            providerName = "MySql.Data.MySqlClient";
+                            SQLTables.ConnectionString = connectionString;
+                            SQLTables.ProviderName = providerName;
+                            SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                        }
+                        else if (Convert.ToInt32(connDBType) == ConnInfo.ORACLE)
+                        {
+                            odbcDBType.SelectedValue = "Oracle";
+                            connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                            providerName = "System.Data.OracleClient";
+                            oracleTables.ConnectionString = connectionString;
+                            oracleTables.ProviderName = providerName;
+                            oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
+                        }
+                        else //Default set to SQL
+                        {
+                            odbcDBType.SelectedValue = "SQL";
+                        }
+
+                        //Garbage collection
+                        connInfo = null;
+                    //}
 
                     if (!alreadySetupLists)
                     {
@@ -226,6 +299,17 @@ namespace HCI
             oracleTables = (SqlDataSource)Session["oracleTables"];
             colDataSource = (SqlDataSource)Session["colDataSource"];
             tempId = (int)Session["tempId"];
+            connName = (String)Session["connName"];
+            connDBAddr = (String)Session["connDBAddr"];
+            connDBPort = (String)Session["connDBPort"];
+            connDBName = (String)Session["connDBName"];
+            connUser = (String)Session["connUser"];
+            connPassword = (String)Session["connPassword"];
+            connDBType = (String)Session["connDBType"];
+            oracleProtocol = (String)Session["oracleProtocol"];
+            oracleSName = (String)Session["oracleSName"];
+            oracleSID = (String)Session["oracleSID"];
+            DBTypeNum = (String)Session["DBTypeNum"];
         }
 
         private void sessionSave()
@@ -250,6 +334,17 @@ namespace HCI
             Session["oracleTables"] = oracleTables;
             Session["colDataSource"] = colDataSource;
             Session["tempId"] = tempId;
+            Session["connName"] = connName;
+            Session["connDBAddr"] = connDBAddr;
+            Session["connDBPort"] = connDBPort;
+            Session["connDBName"] = connDBName;
+            Session["connUser"] = connUser;
+            Session["connPassword"] = connPassword;
+            Session["connDBType"] = connDBType;
+            Session["oracleProtocol"] = oracleProtocol;
+            Session["oracleSName"] = oracleSName;
+            Session["oracleSID"] = oracleSID;
+            Session["DBTypeNum"] = DBTypeNum;
         }
 
         /// <summary>
@@ -306,17 +401,16 @@ namespace HCI
             unableToConnect.Visible = false;
             connectionEstablished.Visible = false;
 
-            String connName = odbcName.Text.ToString();
-            String connDBAddr = odbcAdd.Text.ToString();
-            String connDBPort = odbcPN.Text.ToString();
-            String connDBName = odbcDName.Text.ToString();
-            String connUser = odbcUser.Text.ToString();
-            String connPassword = odbcPass.Text.ToString();
-            String connDBType = odbcDBType.SelectedItem.ToString();
-            String oracleProtocol = odbcProtocol.Text.ToString();
-            String oracleSName = odbcSName.Text.ToString();
-            String oracleSID = odbcSID.Text.ToString();
-            String DBTypeNum;
+            connName = odbcName.Text.ToString();
+            connDBAddr = odbcAdd.Text.ToString();
+            connDBPort = odbcPN.Text.ToString();
+            connDBName = odbcDName.Text.ToString();
+            connUser = odbcUser.Text.ToString();
+            connPassword = odbcPass.Text.ToString();
+            connDBType = odbcDBType.SelectedItem.ToString();
+            oracleProtocol = odbcProtocol.Text.ToString();
+            oracleSName = odbcSName.Text.ToString();
+            oracleSID = odbcSID.Text.ToString();
 
             ConnInfo cf = new ConnInfo();
 
@@ -2235,11 +2329,36 @@ namespace HCI
         protected void modifyConnection(object sender, EventArgs e)
         {
             sessionSave();
+            saveConnInfo();
             saveLatLonInfo();
             updateDescription();
             saveIconList();
             saveOverlayList();
             sessionSave();
+        }
+        private void saveConnInfo()
+        {
+            Database DB = new Database();
+            int connID = int.Parse(Request.QueryString.Get("ConnID"));
+            try
+            {
+                DB.executeQueryLocal("UPDATE Connection SET name=\'" + connName
+                    + "\', dbName=\'" + connDBName
+                    + "\', userName=\'" + connUser
+                    + "\', password=\'" + connPassword
+                    + "\', port=\'" + connDBPort
+                    + "\', address=\'" + connDBAddr
+                    + "\', protocol=\'" + oracleProtocol
+                    + "\', SID=\'" + oracleSID
+                    + "\', serviceName=\'" + oracleSName
+                    + "\', type=\'" + Convert.ToInt32(DBTypeNum) + "\' WHERE ID=" + connID);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
         }
         private void saveIconList()
         {
