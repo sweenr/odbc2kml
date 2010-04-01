@@ -3324,7 +3324,31 @@ namespace HCI
                     throw ex;
                 }
 
-                Mapping conMapping = Mapping.getMapping(conID, selectedTable);
+                //Mapping conMapping = Mapping.getMapping(conID, selectedTable);
+                Mapping conMapping = new Mapping();
+                if ((latLongInsert != null) && (latLongInsert.Count != 0))
+                {
+                    foreach (string mappingString in latLongInsert)
+                    {
+                        int comma1 = mappingString.IndexOf(',',0);
+                        int comma2 = mappingString.IndexOf(',', comma1 + 1);
+                        int comma3 = mappingString.IndexOf(',', comma2 + 1);
+                        int comma4 = mappingString.IndexOf(',', comma3 + 1);
+                        string mapConID = mappingString.Substring(0, comma1);
+                        string mapTableName = mappingString.Substring(comma1 + 1, comma2 - comma1 -1);
+                        string mapLatFieldName = mappingString.Substring(comma2 + 1, comma3 - comma2 - 1);
+                        string mapLongFieldName = mappingString.Substring(comma3 + 1, comma4 - comma3 - 1);
+                        string mapFormat = mappingString.Substring(comma4 + 1);
+
+                        if ((mapTableName.Equals(selectedTable) && (mapConID.Equals(conID.ToString()))))
+                        {
+                            conMapping.setTableName(mapTableName);
+                            conMapping.setLatFieldName(mapLatFieldName);
+                            conMapping.setLongFieldName(mapLongFieldName);
+                            conMapping.setFormat(Convert.ToInt32(mapFormat));
+                        }
+                    }
+                }
 
                 string dbTable = conMapping.getTableName();
 
