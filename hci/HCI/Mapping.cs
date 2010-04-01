@@ -130,13 +130,15 @@ namespace HCI
             }
 
 
-            String p1 = "", p2 = "";
+            String p1 = "", p2 = "",cord2;
             int i;
             for (i = 0; i < mid; i++)
-                p1 += cord[i];
-            for (++i; i <= cord.Length; i++)
-                p2 += cord[i];
+            {}    
+            
+            p1 = cord.Substring(0,i);
 
+            p2 = cord.Substring(++mid, cord.Length-i-1);
+            
             double q1 = 0;
             double q2 = 0;
             try
