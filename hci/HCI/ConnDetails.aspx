@@ -252,7 +252,7 @@ function OnColorPicked(sender){
                                                     </td>
                                                 </tr>
                                                 <tr id="odbcInfoRow">
-                                                    <td>
+                                                    <td colspan="2">
                                                         <span class="connectionTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Only Service Name or Service ID is required, not both</span>
                                                     </td>
                                                 </tr>
