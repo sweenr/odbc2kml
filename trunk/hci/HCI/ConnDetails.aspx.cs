@@ -207,36 +207,45 @@ namespace HCI
 
                     //Set Table Datasources & fill in gridview/boxes
 
-                    if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                    try
                     {
-                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
-                        MSQLTables_Mapping.ConnectionString = connectionString_editor;
-                        MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
-                    }
+                        if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                        {
+                            connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                            MSQLTables_Mapping.ConnectionString = connectionString_editor;
+                            MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                        }
 
-                    else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                        else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                        {
+                            connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                            providerName_editor = "MySql.Data.MySqlClient";
+                            SQLTables_Mapping.ConnectionString = connectionString_editor;
+                            SQLTables_Mapping.ProviderName = providerName_editor;
+                            SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                        }
+
+                        else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                        {
+                            connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                            providerName_editor = "System.Data.OracleClient";
+                            oracleTables_Mapping.ConnectionString = connectionString_editor;
+                            oracleTables_Mapping.ProviderName = providerName_editor;
+                            oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
+                        }
+
+                        else //Default set to SQL
+                        {
+                        }
+
+                        updateTables(connInfo_editor.getDatabaseType());
+                    }
+                    catch (Exception ex)
                     {
-                        connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
-                        providerName_editor = "MySql.Data.MySqlClient";
-                        SQLTables_Mapping.ConnectionString = connectionString_editor;
-                        SQLTables_Mapping.ProviderName = providerName_editor;
-                        SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                        ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1);
+                        eh.displayError();
+                        return;
                     }
-
-                    else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
-                    {
-                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
-                        providerName_editor = "System.Data.OracleClient";
-                        oracleTables_Mapping.ConnectionString = connectionString_editor;
-                        oracleTables_Mapping.ProviderName = providerName_editor;
-                        oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
-                    }
-
-                    else //Default set to SQL
-                    {
-                    }
-
-                    updateTables(connInfo_editor.getDatabaseType());
 
                     //Get Description
                     Description conDesc_editor = Description.getDescription(conID);
@@ -256,8 +265,17 @@ namespace HCI
             //fillOverlayPopupAdd();
             fillOverlayPopupRemove();
 
-            genIconConditionTable(sender, e);
-            genOverlayConditionTable(sender, e);
+            try
+            {
+                genIconConditionTable(sender, e);
+                genOverlayConditionTable(sender, e);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1);
+                eh.displayError();
+                return;
+            }
             
             BuildTypeList();
             sessionSave();
@@ -1219,13 +1237,10 @@ namespace HCI
                     IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
                     DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
-                    if (addTableName != null)
+                    if ((addTableName != null) && (addTableName.Items.Count != 0))
                     {
-                        if (addTableName.Items.Count != 0)
-                        {
-                            addTableName.SelectedIndex = 0;
-                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
-                        }
+                        addTableName.SelectedIndex = 0;
+                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
                 }  // end of foreach icon in tempIconlist
             }
@@ -1364,26 +1379,33 @@ namespace HCI
             addTableName.Width = 120;
             addTableName.AutoPostBack = true;
             ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
-            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            try
             {
-                addTableName.DataSource = MSQLTables;
-                addTableName.DataTextField = "TABLE_NAME";
-                addTableName.DataValueField = "TABLE_NAME";
-                addTableName.DataBind();
+                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                    addTableName.DataSource = MSQLTables;
+                    addTableName.DataTextField = "TABLE_NAME";
+                    addTableName.DataValueField = "TABLE_NAME";
+                    addTableName.DataBind();
+                }
+                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    addTableName.DataSource = SQLTables;
+                    addTableName.DataTextField = "TABLE_NAME";
+                    addTableName.DataValueField = "TABLE_NAME";
+                    addTableName.DataBind();
+                }
+                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    addTableName.DataSource = oracleTables;
+                    addTableName.DataTextField = "TABLE_NAME";
+                    addTableName.DataValueField = "TABLE_NAME";
+                    addTableName.DataBind();
+                }
             }
-            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            catch (Exception ex)
             {
-                addTableName.DataSource = SQLTables;
-                addTableName.DataTextField = "TABLE_NAME";
-                addTableName.DataValueField = "TABLE_NAME";
-                addTableName.DataBind();
-            }
-            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
-            {
-                addTableName.DataSource = oracleTables;
-                addTableName.DataTextField = "TABLE_NAME";
-                addTableName.DataValueField = "TABLE_NAME";
-                addTableName.DataBind();
+                throw ex;
             }
             //addTableName.Items.Insert(0, "");
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
@@ -1687,13 +1709,10 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
                     DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
-                    if (addTableName != null)
+                    if ((addTableName != null) && (addTableName.Items.Count != 0))
                     {
-                        if (addTableName.Items.Count != 0)
-                        {
-                            addTableName.SelectedIndex = 0;
-                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
-                        }
+                        addTableName.SelectedIndex = 0;
+                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
                 }  // end of foreach overlay in tempOverlaylist
             }
@@ -1832,26 +1851,33 @@ namespace HCI
             addTableName.Width = 120;
             addTableName.AutoPostBack = true;
             ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
-            if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            try
             {
-                addTableName.DataSource = MSQLTables;
-                addTableName.DataTextField = "TABLE_NAME";
-                addTableName.DataValueField = "TABLE_NAME";
-                addTableName.DataBind();
+                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                    addTableName.DataSource = MSQLTables;
+                    addTableName.DataTextField = "TABLE_NAME";
+                    addTableName.DataValueField = "TABLE_NAME";
+                    addTableName.DataBind();
+                }
+                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    addTableName.DataSource = SQLTables;
+                    addTableName.DataTextField = "TABLE_NAME";
+                    addTableName.DataValueField = "TABLE_NAME";
+                    addTableName.DataBind();
+                }
+                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    addTableName.DataSource = oracleTables;
+                    addTableName.DataTextField = "TABLE_NAME";
+                    addTableName.DataValueField = "TABLE_NAME";
+                    addTableName.DataBind();
+                }
             }
-            else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            catch (Exception ex)
             {
-                addTableName.DataSource = SQLTables;
-                addTableName.DataTextField = "TABLE_NAME";
-                addTableName.DataValueField = "TABLE_NAME";
-                addTableName.DataBind();
-            }
-            else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
-            {
-                addTableName.DataSource = oracleTables;
-                addTableName.DataTextField = "TABLE_NAME";
-                addTableName.DataValueField = "TABLE_NAME";
-                addTableName.DataBind();
+                throw ex;
             }
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
@@ -2037,46 +2063,53 @@ namespace HCI
                 return;
             }
 
-            if (type == ConnInfo.MSSQL)
+            try
             {
-                connectionString = "Data Source=" + address + ";Initial Catalog=" + dbName + ";Persist Security Info=True;User Id=" + username + ";Password=" + password;
-                SqlDataSource temp = new SqlDataSource();
-                temp.ConnectionString = connectionString;
-                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                fieldList.DataSource = temp;
-                fieldList.DataValueField = "COLUMN_NAME";
-                fieldList.DataTextField = "COLUMN_NAME";
-                fieldList.DataBind();
+                if (type == ConnInfo.MSSQL)
+                {
+                    connectionString = "Data Source=" + address + ";Initial Catalog=" + dbName + ";Persist Security Info=True;User Id=" + username + ";Password=" + password;
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                    fieldList.DataSource = temp;
+                    fieldList.DataValueField = "COLUMN_NAME";
+                    fieldList.DataTextField = "COLUMN_NAME";
+                    fieldList.DataBind();
+                }
+                else if (type == ConnInfo.MYSQL)
+                {
+                    connectionString = "server=" + address + ";User Id=" + username + ";password=" + password + ";Persist Security Info=True;database=" + dbName;
+                    providerName = "MySql.Data.MySqlClient";
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.ProviderName = providerName;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                    fieldList.DataSource = temp;
+                    fieldList.DataValueField = "COLUMN_NAME";
+                    fieldList.DataTextField = "COLUMN_NAME";
+                    fieldList.DataBind();
+                }
+                else if (type == ConnInfo.ORACLE)
+                {
+                    connectionString = "Data Source=" + address + ";Persist Security Info=True;User ID=" + username + ";Password=" + password + ";Unicode=True";
+                    providerName = "System.Data.OracleClient";
+                    SqlDataSource temp = new SqlDataSource();
+                    temp.ConnectionString = connectionString;
+                    temp.ProviderName = providerName;
+                    temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+                    fieldList.DataSource = temp;
+                    fieldList.DataValueField = "COLUMN_NAME";
+                    fieldList.DataTextField = "COLUMN_NAME";
+                    fieldList.DataBind();
+                }
+                else
+                {
+                    //Default case goes here
+                }
             }
-            else if (type == ConnInfo.MYSQL)
+            catch (Exception ex)
             {
-                connectionString = "server=" + address + ";User Id=" + username + ";password=" + password + ";Persist Security Info=True;database=" + dbName;
-                providerName = "MySql.Data.MySqlClient";
-                SqlDataSource temp = new SqlDataSource();
-                temp.ConnectionString = connectionString;
-                temp.ProviderName = providerName;
-                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                fieldList.DataSource = temp;
-                fieldList.DataValueField = "COLUMN_NAME";
-                fieldList.DataTextField = "COLUMN_NAME";
-                fieldList.DataBind();
-            }
-            else if (type == ConnInfo.ORACLE)
-            {
-                connectionString = "Data Source=" + address + ";Persist Security Info=True;User ID=" + username + ";Password=" + password + ";Unicode=True";
-                providerName = "System.Data.OracleClient";
-                SqlDataSource temp = new SqlDataSource();
-                temp.ConnectionString = connectionString;
-                temp.ProviderName = providerName;
-                temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
-                fieldList.DataSource = temp;
-                fieldList.DataValueField = "COLUMN_NAME";
-                fieldList.DataTextField = "COLUMN_NAME";
-                fieldList.DataBind();
-            }
-            else
-            {
-                //Default case goes here
+                throw ex;
             }
             string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
             UpdatePanel up;
@@ -3013,48 +3046,55 @@ namespace HCI
         //editor methods
         protected void updateTables(int type)
         {
-            if (type == ConnInfo.MSSQL)
+            try
             {
-                iTableNBox.DataSource = MSQLTables_Mapping;
-                iTableNBox.DataTextField = "TABLE_NAME";
-                iTableNBox.DataValueField = "TABLE_NAME";
-                iTableNBox.DataBind();
-                iTableFNBox.DataSource = MSQLTables_Mapping;
-                iTableFNBox.DataTextField = "TABLE_NAME";
-                iTableFNBox.DataValueField = "TABLE_NAME";
-                iTableFNBox.DataBind();
-                GridViewTables.DataSource = MSQLTables_Mapping;
-                GridViewTables.DataBind();
+                if (type == ConnInfo.MSSQL)
+                {
+                    iTableNBox.DataSource = MSQLTables_Mapping;
+                    iTableNBox.DataTextField = "TABLE_NAME";
+                    iTableNBox.DataValueField = "TABLE_NAME";
+                    iTableNBox.DataBind();
+                    iTableFNBox.DataSource = MSQLTables_Mapping;
+                    iTableFNBox.DataTextField = "TABLE_NAME";
+                    iTableFNBox.DataValueField = "TABLE_NAME";
+                    iTableFNBox.DataBind();
+                    GridViewTables.DataSource = MSQLTables_Mapping;
+                    GridViewTables.DataBind();
+                }
+                else if (type == ConnInfo.MYSQL)
+                {
+                    iTableNBox.DataSource = SQLTables_Mapping;
+                    iTableNBox.DataTextField = "TABLE_NAME";
+                    iTableNBox.DataValueField = "TABLE_NAME";
+                    iTableNBox.DataBind();
+                    iTableFNBox.DataSource = SQLTables_Mapping;
+                    iTableFNBox.DataTextField = "TABLE_NAME";
+                    iTableFNBox.DataValueField = "TABLE_NAME";
+                    iTableFNBox.DataBind();
+                    GridViewTables.DataSource = SQLTables_Mapping;
+                    GridViewTables.DataBind();
+                }
+                else if (type == ConnInfo.ORACLE)
+                {
+                    iTableNBox.DataSource = oracleTables_Mapping;
+                    iTableNBox.DataTextField = "TABLE_NAME";
+                    iTableNBox.DataValueField = "TABLE_NAME";
+                    iTableNBox.DataBind();
+                    iTableFNBox.DataSource = oracleTables_Mapping;
+                    iTableFNBox.DataTextField = "TABLE_NAME";
+                    iTableFNBox.DataValueField = "TABLE_NAME";
+                    iTableFNBox.DataBind();
+                    GridViewTables.DataSource = oracleTables_Mapping;
+                    GridViewTables.DataBind();
+                }
+                else
+                {
+                    //Default case goes here
+                }
             }
-            else if (type == ConnInfo.MYSQL)
+            catch (Exception ex)
             {
-                iTableNBox.DataSource = SQLTables_Mapping;
-                iTableNBox.DataTextField = "TABLE_NAME";
-                iTableNBox.DataValueField = "TABLE_NAME";
-                iTableNBox.DataBind();
-                iTableFNBox.DataSource = SQLTables_Mapping;
-                iTableFNBox.DataTextField = "TABLE_NAME";
-                iTableFNBox.DataValueField = "TABLE_NAME";
-                iTableFNBox.DataBind();
-                GridViewTables.DataSource = SQLTables_Mapping;
-                GridViewTables.DataBind();
-            }
-            else if (type == ConnInfo.ORACLE)
-            {
-                iTableNBox.DataSource = oracleTables_Mapping;
-                iTableNBox.DataTextField = "TABLE_NAME";
-                iTableNBox.DataValueField = "TABLE_NAME";
-                iTableNBox.DataBind();
-                iTableFNBox.DataSource = oracleTables_Mapping;
-                iTableFNBox.DataTextField = "TABLE_NAME";
-                iTableFNBox.DataValueField = "TABLE_NAME";
-                iTableFNBox.DataBind();
-                GridViewTables.DataSource = oracleTables_Mapping;
-                GridViewTables.DataBind();
-            }
-            else
-            {
-                //Default case goes here
+                throw ex;
             }
             sessionSave();
         }
@@ -3151,55 +3191,59 @@ namespace HCI
                 string connectionString_editor = "";
                 string providerName_editor = "";
 
-                //Set drop down box accordingly
-                if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                try
                 {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
-                    SqlDataSource temp = new SqlDataSource();
-                    temp.ConnectionString = connectionString_editor;
-                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                    iColFNBox.DataSource = temp;
-                    iColFNBox.DataValueField = "COLUMN_NAME";
-                    iColFNBox.DataTextField = "COLUMN_NAME";
-                    iColFNBox.DataBind();
-                    UpdateFieldCol.Update();
+                    //Set drop down box accordingly
+                    if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                    {
+                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                        SqlDataSource temp = new SqlDataSource();
+                        temp.ConnectionString = connectionString_editor;
+                        temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                        iColFNBox.DataSource = temp;
+                        iColFNBox.DataValueField = "COLUMN_NAME";
+                        iColFNBox.DataTextField = "COLUMN_NAME";
+                        iColFNBox.DataBind();
+                        UpdateFieldCol.Update();
+                    }
+                    else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                    {
+                        connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                        providerName_editor = "MySql.Data.MySqlClient";
+
+                        SqlDataSource temp = new SqlDataSource();
+                        temp.ConnectionString = connectionString_editor;
+                        temp.ProviderName = providerName_editor;
+                        temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+                        iColFNBox.DataSource = temp;
+                        iColFNBox.DataValueField = "COLUMN_NAME";
+                        iColFNBox.DataTextField = "COLUMN_NAME";
+                        iColFNBox.DataBind();
+                        UpdateFieldCol.Update();
+
+                    }
+                    else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                    {
+                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                        providerName_editor = "System.Data.OracleClient";
+
+                        SqlDataSource temp = new SqlDataSource();
+                        temp.ConnectionString = connectionString_editor;
+                        temp.ProviderName = providerName_editor;
+                        temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+                        iColFNBox.DataSource = temp;
+                        iColFNBox.DataValueField = "COLUMN_NAME";
+                        iColFNBox.DataTextField = "COLUMN_NAME";
+                        iColFNBox.DataBind();
+                        UpdateFieldCol.Update();
+                    }
+                    else //Default set to SQL
+                    {
+                    }
                 }
-
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                catch (Exception ex)
                 {
-                    connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
-                    providerName_editor = "MySql.Data.MySqlClient";
-
-                    SqlDataSource temp = new SqlDataSource();
-                    temp.ConnectionString = connectionString_editor;
-                    temp.ProviderName = providerName_editor;
-                    temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
-                    iColFNBox.DataSource = temp;
-                    iColFNBox.DataValueField = "COLUMN_NAME";
-                    iColFNBox.DataTextField = "COLUMN_NAME";
-                    iColFNBox.DataBind();
-                    UpdateFieldCol.Update();
-
-                }
-
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
-                {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
-                    providerName_editor = "System.Data.OracleClient";
-
-                    SqlDataSource temp = new SqlDataSource();
-                    temp.ConnectionString = connectionString_editor;
-                    temp.ProviderName = providerName_editor;
-                    temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
-                    iColFNBox.DataSource = temp;
-                    iColFNBox.DataValueField = "COLUMN_NAME";
-                    iColFNBox.DataTextField = "COLUMN_NAME";
-                    iColFNBox.DataBind();
-                    UpdateFieldCol.Update();
-                }
-
-                else //Default set to SQL
-                {
+                    throw ex;
                 }
 
                 //Garbage collection
@@ -3232,41 +3276,45 @@ namespace HCI
                 string connectionString_editor = "";
                 string providerName_editor = "";
 
-                //Set drop down box accordingly
-                if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                try
                 {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
-                    ColGen.ConnectionString = connectionString_editor;
-                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
-                    ColGen.DataBind();
+                    //Set drop down box accordingly
+                    if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                    {
+                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                        ColGen.ConnectionString = connectionString_editor;
+                        ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                        ColGen.DataBind();
+                    }
+                    else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                    {
+                        connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                        providerName_editor = "MySql.Data.MySqlClient";
+
+                        ColGen.ConnectionString = connectionString_editor;
+                        ColGen.ProviderName = providerName_editor;
+                        ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                        ColGen.DataBind();
+
+                    }
+                    else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                    {
+                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                        providerName_editor = "System.Data.OracleClient";
+
+                        ColGen.ConnectionString = connectionString_editor;
+                        ColGen.ProviderName = providerName_editor;
+                        ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
+                        ColGen.DataBind();
+
+                    }
+                    else //Default set to SQL
+                    {
+                    }
                 }
-
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                catch (Exception ex)
                 {
-                    connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
-                    providerName_editor = "MySql.Data.MySqlClient";
-
-                    ColGen.ConnectionString = connectionString_editor;
-                    ColGen.ProviderName = providerName_editor;
-                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
-                    ColGen.DataBind();
-
-                }
-
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
-                {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
-                    providerName_editor = "System.Data.OracleClient";
-
-                    ColGen.ConnectionString = connectionString_editor;
-                    ColGen.ProviderName = providerName_editor;
-                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
-                    ColGen.DataBind();
-
-                }
-
-                else //Default set to SQL
-                {
+                    throw ex;
                 }
 
                 Mapping conMapping = Mapping.getMapping(conID, selectedTable);
@@ -3308,39 +3356,43 @@ namespace HCI
             string connectionString_editor = "";
             string providerName_editor = "";
 
-            //Set drop down box accordingly
-            if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+            try
             {
-                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
-                ColGen.ConnectionString = connectionString_editor;
-                ColGen.ProviderName = providerName_editor;
-                ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
-                ColGen.DataBind();
+                //Set drop down box accordingly
+                if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                    ColGen.ConnectionString = connectionString_editor;
+                    ColGen.ProviderName = providerName_editor;
+                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                    ColGen.DataBind();
+                }
+                else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                    providerName_editor = "MySql.Data.MySqlClient";
+                    ColGen.ConnectionString = connectionString_editor;
+                    ColGen.ProviderName = providerName_editor;
+                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
+                    ColGen.DataBind();
+
+                }
+                else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                    providerName_editor = "System.Data.OracleClient";
+                    ColGen.ConnectionString = connectionString_editor;
+                    ColGen.ProviderName = providerName_editor;
+                    ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
+                    ColGen.DataBind();
+                }
+                else //Default set to SQL
+                {
+                }
             }
-
-            else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+            catch (Exception ex)
             {
-                connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
-                providerName_editor = "MySql.Data.MySqlClient";
-                ColGen.ConnectionString = connectionString_editor;
-                ColGen.ProviderName = providerName_editor;
-                ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
-                ColGen.DataBind();
-
-            }
-
-            else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
-            {
-                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
-                providerName_editor = "System.Data.OracleClient";
-                ColGen.ConnectionString = connectionString_editor;
-                ColGen.ProviderName = providerName_editor;
-                ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
-                ColGen.DataBind();
-            }
-
-            else //Default set to SQL
-            {
+                throw ex;
             }
 
             //Garbage collection
@@ -3388,21 +3440,28 @@ namespace HCI
 
         protected void mapUpdates(SqlDataSource temp)
         {
-            latDD.DataSource = temp;
-            latDD.DataValueField = "COLUMN_NAME";
-            latDD.DataTextField = "COLUMN_NAME";
-            latDD.DataBind();
-            latUP.Update();
-            longDD.DataSource = temp;
-            longDD.DataValueField = "COLUMN_NAME";
-            longDD.DataTextField = "COLUMN_NAME";
-            longDD.DataBind();
-            longUP.Update();
-            llDD.DataSource = temp;
-            llDD.DataValueField = "COLUMN_NAME";
-            llDD.DataTextField = "COLUMN_NAME";
-            llDD.DataBind();
-            llUP.Update();
+            try
+            {
+                latDD.DataSource = temp;
+                latDD.DataValueField = "COLUMN_NAME";
+                latDD.DataTextField = "COLUMN_NAME";
+                latDD.DataBind();
+                latUP.Update();
+                longDD.DataSource = temp;
+                longDD.DataValueField = "COLUMN_NAME";
+                longDD.DataTextField = "COLUMN_NAME";
+                longDD.DataBind();
+                longUP.Update();
+                llDD.DataSource = temp;
+                llDD.DataValueField = "COLUMN_NAME";
+                llDD.DataTextField = "COLUMN_NAME";
+                llDD.DataBind();
+                llUP.Update();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             LLSepPanel.Visible = true;
             LLTogetherPanel.Visible = false;
@@ -3421,25 +3480,31 @@ namespace HCI
 
         protected void mapUpdates(SqlDataSource temp, string latitude, string longitude, int format)
         {
-            latDD.DataSource = temp;
-            latDD.DataValueField = "COLUMN_NAME";
-            latDD.DataTextField = "COLUMN_NAME";
-            latDD.DataBind();
-            latDD.SelectedValue = latitude;
-            latUP.Update();
-            longDD.DataSource = temp;
-            longDD.DataValueField = "COLUMN_NAME";
-            longDD.DataTextField = "COLUMN_NAME";
-            longDD.DataBind();
-            longDD.SelectedValue = longitude;
-            longUP.Update();
-            llDD.DataSource = temp;
-            llDD.DataValueField = "COLUMN_NAME";
-            llDD.DataTextField = "COLUMN_NAME";
-            llDD.DataBind();
-            llDD.SelectedValue = latitude;
-            llUP.Update();
-
+            try
+            {
+                latDD.DataSource = temp;
+                latDD.DataValueField = "COLUMN_NAME";
+                latDD.DataTextField = "COLUMN_NAME";
+                latDD.DataBind();
+                latDD.SelectedValue = latitude;
+                latUP.Update();
+                longDD.DataSource = temp;
+                longDD.DataValueField = "COLUMN_NAME";
+                longDD.DataTextField = "COLUMN_NAME";
+                longDD.DataBind();
+                longDD.SelectedValue = longitude;
+                longUP.Update();
+                llDD.DataSource = temp;
+                llDD.DataValueField = "COLUMN_NAME";
+                llDD.DataTextField = "COLUMN_NAME";
+                llDD.DataBind();
+                llDD.SelectedValue = latitude;
+                llUP.Update();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             viewLatLongErrorLabel.Visible = false;
 
