@@ -477,6 +477,8 @@ function OnColorPicked(sender){
                             <span class="connectionStyle">&nbsp;Connection Description</span>
                             <br />
                             <div class="mainBox4">
+                            <% if (Request.QueryString.Get("locked") != "true")
+                               { %>
                                 <div style="background-color: white; padding: 5px; text-align:left;">
                                     <asp:Label ID="dLabel" runat="server" Text="Insert: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                     <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
@@ -487,6 +489,7 @@ function OnColorPicked(sender){
                                         OnClick="dField_Click" />&nbsp;&nbsp;
                                     <asp:Button ID="dBr" runat="server" Text="Newline" CssClass="descButton" ToolTip="Insert Newline"
                                         OnClick="dNewline_Click" />&nbsp;&nbsp;
+                            <% } %>
                                     <br />
                                     <br />
                                     <asp:UpdatePanel runat="server" ID="dUpdatePanel" UpdateMode="Conditional">
