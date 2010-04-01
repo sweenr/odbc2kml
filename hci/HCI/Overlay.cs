@@ -27,6 +27,13 @@ namespace HCI
             id = 0;
         }
 
+        public Overlay(Overlay i)
+        {
+            id = Convert.ToInt32(i.getId());
+            conditions = i.getDeepCopyOfConditions();
+            color = i.getColor();
+        }
+
         public string getId()
         {
             return this.id.ToString();
@@ -52,9 +59,19 @@ namespace HCI
             return this.conditions;
         }
 
+        public ArrayList getDeepCopyOfConditions()
+        {
+            return new ArrayList(this.conditions);
+        }
+
         public void setConditions(Condition con)
         {
             this.conditions.Add(con);
+        }
+
+        public void setConditions(ArrayList conList)
+        {
+            this.conditions = conList;
         }
 
         public void removeConditions(string conditionId)
@@ -67,6 +84,11 @@ namespace HCI
                     return;
                 }
             }
+        }
+
+        public void removeConditions()
+        {
+            this.conditions.Clear();
         }
 
         public void removeConditions(Condition condition)
