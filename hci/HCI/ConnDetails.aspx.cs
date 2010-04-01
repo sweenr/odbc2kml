@@ -32,12 +32,14 @@ namespace HCI
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
+        private ArrayList tempIconList = new ArrayList();
         private ArrayList iconListAvailableToAdd = new ArrayList();
         private ArrayList iconListAvailableToRemove = new ArrayList();
         private ArrayList overlayListAvailableToRemove = new ArrayList();
         private ArrayList latLongInsert = new ArrayList();
         private ArrayList latLongUpdate = new ArrayList();
         private ArrayList overlayList = new ArrayList();
+        private ArrayList tempOverlayList = new ArrayList();
         private ArrayList tableNameList = new ArrayList();
         private SqlDataSource MSQLTables = new SqlDataSource();
         private SqlDataSource SQLTables = new SqlDataSource();
@@ -289,12 +291,14 @@ namespace HCI
             validTypes = (ArrayList)Session["validTypes"];
             alreadySetupLists = (bool)Session["alreadySetupLists"];
             iconList = (ArrayList)Session["iconList"];
+            tempIconList = (ArrayList)Session["tempIconList"];
             iconListAvailableToAdd = (ArrayList)Session["iconListAvailableToAdd"];
             iconListAvailableToRemove = (ArrayList)Session["iconListAvailableToRemove"];
             overlayListAvailableToRemove = (ArrayList)Session["overlayListAvailableToRemove"];
             latLongInsert = (ArrayList)Session["latLongInsert"];
             latLongUpdate = (ArrayList)Session["latLongUpdate"];
             overlayList = (ArrayList)Session["overlayList"];
+            tempOverlayList = (ArrayList)Session["tempOverlayList"];
             tableNameList = (ArrayList)Session["tableNameList"];
             MSQLTables = (SqlDataSource)Session["MSQLTables"];
             SQLTables = (SqlDataSource)Session["SQLTables"];
@@ -324,12 +328,14 @@ namespace HCI
             Session["validTypes"] = validTypes;
             Session["alreadySetupLists"] = alreadySetupLists;
             Session["iconList"] = iconList;
+            Session["tempIconList"] = tempIconList;
             Session["iconListAvailableToAdd"] = iconListAvailableToAdd;
             Session["iconListAvailableToRemove"] = iconListAvailableToRemove;
             Session["overlayListAvailableToRemove"] = overlayListAvailableToRemove;
             Session["latLongInsert"] = latLongInsert;
             Session["latLongUpdate"] = latLongUpdate;
             Session["overlayList"] = overlayList;
+            Session["tempOverlayList"] = tempOverlayList;
             Session["tableNameList"] = tableNameList;
             Session["MSQLTables"] = MSQLTables;
             Session["SQLTables"] = SQLTables;
@@ -616,6 +622,7 @@ namespace HCI
                     over.setConditions(condition);
                 }
                 overlayList.Add(over);
+                tempOverlayList.Add(over);
                 overlayListAvailableToRemove.Add(over);
             }
         }
@@ -818,8 +825,9 @@ namespace HCI
                     iconSaved.setId(icon.getId());
                     iconSaved.setLocation(icon.getLocation());
                     iconListAvailableToAdd.RemoveAt(i);
-                    iconListAvailableToRemove.Add(iconSaved);
-                    iconList.Add(iconSaved);
+                    iconListAvailableToRemove.Add(new Icon(iconSaved));
+                    iconList.Add(new Icon(iconSaved));
+                    tempIconList.Add(new Icon(iconSaved));
                     this.fillIconLibraryPopup();
                     this.fillIconLibraryPopupRemove();
                     this.genIconConditionTable(sender, e);
@@ -849,6 +857,15 @@ namespace HCI
                 if (icon.getId().Equals(icn.getId()))
                 {
                     iconList.RemoveAt(i);
+                    break;
+                }
+                i += 1;
+            }
+            foreach (Icon icon in tempIconList)
+            {
+                if (icon.getId().Equals(icn.getId()))
+                {
+                    tempIconList.RemoveAt(i);
                     break;
                 }
                 i += 1;
@@ -922,6 +939,7 @@ namespace HCI
                 curOverlayCount -= 1;
                 overlayListAvailableToRemove.Add(ovr);
                 overlayList.Add(ovr);
+                tempOverlayList.Add(ovr);
                 this.fillOverlayPopupRemove();
                 this.genOverlayConditionTable(sender, e);
             }
@@ -942,6 +960,15 @@ namespace HCI
                 if (over.getColor().Equals(ovr.getColor()))
                 {
                     overlayList.RemoveAt(i);
+                    break;
+                }
+                i += 1;
+            }
+            foreach (Overlay over in tempOverlayList)
+            {
+                if (over.getColor().Equals(ovr.getColor()))
+                {
+                    tempOverlayList.RemoveAt(i);
                     break;
                 }
                 i += 1;
@@ -1000,7 +1027,8 @@ namespace HCI
                         condition.setUpperOperator(0);
                     icon.setConditions(condition);
                 }
-                iconList.Add(icon);
+                iconList.Add(new Icon(icon));
+                tempIconList.Add(new Icon(icon));
             }
             Database db3 = new Database();
             DataTable dt3;
@@ -1012,7 +1040,8 @@ namespace HCI
                 Icon icon = new Icon();
                 icon.setId(iconId);
                 icon.setLocation(iconLoc);
-                iconList.Add(icon);
+                iconList.Add(new Icon(icon));
+                tempIconList.Add(new Icon(icon));
             }
             sessionSave();
         }
@@ -1020,7 +1049,7 @@ namespace HCI
         protected void genIconConditionTable(object sender, EventArgs e)
         {
             IconConditionPanel.Controls.Clear();
-            if (iconList.Count == 0)  // No images set for the condition. Display a simple table stating such.
+            if (tempIconList.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
@@ -1040,7 +1069,7 @@ namespace HCI
             }
             else
             {
-                foreach (Icon icon in iconList)
+                foreach (Icon icon in tempIconList)
                 {
                     IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
@@ -1153,10 +1182,12 @@ namespace HCI
                     submitModifyConditionPopup.Text = "Submit";
                     submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
                     modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-                    /*Button cancelModifyConditionPopup = new Button();
-                    cancelModifyConditionPopup.ID = "cancelModifyCondition" + icon.getId();
+                    Button cancelModifyConditionPopup = new Button();
+                    cancelModifyConditionPopup.ID = "cancelIconModifyCondition" + icon.getId();
                     cancelModifyConditionPopup.Text = "Cancel";
-                    modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
+                    cancelModifyConditionPopup.Click += new EventHandler(cancelModifyIconConditionPopup_Click);
+                    cancelModifyConditionPopup.CommandArgument = icon.getId();
+                    modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
 
                     if (Request.QueryString.Get("locked") == "false")
                     {
@@ -1181,7 +1212,7 @@ namespace HCI
                         addTableName.SelectedIndex = 0;
                         addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
-                }  // end of foreach icon in iconlist
+                }  // end of foreach icon in tempIconlist
             }
             
         }
@@ -1232,7 +1263,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             int i = 0;
             
-            foreach (Icon icon in iconList)
+            foreach (Icon icon in tempIconList)
             {
                 if (icon.getId() != args)
                     continue;
@@ -1405,7 +1436,7 @@ namespace HCI
             {
                 string iconId = btn.CommandArgument.Substring(0, lastSpace);
                 string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
-                foreach (Icon icon in iconList)
+                foreach (Icon icon in tempIconList)
                 {
                     if (icon.getId() == iconId)
                     {
@@ -1450,12 +1481,31 @@ namespace HCI
                 return;
             }
 
-            foreach (Icon icon in iconList)
+            foreach (Icon icon in tempIconList)
             {
                 if (icon.getId() == iconId)
                 {
                     icon.setConditions(condition);
                 }
+            }
+            genIconConditionTable(sender, e);
+            sessionSave();
+        }
+
+        protected void cancelModifyIconConditionPopup_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string iconId = btn.CommandArgument;
+            Icon replaceWithThisIcon = new Icon();
+            foreach (Icon icon in iconList)
+            {
+                if (icon.getId() == iconId)
+                    replaceWithThisIcon = icon;
+            }
+            foreach (Icon icon in tempIconList)
+            {
+                if (icon.getId() == iconId)
+                    icon.setConditions(replaceWithThisIcon.getDeepCopyOfConditions());
             }
             genIconConditionTable(sender, e);
             sessionSave();
@@ -1597,10 +1647,12 @@ namespace HCI
                     submitModifyConditionPopup.Text = "Submit";
                     submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
                     modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-                    /*Button cancelModifyConditionPopup = new Button();
+                    Button cancelModifyConditionPopup = new Button();
                     cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
                     cancelModifyConditionPopup.Text = "Cancel";
-                    modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);*/
+                    cancelModifyConditionPopup.Click += new EventHandler(cancelModifyOverlayConditionPopup_Click);
+                    cancelModifyConditionPopup.CommandArgument = overlay.getId();
+                    modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
 
                     if (Request.QueryString.Get("locked") == "false")
                     {
@@ -1849,7 +1901,7 @@ namespace HCI
             {
                 string overlayId = btn.CommandArgument.Substring(0, lastSpace);
                 string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
-                foreach (Overlay overlay in overlayList)
+                foreach (Overlay overlay in tempOverlayList)
                 {
                     if (overlay.getId() == overlayId)
                     {
@@ -1894,12 +1946,31 @@ namespace HCI
                 return;
             }
 
-            foreach (Overlay overlay in overlayList)
+            foreach (Overlay overlay in tempOverlayList)
             {
                 if (overlay.getId() == overlayId)
                 {
                     overlay.setConditions(condition);
                 }
+            }
+            genOverlayConditionTable(sender, e);
+            sessionSave();
+        }
+
+        protected void cancelModifyOverlayConditionPopup_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string overlayId = btn.CommandArgument;
+            Overlay replaceWithThisOverlay = new Overlay();
+            foreach (Overlay overlay in overlayList)
+            {
+                if (overlay.getId() == overlayId)
+                    replaceWithThisOverlay = overlay;
+            }
+            foreach (Overlay overlay in tempOverlayList)
+            {
+                if (overlay.getId() == overlayId)
+                    overlay.setConditions(replaceWithThisOverlay.getDeepCopyOfConditions());
             }
             genOverlayConditionTable(sender, e);
             sessionSave();
