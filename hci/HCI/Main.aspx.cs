@@ -205,6 +205,7 @@ namespace HCI
             if (DBTypeNum.Equals("2")){
                 if (oracleSName.Equals("") && oracleSID.Equals("")){
                     this.NewConn1ModalPopUp.Hide();
+                    validNewConn.Text = "Either Service Name or Service ID must be completed!";
                     validNewConn.Visible = true;
                     this.NewConn1ModalPopUp.Show();
 
@@ -213,6 +214,7 @@ namespace HCI
                 if (oracleProtocol.Equals(""))
                 {
                     this.NewConn1ModalPopUp.Hide();
+                    validNewConn.Text = "Oracle protocol must be provided!";
                     validNewConn.Visible = true;
                     this.NewConn1ModalPopUp.Show();
 
@@ -283,6 +285,47 @@ namespace HCI
             }
 
             validNewConn.Visible = false;
+
+            ConnInfo testConn = new ConnInfo();
+            testConn.setConnectionName(ConnName);
+            testConn.setDatabaseName(ConnDBName);
+            testConn.setDatabaseType((int)Convert.ToInt32(DBTypeNum));
+            testConn.setPassword(ConnPWD);
+            testConn.setPortNumber(ConnPortNum);
+            testConn.setServerAddress(ConnDBAddress);
+            testConn.setUserName(ConnUser);
+            if (DBTypeNum.Equals("2"))
+            {
+                testConn.setOracleProtocol(oracleProtocol);
+                testConn.setOracleServiceName(oracleSName);
+                testConn.setOracleSID(oracleSID);
+            }
+
+            try
+            {
+                Database dbTest = new Database(testConn);
+                DataTable dtTest;
+                if (DBTypeNum.Equals("0"))
+                {
+                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
+                }
+                else if (DBTypeNum.Equals("1"))
+                {
+                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
+                }
+                else
+                {
+                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM dba_tab_tables");
+                }
+
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                this.NewConn1ModalPopUp.Hide();
+                eh.displayError();
+                return;
+            }
 
             //Call Create DB with the DB Function
             Database db = new Database();
