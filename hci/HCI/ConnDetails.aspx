@@ -797,7 +797,7 @@ function OnColorPicked(sender){
                                                                                                     Please enter the URL of the icon you would like to use</p>
                                                                                                 <p>
                                                                                                     <asp:TextBox ID="URLtextBox" runat="server" Width="270" />
-                                                                                                    <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmitClick" Text="Save" />
+                                                                                                    <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmitClick" Text="Save" CssClass="button"/>
                                                                                                 </p>
                                                                                             </li>
                                                                                         </ul>
@@ -814,7 +814,7 @@ function OnColorPicked(sender){
                                                                                                 <br />
                                                                                                 <div align="right">
                                                                                                 <p>
-                                                                                                    <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" />
+                                                                                                    <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" CssClass="button" />
                                                                                                 </p>
                                                                                                 </div>
                                                                                             </li>
