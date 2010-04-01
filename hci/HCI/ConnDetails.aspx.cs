@@ -26,9 +26,11 @@ namespace HCI
         public const int height = 128;
         public const int width = 128;
         private int curOverlayCount = -1;
-        public String tempSaveLoc = @"C:\odbc2kml\tmp\";
-        public String fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\icons\";
-        public String relativeFileSaveLoc = @"icons/";
+        //public String tempSaveLoc = @"C:\odbc2kml\tmp\";
+        //public String fileSaveLoc = @"C:\Users\Kevin Duvieilh\Documents\College\Senior\Semester 1\Senior Design\SVN\hci\HCI\icons\";
+        public String tempSaveLoc = "";
+        public String fileSaveLoc = "";
+        public String relativeFileSaveLoc = @"/icons/";
         public ArrayList validTypes = new ArrayList();
         private bool alreadySetupLists = false;
         private ArrayList iconList = new ArrayList();
@@ -58,6 +60,8 @@ namespace HCI
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            tempSaveLoc = Server.MapPath("/files/");
+            fileSaveLoc = Server.MapPath("/icons/");
             if (!IsPostBack)
             {
                 //No ID, redirect to main
