@@ -262,10 +262,10 @@ namespace HCI
                 errorString = "Must enter field name.";
             else if ((lowerBound == "") && (upperBound == ""))
                 errorString = "Must enter a lower bound or an upper bound.";
-            else if ((lowerBound != "") && (!double.TryParse(lowerBound, out tempDouble)))
-                errorString = "Lower bound is not numeric.";
-            else if ((upperBound != "") && (!double.TryParse(upperBound, out tempDouble)))
-                errorString = "Upper bound is not numeric.";
+            else if (((lowerBound != "") && (double.TryParse(lowerBound, out tempDouble))) && ((upperBound != "") && (!double.TryParse(upperBound, out tempDouble))))
+                errorString = "Cannot mix and match strings and numeric values in conditions.";
+            else if (((lowerBound != "") && (!double.TryParse(lowerBound, out tempDouble))) && ((upperBound != "") && (double.TryParse(upperBound, out tempDouble))))
+                errorString = "Cannot mix and match strings and numeric values in conditions.";
             else if ((lowerOperator != 0) && (lowerBound == ""))
                 errorString = "You entered a lower operator, so you must also enter a lower bound.";
             else if ((lowerBound != "") && (lowerOperator == 0))
@@ -278,7 +278,9 @@ namespace HCI
                 errorString = "You cannot enter one \"==\" operator and also use another operator.";
             else if (((upperOperator == 6) && (lowerOperator != 0)) || ((lowerOperator == 6) && (upperOperator != 0)))
                 errorString = "You cannot enter one \"!=\" operator and also use another operator.";
-            else if ((lowerBound != "") && (upperBound != "") && (Convert.ToDouble(lowerBound) >= Convert.ToDouble(upperBound)))
+            else if ((lowerBound != "") && (upperBound != "") && (double.TryParse(lowerBound, out tempDouble)) && (Convert.ToDouble(lowerBound) >= Convert.ToDouble(upperBound)))  // numeric case
+                errorString = "Your lower bound is not less than your upper bound.";
+            else if ((lowerBound != "") && (upperBound != "") && (!double.TryParse(lowerBound, out tempDouble)) && (String.Compare(lowerBound,upperBound)) >= 0)  // string case
                 errorString = "Your lower bound is not less than your upper bound.";
 
             
