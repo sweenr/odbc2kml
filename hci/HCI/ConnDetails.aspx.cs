@@ -46,6 +46,7 @@ namespace HCI
         private SqlDataSource oracleTables = new SqlDataSource();
         private SqlDataSource colDataSource = new SqlDataSource();
         private int tempId = -1;
+        //MAINTAINABILITY ERROR! THIS SHOULD ALL BE IN A CONN INFO OBJECT!
         private String connName = "";
         private String connDBAddr = "";
         private String connDBPort = "";
@@ -413,12 +414,12 @@ namespace HCI
 
             if (DBTypeNum.Equals("2"))
             {
-                if (oracleSName.Equals("") && oracleSID.Equals(""))
+                if (!ConnInfo.validSName(oracleSName) && !ConnInfo.validSID(oracleSID))
                 {
                     invalidConnInfo.Visible = true;
                     return;
                 }
-                if (oracleProtocol.Equals(""))
+                if (!ConnInfo.validProtocol(oracleProtocol))
                 {
                     invalidConnInfo.Visible = true;
                     return;
@@ -428,32 +429,32 @@ namespace HCI
                 cf.setOracleSID(oracleSID);
             }
 
-            if (connName.Equals(""))
+            if (!ConnInfo.validConnName(connName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connDBAddr.Equals(""))
+            else if (!ConnInfo.validDBAddress(connDBAddr))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connDBPort.Equals(""))
+            else if (!ConnInfo.validPort(connDBPort))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connDBName.Equals(""))
+            else if (!ConnInfo.validConnName(connDBName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connUser.Equals(""))
+            else if (!ConnInfo.validUserName(connUser))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connPassword.Equals(""))
+            else if (!ConnInfo.validPassword(connPassword))
             {
                 invalidConnInfo.Visible = true;
                 return;
@@ -1477,6 +1478,183 @@ namespace HCI
                 return;
             }
 
+            //Verify the bounds are the same type as the column values
+            if (conditionErrors == "")
+            {
+                //Get the table and field name
+                String tableCheck = tableName.Text.ToString();
+                String fieldCheck = fieldName.Text.ToString();
+
+                //ConnInfo instance needed to verify column values
+                ConnInfo testConnInfo = new ConnInfo();
+                testConnInfo.setConnectionName(connName);
+                testConnInfo.setDatabaseName(connDBName);
+                testConnInfo.setDatabaseType(Int16.Parse(connDBType));
+                testConnInfo.setOracleProtocol(oracleProtocol);
+                testConnInfo.setOracleServiceName(oracleSName);
+                testConnInfo.setOracleSID(oracleSID);
+                testConnInfo.setPassword(connPassword);
+                testConnInfo.setPortNumber(connDBPort);
+                testConnInfo.setServerAddress(connDBAddr);
+                testConnInfo.setUserName(connUser);
+
+                //Temp Database needed
+                Database testConnection = new Database(testConnInfo);
+
+                //Query the database to check the values
+                String query = "SELECT " + fieldCheck + " FROM " + tableCheck;
+                DataTable testTable = testConnection.executeQueryRemote(query);
+
+                //used to only check a small subset of the data table
+                int counter = 0;
+
+                //Check both bounds
+                if (lowerBound.Text.ToString() != "" && upperBound.Text.ToString() != "")
+                {
+                    Double lower, upper;
+
+                    //Check doubles
+                    if (Double.TryParse(lowerBound.Text.ToString(), out lower) && Double.TryParse(upperBound.Text.ToString(), out upper))
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (!Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a double, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                    else //Check strings
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a string, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                }
+                else if (lowerBound.Text.ToString() != "")
+                {
+                    Double lower;
+
+                    //Check doubles
+                    if (Double.TryParse(lowerBound.Text.ToString(), out lower))
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (!Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a double, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                    else //Check strings
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a string, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                }
+                else
+                {
+                    Double upper;
+
+                    //Check doubles
+                    if (Double.TryParse(upperBound.Text.ToString(), out upper))
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (!Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a double, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                    else //Check strings
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a string, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                }
+            }//End check
+
             foreach (Icon icon in tempIconList)
             {
                 if (icon.getId() == iconId)
@@ -1953,6 +2131,184 @@ namespace HCI
                 eh.displayError();
                 return;
             }
+
+            //Verify the bounds are the same type as the column values
+            if (conditionErrors == "")
+            {
+                //Get the table and field name
+                String tableCheck = tableName.Text.ToString();
+                String fieldCheck = fieldName.Text.ToString();
+
+                //ConnInfo instance needed to verify column values
+                ConnInfo testConnInfo = new ConnInfo();
+                testConnInfo.setConnectionName(connName);
+                testConnInfo.setDatabaseName(connDBName);
+                testConnInfo.setDatabaseType(Int16.Parse(connDBType));
+                testConnInfo.setOracleProtocol(oracleProtocol);
+                testConnInfo.setOracleServiceName(oracleSName);
+                testConnInfo.setOracleSID(oracleSID);
+                testConnInfo.setPassword(connPassword);
+                testConnInfo.setPortNumber(connDBPort);
+                testConnInfo.setServerAddress(connDBAddr);
+                testConnInfo.setUserName(connUser);
+
+                //Temp Database needed
+                Database testConnection = new Database(testConnInfo);
+
+                //Query the database to check the values
+                String query = "SELECT " + fieldCheck + " FROM " + tableCheck;
+                DataTable testTable = testConnection.executeQueryRemote(query);
+
+                //used to only check a small subset of the data table
+                int counter = 0;
+
+                //Check both bounds
+                if (lowerBound.Text.ToString() != "" && upperBound.Text.ToString() != "")
+                {
+                    Double lower, upper;
+
+                    //Check doubles
+                    if (Double.TryParse(lowerBound.Text.ToString(), out lower) && Double.TryParse(upperBound.Text.ToString(), out upper))
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (!Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a double, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                    else //Check strings
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a string, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                }
+                else if (lowerBound.Text.ToString() != "")
+                {
+                    Double lower;
+
+                    //Check doubles
+                    if (Double.TryParse(lowerBound.Text.ToString(), out lower))
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (!Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a double, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                    else //Check strings
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a string, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                }
+                else
+                {
+                    Double upper;
+
+                    //Check doubles
+                    if (Double.TryParse(upperBound.Text.ToString(), out upper))
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (!Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a double, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                    else //Check strings
+                    {
+                        //Only check a very small subset
+                        foreach (DataRow row in testTable.Rows)
+                        {
+                            Double value;
+                            if (Double.TryParse(row[fieldCheck].ToString(), out value))
+                            {//If the value is not a string, throw error
+                                conditionErrors = "Condition bounds and value from the database are different types.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+                            counter++; //Increment
+
+                            if (counter > 5) //Only check 5
+                                break;
+                        }//End for each
+                    }
+                }
+            }//End check
+
 
             foreach (Overlay overlay in tempOverlayList)
             {

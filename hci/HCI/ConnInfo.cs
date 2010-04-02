@@ -9,6 +9,8 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using System.Net.Sockets;
+using System.Net;
 using HCI;
 
 namespace HCI
@@ -207,6 +209,208 @@ namespace HCI
 
             return connInfo;
         }
+
+        /// <summary>
+        /// Validates the connection name. Only use is to ensure the name is not
+        /// an empty string.
+        /// </summary>
+        /// <param name="name">String --> Connection string to validate</param>
+        /// <returns>Boolean --> true -> Valid, False -> Invalid</returns>
+        public static Boolean validConnName(String name)
+        {
+            //Empty connection name
+            if(name.Equals(""))
+            {
+                return false;
+            }
+
+            //Valid name
+            return true;
+        }
+
+        /// <summary>
+        /// Validates Database address. Can currently only check to actual text.
+        /// </summary>
+        /// <param name="dBAddress">String --> Database address, ip or hostname </param>
+        /// <returns>Boolean --> true -> valid, false -> invalid</returns>
+        public static Boolean validDBAddress(String dBAddress)
+        {
+            if (dBAddress.Equals(""))
+            {
+                return false;
+            }
+
+            return true;
+
+           /* IPAddress[] ip;
+
+            try
+            {
+                ip = Dns.GetHostAddresses(dBAddress);
+
+                //Could not be resolved into an IP address
+                if (ip.GetLength(1) > 0)
+                {
+                    return false;
+                }
+
+                //Valid dBAddress
+                return true;
+            }
+            catch (Exception e) //Invalid, or no connection can be made to verify
+            {
+                return false;
+            }*/
+        }
+
+        /// <summary>
+        /// Verifies if the port is a proper port number. Returns false if the port is 
+        /// a string or less than 1/greater than 65535.
+        /// </summary>
+        /// <param name="port">String --> Port number</param>
+        /// <returns>Boolean --> false -> invalid, true -> valid</returns>
+        public static Boolean validPort(String port)
+        {
+            Double portNum;
+
+            //Port number is too short or too long
+            if (port.Length > 5 || port.Length < 1)
+            {
+                return false;
+            }
+
+            if (Double.TryParse(port, out portNum))
+            {
+                //Port number is within an invalid range
+                if (portNum < 1 || portNum > 65535)
+                {
+                    return false;
+                }
+                else //Valid port number
+                {
+                    return true;
+                }
+            }
+
+            //Cannot be parsed into a double
+            return false;
+        }
+
+        /// <summary>
+        /// Validates the user name. Only use is to ensure the name is not
+        /// an empty string.
+        /// </summary>
+        /// <param name="name">String --> Username string to validate</param>
+        /// <returns>Boolean --> true -> Valid, False -> Invalid</returns>
+        public static Boolean validUserName(String name)
+        {
+            //Empty connection name
+            if (name.Equals(""))
+            {
+                return false;
+            }
+
+            //Valid name
+            return true;
+        }
+
+        /// <summary>
+        /// Validates the database name. Only use is to ensure the name is not
+        /// an empty string.
+        /// </summary>
+        /// <param name="name">String --> DBName string to validate</param>
+        /// <returns>Boolean --> true -> Valid, False -> Invalid</returns>
+        public static Boolean validDBName(String name)
+        {
+            //Empty connection name
+            if (name.Equals(""))
+            {
+                return false;
+            }
+
+            //Valid name
+            return true;
+        }
+
+        /// <summary>
+        /// Validates the password. Only use is to ensure the password is not
+        /// an empty string.
+        /// </summary>
+        /// <param name="name">String --> Password string to validate</param>
+        /// <returns>Boolean --> true -> Valid, False -> Invalid</returns>
+        public static Boolean validPassword(String pass)
+        {
+            //Empty connection name
+            if (pass.Equals(""))
+            {
+                return false;
+            }
+
+            //Valid name
+            return true;
+        }
+
+        /// <summary>
+        /// Validates oracle protocols. Currently only supports SDP, TCP, and TCPS protoocols.
+        /// IPC and NMP are not supported.
+        /// </summary>
+        /// <param name="protocol">String --> Protocol to be validated</param>
+        /// <returns>Boolean --> true -> valid, false -> invalid</returns>
+        public static Boolean validProtocol(String protocol)
+        {
+            if (protocol.Equals("sdp"))
+            {
+                return true;
+            }
+            else if (protocol.Equals("tcp"))
+            {
+                return true;
+            }
+            else if (protocol.Equals("tcps"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validates a SID. Currently only checks to make sure the SID is not empty.
+        /// </summary>
+        /// <param name="SID">String --> Service ID</param>
+        /// <returns>Boolean --> true -> valid, false -> invalid</returns>
+        public static Boolean validSID(string SID)
+        {
+            //empty SID
+            if(SID.Equals(""))
+            {
+                return false;
+            }
+
+            //Non-empty
+            return true;
+        }
+
+        /// <summary>
+        /// Validates a Service name. Currently only checks to make sure the Service name is not empty.
+        /// </summary>
+        /// <param name="SID">String --> Service name</param>
+        /// <returns>Boolean --> true -> valid, false -> invalid</returns>
+        public static Boolean validSName(string SName)
+        {
+            //empty SID
+            if(SName.Equals(""))
+            {
+                return false;
+            }
+
+            //Non-empty
+            return true;
+        }
+
+
 
     }
 }
