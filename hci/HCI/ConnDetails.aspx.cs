@@ -1192,14 +1192,11 @@ namespace HCI
                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
-                    if (!alreadySetupLists)
+                    DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
+                    if ((addTableName != null) && (addTableName.Items.Count != 0))
                     {
-                        DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
-                        if ((addTableName != null) && (addTableName.Items.Count != 0))
-                        {
-                            addTableName.SelectedIndex = 0;
-                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
-                        }
+                        addTableName.SelectedIndex = 0;
+                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
                 }  // end of foreach icon in tempIconlist
             }
@@ -1643,7 +1640,7 @@ namespace HCI
                     Button submitModifyConditionPopup = new Button();
                     submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
                     submitModifyConditionPopup.Text = "Submit";
-                    submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
+                    submitModifyConditionPopup.Click += new EventHandler(genOverlayConditionTable);
                     modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
                     Button cancelModifyConditionPopup = new Button();
                     cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
@@ -1669,14 +1666,11 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
-                    if (!alreadySetupLists)
+                    DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
+                    if ((addTableName != null) && (addTableName.Items.Count != 0))
                     {
-                        DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
-                        if ((addTableName != null) && (addTableName.Items.Count != 0))
-                        {
-                            addTableName.SelectedIndex = 0;
-                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
-                        }
+                        addTableName.SelectedIndex = 0;
+                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
                 }  // end of foreach overlay in tempOverlaylist
             }
@@ -3546,8 +3540,8 @@ namespace HCI
             {
                 if (format == 2)
                 {
-                    LatLongCheck.Checked = true;
-                    LongLatCheck.Checked = false;
+                    LatLongCheck.Selected = true;
+                    LongLatCheck.Selected = false;
                     viewLatLongPanel.Visible = false;
                     viewLatLongPanel2.Visible = true;
                     currentTableLabel2.Text = table;
@@ -3556,8 +3550,8 @@ namespace HCI
                 }
                 else
                 {
-                    LatLongCheck.Checked = false;
-                    LongLatCheck.Checked = true;
+                    LatLongCheck.Selected = false;
+                    LongLatCheck.Selected = true;
                     viewLatLongPanel.Visible = false;
                     viewLatLongPanel2.Visible = true;
                     currentTableLabel2.Text = table;
@@ -3772,7 +3766,7 @@ namespace HCI
             {
                 latFieldName = llDD.SelectedValue.ToString();
                 longFieldName = latFieldName;
-                if ((LatLongCheck.Checked && LongLatCheck.Checked) || (!LatLongCheck.Checked && !LongLatCheck.Checked))
+                if ((LatLongCheck.Selected && LongLatCheck.Selected) || (!LatLongCheck.Selected && !LongLatCheck.Selected))
                 {
                     mapSuccess.Visible = false;
                     mapError2.Visible = true;
@@ -3782,7 +3776,7 @@ namespace HCI
                     mapError1.Visible = false;
                     mapError2.Visible = false;
 
-                    if (LongLatCheck.Checked)
+                    if (LongLatCheck.Selected)
                     {
                         format = 3;
                         viewLatLongPanel.Visible = false;

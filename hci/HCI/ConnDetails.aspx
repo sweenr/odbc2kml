@@ -402,9 +402,10 @@ function OnColorPicked(sender){
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td colspan="2">
-                                                                                        <asp:CheckBox ID="LatLongCheck" runat="server" />Map column as Lat/Long
-                                                                                        <br />
-                                                                                        <asp:CheckBox ID="LongLatCheck" runat="server" />Map column as Long/Lat
+                                                                                    <asp:RadioButtonList ID="latLongRadioList" runat="server" >
+                                                                                        <asp:ListItem ID="LatLongCheck" runat="server" value="Map column as Lat/Long" />
+                                                                                        <asp:ListItem ID="LongLatCheck" runat="server" value="Map column as Long/Lat" />
+                                                                                    </asp:RadioButtonList>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
