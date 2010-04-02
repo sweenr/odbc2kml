@@ -111,22 +111,18 @@ function OnColorPicked(sender){
     <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
         runat="server">na</a>
     <form id="connDetailsForm" runat="server">
-    
     <asp:ScriptManager ID="ConnSMgr2" runat="server" EnablePartialRendering="true" />
-    
     <asp:UpdatePanel runat="server" ID="errorUpdatePanel" UpdateMode="Always">
-    <ContentTemplate>
-        <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
-        </asp:Panel>
-    </ContentTemplate>
+        <ContentTemplate>
+            <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
+            </asp:Panel>
+        </ContentTemplate>
     </asp:UpdatePanel>
-    
     <asp:SqlDataSource ID="SQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="oracleTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="MSQLTables_Mapping" runat="server"></asp:SqlDataSource>
     <div id="wrapIt">
-    
         <div id="header">
             <div id="logo">
             </div>
@@ -253,7 +249,8 @@ function OnColorPicked(sender){
                                                 </tr>
                                                 <tr id="odbcInfoRow">
                                                     <td colspan="2">
-                                                        <span class="connectionTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Only Service Name or Service ID is required, not both</span>
+                                                        <span class="connectionTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Only Service Name
+                                                            or Service ID is required, not both</span>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -261,8 +258,7 @@ function OnColorPicked(sender){
                                                 <asp:Label ID="invalidConnInfo" runat="server" Visible="false" Text="Required fields must be completed!" />&nbsp;&nbsp;
                                                 <asp:Label ID="unableToConnect" runat="server" Visible="false" Text="Unable to connect to the selected database!" />&nbsp;&nbsp;
                                                 <asp:Label ID="connectionEstablished" runat="server" Visible="false" Text="Successfully connected to the database!" />&nbsp;&nbsp;
-                                                <asp:Button runat="server" ID="connectButton" Text="Update"
-                                                    CssClass="button" />
+                                                <asp:Button runat="server" ID="connectButton" Text="Update" CssClass="button" />
                                             </div>
                                         </div>
                                     </td>
@@ -274,7 +270,6 @@ function OnColorPicked(sender){
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                             <div class="full">
-                          
                                 <table cellspacing="10" cellpadding="10" class="mainBox2">
                                     <tr>
                                         <td class="dbTitle">
@@ -315,26 +310,60 @@ function OnColorPicked(sender){
                                         <td class="tdSpace3">
                                         </td>
                                         <td class="mainBox3" valign="top" align="left">
-                                        <asp:Label ID="viewLatLongErrorLabel" runat="server" Visible ="false" CssClass="descLabelError" Text="There are not lat/long mappings for this table."></asp:Label>
-                                        <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1">
-                                        <table><tr><td>
-                                        <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel"></asp:Label></td><td>
-                                        &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
-                                        <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel"></asp:Label></td><td>
-                                        &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
-                                        <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel"></asp:Label></td><td>
-                                        &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
-                                        </td></tr></table>
-                                        </asp:Panel>
-                                        <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1">
-                                        <table><tr><td>
-                                        <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel"></asp:Label></td><td>
-                                        <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
-                                        <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel"></asp:Label></td><td>
-                                        <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td></table>
-                                        </asp:Panel>
+                                            <asp:Label ID="viewLatLongErrorLabel" runat="server" Visible="false" CssClass="descLabelError"
+                                                Text="There are not lat/long mappings for this table."></asp:Label>
+                                            <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                </table>
+                                            </asp:Panel>
                                             <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
-                                            <br />
+                                                <br />
                                                 <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
                                                     <tr>
                                                         <td>
@@ -402,10 +431,10 @@ function OnColorPicked(sender){
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td colspan="2">
-                                                                                    <asp:RadioButtonList ID="latLongRadioList" runat="server" >
-                                                                                        <asp:ListItem ID="LatLongCheck" runat="server" value="Map column as Lat/Long" />
-                                                                                        <asp:ListItem ID="LongLatCheck" runat="server" value="Map column as Long/Lat" />
-                                                                                    </asp:RadioButtonList>
+                                                                                        <asp:RadioButtonList ID="latLongRadioList" runat="server">
+                                                                                            <asp:ListItem ID="LatLongCheck" runat="server" Value="Map column as Lat/Long" />
+                                                                                            <asp:ListItem ID="LongLatCheck" runat="server" Value="Map column as Long/Lat" />
+                                                                                        </asp:RadioButtonList>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -422,8 +451,7 @@ function OnColorPicked(sender){
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="tblColumnsPanel" runat="server">
-                                            <br />
-                                            
+                                                <br />
                                                 <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
                                                     CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None" PageSize="10"
                                                     ShowHeader="False" Width="100%" OnPageIndexChanged="GridViewColumns_PageIndexChanged">
@@ -443,7 +471,8 @@ function OnColorPicked(sender){
                                             <asp:Panel ID="columnMessage" runat="server" Visible="true">
                                                 <asp:Label ID="selectTableMessage" runat="server" Text="Select a database table to view the table's columns and latitude/longitude information."
                                                     CssClass="descLabel"></asp:Label>
-                                                    <p></p>
+                                                <p>
+                                                </p>
                                             </asp:Panel>
                                             <asp:Panel ID="columnButtons" runat="server" Visible="false">
                                                 <p>
@@ -459,6 +488,8 @@ function OnColorPicked(sender){
                                                                     OnClick="saveLatLong_Click" Visible="false" />
                                                             </td>
                                                             <td>
+                                                                <asp:Button ID="addPlacemarkField" runat="server" Text="Map Name" ToolTip="Map Placemark Name"
+                                                                    CssClass="button" OnClick="addPlacemarkField_Click" />
                                                                 <asp:Button ID="addLatLong" runat="server" Text="Map Lat/Long" ToolTip="Map Lat/Long"
                                                                     CssClass="button" OnClick="addLatLong_Click" />
                                                                 <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
@@ -483,9 +514,9 @@ function OnColorPicked(sender){
                             <span class="connectionStyle">&nbsp;Connection Description</span>
                             <br />
                             <div class="mainBox4">
-                            <% if (Request.QueryString.Get("locked") != "true")
-                               { %>
-                                <div style="background-color: white; padding: 5px; text-align:left;">
+                                <% if (Request.QueryString.Get("locked") != "true")
+                                   { %>
+                                <div style="background-color: white; padding: 5px; text-align: left;">
                                     <asp:Label ID="dLabel" runat="server" Text="Insert: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                     <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
                                         OnClick="dLink_Click" />&nbsp;&nbsp;
@@ -495,7 +526,7 @@ function OnColorPicked(sender){
                                         OnClick="dField_Click" />&nbsp;&nbsp;
                                     <asp:Button ID="dBr" runat="server" Text="Newline" CssClass="descButton" ToolTip="Insert Newline"
                                         OnClick="dNewline_Click" />&nbsp;&nbsp;
-                            <% } %>
+                                    <% } %>
                                     <br />
                                     <br />
                                     <asp:UpdatePanel runat="server" ID="dUpdatePanel" UpdateMode="Conditional">
@@ -664,7 +695,6 @@ function OnColorPicked(sender){
                                             <br />
                                             <asp:Label ID="descSuccess" runat="server" Text="" CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                             <br />
-                                            
                                         </ContentTemplate>
                                         <Triggers>
                                             <asp:AsyncPostBackTrigger ControlID="dLink" EventName="Click" />
@@ -712,8 +742,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Both" runat="server"
-                                                                    Visible="true">
+                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Both" runat="server" Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <!-- <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" OnClick="addIconFromLibraryToConn" CommandArgument="none"/>&nbsp;&nbsp; -->
@@ -758,9 +787,8 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
-                                                CancelControlID="btnClose3" runat="server" PopupControlID="UploadIconsPanel"
-                                                ID="ModalPopupExtender3" TargetControlID="uploadIcon" />
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="btnClose3"
+                                                runat="server" PopupControlID="UploadIconsPanel" ID="ModalPopupExtender3" TargetControlID="uploadIcon" />
                                             <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
                                                     <span class="connectionStyle">&nbsp;Upload Icons</span>
@@ -803,7 +831,7 @@ function OnColorPicked(sender){
                                                                                                     Please enter the URL of the icon you would like to use</p>
                                                                                                 <p>
                                                                                                     <asp:TextBox ID="URLtextBox" runat="server" Width="270" />
-                                                                                                    <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmitClick" Text="Save" CssClass="button"/>
+                                                                                                    <asp:Button ID="URLsubmit" runat="server" OnClick="URLsubmitClick" Text="Save" CssClass="button" />
                                                                                                 </p>
                                                                                             </li>
                                                                                         </ul>
@@ -819,9 +847,10 @@ function OnColorPicked(sender){
                                                                                                 <br />
                                                                                                 <br />
                                                                                                 <div align="right">
-                                                                                                <p>
-                                                                                                    <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit" CssClass="button" />
-                                                                                                </p>
+                                                                                                    <p>
+                                                                                                        <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit"
+                                                                                                            CssClass="button" />
+                                                                                                    </p>
                                                                                                 </div>
                                                                                             </li>
                                                                                         </ul>
@@ -832,7 +861,6 @@ function OnColorPicked(sender){
                                                                     </tr>
                                                                 </table>
                                                                 <div class="right">
-                                                                    
                                                                     &nbsp;&nbsp;
                                                                     <asp:Button ID="btnClose3" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>
@@ -1002,9 +1030,8 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true"
-                                                runat="server" PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender"
-                                                TargetControlID="AddOverlayButton" />
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" runat="server"
+                                                PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender" TargetControlID="AddOverlayButton" />
                                             <asp:Panel ID="AddOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
                                                     <span class="connectionStyle">&nbsp;Overlay Color Library</span>
@@ -1071,12 +1098,14 @@ function OnColorPicked(sender){
                         <br />
                         <br />
                         <div class="right">
-                        <% if (Request.QueryString.Get("locked") == "true")
-                           { %>
+                            <% if (Request.QueryString.Get("locked") == "true")
+                               { %>
                             <asp:Button ID="cancel" runat="server" Text="Cancel" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
-                        <% } else {%>
+                            <% }
+                               else
+                               {%>
                             <asp:Button ID="Button1" runat="server" Text="Cancel Changes" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
-                        <% } %>
+                            <% } %>
                             <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
                                 CssClass="button" />
                         </div>
@@ -1089,28 +1118,28 @@ function OnColorPicked(sender){
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" />
             </div>
         </div>
-
     </div>
-    <ajax:modalpopupextender OkControlId="cancelUpdate" runat="server" 
-        popupcontrolid="connUpdateWarning" TargetControlID="connectButton" ID="warningModal" 
-        BackgroundCssClass="modalBackground" DropShadow="true">
-    </ajax:modalpopupextender>
-    <asp:Panel ID="connUpdateWarning" runat="server" Visible="true" Style="display:none">
+    <ajax:ModalPopupExtender OkControlID="cancelUpdate" runat="server" PopupControlID="connUpdateWarning"
+        TargetControlID="connectButton" ID="warningModal" BackgroundCssClass="modalBackground"
+        DropShadow="true">
+    </ajax:ModalPopupExtender>
+    <asp:Panel ID="connUpdateWarning" runat="server" Visible="true" Style="display: none">
         <div class='mainBoxP'>
             <table class="omainBox6" cellspacing="0" cellpadding="0">
                 <tr>
                     <td>
-                If there are any differences between the original database and the one being updated,
-                description and any conditions associated with tables no longer present will be removed
-                from the connection. Are you sure you would like to update the connection information?
-                <br /><br />
+                        If there are any differences between the original database and the one being updated,
+                        description and any conditions associated with tables no longer present will be
+                        removed from the connection. Are you sure you would like to update the connection
+                        information?
+                        <br />
+                        <br />
                     </td>
                 </tr>
             </table>
-            <asp:button ID="continueUpdate" runat="server" 
-                    Text="Yes" OnClick="updateConnection" CssClass="button" />
-            <asp:button ID="cancelUpdate" runat="server"
-                    Text="No" CssClass="button" />
+            <asp:Button ID="continueUpdate" runat="server" Text="Yes" OnClick="updateConnection"
+                CssClass="button" />
+            <asp:Button ID="cancelUpdate" runat="server" Text="No" CssClass="button" />
         </div>
     </asp:Panel>
     <asp:Panel ID="scriptHandler" runat="server" Visible="true">
