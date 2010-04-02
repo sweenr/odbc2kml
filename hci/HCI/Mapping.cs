@@ -283,5 +283,44 @@ namespace HCI
             return mapping;
         }
 
+        public static Mapping getDeepCopyOfMapping(int connID)
+        {
+            Mapping mapping = new Mapping();
+
+            Database localDatabase = new Database();
+
+            //Create mapping query and populate table
+            string query = "SELECT * FROM Mapping WHERE connID='" + connID + "'";
+            DataTable table = localDatabase.executeQueryLocal(query);
+
+            foreach (DataRow row in table.Rows)
+            {
+                foreach (DataColumn col in table.Columns)
+                {
+                    //Set mapping
+                    switch (col.ColumnName)
+                    {
+                        case "tableName":
+                            mapping.setTableName(row[col].ToString());
+                            break;
+                        case "latFieldName":
+                            mapping.setLatFieldName(row[col].ToString());
+                            break;
+                        case "longFieldName":
+                            mapping.setLongFieldName(row[col].ToString());
+                            break;
+                        case "format":
+                            mapping.setFormat((int)row[col]);
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+            }//End outer loop
+
+            return mapping;
+        }
+
     }
 }

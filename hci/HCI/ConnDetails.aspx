@@ -318,6 +318,8 @@ function OnColorPicked(sender){
                                         <asp:Label ID="viewLatLongErrorLabel" runat="server" Visible ="false" CssClass="descLabelError" Text="There are not lat/long mappings for this table."></asp:Label>
                                         <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1">
                                         <table><tr><td>
+                                        <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel"></asp:Label></td><td>
+                                        &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
                                         <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel"></asp:Label></td><td>
                                         &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
                                         <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel"></asp:Label></td><td>
@@ -325,8 +327,11 @@ function OnColorPicked(sender){
                                         </td></tr></table>
                                         </asp:Panel>
                                         <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1">
-                                        <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel"></asp:Label>
-                                        <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
+                                        <table><tr><td>
+                                        <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel"></asp:Label></td><td>
+                                        <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td>
+                                        <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel"></asp:Label></td><td>
+                                        <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label></td></tr><tr><td></table>
                                         </asp:Panel>
                                             <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
                                             <br />
