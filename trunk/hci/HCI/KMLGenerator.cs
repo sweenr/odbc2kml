@@ -120,6 +120,17 @@ namespace HCI
                     //For each row in the table!!!
                     foreach (DataRow remoteRow in remote.Rows)
                     {
+                        //Set placemark name
+                        string placemarkName;
+                        if (map.getPlacemarkFieldName() != null)
+                        {
+                            placemarkName = (String)remoteRow[map.getPlacemarkFieldName()];
+                        }
+                        else
+                        {
+                            placemarkName = "";
+                        }
+
                         //Foreach row set the description for each row
                         String rowDesc = descArray[counter].ToString();
 
@@ -253,7 +264,8 @@ namespace HCI
                         }
 
                         //Create placemark and add it to array list
-                        rowPlacemark = new Placemark(rowLat, rowLon, rowDesc, "test");
+                        rowPlacemark = new Placemark(rowLat, rowLon, rowDesc, placemarkName);
+
                         placemarks.Add(rowPlacemark);              
                       
                         //If there is a row style, add it to the placemark and the array list

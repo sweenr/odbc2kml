@@ -22,6 +22,7 @@ namespace HCI
         public static readonly int LONGFIRST = 3;
 
         //Datatypes
+        private int connID;
         private string tableName;
         private string latFieldName;
         private string longFieldName;
@@ -37,6 +38,12 @@ namespace HCI
         }
 
         //Getters
+
+        //Retrieve connID
+        public int getConnID()
+        {
+            return this.connID;
+        }
 
         //Retrieve tableName
         public string getTableName()
@@ -69,6 +76,12 @@ namespace HCI
         }
 
         //Setters
+
+        //Set connID
+        public void setConnID(int connID)
+        {
+            this.connID = connID;
+        }
 
         //Set tableName
         public void setTableName(string tableName)
@@ -243,11 +256,11 @@ namespace HCI
         /// Function to insert this mapping into the local database. Uses the values currently in this mapping object
         /// to populate the database fields.
         /// </summary>
-        public static void insertMapping()
+        public static void insertMapping(Mapping m)
         {
             Database localDatabase = new Database();
 
-            string query = "INSERT INTO MAPPING ('tableName', 'latFieldName', 'longFieldName', 'placemarkFieldName', 'format', 'connID') VALUES ('" + tableName + "', '" + latFieldName + "', '" + longFieldName + "', '" + placemarkFieldName + "', '" + format + "', '" + connID + "')";
+            string query = "INSERT INTO MAPPING ('tableName', 'latFieldName', 'longFieldName', 'placemarkFieldName', 'format', 'connID') VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" + m.connID + "')";
             localDatabase.executeQueryLocal(query);
         }
 
@@ -255,11 +268,11 @@ namespace HCI
         /// Function to update a mapping already in the local database. Updates all columns except the connID columns.
         /// Uses the values currently in this mapping object to update the database fields.
         /// </summary>
-        public static void updateMapping()
+        public static void updateMapping(Mapping m)
         {
             Database localDatabase = new Database();
 
-            string query = "UPDATE MAPPING SET latFieldName = '" + latFieldName + "', longFieldName = '" + longFieldName + "', placemarkFieldName = '" + placemarkFieldName + "', format = '" + format + "', tableName = '" + tableName + "', WHERE connID = '" + connID + "'";
+            string query = "UPDATE MAPPING SET latFieldName = '" + m.latFieldName + "', longFieldName = '" + m.longFieldName + "', placemarkFieldName = '" + m.placemarkFieldName + "', format = '" + m.format + "', tableName = '" + m.tableName + "', WHERE connID = '" + m.connID + "'";
             localDatabase.executeQueryLocal(query);
         }
 
@@ -267,11 +280,11 @@ namespace HCI
         /// Function to delete a mapping from the local database. Deletes the mapping that corresponds to this mapping
         /// object's connID to delete the database row.
         /// </summary>
-        public static void deleteMapping()
+        public static void deleteMapping(Mapping m)
         {
             Database localDatabase = new Database();
 
-            string query = "DELETE FROM Mapping WHERE connID = '" + connID + "'";
+            string query = "DELETE FROM Mapping WHERE connID = '" + m.connID + "'";
             localDatabase.executeQueryLocal(query);
         }
 
