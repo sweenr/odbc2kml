@@ -1373,7 +1373,7 @@ namespace HCI
             addFieldName.ID = "addIconField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 120;
-            addFieldName.AutoPostBack = true;
+            //addFieldName.AutoPostBack = true;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1846,7 +1846,7 @@ namespace HCI
             addFieldName.ID = "addOverlayField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 120;
-            addFieldName.AutoPostBack = true;
+            //addFieldName.AutoPostBack = true;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
