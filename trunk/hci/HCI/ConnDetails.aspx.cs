@@ -36,8 +36,9 @@ namespace HCI
         private ArrayList iconListAvailableToAdd = new ArrayList();
         private ArrayList iconListAvailableToRemove = new ArrayList();
         private ArrayList overlayListAvailableToRemove = new ArrayList();
-        private ArrayList latLongInsert = new ArrayList();
-        private ArrayList latLongUpdate = new ArrayList();
+        //private ArrayList latLongInsert = new ArrayList();
+        //private ArrayList latLongUpdate = new ArrayList();
+        private Mapping mapping = new Mapping();
         private ArrayList overlayList = new ArrayList();
         private ArrayList tempOverlayList = new ArrayList();
         private ArrayList tableNameList = new ArrayList();
@@ -265,8 +266,9 @@ namespace HCI
             iconListAvailableToAdd = (ArrayList)Session["iconListAvailableToAdd"];
             iconListAvailableToRemove = (ArrayList)Session["iconListAvailableToRemove"];
             overlayListAvailableToRemove = (ArrayList)Session["overlayListAvailableToRemove"];
-            latLongInsert = (ArrayList)Session["latLongInsert"];
-            latLongUpdate = (ArrayList)Session["latLongUpdate"];
+            //latLongInsert = (ArrayList)Session["latLongInsert"];
+            //latLongUpdate = (ArrayList)Session["latLongUpdate"];
+            mapping = (Mapping)Session["mapping"];
             overlayList = (ArrayList)Session["overlayList"];
             tempOverlayList = (ArrayList)Session["tempOverlayList"];
             tableNameList = (ArrayList)Session["tableNameList"];
@@ -303,8 +305,9 @@ namespace HCI
             Session["iconListAvailableToAdd"] = iconListAvailableToAdd;
             Session["iconListAvailableToRemove"] = iconListAvailableToRemove;
             Session["overlayListAvailableToRemove"] = overlayListAvailableToRemove;
-            Session["latLongInsert"] = latLongInsert;
-            Session["latLongUpdate"] = latLongUpdate;
+            //Session["latLongInsert"] = latLongInsert;
+            //Session["latLongUpdate"] = latLongUpdate;
+            Session["mapping"] = mapping;
             Session["overlayList"] = overlayList;
             Session["tempOverlayList"] = tempOverlayList;
             Session["tableNameList"] = tableNameList;
@@ -3186,42 +3189,23 @@ namespace HCI
 
             foreach (DataRow dr in dt.Rows)
             {
-                string tableName = dr["tableName"].ToString();
+                /*string tableName = dr["tableName"].ToString();
                 string latFieldName = dr["latFieldName"].ToString();
                 string longFieldName = dr["longFieldName"].ToString();
                 int format = Convert.ToInt32(dr["format"]);
-
-                latLongInsert.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);
+                latLongInsert.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);*/
+                mapping.setConnID(Convert.ToInt32(Request.QueryString.Get("ConnID")));
+                mapping.setTableName(dr["tableName"].ToString());
+                mapping.setLatFieldName(dr["latFieldName"].ToString());
+                mapping.setLongFieldName(dr["longFieldName"].ToString());
+                mapping.setFormat(Convert.ToInt32(dr["format"]));
             }
             sessionSave();
         }
         protected void saveLatLonInfo()
         {
-            //String[] temp = new String[5];
-            foreach (String insert in latLongInsert)
-            {
-                String[] temp = insert.Split(',');
-                int conID = Convert.ToInt32(temp[0]);
-                String tableName = temp[1];
-                String latFieldName = temp[2];
-                String longFieldName = temp[3];
-                int format = Convert.ToInt32(temp[4]);
-                Mapping.insertMapping(conID, tableName, latFieldName, longFieldName, format);
-                latLongUpdate.Clear();
-            }
-            foreach (String insert in latLongUpdate)
-            {
-                String[] temp2 = insert.Split(',');
-                int conID = Convert.ToInt32(temp2[0]);
-                String tableName = temp2[1];
-                String latFieldName = temp2[2];
-                String longFieldName = temp2[3];
-                int format = Convert.ToInt32(temp2[4]);
-                Mapping.updateMapping(conID, tableName, latFieldName, longFieldName, format);
-                latLongInsert.Clear();
-            }
-            latLongInsert.Clear();
-            latLongUpdate.Clear();
+            
+            Mapping.insertMapping(mapping);
             sessionSave();
         }
 
@@ -3501,37 +3485,24 @@ namespace HCI
                 }
 
                 //Mapping conMapping = Mapping.getMapping(conID, selectedTable);
-                Mapping conMapping = new Mapping();
-                if ((latLongInsert != null) && (latLongInsert.Count != 0))
+                /*Mapping conMapping = new Mapping();
+                if ((mapping != null))
                 {
-                    foreach (string mappingString in latLongInsert)
+                    if ((mapTableName.Equals(selectedTable) && (mapConID.Equals(conID.ToString()))))
                     {
-                        int comma1 = mappingString.IndexOf(',',0);
-                        int comma2 = mappingString.IndexOf(',', comma1 + 1);
-                        int comma3 = mappingString.IndexOf(',', comma2 + 1);
-                        int comma4 = mappingString.IndexOf(',', comma3 + 1);
-                        string mapConID = mappingString.Substring(0, comma1);
-                        string mapTableName = mappingString.Substring(comma1 + 1, comma2 - comma1 -1);
-                        string mapLatFieldName = mappingString.Substring(comma2 + 1, comma3 - comma2 - 1);
-                        string mapLongFieldName = mappingString.Substring(comma3 + 1, comma4 - comma3 - 1);
-                        string mapFormat = mappingString.Substring(comma4 + 1);
-
-                        if ((mapTableName.Equals(selectedTable) && (mapConID.Equals(conID.ToString()))))
-                        {
-                            conMapping.setTableName(mapTableName);
-                            conMapping.setLatFieldName(mapLatFieldName);
-                            conMapping.setLongFieldName(mapLongFieldName);
-                            conMapping.setFormat(Convert.ToInt32(mapFormat));
-                        }
+                        mapping.setTableName(mapTableName);
+                        mapping.setLatFieldName(mapLatFieldName);
+                        mapping.setLongFieldName(mapLongFieldName);
+                        mapping.setFormat(Convert.ToInt32(mapFormat));
                     }
-                }
+                }*/
 
-                string dbTable = conMapping.getTableName();
+                string dbTable = mapping.getTableName();
 
-                int dbFormat = conMapping.getFormat();
+                int dbFormat = mapping.getFormat();
 
-                string dbLat = conMapping.getLatFieldName();
-                string dbLong = conMapping.getLongFieldName();
+                string dbLat = mapping.getLatFieldName();
+                string dbLong = mapping.getLongFieldName();
 
                 //No information about the table yet
                 if (dbTable == null)
@@ -3693,19 +3664,22 @@ namespace HCI
                 latDD.DataValueField = "COLUMN_NAME";
                 latDD.DataTextField = "COLUMN_NAME";
                 latDD.DataBind();
-                latDD.SelectedValue = latitude;
+                if (latDD.Items.Contains(new ListItem(latitude)))
+                    latDD.SelectedValue = latitude;
                 latUP.Update();
                 longDD.DataSource = temp;
                 longDD.DataValueField = "COLUMN_NAME";
                 longDD.DataTextField = "COLUMN_NAME";
                 longDD.DataBind();
-                longDD.SelectedValue = longitude;
+                if (longDD.Items.Contains(new ListItem(longitude)))
+                    longDD.SelectedValue = longitude;
                 longUP.Update();
                 llDD.DataSource = temp;
                 llDD.DataValueField = "COLUMN_NAME";
                 llDD.DataTextField = "COLUMN_NAME";
                 llDD.DataBind();
-                llDD.SelectedValue = latitude;
+                if (llDD.Items.Contains(new ListItem(latitude)))
+                    llDD.SelectedValue = latitude;
                 llUP.Update();
             }
             catch (Exception ex)
@@ -3864,66 +3838,52 @@ namespace HCI
             }
 
 
-            Mapping conMapping = Mapping.getMapping(conID, selectedTable);
+            //Mapping conMapping = Mapping.getMapping(conID, selectedTable);
 
-            string dbTable = conMapping.getTableName();
+            string dbTable = mapping.getTableName();
 
-            int dbFormat = conMapping.getFormat();
+            int dbFormat = mapping.getFormat();
 
-            string dbLat = conMapping.getLatFieldName();
-            string dbLong = conMapping.getLongFieldName();
+            string dbLat = mapping.getLatFieldName();
+            string dbLong = mapping.getLongFieldName();
 
             //No information about the table yet
             if (dbTable == null)
             {
-                if (latLongInsert.Count == 0)
+                if (mapping != null)
                 {
                     mapUpdates(temp);
                 }
                 else
                 {
-                    foreach (String insert in latLongInsert)
+                    int connID = mapping.getConnID();
+                    String tableName = mapping.getTableName();
+                    String latFieldName = mapping.getLatFieldName();
+                    String longFieldName = mapping.getLongFieldName();
+                    int format = mapping.getFormat();
+                    if (tableName == selectedTable && conID == connID)
                     {
-                        String[] tmp = insert.Split(',');
-                        int connID = Convert.ToInt32(tmp[0]);
-                        String tableName = tmp[1];
-                        if (tableName == selectedTable && conID == connID)
-                        {
-                            //String[] tmp = insert.Split(',');
-                            //int connID = Convert.ToInt32(tmp[0]);
-                            //String tableName = tmp[1];
-                            String latFieldName = tmp[2];
-                            String longFieldName = tmp[3];
-                            int format = Convert.ToInt32(tmp[4]);
-                            mapUpdates(temp, tableName, latFieldName, longFieldName, format);
-                        }
+                        mapUpdates(temp, tableName, latFieldName, longFieldName, format);
                     }
                 }
             }
 
             else
             {
-                if (latLongUpdate.Count == 0)
+                if (mapping != null)
                 {
                     mapUpdates(temp, dbTable, dbLat, dbLong, dbFormat);
                 }
                 else
                 {
-                    foreach (String insert in latLongUpdate)
+                    int connID = mapping.getConnID();
+                    String tableName = mapping.getTableName();
+                    String latFieldName = mapping.getLatFieldName();
+                    String longFieldName = mapping.getLongFieldName();
+                    int format = mapping.getFormat();
+                    if (tableName == selectedTable && conID == connID)
                     {
-                        String[] tmp = insert.Split(',');
-                        int connID = Convert.ToInt32(tmp[0]);
-                        String tableName = tmp[1];
-                        if (tableName == selectedTable && conID == connID)
-                        {
-                            //String[] tmp = insert.Split(',');
-                            //int connID = Convert.ToInt32(tmp[0]);
-                            //String tableName = tmp[1];
-                            String latFieldName = tmp[2];
-                            String longFieldName = tmp[3];
-                            int format = Convert.ToInt32(tmp[4]);
-                            mapUpdates(temp, tableName, latFieldName, longFieldName, format);
-                        }
+                        mapUpdates(temp, tableName, latFieldName, longFieldName, format);
                     }
                 }
             }
@@ -3987,24 +3947,17 @@ namespace HCI
                     currentLatLabel.Text = latFieldName;
                     currentLongLabel.Text = longFieldName;
 
+                    mapping = new Mapping(conID, tableName, latFieldName, longFieldName, format);
+
                     if (mapTblName == null)
                     {
-                        latLongInsert.Clear();
-                        //Mapping.insertMapping(conID, tableName, latFieldName, longFieldName, format);
-                        latLongInsert.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);
                         mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
-                        mapSuccess.Visible = true;
-                        latLongUpdate.Clear();
                     }
                     else
                     {
-                        latLongUpdate.Clear();
-                        //Mapping.updateMapping(conID, tableName, latFieldName, longFieldName, format);
-                        latLongUpdate.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);
                         mapSuccess.Text = "Lat/Long Mapping updated successfully!";
-                        mapSuccess.Visible = true;
-                        latLongInsert.Clear();
                     }
+                    mapSuccess.Visible = true;
 
                 }
             }
@@ -4040,21 +3993,18 @@ namespace HCI
                         viewLatLongLabel.Text = "Latitude/Longitude Field: ";
                         currentLatLongLabel.Text = latFieldName;
                     }
+
+                    mapping = new Mapping(conID, tableName, latFieldName, longFieldName, format);
+
                     if (mapTblName == null)
                     {
-                        //Mapping.insertMapping(conID, tableName, latFieldName, longFieldName, format);
-                        latLongInsert.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);
                         mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
-                        mapSuccess.Visible = true;
                     }
                     else
                     {
-                        //Mapping.updateMapping(conID, tableName, latFieldName, longFieldName, format);
-                        latLongUpdate.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);
                         mapSuccess.Text = "Lat/Long Mapping updated successfully!";
-                        mapSuccess.Visible = true;
                     }
-
+                    mapSuccess.Visible = true;
                 }
             }
             sessionSave();
