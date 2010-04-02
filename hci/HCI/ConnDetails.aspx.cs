@@ -1192,11 +1192,14 @@ namespace HCI
                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
-                    DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
-                    if ((addTableName != null) && (addTableName.Items.Count != 0))
+                    if (!alreadySetupLists)
                     {
-                        addTableName.SelectedIndex = 0;
-                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
+                        if ((addTableName != null) && (addTableName.Items.Count != 0))
+                        {
+                            addTableName.SelectedIndex = 0;
+                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        }
                     }
                 }  // end of foreach icon in tempIconlist
             }
@@ -1666,11 +1669,14 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
 
-                    DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
-                    if ((addTableName != null) && (addTableName.Items.Count != 0))
+                    if (!alreadySetupLists)
                     {
-                        addTableName.SelectedIndex = 0;
-                        addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
+                        if ((addTableName != null) && (addTableName.Items.Count != 0))
+                        {
+                            addTableName.SelectedIndex = 0;
+                            addTableName_SelectedIndexChanged(addTableName, new EventArgs());
+                        }
                     }
                 }  // end of foreach overlay in tempOverlaylist
             }
