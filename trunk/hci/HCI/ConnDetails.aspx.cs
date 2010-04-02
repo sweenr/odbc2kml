@@ -413,12 +413,12 @@ namespace HCI
 
             if (DBTypeNum.Equals("2"))
             {
-                if (oracleSName.Equals("") && oracleSID.Equals(""))
+                if (!ConnInfo.validSName(oracleSName) && !ConnInfo.validSID(oracleSID))
                 {
                     invalidConnInfo.Visible = true;
                     return;
                 }
-                if (oracleProtocol.Equals(""))
+                if (!ConnInfo.validProtocol(oracleProtocol))
                 {
                     invalidConnInfo.Visible = true;
                     return;
@@ -428,38 +428,38 @@ namespace HCI
                 cf.setOracleSID(oracleSID);
             }
 
-            if (connName.Equals(""))
+            if (!ConnInfo.validConnName(connName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connDBAddr.Equals(""))
+            else if (!ConnInfo.validDBAddress(connDBAddr))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connDBPort.Equals(""))
+            else if (!ConnInfo.validPort(connDBPort))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connDBName.Equals(""))
+            else if (!ConnInfo.validConnName(connDBName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connUser.Equals(""))
+            else if (!ConnInfo.validUserName(connUser))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (connPassword.Equals(""))
+            else if (!ConnInfo.validPassword(connPassword))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
 
-            
+            //Set Conn Info information
             cf.setConnectionName(connName);
             cf.setServerAddress(connDBAddr);
             cf.setPortNumber(connDBPort);
@@ -467,71 +467,262 @@ namespace HCI
             cf.setUserName(connUser);
             cf.setPassword(connPassword);
 
-            Database connectionTableDatabase = new Database(cf);
-            DataTable dt;
+            String connectionString = "";
 
-            /*connectionTables.Controls.Clear();
-            if (DBTypeNum.Equals("0"))
+            //Database needed to see if values need to be purged
+            Database purgeDB = new Database(cf);
+            
+            //DataTable to hold all table names and 
+            //dataset to hold all column names for each table in the datatable
+            DataTable purgeDT;
+            DataSet newTableColumnRelation = new DataSet();
+
+            if (cf.getDatabaseType() == ConnInfo.MSSQL)
             {
-                try
+                //MSSQL specific call
+                purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'");
+
+                foreach (DataRow row in purgeDT.Rows)
                 {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
+                    //Retrieve each column name for each table in the purge data table
+                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                    //Add the retrieved table to the Dataset
+                    purgeDC.TableName = row["TABLE_NAME"].ToString();
+                    newTableColumnRelation.Tables.Add(purgeDC);
                 }
             }
-            else if (DBTypeNum.Equals("1"))
+            else if (cf.getDatabaseType() == ConnInfo.MYSQL)
             {
-                try
+                //MySQL specific call
+                purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'");
+
+                foreach (DataRow row in purgeDT.Rows)
                 {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
+                    //Retrieve each column name for each table in the purge data table
+                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                    //Add the retrieved table to the Dataset
+                    purgeDC.TableName = row["TABLE_NAME"].ToString();
+                    newTableColumnRelation.Tables.Add(purgeDC);
                 }
             }
-            else
+            else if (cf.getDatabaseType() == ConnInfo.ORACLE)
             {
-                try
+                //Oracle specific call
+                purgeDT = purgeDB.executeQueryRemote("select TABLE_NAME from user_tables");
+
+                foreach (DataRow row in purgeDT.Rows)
                 {
-                    dt = connectionTableDatabase.executeQueryRemote("SELECT TABLE_NAME FROM user_tables");
+                    //Retrieve each column name for each table in the purge data table
+                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                    //Add the retrieved table to the Dataset
+                    purgeDC.TableName = row["TABLE_NAME"].ToString();
+                    newTableColumnRelation.Tables.Add(purgeDC);
                 }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
-                } 
+            }
+            else //Just in case....Bad error
+            {
+                throw new ODBC2KMLException("The update function failed to perform properly, please try again.");
             }
 
-            int tblNum = 0;
-            foreach (DataRow dr in dt.Rows)
+            //Check variable to allow for easy breaks out of loops
+            Boolean breakOut = false;
+
+            //Check to know if the description should be purged
+            Boolean purgeDescription = false;
+
+            //For each icon in icon list
+            foreach (Icon i in iconList)
             {
-                String tableName = dr[0].ToString();
-                Button btn = new Button();
-                btn.ID = "connTable_"+tblNum.ToString();
-                if(tblNum % 2 == 0)
+                //Get the icon's conditions
+                foreach (Condition c in i.getConditions())
                 {
-                    btn.CssClass="selectDB";
-                }else{
-                    btn.CssClass="selectDB2";
-                }
-                btn.Text=tableName;
-                btn.ToolTip=tableName;
-                btn.Click += new EventHandler(genDBTCol);
-                btn.CommandArgument = tableName;
-                connectionTables.Controls.Add(btn);
-                connectionTables.Controls.Add(new LiteralControl("<br/>"));
-                tblNum += 1;
+                    //For each table name, see if the conditions table name matches
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Do table names match?
+                        if (row["TABLE_NAME"].ToString().Equals(c.getTableName()))
+                        {
+                            //Ok, check the column names
+                            foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                            {
+                                if(row1["COLUMN_NAME"].ToString().Equals(c.getFieldName()))
+                                {
+                                    breakOut = true;
+                                    break;
+                                }
+                            } //End for each
+
+                            if (!breakOut) //Didn't break out, purge condition
+                            {
+                                i.removeConditions(c);
+                                purgeDescription = true;
+                            }
+                        }
+
+                        if (breakOut) //If a column and row has been matched, break out and proceed with next condition
+                            break;
+                    } //End for each
+                } //End for each
+            } //End for each
+
+            //For each icon in temp icon list
+            foreach (Icon i in tempIconList)
+            {
+                //Get the icon's conditions
+                foreach (Condition c in i.getConditions())
+                {
+                    //For each table name, see if the conditions table name matches
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Do table names match?
+                        if (row["TABLE_NAME"].ToString().Equals(c.getTableName()))
+                        {
+                            //Ok, check the column names
+                            foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                            {
+                                if (row1["COLUMN_NAME"].ToString().Equals(c.getFieldName()))
+                                {
+                                    breakOut = true;
+                                    break;
+                                }
+                            } //End for each
+
+                            if (!breakOut) //Didn't break out, purge condition
+                            {
+                                i.removeConditions(c);
+                                purgeDescription = true;
+                            }
+                        }
+
+                        if (breakOut) //If a column and row has been matched, break out and proceed with next condition
+                            break;
+                    } //End for each
+                } //End for each
+            } //End for each
+
+            //For each overlay in overlay list
+            foreach (Overlay o in overlayList)
+            {
+                //Get the icon's conditions
+                foreach (Condition c in o.getConditions())
+                {
+                    //For each table name, see if the conditions table name matches
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Do table names match?
+                        if (row["TABLE_NAME"].ToString().Equals(c.getTableName()))
+                        {
+                            //Ok, check the column names
+                            foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                            {
+                                if (row1["COLUMN_NAME"].ToString().Equals(c.getFieldName()))
+                                {
+                                    breakOut = true;
+                                    break;
+                                }
+                            } //End for each
+
+                            if (!breakOut) //Didn't break out, purge condition
+                            {
+                                o.removeConditions(c);
+                                purgeDescription = true;
+                            }
+                        }
+
+                        if (breakOut) //If a column and row has been matched, break out and proceed with next condition
+                            break;
+                    } //End for each
+                } //End for each
+            } //End for each
+
+            //For each overlay in temp overlay list
+            foreach (Overlay o in tempOverlayList)
+            {
+                //Get the icon's conditions
+                foreach (Condition c in o.getConditions())
+                {
+                    //For each table name, see if the conditions table name matches
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Do table names match?
+                        if (row["TABLE_NAME"].ToString().Equals(c.getTableName()))
+                        {
+                            //Ok, check the column names
+                            foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                            {
+                                if (row1["COLUMN_NAME"].ToString().Equals(c.getFieldName()))
+                                {
+                                    breakOut = true;
+                                    break;
+                                }
+                            } //End for each
+
+                            if (!breakOut) //Didn't break out, purge condition
+                            {
+                                o.removeConditions(c);
+                                purgeDescription = true;
+                            }
+                        }
+
+                        if (breakOut) //If a column and row has been matched, break out and proceed with next condition
+                            break;
+                    } //End for each
+                } //End for each
+            } //End for each
+
+            //Purge description if needed
+            if (purgeDescription)
+            {
+                descriptionBox.Text = "";
             }
-            */
+
+
+            //Populate the grid
+            try
+            {
+                if (cf.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                    connectionString = "Data Source=" + cf.getServerAddress() + ";Initial Catalog=" + cf.getDatabaseName() + ";Persist Security Info=True;User Id=" + cf.getUserName() + ";Password=" + cf.getPassword();
+                    MSQLTables_Mapping.ConnectionString = connectionString;
+                    MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                }
+
+                else if (cf.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    String providerName = "";
+                    connectionString = "server=" + cf.getServerAddress() + ";User Id=" + cf.getUserName() + ";password=" + cf.getPassword() + ";Persist Security Info=True;database=" + cf.getDatabaseName();
+                    providerName = "MySql.Data.MySqlClient";
+                    SQLTables_Mapping.ConnectionString = connectionString;
+                    SQLTables_Mapping.ProviderName = providerName;
+                    SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                }
+
+                else if (cf.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    String providerName = "";
+                    connectionString = "Data Source=" + cf.getServerAddress() + ";Persist Security Info=True;User ID=" + cf.getUserName() + ";Password=" + cf.getPassword() + ";Unicode=True";
+                    providerName = "System.Data.OracleClient";
+                    oracleTables_Mapping.ConnectionString = connectionString;
+                    oracleTables_Mapping.ProviderName = providerName;
+                    oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
+                }
+
+                else //Default set to SQL
+                {
+                }
+
+                updateTables(cf.getDatabaseType());
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1);
+                eh.displayError();
+                return;
+            }
+              
             sessionSave();
         }
 
