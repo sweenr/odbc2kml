@@ -145,8 +145,8 @@ namespace HCI
             double q2 = 0;
             try
             {
-                q1.Equals(double.Parse(p1.Trim(bs)));
-                q2.Equals(double.Parse(p2.Trim(bs)));
+                q1 = (double.Parse(p1.Trim(bs)));
+                q2 = (double.Parse(p2.Trim(bs)));
                 if (order.Equals(LATFIRST))
                 {
                     double[] coordinates = new double[2];
