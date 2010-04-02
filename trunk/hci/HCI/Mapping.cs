@@ -25,6 +25,7 @@ namespace HCI
         private string tableName;
         private string latFieldName;
         private string longFieldName;
+        private string placemarkFieldName;
         private int format;
 
         //Functions
@@ -55,6 +56,12 @@ namespace HCI
             return this.longFieldName;
         }
 
+        //Retrieve placemarkFieldName
+        public string getPlacemarkFieldName()
+        {
+            return this.placemarkFieldName;
+        }
+
         //Retrieve format
         public int getFormat()
         {
@@ -79,6 +86,12 @@ namespace HCI
         public void setLongFieldName(string longFieldName)
         {
             this.longFieldName = longFieldName;
+        }
+
+        //Set placemarkFieldName
+        public void setPlacemarkFieldName(string placemarkFieldName)
+        {
+            this.placemarkFieldName = placemarkFieldName;
         }
 
         //Set format
@@ -208,6 +221,9 @@ namespace HCI
                         case "longFieldName":
                             map.setLongFieldName(row[col].ToString());
                             break;
+                        case "placemarkFieldName":
+                            map.setPlacemarkFieldName(row[col].ToString());
+                            break;
                         case "format":
                             map.setFormat((int)row[col]);
                             break;
@@ -223,15 +239,69 @@ namespace HCI
             return mapping;
         }
 
+        /// <summary>
+        /// Function to insert this mapping into the local database. Uses the values currently in this mapping object
+        /// to populate the database fields.
+        /// </summary>
+        public static void insertMapping()
+        {
+            Database localDatabase = new Database();
+
+            string query = "INSERT INTO MAPPING ('tableName', 'latFieldName', 'longFieldName', 'placemarkFieldName', 'format', 'connID') VALUES ('" + tableName + "', '" + latFieldName + "', '" + longFieldName + "', '" + placemarkFieldName + "', '" + format + "', '" + connID + "')";
+            localDatabase.executeQueryLocal(query);
+        }
+
+        /// <summary>
+        /// Function to update a mapping already in the local database. Updates all columns except the connID columns.
+        /// Uses the values currently in this mapping object to update the database fields.
+        /// </summary>
+        public static void updateMapping()
+        {
+            Database localDatabase = new Database();
+
+            string query = "UPDATE MAPPING SET latFieldName = '" + latFieldName + "', longFieldName = '" + longFieldName + "', placemarkFieldName = '" + placemarkFieldName + "', format = '" + format + "', tableName = '" + tableName + "', WHERE connID = '" + connID + "'";
+            localDatabase.executeQueryLocal(query);
+        }
+
+        /// <summary>
+        /// Function to delete a mapping from the local database. Deletes the mapping that corresponds to this mapping
+        /// object's connID to delete the database row.
+        /// </summary>
+        public static void deleteMapping()
+        {
+            Database localDatabase = new Database();
+
+            string query = "DELETE FROM Mapping WHERE connID = '" + connID + "'";
+            localDatabase.executeQueryLocal(query);
+        }
+
+        /// <summary>
+        /// DEPRECATED - Use insertMapping() instead.
+        /// Function to add to the Mapping database the values passed to it.
+        /// </summary>
+        /// <param name="connID"> - int --> Connection ID </param>
+        /// <param name="tableName">string --> Name of table mapped</param>
+        /// <param name="latFieldName">string --> Name of field that contains the latitude</param>
+        /// <param name="longFieldName">string --> Name of field that contains the longitude. If the lat and lon are both in the same column, put that same column in both latFieldName and longFieldName.</param>
+        /// <param name="format">string --> Format of lat/lon field names, 1 for SEPARATE, 2 for together and LATFIRST, 3 for together and LONGFIRST</param>
         public static void insertMapping(int connID, string tableName, string latFieldName, string longFieldName, int format)
         {
             Mapping mapping = new Mapping();
             Database localDatabase = new Database();
 
-            string query = "INSERT INTO MAPPING VALUES ('" + tableName+ "', '" + latFieldName + "', '" + longFieldName + "', '" + format + "', '" + connID + "')";
+            string query = "INSERT INTO MAPPING ('tableName', 'latFieldName', 'longFieldName', 'format', 'connID') VALUES ('" + tableName + "', '" + latFieldName + "', '" + longFieldName + "', '" + format + "', '" + connID + "')";
             localDatabase.executeQueryLocal(query);
         }
 
+        /// <summary>
+        /// DEPRECATED - Use updateMapping() instead.
+        /// Function to update the Mapping database with the values passed to it.
+        /// </summary>
+        /// <param name="connID"> - int --> Connection ID </param>
+        /// <param name="tableName">string --> Name of table mapped</param>
+        /// <param name="latFieldName">string --> Name of field that contains the latitude</param>
+        /// <param name="longFieldName">string --> Name of field that contains the longitude. If the lat and lon are both in the same column, put that same column in both latFieldName and longFieldName.</param>
+        /// <param name="format">string --> Format of lat/lon field names, 1 for SEPARATE, 2 for together and LATFIRST, 3 for together and LONGFIRST</param>
         public static void updateMapping(int connID, string tableName, string latFieldName, string longFieldName, int format)
         {
             Mapping mapping = new Mapping();
