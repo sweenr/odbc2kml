@@ -36,3 +36,4 @@ To run queries in visual studio do steps 1-2 above
 = More Fixes =
   # Change your local database for IconCondition and OverlayCondition to have default operator values of 0, NOT NULL.
   # Change Overlay table in local database: remove connID from primary key, set ID as primary key and autoincrement if you haven't already.
+  # Change Mapping: Add a column named placemarkFieldName, varchar(50), allow null
