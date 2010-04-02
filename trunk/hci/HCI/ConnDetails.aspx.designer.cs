@@ -554,13 +554,22 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.DropDownList llDD;
         
         /// <summary>
+        /// latLongRadioList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList latLongRadioList;
+        
+        /// <summary>
         /// LatLongCheck control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox LatLongCheck;
+        protected global::System.Web.UI.WebControls.ListItem LatLongCheck;
         
         /// <summary>
         /// LongLatCheck control.
@@ -569,7 +578,7 @@ namespace HCI {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox LongLatCheck;
+        protected global::System.Web.UI.WebControls.ListItem LongLatCheck;
         
         /// <summary>
         /// mapError2 control.
