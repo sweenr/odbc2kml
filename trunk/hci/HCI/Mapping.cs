@@ -130,21 +130,23 @@ namespace HCI
             }
 
 
-            String p1 = "", p2 = "",cord2;
+            String p1 = "", p2 = "";
             int i;
             for (i = 0; i < mid; i++)
             {}    
             
             p1 = cord.Substring(0,i);
 
-            p2 = cord.Substring(++mid, cord.Length-i-1);
-            
+            p2 = cord.Substring(++mid, cord.Length - i - 1);
+
+            Char[] bs = new Char[8] {')', '>', '}', '\'', '\"', '(', '<' ,'{'};
+
             double q1 = 0;
             double q2 = 0;
             try
             {
-                q1.Equals(double.Parse(p1));
-                q2.Equals(double.Parse(p2));
+                q1.Equals(double.Parse(p1.Trim(bs)));
+                q2.Equals(double.Parse(p2.Trim(bs)));
                 if (order.Equals(LATFIRST))
                 {
                     double[] coordinates = new double[2];
