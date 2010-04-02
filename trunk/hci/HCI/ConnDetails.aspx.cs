@@ -3760,6 +3760,61 @@ namespace HCI
             sessionSave();
 
         }
+
+        protected void addPlacemarkField_Click(object sender, EventArgs e)
+        {
+            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
+            ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
+
+            string selectedTable = GridViewTables.SelectedValue.ToString();
+            string connectionString_editor = "";
+            string providerName_editor = "";
+
+            SqlDataSource temp = new SqlDataSource();
+
+            //Set drop down box accordingly
+            if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+            {
+                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                temp.ConnectionString = connectionString_editor;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+
+            }
+
+            else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+            {
+                connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                providerName_editor = "MySql.Data.MySqlClient";
+
+                temp.ConnectionString = connectionString_editor;
+                temp.ProviderName = providerName_editor;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
+
+
+            }
+
+            else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+            {
+                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                providerName_editor = "System.Data.OracleClient";
+
+                temp.ConnectionString = connectionString_editor;
+                temp.ProviderName = providerName_editor;
+                temp.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedTable + "')";
+
+            }
+
+            else //Default set to SQL
+            {
+            }
+
+            Mapping conMapping = Mapping.getMapping(conID, selectedTable);
+            if (conMapping.getTableName() == null)
+            {
+
+            }
+        }
+
         //look here
         protected void addLatLong_Click(object sender, EventArgs e)
         {
