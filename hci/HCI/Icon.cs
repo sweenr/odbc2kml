@@ -89,6 +89,15 @@ namespace HCI
             this.conditions.Clear();
         }
 
+        /// <summary>
+        /// Remove condition removes a condition at a specified index.
+        /// </summary>
+        /// <param name="index">int --> index of condition</param>
+        public void removeCondition(int index)
+        {
+            this.conditions.RemoveAt(index);
+        }
+
         public void removeConditions(Condition condition)
         {
             this.conditions.Remove(condition);
