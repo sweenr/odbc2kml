@@ -627,6 +627,8 @@ namespace HCI
                         count--;
                     }
 
+                    breakOut = false;
+
                 } //End for each
             } //End for each
 
@@ -722,6 +724,9 @@ namespace HCI
                         purgeDescription = true;
                         count--;
                     }
+
+                    //Reset flag
+                    breakOut = false;
 
                 } //End for each
             } //End for each
