@@ -1665,8 +1665,9 @@ namespace HCI
             {
                 genIconConditionTable(sender, e);
                 genOverlayConditionTable(sender, e);
-                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel"+iconId), "MPE_"+iconId);
                 eh.displayError();
+                errorUpdatePanel.Update();
                 return;
             }
 
@@ -2301,7 +2302,7 @@ namespace HCI
             {
                 genIconConditionTable(sender, e);
                 genOverlayConditionTable(sender, e);
-                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                 eh.displayError();
                 return;
             }
