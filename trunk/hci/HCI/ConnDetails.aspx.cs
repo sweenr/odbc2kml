@@ -1668,6 +1668,168 @@ namespace HCI
                 return;
             }
 
+            //Verify that the bounds are of the same datatype as the column value
+            if (conditionErrors == "")
+            {
+                //Create ConnInfo 
+                ConnInfo testInfo = new ConnInfo();
+                testInfo.setConnectionName(connName);
+                testInfo.setDatabaseName(connDBName);
+                testInfo.setDatabaseType(Int16.Parse(connDBType));
+                testInfo.setOracleProtocol(oracleProtocol);
+                testInfo.setOracleServiceName(oracleSName);
+                testInfo.setOracleSID(oracleSID);
+                testInfo.setPassword(connPassword);
+                testInfo.setPortNumber(connDBPort);
+                testInfo.setServerAddress(connDBAddr);
+                testInfo.setUserName(connUser);
+
+                //Create database based on the connInfo
+                Database testDB = new Database(testInfo);
+
+                //Create the datatable to parse through
+                DataTable testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
+
+                //Check the bounds against the database values
+                foreach (DataRow row in testTable.Rows)
+                {
+                    //Counter to break out of the loop, this way only a subset of the data is tested
+                    int counter = 0;
+
+                    //If both conditions....
+                    if (condition.getLowerBound() != "" && condition.getUpperBound() != "")
+                    {
+                        //Need variables for Try parse
+                        Double lower;
+                        Double upper;
+
+                        //See if both conditions evaluate to doubles
+                        if (Double.TryParse(condition.getLowerBound(), out lower) && Double.TryParse(condition.getUpperBound(), out upper))
+                        {
+                            Double value;
+                            //If value is not a double, throw an error
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                        else //They evaluate to strings
+                        {
+                            Double value;
+                            //If value is a double, throw an error
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                    }
+                    else if (condition.getLowerBound() != "")
+                    {
+                        //Need variables for Try parse
+                        Double lower;
+
+                        //See if the lower conditions evaluate to doubles
+                        if (Double.TryParse(condition.getLowerBound(), out lower))
+                        {
+                            Double value;
+                            //If value is not a double, throw an error
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                        else //They evaluate to strings
+                        {
+                            Double value;
+                            //If value is a double, throw an error
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        //Need variables for Try parse
+                        Double upper;
+
+                        //See if the lower conditions evaluate to doubles
+                        if (Double.TryParse(condition.getUpperBound(), out upper))
+                        {
+                            Double value;
+                            //If value is not a double, throw an error
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                        else //They evaluate to strings
+                        {
+                            Double value;
+                            //If value is a double, throw an error
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                    }
+                }
+            }
+
             foreach (Icon icon in tempIconList)
             {
                 if (icon.getId() == iconId)
@@ -2140,6 +2302,168 @@ namespace HCI
                 ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
                 eh.displayError();
                 return;
+            }
+
+            //Verify that the bounds are of the same datatype as the column value
+            if (conditionErrors == "")
+            {
+                //Create ConnInfo 
+                ConnInfo testInfo = new ConnInfo();
+                testInfo.setConnectionName(connName);
+                testInfo.setDatabaseName(connDBName);
+                testInfo.setDatabaseType(Int16.Parse(connDBType));
+                testInfo.setOracleProtocol(oracleProtocol);
+                testInfo.setOracleServiceName(oracleSName);
+                testInfo.setOracleSID(oracleSID);
+                testInfo.setPassword(connPassword);
+                testInfo.setPortNumber(connDBPort);
+                testInfo.setServerAddress(connDBAddr);
+                testInfo.setUserName(connUser);
+
+                //Create database based on the connInfo
+                Database testDB = new Database(testInfo);
+
+                //Create the datatable to parse through
+                DataTable testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
+
+                //Check the bounds against the database values
+                foreach (DataRow row in testTable.Rows)
+                {
+                    //Counter to break out of the loop, this way only a subset of the data is tested
+                    int counter = 0;
+
+                    //If both conditions....
+                    if (condition.getLowerBound() != "" && condition.getUpperBound() != "")
+                    {
+                        //Need variables for Try parse
+                        Double lower;
+                        Double upper;
+
+                        //See if both conditions evaluate to doubles
+                        if (Double.TryParse(condition.getLowerBound(), out lower) && Double.TryParse(condition.getUpperBound(), out upper))
+                        {
+                            Double value;
+                            //If value is not a double, throw an error
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                        else //They evaluate to strings
+                        {
+                            Double value;
+                            //If value is a double, throw an error
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                    }
+                    else if (condition.getLowerBound() != "")
+                    {
+                        //Need variables for Try parse
+                        Double lower;
+
+                        //See if the lower conditions evaluate to doubles
+                        if (Double.TryParse(condition.getLowerBound(), out lower))
+                        {
+                            Double value;
+                            //If value is not a double, throw an error
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                        else //They evaluate to strings
+                        {
+                            Double value;
+                            //If value is a double, throw an error
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        //Need variables for Try parse
+                        Double upper;
+
+                        //See if the lower conditions evaluate to doubles
+                        if (Double.TryParse(condition.getUpperBound(), out upper))
+                        {
+                            Double value;
+                            //If value is not a double, throw an error
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                        else //They evaluate to strings
+                        {
+                            Double value;
+                            //If value is a double, throw an error
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            {
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                genIconConditionTable(sender, e);
+                                genOverlayConditionTable(sender, e);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
+
+                            //test five elements
+                            if (++counter > 5)
+                                break;
+                        }
+                    }
+                }
             }
 
             foreach (Overlay overlay in tempOverlayList)
