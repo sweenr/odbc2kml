@@ -38,6 +38,8 @@
         runat="server">na</a>
         <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink2"
         runat="server">na</a>
+         <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink3"
+        runat="server">na</a>
     <form id="mainForm" runat="server">
     <div id="wrapIt">
         <div id="header">
@@ -220,12 +222,127 @@
                                                                                 </tr>
                                                                             </table>
                                                                             <div class="right" style="padding-top: 20px;">
-                                                                                <asp:Literal ID="validNewConn" runat="server" Visible="false" Text="All fields must be completeted!"></asp:Literal>
-                                                                                &nbsp;&nbsp;
                                                                                 <asp:Button ID="newConnUpdate" runat="server" Text="Create" CssClass="button" ToolTip="Update"
                                                                                     OnClick="createConnection" CommandArgument="none" />
                                                                                 &nbsp;&nbsp;
                                                                                 <asp:Button ID="newConnCancel" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </asp:Panel>
+                                                    <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 
+                                                        runat="server" PopupControlID="editConnPanel" ID="editConnModalPopUp" TargetControlID="dummyLink3" />
+                                                    <asp:Panel ID="editConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                        <div class="mainBoxP">
+                                                            <span id="Span1" visible="true" class="connectionStyle">&nbsp;Connection Information</span>
+                                                            <table cellspacing="0" cellpadding="10" class="mainBox2">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div style="background-color: white; padding: 5px;">
+                                                                            <table cellspacing="5">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Connection Name: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnName" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Database Name: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnDBName" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Database Address: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnDBAddr" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Port Number: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnDBPort" runat="server" CssClass="inputBox" Width="100"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Username: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnUser" runat="server" CssClass="inputBox" Width="200"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Password: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnPass" runat="server" CssClass="inputBox" Width="200" TextMode="Password"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Database Type:</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:DropDownList ID="editConnDBType" runat="server">
+                                                                                            <asp:ListItem Text="MySQL"></asp:ListItem>
+                                                                                            <asp:ListItem Text="MSSQL"></asp:ListItem>
+                                                                                            <asp:ListItem Text="Oracle"></asp:ListItem>
+                                                                                        </asp:DropDownList>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <table cellspacing="5" id="odbcTable1" style="display: none">
+                                                                                <tr id="odbcProtocolRow1">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Protocol:</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox runat="server" ID="editOracleProtocol" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="odbcServiceRow1">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Service Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox runat="server" ID="editOracleService" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="odbcSIDRow1">
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Service ID:</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox runat="server" ID="editOracleSID" Width="300" CssClass="inputBox" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="Tr4">
+                                                                                    <td colspan="2">
+                                                                                        <span class="connectionTitle">&nbsp; &nbsp; Only Service Name or Service ID is required, not both</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <div class="right" style="padding-top: 20px;">
+                                                                                <asp:Button ID="saveEditConn" runat="server" Text="Save" CssClass="button" ToolTip="Update"
+                                                                                    OnClick="editAndSaveData" CommandArgument="none"></asp:Button>
+                                                                                &nbsp;&nbsp;
+                                                                                <asp:Button ID="saveAndEditConn" runat="server" Text="Save and Edit" CssClass="button" ToolTip="Update"
+                                                                                    OnClick="editSaveAndLoadData" CommandArgument="none" />
+                                                                                &nbsp;&nbsp;
+                                                                                <asp:Button ID="cancelEditConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" OnClick="editCancel" CommandArgument="none" />
                                                                             </div>
                                                                         </div>
                                                                     </td>
