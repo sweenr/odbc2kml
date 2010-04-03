@@ -3592,6 +3592,7 @@ namespace HCI
                 mapping.setLatFieldName(dr["latFieldName"].ToString());
                 mapping.setLongFieldName(dr["longFieldName"].ToString());
                 mapping.setFormat(Convert.ToInt32(dr["format"]));
+                mapping.setPlacemarkFieldName(dr["placemarkFieldName"].ToString());
             }
 
             displayCurrentMapping(mapping);
@@ -3615,6 +3616,7 @@ namespace HCI
                 currentTableLabel.Text = curMapping.getTableName();
                 currentLatLabel.Text = curMapping.getLatFieldName();
                 currentLongLabel.Text = curMapping.getLongFieldName();
+                currentNameLabel.Text = curMapping.getPlacemarkFieldName();
 
                 viewLatLongErrorPanel.Visible = false;
                 viewLatLongPanel.Visible = true;
@@ -4134,7 +4136,7 @@ namespace HCI
 
             Mapping map = new Mapping(Convert.ToInt32(Request.QueryString.Get("ConnID")), table, latitude, longitude, format);
 
-            displayCurrentMapping(map);
+            displayCurrentMapping(mapping);
 
             mapError1.Visible = false;
             mapError2.Visible = false;
