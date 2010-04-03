@@ -538,49 +538,51 @@ namespace HCI
             Boolean purgeDescription = false;
 
             //For each icon in icon list
-          /*  foreach (Icon i in iconList)
-            {
-                //Get the icon's conditions
-                for (int count = 0; count < i.getConditions().Count; count++)
-                {
-                    //For each table name, see if the conditions table name matches
-                    foreach (DataRow row in purgeDT.Rows)
-                    {
-                        //Do table names match?
-                        if (row["TABLE_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getTableName()))
-                        {
-                            //Ok, check the column names
-                            foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
-                            {
-                                if (row1["COLUMN_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getFieldName()))
-                                {
-                                    breakOut = true;
-                                    break;
-                                }
-                            } //End for each
+            /*  foreach (Icon i in iconList)
+              {
+                  //Get the icon's conditions
+                  for (int count = 0; count < i.getConditions().Count; count++)
+                  {
+                      //For each table name, see if the conditions table name matches
+                      foreach (DataRow row in purgeDT.Rows)
+                      {
+                          String rowName = row["TABLE_NAME"].ToString().ToLower();
+                          //Do table names match?
+                          if (rowName.Equals(((Condition)i.getConditions()[count]).getTableName().ToLower()))
+                          {
+                              //Ok, check the column names
+                              foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                              {
+                                  String columnName = row1["COLUMN_NAME"].ToString().ToLower();
+                                  if (columnName.Equals(((Condition)i.getConditions()[count]).getFieldName().ToLower()))
+                                  {
+                                      breakOut = true;
+                                      break;
+                                  }
+                              } //End for each
 
-                            if (!breakOut) //Didn't break out, purge condition
-                            {
-                                i.removeCondition(count);
-                                purgeDescription = true;
-                                count--;
-                            }
-                        }
+                              if (!breakOut) //Didn't break out, purge condition
+                              {
+                                  i.removeCondition(count);
+                                  purgeDescription = true;
+                                  count--;
+                              }
+                          }
 
-                        if (breakOut) //If a column and row has been matched, break out and proceed with next condition
-                            break;
-                    } //End for each
+                          if (breakOut) //If a column and row has been matched, break out and proceed with next condition
+                              break;
+                      } //End for each
 
-                    //Never found a match table, purge it
-                    if (!breakOut)
-                    {
-                        i.removeCondition(count);
-                        purgeDescription = true;
-                        count--;
-                    }
+                      //Never found a match table, purge it
+                      if (!breakOut)
+                      {
+                          i.removeCondition(count);
+                          purgeDescription = true;
+                          count--;
+                      }
 
-                } //End for each
-            } //End for each*/
+                  } //End for each
+              } //End for each*/
 
             //Reset Variables
             breakOut = false;
@@ -594,13 +596,17 @@ namespace HCI
                     //For each table name, see if the conditions table name matches
                     foreach (DataRow row in purgeDT.Rows)
                     {
+                        String tableName = row["TABLE_NAME"].ToString().ToLower();
+
                         //Do table names match?
-                        if (row["TABLE_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getTableName()))
+                        if (tableName.Equals(((Condition)i.getConditions()[count]).getTableName().ToLower()))
                         {
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
-                                if (row1["COLUMN_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getFieldName()))
+                                String columnName = row1["COLUMN_NAME"].ToString().ToLower();
+
+                                if (columnName.Equals(((Condition)i.getConditions()[count]).getFieldName().ToLower()))
                                 {
                                     breakOut = true;
                                     break;
@@ -636,49 +642,51 @@ namespace HCI
             breakOut = false;
 
             //For each overlay in overlay list
-           /* foreach (Overlay o in overlayList)
-            {
-                //Get the icon's conditions
-                for (int count = 0; count < o.getConditions().Count; count++ )
-                {
-                    //For each table name, see if the conditions table name matches
-                    foreach (DataRow row in purgeDT.Rows)
-                    {
-                        //Do table names match?
-                        if (row["TABLE_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getTableName()))
-                        {
-                            //Ok, check the column names
-                            foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
-                            {
-                                if (row1["COLUMN_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getFieldName()))
-                                {
-                                    breakOut = true;
-                                    break;
-                                }
-                            } //End for each
+            /* foreach (Overlay o in overlayList)
+             {
+                 //Get the icon's conditions
+                 for (int count = 0; count < o.getConditions().Count; count++ )
+                 {
+                     //For each table name, see if the conditions table name matches
+                     foreach (DataRow row in purgeDT.Rows)
+                     {
+                         String rowName = row["TABLE_NAME"].ToString().ToLower();
+                         //Do table names match?
+                         if (rowName.Equals(((Condition)o.getConditions()[count]).getTableName().ToLower()))
+                         {
+                             //Ok, check the column names
+                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                             {
+                                 String columnName = row1["COLUMN_NAME"].ToString().ToLower();
+                                 if (columnName.Equals(((Condition)o.getConditions()[count]).getFieldName().ToLower()))
+                                 {
+                                     breakOut = true;
+                                     break;
+                                 }
+                             } //End for each
 
-                            if (!breakOut) //Didn't break out, purge condition
-                            {
-                                o.removeCondition(count);
-                                purgeDescription = true;
-                                count--;
-                            }
-                        }
+                             if (!breakOut) //Didn't break out, purge condition
+                             {
+                                 o.removeCondition(count);
+                                 purgeDescription = true;
+                                 count--;
+                             }
+                         }
 
-                        if (breakOut) //If a column and row has been matched, break out and proceed with next condition
-                            break;
-                    } //End for each
+                         if (breakOut) //If a column and row has been matched, break out and proceed with next condition
+                             break;
+                     } //End for each
 
-                    //Never found a match table, purge it
-                    if (!breakOut)
-                    {
-                        o.removeCondition(count);
-                        purgeDescription = true;
-                        count--;
-                    }
+                     //Never found a match table, purge it
+                     if (!breakOut)
+                     {
+                         o.removeCondition(count);
+                         purgeDescription = true;
+                         count--;
+                     }
 
-                } //End for each
-            } //End for each*/
+                 } //End for each
+             } //End for each*/
 
             //Reset Variables
             breakOut = false;
@@ -692,13 +700,17 @@ namespace HCI
                     //For each table name, see if the conditions table name matches
                     foreach (DataRow row in purgeDT.Rows)
                     {
+                        String rowName = row["TABLE_NAME"].ToString().ToLower();
+
                         //Do table names match?
-                        if (row["TABLE_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getTableName()))
+                        if (rowName.Equals(((Condition)o.getConditions()[count]).getTableName().ToLower()))
                         {
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
-                                if (row1["COLUMN_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getFieldName()))
+                                String columnName = row1["COLUMN_NAME"].ToString().ToLower();
+
+                                if (columnName.Equals(((Condition)o.getConditions()[count]).getFieldName().ToLower()))
                                 {
                                     breakOut = true;
                                     break;
