@@ -538,7 +538,7 @@ namespace HCI
             Boolean purgeDescription = false;
 
             //For each icon in icon list
-            foreach (Icon i in iconList)
+          /*  foreach (Icon i in iconList)
             {
                 //Get the icon's conditions
                 for (int count = 0; count < i.getConditions().Count; count++)
@@ -580,7 +580,7 @@ namespace HCI
                     }
 
                 } //End for each
-            } //End for each
+            } //End for each*/
 
             //Reset Variables
             breakOut = false;
@@ -634,7 +634,7 @@ namespace HCI
             breakOut = false;
 
             //For each overlay in overlay list
-            foreach (Overlay o in overlayList)
+           /* foreach (Overlay o in overlayList)
             {
                 //Get the icon's conditions
                 for (int count = 0; count < o.getConditions().Count; count++ )
@@ -676,7 +676,7 @@ namespace HCI
                     }
 
                 } //End for each
-            } //End for each
+            } //End for each*/
 
             //Reset Variables
             breakOut = false;
