@@ -122,13 +122,14 @@ namespace HCI
                     {
                         //Set placemark name
                         string placemarkName;
-                        if (map.getPlacemarkFieldName() != null)
+                        if (map.getPlacemarkFieldName() == null || map.getPlacemarkFieldName().Trim().Equals(""))
                         {
-                            placemarkName = (String)remoteRow[map.getPlacemarkFieldName()];
+                            placemarkName = "";
                         }
                         else
                         {
-                            placemarkName = "";
+                            placemarkName = (String)remoteRow[map.getPlacemarkFieldName()];
+                            
                         }
 
                         //Foreach row set the description for each row
