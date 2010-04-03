@@ -275,7 +275,7 @@ namespace HCI
         {
             Database localDatabase = new Database();
 
-            string query = "INSERT INTO MAPPING ('tableName', 'latFieldName', 'longFieldName', 'placemarkFieldName', 'format', 'connID') VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" + m.connID + "')";
+            string query = "INSERT INTO MAPPING (tableName, latFieldName, longFieldName, placemarkFieldName, format, connID) VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" + m.connID + "')";
             localDatabase.executeQueryLocal(query);
         }
 
