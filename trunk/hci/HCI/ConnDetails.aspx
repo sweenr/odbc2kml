@@ -45,23 +45,7 @@
 
     </script>
 
-    <script type="text/javascript">
-	$(function() {
-		$("#errorPanel1").dialog({
-			bgiframe: true,
-			modal: true,
-			autoOpen: false,
-			title: 'Error!',
-			resizable: false,
-			dialogClass: 'alert',
-			buttons: {
-				Ok: function() {
-					$(this).dialog('close');
-				}
-			}
-		});
-	});
-    </script>
+    
 
     <script type="text/javascript">
     
@@ -108,11 +92,28 @@ function OnColorPicked(sender){
 
 </head>
 <body>
+    <script type="text/javascript">
+	$(function() {
+		$("#errorPanel1").dialog({
+			bgiframe: true,
+			modal: true,
+			autoOpen: false,
+			title: 'Error!',
+			resizable: false,
+			dialogClass: 'alert',
+			buttons: {
+				Ok: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	});
+    </script>
     <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink"
         runat="server">na</a>
     <form id="connDetailsForm" runat="server">
     <asp:ScriptManager ID="ConnSMgr2" runat="server" EnablePartialRendering="true" />
-    <asp:UpdatePanel runat="server" ID="errorUpdatePanel" UpdateMode="Always">
+    <asp:UpdatePanel runat="server" ID="errorUpdatePanel" UpdateMode="Conditional">
         <ContentTemplate>
             <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
             </asp:Panel>
