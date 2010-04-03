@@ -397,6 +397,50 @@ function OnColorPicked(sender){
                                         <td class="tdSpace3">
                                         </td>
                                         <td class="mainBox3" valign="top" align="left">
+                                            <asp:Panel ID="mapPlacemarkName" runat="server" Visible="false">
+                                                <br />
+                                                <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="mapPlacemarkLabel" runat="server" Text="Map Placemark Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <table class="descPanelTable" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Panel ID="Panel2" runat="server" Visible="true">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <asp:Label ID="fieldLabelPM" runat="server" Text="Field: " CssClass="descLabel"></asp:Label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:UpdatePanel ID="nameColumnUP" runat="server" UpdateMode="Conditional">
+                                                                                            <ContentTemplate>
+                                                                                                <asp:DropDownList ID="nameColumnDD" runat="server">
+                                                                                                </asp:DropDownList>
+                                                                                            </ContentTemplate>
+                                                                                        </asp:UpdatePanel>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:Button ID="savePlacemarkMapping" runat="server" Text="Submit" CssClass="descButton" ToolTip="Submit" OnClick="savePlacemarkMapping_click" /> 
+                                                                                    </td>
+                                                                                </tr>                                                                                
+                                                                            </table>
+                                                                            <p>
+                                                                            </p>
+                                                                            <asp:Label ID="mapSuccess2" runat="server" CssClass="descLabel" Text="Placemark name mapped successfully." Visible="false"></asp:Label>
+                                                                        </asp:Panel>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
                                             <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
                                                 <br />
                                                 <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
