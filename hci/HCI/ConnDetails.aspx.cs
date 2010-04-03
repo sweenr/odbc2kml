@@ -1410,7 +1410,7 @@ namespace HCI
                     }
                     Panel modifyIconConditionPopupPanel = new Panel();
                     modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
-                    modifyIconConditionPopupPanel.CssClass = "modalWindow";
+                    modifyIconConditionPopupPanel.Style["display"] = "none";
                     panels.Add("modifyIconConditionPopupPanel" + icon.getId());
                     sessionSave();
                     modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
@@ -2050,7 +2050,7 @@ namespace HCI
                     }
                     Panel modifyOverlayConditionPopupPanel = new Panel();
                     modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
-                    modifyOverlayConditionPopupPanel.CssClass = "modalWindow";
+                    modifyOverlayConditionPopupPanel.Style["display"] = "none";
                     panels.Add("modifyOverlayConditionPopupPanel" + overlay.getId());
                     sessionSave();
                     modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
