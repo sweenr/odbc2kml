@@ -924,7 +924,8 @@ namespace HCI
                     imgBtn.ImageUrl = icn.getLocation().ToString();
                     imgBtn.Click += new ImageClickEventHandler(removeIconFromConnFunct);
                     imgBtn.CommandArgument = icn.getId().ToString();
-                    imgBtn.AlternateText = icn.getLocation().ToString();
+                    imgBtn.AlternateText = "Icon Cannot be Displayed";
+                    imgBtn.ToolTip = icn.getLocation().ToString();
 
                     removeIconFromConn.Controls.Add(imgBtn);
                     removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
@@ -968,7 +969,8 @@ namespace HCI
                     imgBtn.ImageUrl = icn.getLocation().ToString();
                     imgBtn.Click += new ImageClickEventHandler(addIconFromLibraryToConn);
                     imgBtn.CommandArgument = icn.getId().ToString();
-                    imgBtn.AlternateText = icn.getLocation().ToString();
+                    imgBtn.AlternateText = "Icon Cannot be Displayed";
+                    imgBtn.ToolTip = icn.getLocation().ToString();
 
                     addIconToLibary.Controls.Add(imgBtn);
                     addIconToLibary.Controls.Add(new LiteralControl("</td>"));
