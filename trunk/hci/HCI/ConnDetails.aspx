@@ -270,6 +270,79 @@ function OnColorPicked(sender){
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                             <div class="full">
+                                <asp:Panel ID="viewLatLongErrorPanel" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
+                                    <table style="text-align:left;" width="100%">
+                                        <tr>
+                                            <td width="30%" rowspan="3" style="text-align:center;">
+                                                <asp:Label ID="curMappingLabel3" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError"
+                                                        Text="There are not lat/long mappings for this connection." HorizontalAlign="Center" />
+                                            </td>
+                                            <td width="30%">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </asp:Panel>
+                                <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
+                                    <table style="text-align:left;" width="100%">
+                                        <tr>
+                                            <td width="30%" rowspan="3" style="text-align:center;">
+                                                <asp:Label ID="curMappingLabel1" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel" />
+                                            </td>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2" />
+                                            </td>
+                                            <td width="30%">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel" />
+                                            </td>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2" />
+                                            </td>
+                                            <td width="30%">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel" />
+                                            </td>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2" />
+                                            </td>
+                                            <td width="30%">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </asp:Panel>
+                                <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
+                                    <table style="text-align:left;" width="100%">
+                                        <tr>
+                                            <td width="30%" rowspan="3" style="text-align:center:">
+                                                <asp:Label ID="curMappingLabel2" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel" />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2" />
+                                            </td>
+                                            <td width="30%">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel" />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2" />
+                                            </td>
+                                            <td width="30%">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </asp:Panel>
                                 <table cellspacing="10" cellpadding="10" class="mainBox2">
                                     <tr>
                                         <td class="dbTitle">
@@ -310,58 +383,6 @@ function OnColorPicked(sender){
                                         <td class="tdSpace3">
                                         </td>
                                         <td class="mainBox3" valign="top" align="left">
-                                            <asp:Label ID="viewLatLongErrorLabel" runat="server" Visible="false" CssClass="descLabelError"
-                                                Text="There are not lat/long mappings for this table."></asp:Label>
-                                            <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel"></asp:Label>
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel"></asp:Label>
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel"></asp:Label>
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </asp:Panel>
-                                            <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel"></asp:Label>
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel"></asp:Label>
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                </table>
-                                            </asp:Panel>
                                             <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
                                                 <br />
                                                 <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">

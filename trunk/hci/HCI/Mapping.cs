@@ -34,7 +34,12 @@ namespace HCI
         //Constructor
         public Mapping()
         {
-
+            connID = -1;
+            tableName = "";
+            latFieldName = "";
+            longFieldName = "";
+            placemarkFieldName = "";
+            format = -1;
         }
 
         public Mapping(int c, string t, string lat, string lon, int f)

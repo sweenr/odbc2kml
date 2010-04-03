@@ -3526,6 +3526,9 @@ namespace HCI
                 mapping.setLongFieldName(dr["longFieldName"].ToString());
                 mapping.setFormat(Convert.ToInt32(dr["format"]));
             }
+
+            displayCurrentMapping(mapping);
+
             sessionSave();
         }
         protected void saveLatLonInfo()
@@ -3535,6 +3538,54 @@ namespace HCI
             sessionSave();
         }
 
+        protected void displayCurrentMapping(Mapping curMapping)
+        {
+            if (curMapping.getFormat() == 1)
+            {
+                LLSepPanel.Visible = true;
+                LLTogetherPanel.Visible = false;
+
+                currentTableLabel.Text = curMapping.getTableName();
+                currentLatLabel.Text = curMapping.getLatFieldName();
+                currentLongLabel.Text = curMapping.getLongFieldName();
+
+                viewLatLongErrorPanel.Visible = false;
+                viewLatLongPanel.Visible = true;
+                viewLatLongPanel2.Visible = false;
+            }
+            else if (curMapping.getFormat() == 2)
+            {
+                LatLongCheck.Selected = true;
+                LongLatCheck.Selected = false;
+                viewLatLongErrorPanel.Visible = false;
+                viewLatLongPanel.Visible = false;
+                viewLatLongPanel2.Visible = true;
+                currentTableLabel2.Text = curMapping.getTableName();
+                viewLatLongLabel.Text = "Latitude/Longitude Field: ";
+                currentLatLongLabel.Text = curMapping.getLatFieldName();
+                LLSepPanel.Visible = false;
+                LLTogetherPanel.Visible = true;
+            }
+            else if (curMapping.getFormat() == 3)
+            {
+                LatLongCheck.Selected = false;
+                LongLatCheck.Selected = true;
+                viewLatLongErrorPanel.Visible = false;
+                viewLatLongPanel.Visible = false;
+                viewLatLongPanel2.Visible = true;
+                currentTableLabel2.Text = curMapping.getTableName();
+                viewLatLongLabel.Text = "Longitude/Latitude Field: ";
+                currentLatLongLabel.Text = curMapping.getLatFieldName();
+                LLSepPanel.Visible = false;
+                LLTogetherPanel.Visible = true;
+            }
+            else
+            {
+                viewLatLongErrorPanel.Visible = true;
+                viewLatLongPanel.Visible = false;
+                viewLatLongPanel2.Visible = false;
+            }
+        }
 
         //editor methods
         protected void updateTables(int type)
@@ -3974,12 +4025,6 @@ namespace HCI
             mapError2.Visible = false;
             mapSuccess.Visible = false;
             sessionSave();
-
-
-            viewLatLongErrorLabel.Visible = true;
-            viewLatLongPanel.Visible = false;
-            viewLatLongPanel2.Visible = false;
-
         }
 
         protected void mapUpdates(SqlDataSource temp, string table, string latitude, string longitude, int format)
@@ -4013,46 +4058,9 @@ namespace HCI
                 throw ex;
             }
 
-            viewLatLongErrorLabel.Visible = false;
+            Mapping map = new Mapping(Convert.ToInt32(Request.QueryString.Get("ConnID")), table, latitude, longitude, format);
 
-            if (format == 1)
-            {
-                LLSepPanel.Visible = true;
-                LLTogetherPanel.Visible = false;
-
-                currentTableLabel.Text = table;
-                currentLatLabel.Text = latitude;
-                currentLongLabel.Text = longitude;
-
-                viewLatLongPanel.Visible = true;
-                viewLatLongPanel2.Visible = false;
-            }
-            else
-            {
-                if (format == 2)
-                {
-                    LatLongCheck.Selected = true;
-                    LongLatCheck.Selected = false;
-                    viewLatLongPanel.Visible = false;
-                    viewLatLongPanel2.Visible = true;
-                    currentTableLabel2.Text = table;
-                    viewLatLongLabel.Text = "Latitude/Longitude Field: ";
-                    currentLatLongLabel.Text = latitude;
-                }
-                else
-                {
-                    LatLongCheck.Selected = false;
-                    LongLatCheck.Selected = true;
-                    viewLatLongPanel.Visible = false;
-                    viewLatLongPanel2.Visible = true;
-                    currentTableLabel2.Text = table;
-                    viewLatLongLabel.Text = "Longitude/Latitude Field: ";
-                    currentLatLongLabel.Text = latitude;
-                }
-
-                LLSepPanel.Visible = false;
-                LLTogetherPanel.Visible = true;
-            }
+            displayCurrentMapping(map);
 
             mapError1.Visible = false;
             mapError2.Visible = false;
@@ -4246,7 +4254,6 @@ namespace HCI
             string latFieldName = "";
             string longFieldName = "";
             int format = 1;
-            viewLatLongErrorLabel.Visible = false;
 
             int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             Mapping saveMapping = Mapping.getMapping(conID, tableName);
@@ -4266,14 +4273,9 @@ namespace HCI
                     mapError1.Visible = false;
                     mapError2.Visible = false;
 
-                    viewLatLongPanel.Visible = true;
-                    viewLatLongPanel2.Visible = false;
-
-                    currentTableLabel.Text = tableName;
-                    currentLatLabel.Text = latFieldName;
-                    currentLongLabel.Text = longFieldName;
-
                     mapping = new Mapping(conID, tableName, latFieldName, longFieldName, format);
+
+                    displayCurrentMapping(mapping);
 
                     if (mapTblName == null)
                     {
@@ -4304,23 +4306,14 @@ namespace HCI
                     if (LongLatCheck.Selected)
                     {
                         format = 3;
-                        viewLatLongPanel.Visible = false;
-                        viewLatLongPanel2.Visible = true;
-
-                        viewLatLongLabel.Text = "Longitude/Latitude Field: ";
-                        currentLatLongLabel.Text = latFieldName;
                     }
                     else
                     {
                         format = 2;
-                        viewLatLongPanel.Visible = false;
-                        viewLatLongPanel2.Visible = true;
-
-                        viewLatLongLabel.Text = "Latitude/Longitude Field: ";
-                        currentLatLongLabel.Text = latFieldName;
                     }
 
                     mapping = new Mapping(conID, tableName, latFieldName, longFieldName, format);
+                    displayCurrentMapping(mapping);
 
                     if (mapTblName == null)
                     {
