@@ -358,6 +358,8 @@ namespace HCI
         /// <returns>Boolean --> true -> valid, false -> invalid</returns>
         public static Boolean validProtocol(String protocol)
         {
+            protocol = protocol.ToLower();
+
             if (protocol.Equals("sdp"))
             {
                 return true;
