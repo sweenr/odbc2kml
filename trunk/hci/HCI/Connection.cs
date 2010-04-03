@@ -18,7 +18,7 @@ namespace HCI
     {
         //Datatypes
         private Description description;
-        private ArrayList mapping;
+        private Mapping mapping;
         private ArrayList icons;
         private ArrayList overlays;
         private ConnInfo connInfo;
@@ -32,7 +32,7 @@ namespace HCI
             icons = new ArrayList();
             overlays = new ArrayList();
             description = new Description();
-            mapping = new ArrayList();
+            mapping = new Mapping();
             connInfo = new ConnInfo();
         }
 
@@ -50,7 +50,7 @@ namespace HCI
         }
 
         //Retrieve mapping
-        public ArrayList getMapping()
+        public Mapping getMapping()
         {
             return this.mapping;
         }
@@ -84,7 +84,7 @@ namespace HCI
         //Set mapping
         public void setMapping(Mapping mapping)
         {
-            this.mapping.Add(mapping);
+            this.mapping = mapping;
         }
 
         //Set icons
@@ -153,7 +153,7 @@ namespace HCI
                 this.connInfo = ConnInfo.getConnInfo(this.connID);
                 this.overlays = Overlay.getOverlays(this.connID);
                 this.description = Description.getDescription(this.connID);
-                this.mapping = Mapping.getMappings(this.connID);                
+                this.mapping = Mapping.getMapping(this.connID);                
                 this.icons = Icon.getIcons(this.connID);
             }
             catch(ODBC2KMLException e) //Add whatever exceptions are needed and error handling code
