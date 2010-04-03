@@ -4129,10 +4129,28 @@ namespace HCI
             }
 
             Mapping conMapping = Mapping.getMapping(conID, selectedTable);
-            if (conMapping.getTableName() == null)
-            {
 
-            }
+            nameColumnDD.DataSource = temp;
+            nameColumnDD.DataValueField = "COLUMN_NAME";
+            nameColumnDD.DataTextField = "COLUMN_NAME";
+            nameColumnDD.DataBind();
+            nameColumnUP.Update();
+
+            addPlacemarkField.Visible = false;
+            tblColumnsPanel.Visible = false;
+            mapPlacemarkName.Visible = true;
+            sessionSave();
+
+        }
+
+        protected void savePlacemarkMapping_click(object sender, EventArgs e)
+        {
+            int connID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
+            string selectedTable = GridViewTables.SelectedValue.ToString();
+            mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
+            mapSuccess2.Visible = true;
+            sessionSave();
+
         }
 
         //look here
