@@ -218,53 +218,34 @@ namespace HCI
         }
 
         /// <summary>
-        /// Get all of the mappings associated with a given connection.
+        /// Get all of the mapping information associated with a given connection.
         /// </summary>
         /// <param name="connID">int --> connection ID</param>
-        /// <returns>ArrayList --> Contains all mappings associated with this connection</returns>
-        public static ArrayList getMappings(int connID)
+        /// <returns>Mapping --> Populated Map Object</returns>
+        public static Mapping getMapping(int connID)
         {
-            ArrayList mapping = new ArrayList();
             Database localDatabase = new Database();
 
             //Create mapping query and populate table
             string query = "SELECT * FROM Mapping WHERE connID=" + connID;
             DataTable table = localDatabase.executeQueryLocal(query);
 
+            //Mapping to return
+            Mapping map = new Mapping();
+
             foreach (DataRow row in table.Rows)
             {
-                Mapping map = new Mapping();
-
-                foreach (DataColumn col in table.Columns)
-                {
-                    //Set mapping
-                    switch (col.ColumnName)
-                    {
-                        case "tableName":
-                            map.setTableName(row[col].ToString());
-                            break;
-                        case "latFieldName":
-                            map.setLatFieldName(row[col].ToString());
-                            break;
-                        case "longFieldName":
-                            map.setLongFieldName(row[col].ToString());
-                            break;
-                        case "placemarkFieldName":
-                            map.setPlacemarkFieldName(row[col].ToString());
-                            break;
-                        case "format":
-                            map.setFormat((int)row[col]);
-                            break;
-                        default:
-                            break;                  
-                    }
-                }
-                //Add mapping to list
-                mapping.Add(map);
-                map = null;
+                //Set mapping
+                map.setTableName(row["tableName"].ToString());
+                map.setLatFieldName(row["latFieldName"].ToString());
+                map.setLongFieldName(row["longFieldName"].ToString());
+                map.setPlacemarkFieldName(row["placemarkFieldName"].ToString());
+                map.setFormat((int)row["format"]);
+           
             }//End outer loop
 
-            return mapping;
+            //Return populated map object
+            return map;
         }
 
         /// <summary>
@@ -369,6 +350,9 @@ namespace HCI
                             break;
                         case "longFieldName":
                             mapping.setLongFieldName(row[col].ToString());
+                            break;
+                        case "placemarkFieldName":
+                            mapping.setPlacemarkFieldName(row[col].ToString());
                             break;
                         case "format":
                             mapping.setFormat((int)row[col]);
