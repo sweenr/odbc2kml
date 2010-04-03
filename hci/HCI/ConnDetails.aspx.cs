@@ -560,6 +560,7 @@ namespace HCI
                                 if (row1["COLUMN_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getFieldName()))
                                 {
                                     breakOut = true;
+                                    tableMatch = true;
                                     break;
                                 }
                             } //End for each
@@ -609,6 +610,7 @@ namespace HCI
                                 if (row1["COLUMN_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getFieldName()))
                                 {
                                     breakOut = true;
+                                    tableMatch = true;
                                     break;
                                 }
                             } //End for each
@@ -658,6 +660,7 @@ namespace HCI
                                 if (row1["COLUMN_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getFieldName()))
                                 {
                                     breakOut = true;
+                                    tableMatch = true;
                                     break;
                                 }
                             } //End for each
@@ -707,6 +710,7 @@ namespace HCI
                                 if (row1["COLUMN_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getFieldName()))
                                 {
                                     breakOut = true;
+                                    tableMatch = true;
                                     break;
                                 }
                             } //End for each
