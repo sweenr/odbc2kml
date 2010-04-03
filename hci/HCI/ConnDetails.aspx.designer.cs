@@ -239,58 +239,22 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button connectButton;
         
         /// <summary>
-        /// DBLabel control.
+        /// viewLatLongErrorPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label DBLabel;
+        protected global::System.Web.UI.WebControls.Panel viewLatLongErrorPanel;
         
         /// <summary>
-        /// DBTPanel0 control.
+        /// curMappingLabel3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel DBTPanel0;
-        
-        /// <summary>
-        /// DBTLabel0 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label DBTLabel0;
-        
-        /// <summary>
-        /// DBTPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel DBTPanel;
-        
-        /// <summary>
-        /// GridViewTables control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridViewTables;
-        
-        /// <summary>
-        /// selectedGVTable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField selectedGVTable;
+        protected global::System.Web.UI.WebControls.Label curMappingLabel3;
         
         /// <summary>
         /// viewLatLongErrorLabel control.
@@ -309,6 +273,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel viewLatLongPanel;
+        
+        /// <summary>
+        /// curMappingLabel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label curMappingLabel1;
         
         /// <summary>
         /// viewTableLabel control.
@@ -374,6 +347,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel viewLatLongPanel2;
         
         /// <summary>
+        /// curMappingLabel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label curMappingLabel2;
+        
+        /// <summary>
         /// viewTableLabel2 control.
         /// </summary>
         /// <remarks>
@@ -408,6 +390,60 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label currentLatLongLabel;
+        
+        /// <summary>
+        /// DBLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DBLabel;
+        
+        /// <summary>
+        /// DBTPanel0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel DBTPanel0;
+        
+        /// <summary>
+        /// DBTLabel0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DBTLabel0;
+        
+        /// <summary>
+        /// DBTPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel DBTPanel;
+        
+        /// <summary>
+        /// GridViewTables control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridViewTables;
+        
+        /// <summary>
+        /// selectedGVTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField selectedGVTable;
         
         /// <summary>
         /// mapColumnsPanel control.
@@ -651,6 +687,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button saveLatLong;
+        
+        /// <summary>
+        /// addPlacemarkField control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addPlacemarkField;
         
         /// <summary>
         /// addLatLong control.
