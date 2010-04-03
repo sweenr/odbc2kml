@@ -531,13 +531,11 @@ namespace HCI
             }
 
             //Check variable to allow for easy breaks out of loops
+            //Also, used to check if no column or table was found
             Boolean breakOut = false;
 
             //Check to know if the description should be purged
             Boolean purgeDescription = false;
-
-            //Purge if the table never matches
-            Boolean tableMatch = false;
 
             //For each icon in icon list
             foreach (Icon i in iconList)
@@ -551,9 +549,6 @@ namespace HCI
                         //Do table names match?
                         if (row["TABLE_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getTableName()))
                         {
-                            //Found a table match
-                            tableMatch = true;
-
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
@@ -577,7 +572,7 @@ namespace HCI
                     } //End for each
 
                     //Never found a match table, purge it
-                    if (!tableMatch)
+                    if (!breakOut)
                     {
                         i.removeCondition(count);
                         purgeDescription = true;
@@ -589,7 +584,6 @@ namespace HCI
 
             //Reset Variables
             breakOut = false;
-            tableMatch = false;
 
             //For each icon in temp icon list
             foreach (Icon i in tempIconList)
@@ -603,9 +597,6 @@ namespace HCI
                         //Do table names match?
                         if (row["TABLE_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getTableName()))
                         {
-                            //Found a table match
-                            tableMatch = true;
-
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
@@ -629,7 +620,7 @@ namespace HCI
                     } //End for each
 
                     //Never found a match table, purge it
-                    if (!tableMatch)
+                    if (!breakOut)
                     {
                         i.removeCondition(count);
                         purgeDescription = true;
@@ -641,7 +632,6 @@ namespace HCI
 
             //Reset Variables
             breakOut = false;
-            tableMatch = false;
 
             //For each overlay in overlay list
             foreach (Overlay o in overlayList)
@@ -655,9 +645,6 @@ namespace HCI
                         //Do table names match?
                         if (row["TABLE_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getTableName()))
                         {
-                            //Found a table match
-                            tableMatch = true;
-
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
@@ -681,7 +668,7 @@ namespace HCI
                     } //End for each
 
                     //Never found a match table, purge it
-                    if (!tableMatch)
+                    if (!breakOut)
                     {
                         o.removeCondition(count);
                         purgeDescription = true;
@@ -693,7 +680,6 @@ namespace HCI
 
             //Reset Variables
             breakOut = false;
-            tableMatch = false;
 
             //For each overlay in temp overlay list
             foreach (Overlay o in tempOverlayList)
@@ -707,9 +693,6 @@ namespace HCI
                         //Do table names match?
                         if (row["TABLE_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getTableName()))
                         {
-                            //Found a table match
-                            tableMatch = true;
-
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
@@ -733,7 +716,7 @@ namespace HCI
                     } //End for each
 
                     //Never found a match table, purge it
-                    if (!tableMatch)
+                    if (!breakOut)
                     {
                         o.removeCondition(count);
                         purgeDescription = true;
