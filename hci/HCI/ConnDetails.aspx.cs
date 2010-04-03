@@ -3587,6 +3587,13 @@ namespace HCI
             }
         }
 
+        protected void removeCurrentMapping(object sender, EventArgs e)
+        {
+            mapping = new Mapping();
+            sessionSave();
+            displayCurrentMapping(mapping);
+        }
+
         //editor methods
         protected void updateTables(int type)
         {
