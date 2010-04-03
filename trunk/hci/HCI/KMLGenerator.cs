@@ -67,7 +67,7 @@ namespace HCI
             try
             {
                 //Get mappings fromc onnection object
-                ArrayList mappings = connection.getMapping();
+                Mapping map = connection.getMapping();
 
                 //Create array list to hold places
                 ArrayList placemarks = new ArrayList();
@@ -95,8 +95,8 @@ namespace HCI
                 Database DB = new Database(connection.getConnInfo());
                 
                 //originally took string table name, changed for test
-                foreach (Mapping map in mappings)
-                {
+               // foreach (Mapping map in mappings)
+               // {
                     //Grab the tablename out of mapping
                     String tableName = map.getTableName();
 
@@ -285,7 +285,7 @@ namespace HCI
                         counter++;
 
                        }//End for each
-                }//End for each
+               // }//End for each
 
                 //Add each style to the KML
                 foreach (Style s in styles)
