@@ -1362,11 +1362,13 @@ namespace HCI
                     Button submitModifyConditionPopup = new Button();
                     submitModifyConditionPopup.ID = "submitModifyCondition" + icon.getId();
                     submitModifyConditionPopup.Text = "Submit";
+                    submitModifyConditionPopup.CssClass = "button";
                     submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
                     modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
                     Button cancelModifyConditionPopup = new Button();
                     cancelModifyConditionPopup.ID = "cancelIconModifyCondition" + icon.getId();
                     cancelModifyConditionPopup.Text = "Cancel";
+                    cancelModifyConditionPopup.CssClass = "button";
                     cancelModifyConditionPopup.Click += new EventHandler(cancelModifyIconConditionPopup_Click);
                     cancelModifyConditionPopup.CommandArgument = icon.getId();
                     modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
@@ -1999,11 +2001,13 @@ namespace HCI
                     Button submitModifyConditionPopup = new Button();
                     submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
                     submitModifyConditionPopup.Text = "Submit";
+                    submitModifyConditionPopup.CssClass = "button";
                     submitModifyConditionPopup.Click += new EventHandler(genOverlayConditionTable);
                     modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
                     Button cancelModifyConditionPopup = new Button();
                     cancelModifyConditionPopup.ID = "cancelOverlayModifyCondition" + overlay.getId();
                     cancelModifyConditionPopup.Text = "Cancel";
+                    cancelModifyConditionPopup.CssClass = "button";
                     cancelModifyConditionPopup.Click += new EventHandler(cancelModifyOverlayConditionPopup_Click);
                     cancelModifyConditionPopup.CommandArgument = overlay.getId();
                     modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
