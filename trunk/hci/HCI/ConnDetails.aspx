@@ -296,7 +296,15 @@ function OnColorPicked(sender){
                                             <td>
                                                 &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2" />
                                             </td>
-                                            <td width="30%">&nbsp;</td>
+                                            <td width="30%" rowspan="3">
+                                                <% if (Request.QueryString.Get("locked") != "true")
+                                                   { %>
+                                                    <asp:Button ID="removeCurMappingButton1" runat="server" Text="Remove" CssClass="button" 
+                                                            OnClick="removeCurrentMapping" ToolTip="Remove" />
+                                                <% } else { %>
+                                                    $nbsp;
+                                                <% } %>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -305,7 +313,6 @@ function OnColorPicked(sender){
                                             <td>
                                                 &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2" />
                                             </td>
-                                            <td width="30%">&nbsp;</td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -314,14 +321,13 @@ function OnColorPicked(sender){
                                             <td>
                                                 &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2" />
                                             </td>
-                                            <td width="30%">&nbsp;</td>
                                         </tr>
                                     </table>
                                 </asp:Panel>
                                 <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
                                     <table style="text-align:left;" width="100%">
                                         <tr>
-                                            <td width="30%" rowspan="3" style="text-align:center:">
+                                            <td width="30%" rowspan="3" style="text-align:center;">
                                                 <asp:Label ID="curMappingLabel2" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
                                             </td>
                                             <td>
@@ -330,7 +336,15 @@ function OnColorPicked(sender){
                                             <td>
                                                 <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2" />
                                             </td>
-                                            <td width="30%">&nbsp;</td>
+                                            <td width="30%" rowspan="2">
+                                                <% if (Request.QueryString.Get("locked") != "true")
+                                                { %>
+                                                    <asp:Button ID="removeCurMappingButton2" runat="server" Text="Remove" CssClass="button" 
+                                                            OnClick="removeCurrentMapping" ToolTip="Remove" />
+                                                <% } else { %>
+                                                    $nbsp;
+                                                <% } %>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -339,7 +353,6 @@ function OnColorPicked(sender){
                                             <td>
                                                 <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2" />
                                             </td>
-                                            <td width="30%">&nbsp;</td>
                                         </tr>
                                     </table>
                                 </asp:Panel>
