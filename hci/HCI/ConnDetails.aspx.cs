@@ -2215,12 +2215,11 @@ namespace HCI
                 return;
             }
             bool valid = false;
-            
+
             //checks to see if fileType of icon is valid
             foreach (String type in validTypes)
             {
-                String localFileType = GetContentType(tempName);
-                if (localFileType.Equals(type))
+                if (tempName.EndsWith(type))
                 {
                     valid = true;
                     break;
@@ -2334,14 +2333,13 @@ namespace HCI
         {
             ArrayList validTypes = new ArrayList();
 
-            validTypes.Add("image/bmp");
-            validTypes.Add("image/gif");
-            validTypes.Add("image/jpeg");
-            validTypes.Add("image/pjpeg");
-            validTypes.Add("image/png");
-            validTypes.Add("image/tiff");
-            validTypes.Add("image/x-tiff");
-            validTypes.Add("image/x-windows-bmp");
+            validTypes.Add("bmp");
+            validTypes.Add("gif");
+            validTypes.Add("jpeg");
+            validTypes.Add("jpg");
+            validTypes.Add("png");
+            validTypes.Add("tiff");
+            validTypes.Add("tif");
 
             return validTypes;
         }
@@ -2358,22 +2356,6 @@ namespace HCI
             {
                 return (myImage.Height <= height && myImage.Width <= width);
             }
-        }
-
-        /// <summary>
-        /// helper function to get type of uploaded icons
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns>contentType</returns>
-        internal string GetContentType(string fileName)
-        {
-            string contentType = "application/octetstream";
-            string ext = System.IO.Path.GetExtension(fileName).ToLower();
-            Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-            if (registryKey != null && registryKey.GetValue("Content Type") != null)
-                contentType = registryKey.GetValue("Content Type").ToString();
-            
-            return contentType;
         }
 
         protected void modifyConnection(object sender, EventArgs e)
