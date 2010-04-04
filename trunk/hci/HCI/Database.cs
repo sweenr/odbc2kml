@@ -18,8 +18,8 @@ namespace HCI
     public class Database
     {
         //Datatypes
-        //private OdbcConnection connection; 
-        private ConnInfo connInfo;
+        //internal OdbcConnection connection; 
+        internal ConnInfo connInfo;
 
         //Constructors
         

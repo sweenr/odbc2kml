@@ -16,9 +16,9 @@ namespace HCI
 {
     public class Overlay
     {
-        private int id;
-        private string color;
-        private ArrayList conditions;
+        internal int id;
+        internal string color;
+        internal ArrayList conditions;
 
         //Constructors
         public Overlay()

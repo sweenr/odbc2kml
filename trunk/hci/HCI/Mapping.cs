@@ -22,12 +22,12 @@ namespace HCI
         public static readonly int LONGFIRST = 3;
 
         //Datatypes
-        private int connID;
-        private string tableName;
-        private string latFieldName;
-        private string longFieldName;
-        private string placemarkFieldName;
-        private int format;
+        internal int connID;
+        internal string tableName;
+        internal string latFieldName;
+        internal string longFieldName;
+        internal string placemarkFieldName;
+        internal int format;
 
         //Functions
 

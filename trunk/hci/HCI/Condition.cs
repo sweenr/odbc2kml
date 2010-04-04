@@ -25,13 +25,13 @@ namespace HCI
         public static readonly int NOTEQUAL = 6;
 
         //Data Types
-        private string fieldName;
-        private string tableName;
-        private string lowerBound;
-        private string upperBound;
-        private int lowerOperator;
-        private int upperOperator;
-        private int id;
+        internal string fieldName;
+        internal string tableName;
+        internal string lowerBound;
+        internal string upperBound;
+        internal int lowerOperator;
+        internal int upperOperator;
+        internal int id;
 
         //Functions
         

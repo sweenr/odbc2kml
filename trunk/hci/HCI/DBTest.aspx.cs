@@ -21,7 +21,7 @@ namespace HCI
         /// which is distributed under the CPOL license
         /// </summary>
         /// <param name="status"></param>
-        private void ChangeControlStatus(bool status)
+        internal void ChangeControlStatus(bool status)
         {
 
             foreach (Control c in Page.Controls)

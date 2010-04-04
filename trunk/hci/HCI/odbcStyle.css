@@ -342,10 +342,6 @@ a.selectTable:hover
 	width:200px;
 }
 
-.modalWindow {
-	top: -10000px;
-}
-
 .modalBackground {
 	/*background: rgba(255,255,255,0.5); */ /*works for FF but not IE*/
 	background:white;

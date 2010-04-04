@@ -21,8 +21,8 @@ namespace HCI
     public class KMLGenerator
     {
         //Desired filename to appear within the KML file
-        private String fileName;
-        private String serverPath;
+        internal String fileName;
+        internal String serverPath;
 
         /// <summary>
         /// Default constructor. Takes the desired filename for the kml file.

@@ -15,9 +15,9 @@ namespace HCI
     public class Style
     {
         //Datatypes
-        private Icon icon;
-        private UInt64 color;
-        private String styleName;
+        internal Icon icon;
+        internal UInt64 color;
+        internal String styleName;
 
         /// <summary>
         /// Basic constructor.
