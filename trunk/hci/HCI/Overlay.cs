@@ -183,69 +183,43 @@ namespace HCI
 
             foreach (DataRow row in table.Rows)
             {
+                //Create overlay and set basic information
                 Overlay newOverlay = new Overlay();
-                foreach (DataColumn col in table.Columns)
+                newOverlay.setColor(row["color"].ToString());
+                newOverlay.setId(row["id"].ToString());
+
+                //Create the new table for another query
+                DataTable newTable = new DataTable();
+
+                //Query string and query
+                string conQuery = "SELECT * FROM OverlayCondition WHERE overlayID="
+                    + (Convert.ToInt16(newOverlay.getId())) + " AND connID=" + connID;
+                newTable = localDatabase.executeQueryLocal(conQuery);
+
+                //Cycle through each condition
+                foreach (DataRow nRow in newTable.Rows)
                 {
-                    if (col.ColumnName == "ID") //Branch off and get the conditions
-                    {
-                        //Create the new table for another query
-                        DataTable newTable = new DataTable();
+                    //Create the condition and add its values
+                    Condition condition = new Condition();
+                    condition.setFieldName(nRow["fieldName"].ToString());
+                    condition.setLowerBound(nRow["lowerBound"].ToString());
+                    condition.setUpperBound(nRow["upperBound"].ToString());
+                    condition.setLowerOperator((int)nRow["lowerOperator"]);
+                    condition.setUpperOperator((int)nRow["upperOperator"]);
+                    condition.setTableName(nRow["tableName"].ToString());
 
-                        //Query string and query
-                        string conQuery = "SELECT * FROM OverlayCondition WHERE overlayID="
-                            + ((int)row[col]) + " AND connID=" + connID;
-                        newTable = localDatabase.executeQueryLocal(conQuery);
+                    //Add the condition to the overlay array
+                    newOverlay.setConditions(condition);
+                    //Free up condition memory
+                    condition = null;
+                }//End loop           
 
-                        //Cycle through each condition
-                        foreach (DataRow nRow in newTable.Rows)
-                        {
-                            //Create the condition and add its values
-                            Condition condition = new Condition();
-
-                            foreach (DataColumn nCol in newTable.Columns)
-                            {
-                                switch (nCol.ColumnName)
-                                {
-                                    case "lowerBound":
-                                        condition.setLowerBound(nRow[nCol].ToString());
-                                        break;
-                                    case "upperBound":
-                                        condition.setUpperBound(nRow[nCol].ToString());
-                                        break;
-                                    case "lowerOperator":
-                                        condition.setLowerOperator((int)nRow[nCol]);
-                                        break;
-                                    case "upperOperator":
-                                        condition.setUpperOperator((int)nRow[nCol]);
-                                        break;
-                                    case "fieldName":
-                                        condition.setFieldName(nRow[nCol].ToString());
-                                        break;
-                                    case "tableName":
-                                        condition.setTableName(nRow[nCol].ToString());
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            //Add the condition to the overlay array
-                            newOverlay.setConditions(condition);
-                            //Free up condition memory
-                            condition = null;
-                        }//End outer loop
-                        //Free up table memory
-                        newTable = null;
-                    }
-                    else if (col.ColumnName == "color") //Set the color
-                    {
-                        newOverlay.setColor(row[col].ToString());
-                    }
-                }
                 //Add the overlay to the list of overlays
                 overlays.Add(newOverlay);
                 newOverlay = null;
-            }//End outer loop
-
+                newTable = null;
+            }
+            
             return overlays;
         }
     }
