@@ -24,6 +24,13 @@ namespace HCI
         internal ConnInfo connInfo;
         internal int connID;
 
+        public static readonly int INVALIDCONNINFO = 1;
+        public static readonly int INVALIDMAPPING = 2;
+        public static readonly int INVALIDSTATE = 3;
+        public static readonly int INVALIDDESCRIPTION = 4;
+        public static readonly int INVALIDFLAGS = 5;
+        public static readonly int CONNECTIONSAVED = 0;
+
         //Functions
 
         //Constructor
@@ -306,9 +313,17 @@ namespace HCI
 
         //Additional
 
-        //TODO: ADD PARAMETERS TO ALL OF THE FOLLOWING
-
-        public Boolean saveConn()
+        /// <summary>
+        /// Verifies all connection information and proceeds to attempt to save the connection.
+        /// Returns 1 for INVALIDCONNINFO.
+        /// Returns 2 for INVALIDMAPPING.
+        /// Returns 3 for INVALIDSTATE.
+        /// Returns 4 for INVALIDDESCRIPTION.
+        /// Returns 5 for INVALIDFLAGS.
+        /// Returns 0 for CONNECTIONSAVED.
+        /// </summary>
+        /// <returns>Integer --> Value based on what happens</returns>
+        public int saveConn()
         {
             Boolean validConnInfo = false;
             Boolean validMapping = false;
@@ -316,110 +331,285 @@ namespace HCI
             Boolean validIcons = false;
             Boolean validOverlays = false;
 
-            //Validate the Connection information
-            if (!this.connInfo.isValid(this.connID))
+            try
             {
-                return false;
-            }
-            else
-            {
-                validConnInfo = true;
-            }
 
-            //Validate the mapping
-            if (!this.mapping.isValid())
-            {
-                return false;
-            }
-            else
-            {
-                validMapping = true;
-            }
-
-            //Remove bad icon and overlay conditions
-            if (!this.safeStateConnection())
-            {
-                return false;
-            }
-            else
-            {
-                validOverlays = true;
-                validIcons = true;
-            }
-
-            //ADD DESCRIPTION VERIFICATION
-             
-            //ALL THINGS ARE VALID, ATTEMPT A SAVE
-            if (validConnInfo && validDescription && validIcons && validMapping && validOverlays)
-            {
-                //Database needed to make all of the queries
-                Database database = new Database();
-
-                String query = "UPDATE Connection SET name=\'" + this.connInfo.connectionName
-                    + "\', dbName=\'" + this.connInfo.databaseName
-                    + "\', userName=\'" + this.connInfo.userName
-                    + "\', password=\'" + this.connInfo.password
-                    + "\', port=\'" + this.connInfo.portNumber
-                    + "\', address=\'" + this.connInfo.serverAddress
-                    + "\', protocol=\'" + this.connInfo.oracleProtocol
-                    + "\', SID=\'" + this.connInfo.oracleSID
-                    + "\', serviceName=\'" + this.connInfo.oracleServiceName
-                    + "\', type=\'" + this.connInfo.databaseType + "\' WHERE ID=" + this.connID;
-
-                //Update the connection information
-                database.executeQueryLocal(query);
-
-                //If the latfieldname is empty, and it passed the validation function, then remove the mapping
-                if (this.mapping.getLatFieldName() == "")
+                //Validate the Connection information
+                if (!this.connInfo.isValid(this.connID))
                 {
-                    //See if there is a mapping
-                    query = "SELECT * FROM Mapping WHERE connID=" + this.connID;
-                    DataTable checkTable = database.executeQueryLocal(query);
+                    return 1;
+                }
+                else
+                {
+                    validConnInfo = true;
+                }
 
-                    //Is there currently a mapping?
-                    if (checkTable.Rows.Count > 0)
+                //Validate the mapping
+                if (!this.mapping.isValid())
+                {
+                    return 2;
+                }
+                else
+                {
+                    validMapping = true;
+                }
+
+                //Remove bad icon and overlay conditions
+                if (!this.safeStateConnection())
+                {
+                    return 3;
+                }
+                else
+                {
+                    validOverlays = true;
+                    validIcons = true;
+                }
+
+                //Validate description
+                if (!this.description.isValid())
+                {
+                    return 4;
+                }
+                else
+                {
+                    validDescription = true;
+                }
+
+                //ALL THINGS ARE VALID, ATTEMPT A SAVE
+                if (validConnInfo && validDescription && validIcons && validMapping && validOverlays)
+                {
+                    //Database needed to make all of the queries
+                    Database database = new Database();
+
+                    String query = "UPDATE Connection SET name=\'" + this.connInfo.connectionName
+                        + "\', dbName=\'" + this.connInfo.databaseName
+                        + "\', userName=\'" + this.connInfo.userName
+                        + "\', password=\'" + this.connInfo.password
+                        + "\', port=\'" + this.connInfo.portNumber
+                        + "\', address=\'" + this.connInfo.serverAddress
+                        + "\', protocol=\'" + this.connInfo.oracleProtocol
+                        + "\', SID=\'" + this.connInfo.oracleSID
+                        + "\', serviceName=\'" + this.connInfo.oracleServiceName
+                        + "\', type=\'" + this.connInfo.databaseType + "\' WHERE ID=" + this.connID;
+
+                    //Update the connection information
+                    database.executeQueryLocal(query);
+
+                    //If the latfieldname is empty, and it passed the validation function, then remove the mapping
+                    if (this.mapping.getLatFieldName() == "")
                     {
                         //Remove the mapping
                         query = "DELETE FROM Mapping WHERE connID=" + this.connID;
                         database.executeQueryLocal(query);
                     }
+                    else
+                    {
+                        //See if there is a mapping
+                        query = "SELECT * FROM Mapping WHERE connID=" + this.connID;
+                        DataTable checkTable = database.executeQueryLocal(query);
+
+                        //Is there currently a mapping?
+                        if (checkTable.Rows.Count > 0)
+                        {
+                            query = "UPDATE Mapping SET format=" + this.mapping.getFormat()
+                                + ", latFieldName='" + this.mapping.getLatFieldName() + "'"
+                                + ", longFieldName='" + this.mapping.getLongFieldName() + "'"
+                                + ", tableName='" + this.mapping.getTableName() + "'"
+                                + ", placemarkFieldName='" + this.mapping.getPlacemarkFieldName() + "'"
+                                + " WHERE connID=" + this.connID;
+                        }
+                        else //Insert mapping
+                        {
+                            query = "INSERT INTO Mapping format, latFieldName, longFieldName, tableName, placemarkFieldName, connID "
+                                + "VALUES(" + this.mapping.getFormat() + ", '" + this.mapping.getLatFieldName() + "', '"
+                                + this.mapping.getLongFieldName() + "', '" + this.mapping.getTableName() + "', '"
+                                + this.mapping.getPlacemarkFieldName() + "', " + this.connID + ")";
+                        }
+
+                        //Update mapping
+                        database.executeQueryLocal(query);
+                    }
+
+                    if (this.description.getDesc() == "") //No description
+                    {
+                        //Remove the description
+                        query = "DELETE FROM Description WHERE connID=" + this.connID;
+                        database.executeQueryLocal(query);
+                    }
+                    else //Description
+                    {
+                        //See if there is a description
+                        query = "SELECT * FROM Description WHERE connID=" + this.connID;
+                        DataTable checkTable = database.executeQueryLocal(query);
+
+                        //Update the description
+                        if (checkTable.Rows.Count > 0)
+                        {
+                            query = "UPDATE Description SET description='" + this.description.getDesc()
+                                + "' WHERE connID=" + this.connID;
+                        }
+                        else //Insert the description
+                        {
+                            query = "INSERT INTO Description connID, description VALUES(" + this.connID
+                                + ", '" + this.description.getDesc() + "')";
+                        }
+
+                        database.executeQueryLocal(query);
+                    }
+
+                    //Delete all icons
+                    query = "DELETE FROM Icon WHERE connID=" + this.connID;
+                    database.executeQueryLocal(query);
+
+                    //There are icons
+                    if (this.icons.Count > 0)
+                    {
+                        //Foreign key constraints should capture this, remove this block if testing verifies correct
+                        /*query = "SELECT * FROM Icon WHERE connID=" + this.connID;
+                        DataTable checkTable = database.executeQueryLocal(query);
+
+                        foreach (DataRow row in checkTable.Rows)
+                        {
+                            int iconID = Convert.ToInt32(row["ID"]);
+
+                            //Delete all associated icon conditions
+                            query = "DELETE FROM IconCondition WHERE iconID=" + iconID
+                                + " AND connID=" + this.connID;
+                            database.executeQueryLocal(query);
+                        }
+
+                        //Delete all icons
+                        query = "DELETE FROM Icon WHERE connID=" + this.connID;
+                        database.executeQueryLocal(query);*/
+
+                        //Add all current icons to the database
+                        foreach (Icon i in this.icons)
+                        {
+                            query = "INSERT INTO Icon connID, ID VALUES(" + this.connID + ", " + i.getId() + ")";
+                            database.executeQueryLocal(query);
+
+                            //Add all conditions
+                            foreach (Condition c in i.getConditions())
+                            {
+                                query = "INSERT INTO IconCondition iconID, connID, lowerBound, upperBound, "
+                                    + "lowerOperator, upperOperator, fieldName, tableName VALUES(" + i.getId()
+                                    + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
+                                    + c.getLowerOperator() + ", " + c.getUpperOperator() + ", '" + c.getFieldName()
+                                    + "', '" + c.getTableName() + "')";
+                                database.executeQueryLocal(query);
+                            }
+                        }
+                    }//If testing verifies correct, remove block
+                  /*  else //No icons
+                    {
+                        //If testing verifies correct, remove block
+                        query = "SELECT * FROM Icon WHERE connID=" + this.connID;
+                        DataTable checkTable = database.executeQueryLocal(query);
+
+                        //If there are icons in the database, remove them
+                        if (checkTable.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in checkTable.Rows)
+                            {
+                                int iconID = Convert.ToInt16(row["ID"]);
+
+                                //remove all the icon conditions
+                                query = "DELETE FROM IconCondition WHERE iconID=" + iconID
+                                    + " AND connID=" + this.connID;
+                                database.executeQueryLocal(query);
+                            }
+
+                            //Delete all icons
+                            query = "DELETE FROM Icon WHERE connID=" + this.connID;
+                            database.executeQueryLocal(query);
+                        }
+
+                        //Delete all icons
+                        query = "DELETE FROM Icon WHERE connID=" + this.connID;
+                        database.executeQueryLocal(query);
+                    }*/
+
+                    //Delete all icons
+                    query = "DELETE FROM Overlay WHERE connID=" + this.connID;
+                    database.executeQueryLocal(query);
+
+                    //There are overlays
+                    if (this.overlays.Count > 0)
+                    {
+                        //If testing verifies, delete block
+                        /*query = "SELECT * FROM Overlay WHERE connID=" + this.connID;
+                        DataTable checkTable = database.executeQueryLocal(query);
+
+                        foreach (DataRow row in checkTable.Rows)
+                        {
+                            int overlayID = Convert.ToInt32(row["ID"]);
+
+                            //Delete all associated icon conditions
+                            query = "DELETE FROM OverlayCondition WHERE overlayID=" + overlayID
+                                + " AND connID=" + this.connID;
+                            database.executeQueryLocal(query);
+                        }
+
+                        //Delete all icons
+                        query = "DELETE FROM Overlay WHERE connID=" + this.connID;
+                        database.executeQueryLocal(query);*/
+
+                        //Add all current icons to the database
+                        foreach (Overlay o in this.overlays)
+                        {
+                            query = "INSERT INTO Overlay connID, ID, color VALUES(" + this.connID + ", " + o.getId()
+                                + ", '" + o.getColor() + "')";
+                            database.executeQueryLocal(query);
+
+                            //Add all conditions
+                            foreach (Condition c in o.getConditions())
+                            {
+                                query = "INSERT INTO OverlayCondition overlayID, connID, lowerBound, upperBound, "
+                                    + "lowerOperator, upperOperator, fieldName, tableName VALUES(" + o.getId()
+                                    + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
+                                    + c.getLowerOperator() + ", " + c.getUpperOperator() + ", '" + c.getFieldName()
+                                    + "', '" + c.getTableName() + "')";
+                                database.executeQueryLocal(query);
+                            }
+                        }
+                    }//IF testing verifies correct, remove block
+                   /* else //No Overlays
+                    {
+                        query = "SELECT * FROM Overlay WHERE connID=" + this.connID;
+                        DataTable checkTable = database.executeQueryLocal(query);
+
+                        //If there are icons in the database, remove them
+                        if (checkTable.Rows.Count < 0)
+                        {
+                            foreach (DataRow row in checkTable.Rows)
+                            {
+                                int overlayID = Convert.ToInt16(row["ID"]);
+
+                                //remove all the icon conditions
+                                query = "DELETE FROM IconCondition WHERE overlayID=" + overlayID
+                                    + " AND connID=" + this.connID;
+                                database.executeQueryLocal(query);
+                            }
+
+                            //Delete all icons
+                            query = "DELETE FROM Overlay WHERE connID=" + this.connID;
+                            database.executeQueryLocal(query);
+                        }
+                    }*/
                 }
-                else
+                else //All flags are not true
                 {
-                     //See if there is a mapping
-                    query = "SELECT * FROM Mapping WHERE connID=" + this.connID;
-                    DataTable checkTable = database.executeQueryLocal(query);
-
-                    //Is there currently a mapping?
-                    if (checkTable.Rows.Count > 0)
-                    {
-                        query = "UPDATE Mapping SET format=" + this.mapping.getFormat()
-                            + ", latFieldName='" + this.mapping.getLatFieldName() + "'"
-                            + ", longFieldName='" + this.mapping.getLongFieldName() + "'"
-                            + ", tableName='" + this.mapping.getTableName() + "'"
-                            + ", placemarkFieldName='" + this.mapping.getPlacemarkFieldName() + "'";
-                    }
-                    else //Insert mapping
-                    {
-                        query = "INSERT INTO Mapping ";
-                    }
+                    return 5;
                 }
-
             }
-            else
+            catch (ODBC2KMLException err)
             {
-                return false;
+                throw err;
             }
 
             //The connection was saved and properly updated
-            return true;
+            return 0;
         }
-
-        //Add Comments
-        public void deleteConn()
-        {
-        }
-
 
         /// <summary>
         /// Populate fields uses the connID passed into the constructor
