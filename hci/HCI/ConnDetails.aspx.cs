@@ -3593,8 +3593,8 @@ namespace HCI
         {
             string tableName = GridViewTables.SelectedValue.ToString();
 
-            //if the table hasn't bee mapped yet
-            if (conn.mapping.tableName.Equals(tableName) || conn.mapping.tableName.Equals("") || conn.mapping.tableName == null)
+            //if the table hasn't bee mapped yet or there is a placemark field mapping and it's table matches this table
+            if (conn.mapping.tableName.Equals(tableName) || ((conn.mapping.placemarkFieldName.Equals("") || conn.mapping.placemarkFieldName == null)) || conn.mapping.tableName.Equals("") || conn.mapping.tableName == null)
             {
                 //if lat/lon mapped separately
                 if (LLSepPanel.Visible == true)
@@ -3602,17 +3602,17 @@ namespace HCI
                     //if the lon field equals the lat field, report error
                     if (latDD.SelectedValue.ToString().Equals(longDD.SelectedValue.ToString()))
                     {
-                        //throw new ODBC2KMLException("Latitude and longitue cannot be the same column in this case. If they are, choose the \"Together\" button.");
                         ErrorHandler eh = new ErrorHandler("Latitude and longitue cannot be the same column in this case. If they are, choose the \"Together\" button.", errorPanel1);
                         eh.displayError();
                     }
                     else
                     {
                         //else, set the current mapping to the selected values
+                        conn.mapping.tableName = tableName;
                         conn.mapping.latFieldName = latDD.SelectedValue.ToString();
                         conn.mapping.longFieldName = longDD.SelectedValue.ToString();
                         conn.mapping.format = 1;
-
+                        
                         //update the mapping box
                         displayCurrentMapping();
 
@@ -3663,7 +3663,8 @@ namespace HCI
             }
             else
             {
-                throw new ODBC2KMLException("Placemark field table and lat/lon field tables must match. Change the lat/long or placemark mapping to use the same table.");
+                ErrorHandler eh = new ErrorHandler("Placemark field table and lat/lon field tables must match. Change the lat/long or placemark mapping to use the same table.", errorPanel1);
+                eh.displayError();
             }
             sessionSave();
         }
