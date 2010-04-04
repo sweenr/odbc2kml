@@ -2401,12 +2401,11 @@ namespace HCI
 
         internal void saveIconList()
         {
-            int connID = int.Parse(Request.QueryString.Get("ConnID"));
             Database DB = new Database();
             DataTable iconTable = new DataTable();
             try
             {
-                iconTable = DB.executeQueryLocal("SELECT * FROM Icon WHERE connID=" + connID);
+                iconTable = DB.executeQueryLocal("SELECT * FROM Icon WHERE connID=" + conn.connID);
             }
             catch (ODBC2KMLException ex)
             {
@@ -2456,7 +2455,7 @@ namespace HCI
                 
                 try
                 {
-                    DB.executeQueryLocal("INSERT INTO Icon (ID, connID) VALUES (" + iconID + ", " + connID + ")");
+                    DB.executeQueryLocal("INSERT INTO Icon (ID, connID) VALUES (" + iconID + ", " + conn.connID + ")");
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -2478,7 +2477,7 @@ namespace HCI
                     try
                     {
                         DB.executeQueryLocal("INSERT INTO IconCondition (connID, iconID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
-                            + connID + ", "
+                            + conn.connID + ", "
                             + iconID + ", \'" + lowerBound + "\', \'"
                             + upperBound + "\', \'" + lowerOperator + "\', \'"
                             + upperOperator + "\', \'" + fieldName + "\', \'"
@@ -2499,7 +2498,7 @@ namespace HCI
                 try
                 {
                     conditions = DB.executeQueryLocal("SELECT * FROM IconCondition WHERE connID="
-                               + connID + " and iconID=" + iconID);
+                               + conn.connID + " and iconID=" + iconID);
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -2517,7 +2516,7 @@ namespace HCI
                     {
                         try
                         {
-                            condition.setIDfromDB(connID, iconID);
+                            condition.setIDfromDB(conn.connID, iconID);
                         }
                         catch (ODBC2KMLException ex)
                         {
@@ -2564,7 +2563,7 @@ namespace HCI
                     try
                     {
                         DB.executeQueryLocal("INSERT INTO IconCondition (connID, iconID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
-                            + connID + ", "
+                            + conn.connID + ", "
                             + iconID + ", \'" + lowerBound + "\', \'"
                             + upperBound + "\', \'" + lowerOperator + "\', \'"
                             + upperOperator + "\', \'" + fieldName + "\', \'"
@@ -2595,7 +2594,7 @@ namespace HCI
             {
                 try
                 {
-                    DB.executeQueryLocal("DELETE FROM Icon WHERE ID=" + iconID + " and connID=" + connID);
+                    DB.executeQueryLocal("DELETE FROM Icon WHERE ID=" + iconID + " and connID=" + conn.connID);
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -2609,12 +2608,11 @@ namespace HCI
 
         internal void saveOverlayList()
         {
-            int connID = int.Parse(Request.QueryString.Get("ConnID"));
             Database DB = new Database();
             DataTable overlayTable = new DataTable();
             try
             {
-                overlayTable = DB.executeQueryLocal("SELECT * FROM Overlay WHERE connID=" + connID);
+                overlayTable = DB.executeQueryLocal("SELECT * FROM Overlay WHERE connID=" + conn.connID);
             }
             catch (ODBC2KMLException ex)
             {
@@ -2677,7 +2675,7 @@ namespace HCI
                 
                 try
                 {
-                    DB.executeQueryLocal("INSERT INTO Overlay (connID, color) VALUES (" + connID + ", \'" + overlay.getColor() + "\')");
+                    DB.executeQueryLocal("INSERT INTO Overlay (connID, color) VALUES (" + conn.connID + ", \'" + overlay.getColor() + "\')");
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -2688,7 +2686,7 @@ namespace HCI
                 ArrayList condArray = overlay.getConditions();
                 try
                 {
-                    overlayTable2 = DB.executeQueryLocal("SELECT * FROM Overlay WHERE connID=" + connID);
+                    overlayTable2 = DB.executeQueryLocal("SELECT * FROM Overlay WHERE connID=" + conn.connID);
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -2720,7 +2718,7 @@ namespace HCI
                     try
                     {
                         DB.executeQueryLocal("INSERT INTO OverlayCondition (connID, overlayID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
-                            + connID + ", "
+                            + conn.connID + ", "
                             + overlayID + ", \'" + lowerBound + "\', \'"
                             + upperBound + "\', \'" + lowerOperator + "\', \'"
                             + upperOperator + "\', \'" + fieldName + "\', \'"
@@ -2741,7 +2739,7 @@ namespace HCI
                 try
                 {
                     conditions = DB.executeQueryLocal("SELECT * FROM OverlayCondition WHERE connID="
-                               + connID + " and overlayID=" + overlayID);
+                               + conn.connID + " and overlayID=" + overlayID);
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -2759,7 +2757,7 @@ namespace HCI
                     {
                         try
                         {
-                            condition.setIDfromDBoverlay(connID, overlayID);
+                            condition.setIDfromDBoverlay(conn.connID, overlayID);
                         }
                         catch (ODBC2KMLException ex)
                         {
@@ -2806,7 +2804,7 @@ namespace HCI
                     try
                     {
                         DB.executeQueryLocal("INSERT INTO OverlayCondition (connID, overlayID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
-                            + connID + ", "
+                            + conn.connID + ", "
                             + overlayID + ", \'" + lowerBound + "\', \'"
                             + upperBound + "\', \'" + lowerOperator + "\', \'"
                             + upperOperator + "\', \'" + fieldName + "\', \'"
@@ -2837,7 +2835,7 @@ namespace HCI
             {
                 try
                 {
-                    DB.executeQueryLocal("DELETE FROM Overlay WHERE ID=" + overlayID + " and connID=" + connID);
+                    DB.executeQueryLocal("DELETE FROM Overlay WHERE ID=" + overlayID + " and connID=" + conn.connID);
                 }
                 catch (ODBC2KMLException ex)
                 {
