@@ -202,11 +202,27 @@ namespace HCI
                     //Create the condition and add its values
                     Condition condition = new Condition();
                     condition.setFieldName(nRow["fieldName"].ToString());
-                    condition.setLowerBound(nRow["lowerBound"].ToString());
-                    condition.setUpperBound(nRow["upperBound"].ToString());
+                    if (nRow["lowerBound"] != null)
+                    {
+                        condition.setLowerBound(nRow["lowerBound"].ToString());
+                    }
+                    else
+                    {
+                        condition.setLowerBound("");
+                    }
+
+                    if (nRow["upperBound"] != null)
+                    {
+                        condition.setUpperBound(nRow["upperBound"].ToString());
+                    }
+                    else
+                    {
+                        condition.setUpperBound("");
+                    }
                     condition.setLowerOperator((int)nRow["lowerOperator"]);
                     condition.setUpperOperator((int)nRow["upperOperator"]);
                     condition.setTableName(nRow["tableName"].ToString());
+                    condition.setId(Convert.ToInt16(nRow["ID"].ToString()));
 
                     //Add the condition to the overlay array
                     newOverlay.setConditions(condition);
@@ -221,6 +237,56 @@ namespace HCI
             }
             
             return overlays;
+        }
+
+        /// <summary>
+        /// This function purges all of the invalid conditions for the given Database information.
+        /// </summary>
+        /// <param name="purgeDT">DataTable --> List of tablename</param>
+        /// <param name="columnToTableRelation">DataSet --> List of columns for each table name</param>
+        /// <returns>Boolean --> True if purge, false if no purge</returns>
+        public Boolean purgeInvalidOverlayConditions(DataTable purgeDT, DataSet columnToTableRelation)
+        {
+            Boolean didPurge = false;
+
+            //Get the overlay's conditions
+            for (int count = 0; count < this.getConditions().Count; count++)
+            {
+                if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
+                {
+                    this.removeCondition(count);
+                    didPurge = true;
+                }
+            }
+
+            return didPurge;
+        }
+
+        /// <summary>
+        /// This function purges all of the invalid conditions for the given Database information from the local database.
+        /// </summary>
+        /// <param name="purgeDT">DataTable --> List of tablename</param>
+        /// <param name="columnToTableRelation">DataSet --> List of columns for each table name</param>
+        /// <param name="temp">Database --> A temp database used to remove the icon conditions from local database</param>
+        /// <returns>Boolean --> True if purge, false if no purge</returns>
+        public Boolean purgeInvalidOverlayConditionsFromDatabase(DataTable purgeDT, DataSet columnToTableRelation, Database temp)
+        {
+            Boolean didPurge = false;
+
+            //Get the icon's conditions
+            for (int count = 0; count < this.getConditions().Count; count++)
+            {
+                //If the condition is invalid, remove it from the database and connection object
+                if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
+                {
+                    String query = "DELETE FROM OverlayCondition WHERE ID=" + ((Condition)this.getConditions()[count]).getId();
+                    temp.executeQueryLocal(query);
+                    this.removeCondition(count);
+                    didPurge = true;
+                }
+            }
+
+            return didPurge;
         }
     }
 }

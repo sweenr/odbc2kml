@@ -265,60 +265,31 @@ namespace HCI
                             //Create the condition and add its values
                             Condition condition = new Condition();
 
-                            foreach (DataColumn nCol in newTable.Columns)
+                            if (nRow["lowerBound"] != null)
                             {
-                                switch (nCol.ColumnName)
-                                {
-                                    case "lowerBound":
-                                        if (nRow[nCol] != null)
-                                        {
-                                            condition.setLowerBound(nRow[nCol].ToString());
-                                        }
-                                        else
-                                        {
-                                            condition.setLowerBound("");
-                                        }
-                                        break;
-                                    case "upperBound":
-                                        if (nRow[nCol] != null)
-                                        {
-                                            condition.setUpperBound(nRow[nCol].ToString());
-                                        }
-                                        else
-                                        {
-                                            condition.setUpperBound("");
-                                        }
-                                        break;
-                                    case "lowerOperator":
-                                        if (nRow[nCol] != null)
-                                        {
-                                            condition.setLowerOperator((int)nRow[nCol]);
-                                        }
-                                        else
-                                        {
-                                            condition.setLowerOperator(0);
-                                        }
-                                        break;
-                                    case "upperOperator":
-                                        if (nRow[nCol] != null)
-                                        {
-                                            condition.setUpperOperator((int)nRow[nCol]);
-                                        }
-                                        else
-                                        {
-                                            condition.setUpperOperator(0);
-                                        }
-                                        break;
-                                    case "fieldName":
-                                        condition.setFieldName(nRow[nCol].ToString());
-                                        break;
-                                    case "tableName":
-                                        condition.setTableName(nRow[nCol].ToString());
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                condition.setLowerBound(nRow["lowerBound"].ToString());
                             }
+                            else
+                            {
+                                condition.setLowerBound("");
+                            }
+
+                            if (nRow["upperBound"] != null)
+                            {
+                                condition.setUpperBound(nRow["upperBound"].ToString());
+                            }
+                            else
+                            {
+                                condition.setUpperBound("");
+                            }
+
+                            condition.setLowerOperator((int)nRow["lowerOperator"]);
+                            condition.setLowerOperator((int)nRow["upperOperator"]);
+                            condition.setTableName(nRow["tableName"].ToString());
+                            condition.setFieldName(nRow["fieldName"].ToString());
+                            condition.setId(Convert.ToInt16(nRow["ID"].ToString()));
+                         
+              
                             //Add the condition to the icon array
                             newIcon.setConditions(condition);
                             //Free up condition memory
@@ -335,6 +306,56 @@ namespace HCI
             }//End outer loop
 
             return icons;
+        }
+
+        /// <summary>
+        /// This function purges all of the invalid conditions for the given Database information.
+        /// </summary>
+        /// <param name="purgeDT">DataTable --> List of tablename</param>
+        /// <param name="columnToTableRelation">DataSet --> List of columns for each table name</param>
+        /// <returns>Boolean --> True if purge, false if no purge</returns>
+        public Boolean purgeInvalidIconConditions(DataTable purgeDT, DataSet columnToTableRelation)
+        {
+            Boolean didPurge = false;
+
+            //Get the icon's conditions
+            for (int count = 0; count < this.getConditions().Count; count++)
+            {
+                if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
+                {
+                    this.removeCondition(count);
+                    didPurge = true;
+                }
+            }
+
+            return didPurge;
+        }
+
+        /// <summary>
+        /// This function purges all of the invalid conditions for the given Database information from the local database.
+        /// </summary>
+        /// <param name="purgeDT">DataTable --> List of tablename</param>
+        /// <param name="columnToTableRelation">DataSet --> List of columns for each table name</param>
+        /// <param name="temp">Database --> A temp database used to remove the icon conditions from local database</param>
+        /// <returns>Boolean --> True if purge, false if no purge</returns>
+        public Boolean purgeInvalidIconConditionsFromDatabase(DataTable purgeDT, DataSet columnToTableRelation, Database temp)
+        {
+            Boolean didPurge = false;
+
+            //Get the icon's conditions
+            for (int count = 0; count < this.getConditions().Count; count++)
+            {
+                //If the condition is invalid, remove it from the database and connection object
+                if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
+                {
+                    String query = "DELETE FROM IconCondition WHERE ID=" + ((Condition)this.getConditions()[count]).getId();
+                    temp.executeQueryLocal(query);
+                    this.removeCondition(count);
+                    didPurge = true;
+                }
+            }
+
+            return didPurge;
         }
     }
 }
