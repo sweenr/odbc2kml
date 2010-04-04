@@ -770,5 +770,43 @@ namespace HCI
             //If table names are not equal
             return false;
         }//End evaluate Condition
+
+        /// <summary>
+        /// isValid checks to see if the table/column name combination still exists.
+        /// </summary>
+        /// <param name="purgeDT">DataTable --> All of the table names</param>
+        /// <param name="columnToTableRelation">DataSet --> All of the columns associated with each table</param>
+        /// <returns>if valid, return true, else return false</returns>
+        public Boolean isValid(DataTable purgeDT, DataSet columnToTableRelation)
+        {
+            //For each table name, see if the conditions table name matches
+            foreach (DataRow row in purgeDT.Rows)
+            {
+                String rowName = row["TABLE_NAME"].ToString().ToLower();
+
+                //Do table names match?
+                if (rowName.Equals(this.getTableName().ToLower()))
+                {
+                    //Ok, check the column names
+                    foreach (DataRow row1 in columnToTableRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
+                    {
+                        String columnName = row1["COLUMN_NAME"].ToString().ToLower();
+
+                        if (columnName.Equals((this.getFieldName().ToLower())))
+                        {
+                            //Table and columns matched
+                            return true;
+                        }
+                    } //End for each
+
+                    //Tables matched but columns did not
+                    return false;
+                }
+
+            } //End for each
+
+            //No table matches
+            return false;
+        }
     }
 }

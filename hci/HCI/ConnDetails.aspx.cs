@@ -314,24 +314,29 @@ namespace HCI
             conn.connInfo.oracleServiceName = odbcSName.Text;
             conn.connInfo.oracleSID = odbcSID.Text;
 
-            //ConnInfo cf = new ConnInfo();
-
-            //Not valid
-            if (!conn.isValid())
-            {
-            }
-
-            if (!conn.connInfo.isValid())
-            {
-                invalidConnInfo.Visible = true;
-                return;
-            }
 
             String connectionString = "";
 
-            //Populate the grid
             try
             {
+                //If the connection is invalid, return false, else purge invalid conditions and return true
+                if (!conn.validateConnnection(descriptionBox))
+                {
+                    ErrorHandler eh;
+
+                    if (conn.connInfo.databaseType == ConnInfo.ORACLE)
+                    {
+                        eh = new ErrorHandler("Connection information is invalid. Please verify that all fields are correct and that the oracle specific fields have a value.", errorPanel1);
+                    }
+                    else
+                    {
+                        eh = new ErrorHandler("Connection information is invalid. Please verify that all fields are correct.", errorPanel1);
+                    }
+
+                    eh.displayError();
+                    return;
+                }
+
                 if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
                     connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
@@ -361,14 +366,17 @@ namespace HCI
 
                 else
                 {
-                    throw new ODBC2KMLException("Unknown database type.");
+                    //Display Error Handler, something crashed....
+                    ErrorHandler eh = new ErrorHandler("An unexpected error occured, please verify your connection and connection information and try again.", errorPanel1);
+                    eh.displayError();
+                    return;
                 }
 
                 updateTables(conn.connInfo.getDatabaseType());
             }
             catch (Exception ex)
             {
-                ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1, "warningModal");
+                ErrorHandler eh = new ErrorHandler("An unexpected error occured, please check your database connection.", errorPanel1);
                 eh.displayError();
                 return;
             }
