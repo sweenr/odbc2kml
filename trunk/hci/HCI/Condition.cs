@@ -280,9 +280,12 @@ namespace HCI
                 errorString = "You cannot enter one \"!=\" operator and also use another operator.";
             else if ((lowerBound != "") && (upperBound != "") && (double.TryParse(lowerBound, out tempDouble)) && (Convert.ToDouble(lowerBound) >= Convert.ToDouble(upperBound)))  // numeric case
                 errorString = "Your lower bound is not less than your upper bound.";
-            else if ((lowerBound != "") && (upperBound != "") && (!double.TryParse(lowerBound, out tempDouble)) && (String.Compare(lowerBound,upperBound)) >= 0)  // string case
+            else if ((lowerBound != "") && (upperBound != "") && (!double.TryParse(lowerBound, out tempDouble)) && (String.Compare(lowerBound, upperBound)) >= 0)  // string case
                 errorString = "Your lower bound is not less than your upper bound.";
-
+            else if (!double.TryParse(lowerBound, out tempDouble) && (lowerOperator != 5 || lowerOperator != 6))
+                errorString = "You cannot use non-doubles with a comparison operator.";
+            else if (!double.TryParse(upperBound, out tempDouble) && (upperOperator != 5 || upperOperator != 6))
+                errorString = "You cannot use non-doubles with a comparison operator.";
             
             return errorString;
         }
