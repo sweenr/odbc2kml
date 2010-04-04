@@ -116,7 +116,7 @@ namespace HCI
         public bool validateConnnection(TextBox descriptionBox)
         {
             //Return false if the conn information is bad
-            if (!this.connInfo.isValid())
+            if (!this.connInfo.isValid(this.connID))
             {
                 return false;
             }
@@ -209,7 +209,7 @@ namespace HCI
         public Boolean safeStateConnection()
         {
             //Return false if the conn information is bad
-            if (!this.connInfo.isValid())
+            if (!this.connInfo.isValid(this.connID))
             {
                 return false;
             }
