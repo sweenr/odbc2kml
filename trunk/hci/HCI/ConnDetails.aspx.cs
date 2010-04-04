@@ -101,9 +101,9 @@ namespace HCI
                         oracleTables.ProviderName = providerName;
                         oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
                     }
-                    else //Default set to SQL
+                    else
                     {
-                        odbcDBType.SelectedValue = "SQL";
+                        throw new ODBC2KMLException("Unknown database type.");
                     }
 
                     if (!alreadySetupLists)
@@ -111,7 +111,6 @@ namespace HCI
                         fillIconLibraryLists();
                         fillOverlayLibraryLists();
                         fillIconListFromDatabase();
-                        loadLatLongFromDb();
                         alreadySetupLists = true;
                     }
 
@@ -120,7 +119,6 @@ namespace HCI
                     string providerName_editor = "";
 
                     //Set Table Datasources & fill in gridview/boxes
-
                     try
                     {
                         if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
@@ -148,8 +146,9 @@ namespace HCI
                             oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
                         }
 
-                        else //Default set to SQL
+                        else
                         {
+                            throw new ODBC2KMLException("Unknown database type.");
                         }
 
                         updateTables(conn.connInfo.getDatabaseType());
@@ -360,8 +359,9 @@ namespace HCI
                     oracleTables_Mapping.SelectCommand = "select TABLE_NAME from user_tables";
                 }
 
-                else //Default set to SQL
+                else
                 {
+                    throw new ODBC2KMLException("Unknown database type.");
                 }
 
                 updateTables(conn.connInfo.getDatabaseType());
@@ -2084,7 +2084,7 @@ namespace HCI
                 }
                 else
                 {
-                    //Default case goes here
+                    throw new ODBC2KMLException("Unknown database type.");
                 }
             }
             catch (Exception ex)
@@ -2879,36 +2879,6 @@ namespace HCI
             sessionSave();
         }
 
-        internal void loadLatLongFromDb()
-        {
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-            Database db = new Database();
-            DataTable dt;
-            try
-            {
-                dt = db.executeQueryLocal("SELECT * FROM Mapping WHERE connID=" + conID);
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                eh.displayError();
-                return;
-            }
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                conn.mapping.setConnID(Convert.ToInt32(Request.QueryString.Get("ConnID")));
-                conn.mapping.setTableName(dr["tableName"].ToString());
-                conn.mapping.setLatFieldName(dr["latFieldName"].ToString());
-                conn.mapping.setLongFieldName(dr["longFieldName"].ToString());
-                conn.mapping.setFormat(Convert.ToInt32(dr["format"]));
-                conn.mapping.setPlacemarkFieldName(dr["placemarkFieldName"].ToString());
-            }
-
-            displayCurrentMapping(conn.mapping);
-
-            sessionSave();
-        }
         protected void saveLatLonInfo()
         {
             
@@ -2916,45 +2886,69 @@ namespace HCI
             sessionSave();
         }
 
-        protected void displayCurrentMapping(Mapping curMapping)
+        protected void displayCurrentMapping()
         {
-            if (curMapping.getFormat() == 1)
+            if (conn.mapping.getFormat() == 1)
             {
                 LLSepPanel.Visible = true;
                 LLTogetherPanel.Visible = false;
 
-                currentTableLabel.Text = curMapping.getTableName();
-                currentLatLabel.Text = curMapping.getLatFieldName();
-                currentLongLabel.Text = curMapping.getLongFieldName();
-                currentNameLabel.Text = curMapping.getPlacemarkFieldName();
-
+                currentTableLabel.Text = conn.mapping.getTableName();
+                currentLatLabel.Text = conn.mapping.getLatFieldName();
+                currentLongLabel.Text = conn.mapping.getLongFieldName();
+                if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
+                {
+                    currentNameLabel.Text = "No placemark name mapped";
+                }
+                else
+                {
+                    currentNameLabel.Text = conn.mapping.getPlacemarkFieldName();
+                }
                 viewLatLongErrorPanel.Visible = false;
                 viewLatLongPanel.Visible = true;
                 viewLatLongPanel2.Visible = false;
             }
-            else if (curMapping.getFormat() == 2)
+            else if (conn.mapping.getFormat() == 2)
             {
                 LatLongCheck.Selected = true;
                 LongLatCheck.Selected = false;
                 viewLatLongErrorPanel.Visible = false;
                 viewLatLongPanel.Visible = false;
                 viewLatLongPanel2.Visible = true;
-                currentTableLabel2.Text = curMapping.getTableName();
+                currentTableLabel2.Text = conn.mapping.getTableName();
                 viewLatLongLabel.Text = "Latitude/Longitude Field: ";
-                currentLatLongLabel.Text = curMapping.getLatFieldName();
+                currentLatLongLabel.Text = conn.mapping.getLatFieldName();
+                if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
+                {
+                    currentNameLabel.Text = "No placemark name mapped";
+                }
+                else
+                {
+                    currentNameLabel.Text = conn.mapping.getPlacemarkFieldName();
+                }
+
                 LLSepPanel.Visible = false;
                 LLTogetherPanel.Visible = true;
             }
-            else if (curMapping.getFormat() == 3)
+            else if (conn.mapping.getFormat() == 3)
             {
                 LatLongCheck.Selected = false;
                 LongLatCheck.Selected = true;
                 viewLatLongErrorPanel.Visible = false;
                 viewLatLongPanel.Visible = false;
                 viewLatLongPanel2.Visible = true;
-                currentTableLabel2.Text = curMapping.getTableName();
+                currentTableLabel2.Text = conn.mapping.getTableName();
                 viewLatLongLabel.Text = "Longitude/Latitude Field: ";
-                currentLatLongLabel.Text = curMapping.getLatFieldName();
+                currentLatLongLabel.Text = conn.mapping.getLatFieldName();
+                if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
+                {
+                    currentNameLabel.Text = "No placemark name mapped";
+                }
+                else
+                {
+                    currentNameLabel.Text = conn.mapping.getPlacemarkFieldName();
+                }
+
                 LLSepPanel.Visible = false;
                 LLTogetherPanel.Visible = true;
             }
@@ -2970,7 +2964,7 @@ namespace HCI
         {
             conn.mapping = new Mapping();
             sessionSave();
-            displayCurrentMapping(conn.mapping);
+            displayCurrentMapping();
         }
 
         //editor methods
@@ -3019,7 +3013,7 @@ namespace HCI
                 }
                 else
                 {
-                    //Default case goes here
+                    throw new ODBC2KMLException("Unknown database type.");
                 }
             }
             catch (Exception ex)
@@ -3164,8 +3158,9 @@ namespace HCI
                         iColFNBox.DataBind();
                         UpdateFieldCol.Update();
                     }
-                    else //Default set to SQL
+                    else 
                     {
+                        throw new ODBC2KMLException("Unknown database type.");
                     }
                 }
                 catch (Exception ex)
@@ -3229,8 +3224,9 @@ namespace HCI
                         ColGen.DataBind();
 
                     }
-                    else //Default set to SQL
+                    else
                     {
+                        throw new ODBC2KMLException("Unknown database type.");
                     }
                 }
                 catch (Exception ex)
@@ -3292,8 +3288,9 @@ namespace HCI
                     ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
                     ColGen.DataBind();
                 }
-                else //Default set to SQL
+                else
                 {
+                    throw new ODBC2KMLException("Unknown database type.");
                 }
             }
             catch (Exception ex)
@@ -3407,7 +3404,7 @@ namespace HCI
                 throw ex;
             }
 
-            displayCurrentMapping(conn.mapping);
+            displayCurrentMapping();
 
             mapError1.Visible = false;
             mapError2.Visible = false;
@@ -3456,8 +3453,9 @@ namespace HCI
 
             }
 
-            else //Default set to SQL
+            else 
             {
+                throw new ODBC2KMLException("Unknown database type.");
             }
 
             nameColumnDD.DataSource = temp;
@@ -3523,14 +3521,10 @@ namespace HCI
 
             }
 
-            else //Default set to SQL
+            else
             {
+                throw new ODBC2KMLException("Unknown database type.");
             }
-
-            /*string dbTable = conn.mapping.getTableName();
-            int dbFormat = conn.mapping.getFormat();
-            string dbLat = conn.mapping.getLatFieldName();
-            string dbLong = conn.mapping.getLongFieldName();*/
 
             //No information about the table yet
             if (conn.mapping.getTableName() == null)
@@ -3606,7 +3600,7 @@ namespace HCI
                     mapError1.Visible = false;
                     mapError2.Visible = false;
 
-                    displayCurrentMapping(conn.mapping);
+                    displayCurrentMapping();
 
                     if (conn.mapping.getTableName() == null)
                     {
@@ -3643,7 +3637,7 @@ namespace HCI
                         format = 2;
                     }
 
-                    displayCurrentMapping(conn.mapping);
+                    displayCurrentMapping();
 
                     if (conn.mapping.getTableName() == null)
                     {
