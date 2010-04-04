@@ -42,16 +42,6 @@ namespace HCI
             format = -1;
         }
 
-        public Mapping(int c, string t, string lat, string lon, int f)
-        {
-            connID = c;
-            tableName = t;
-            latFieldName = lat;
-            longFieldName = lon;
-            placemarkFieldName = "";
-            format = f;
-        }
-
         //Getters
 
         //Retrieve connID

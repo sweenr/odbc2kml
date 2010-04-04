@@ -368,7 +368,7 @@ namespace HCI
             }
             catch (Exception ex)
             {
-                ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1, "warningModal");
                 eh.displayError();
                 return;
             }
@@ -688,13 +688,13 @@ namespace HCI
             if (ovr.getColor().Equals("-111111"))
             {
                 this.AddOverlayPopupExtender.Hide();
-                ErrorHandler eh = new ErrorHandler("Overlay color must be selected!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("Overlay color must be selected!", errorPanel1, "AddOverlayPopupExtender");
                 eh.displayError();
             }
             else if (exists)
             {
                 this.AddOverlayPopupExtender.Hide();
-                ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1, "AddOverlayPopupExtender");
                 eh.displayError();
                 
             }
@@ -1234,7 +1234,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1252,7 +1252,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1277,7 +1277,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1295,7 +1295,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1,"MPE_"+iconId);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1320,7 +1320,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1338,7 +1338,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1853,7 +1853,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
                             }
@@ -1871,7 +1871,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
                             }
@@ -1896,7 +1896,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
                             }
@@ -1914,7 +1914,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
                             }
@@ -1939,7 +1939,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
                             }
@@ -1957,7 +1957,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
                             }
