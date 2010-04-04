@@ -216,8 +216,8 @@ function OnColorPicked(sender){
                                                     </td>
                                                     <td align="left">
                                                         <asp:DropDownList ID="odbcDBType" runat="server">
-                                                            <asp:ListItem Text="SQL"></asp:ListItem>
                                                             <asp:ListItem Text="MySQL"></asp:ListItem>
+                                                            <asp:ListItem Text="MSSQL"></asp:ListItem>
                                                             <asp:ListItem Text="Oracle"></asp:ListItem>
                                                         </asp:DropDownList>
                                                     </td>
