@@ -266,6 +266,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Label viewLatLongErrorLabel;
         
         /// <summary>
+        /// viewPlacemarkErrorLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label viewPlacemarkErrorLabel;
+        
+        /// <summary>
         /// viewLatLongPanel control.
         /// </summary>
         /// <remarks>
@@ -653,15 +662,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.DropDownList longDD;
         
         /// <summary>
-        /// mapError1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label mapError1;
-        
-        /// <summary>
         /// LLTogetherPanel control.
         /// </summary>
         /// <remarks>
@@ -723,15 +723,6 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListItem LongLatCheck;
-        
-        /// <summary>
-        /// mapError2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label mapError2;
         
         /// <summary>
         /// tblColumnsPanel control.

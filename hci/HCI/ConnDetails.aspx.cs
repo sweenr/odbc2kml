@@ -162,6 +162,9 @@ namespace HCI
 
                     descriptionBox.Text = conn.description.getDesc();
 
+                    //show the current mapping box
+                    displayCurrentMapping();
+
                     sessionSave();
                 }
             }
@@ -2872,6 +2875,7 @@ namespace HCI
                 currentTableLabel.Text = conn.mapping.getTableName();
                 currentLatLabel.Text = conn.mapping.getLatFieldName();
                 currentLongLabel.Text = conn.mapping.getLongFieldName();
+                //if the placemark field name hasn't been set, show no placemark message, else show mapping
                 if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
                 {
                     currentNameLabel.Text = "No placemark name mapped";
@@ -2894,6 +2898,7 @@ namespace HCI
                 currentTableLabel2.Text = conn.mapping.getTableName();
                 viewLatLongLabel.Text = "Latitude/Longitude Field: ";
                 currentLatLongLabel.Text = conn.mapping.getLatFieldName();
+                //if the placemark field name hasn't been set, show no placemark message, else show mapping 
                 if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
                 {
                     currentNameLabel.Text = "No placemark name mapped";
@@ -2916,6 +2921,7 @@ namespace HCI
                 currentTableLabel2.Text = conn.mapping.getTableName();
                 viewLatLongLabel.Text = "Longitude/Latitude Field: ";
                 currentLatLongLabel.Text = conn.mapping.getLatFieldName();
+                //if the placemark field name hasn't been set, show error message, else show mapping 
                 if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
                 {
                     currentNameLabel.Text = "No placemark name mapped";
@@ -2933,6 +2939,22 @@ namespace HCI
                 viewLatLongErrorPanel.Visible = true;
                 viewLatLongPanel.Visible = false;
                 viewLatLongPanel2.Visible = false;
+                viewLatLongErrorLabel.Visible = true;
+                //if the placemark field name hasn't been set, show error message, else show mapping 
+                if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
+                {
+                    viewPlacemarkErrorLabel.Visible = true;
+                }
+                else
+                {
+                    currentNameLabel.Text = conn.mapping.getPlacemarkFieldName();
+                    currentTableLabel.Text = conn.mapping.getTableName();
+                    currentLatLabel.Text = "Not Mapped";
+                    currentLongLabel.Text = "Not Mapped";
+                    viewLatLongPanel.Visible = true;
+                    viewLatLongErrorPanel.Visible = false;
+
+                }
             }
         }
 
@@ -3210,8 +3232,8 @@ namespace HCI
                     throw ex;
                 }
 
-                //No information about the table yet
-                if (conn.mapping.getTableName() == null)
+                //No information about the lat/lon mapping yet
+                if (conn.mapping.getLatFieldName() == null)
                 {
                     mapUpdates(ColGen);
                 }
@@ -3338,8 +3360,6 @@ namespace HCI
             LLSepPanel.Visible = true;
             LLTogetherPanel.Visible = false;
 
-            mapError1.Visible = false;
-            mapError2.Visible = false;
             mapSuccess.Visible = false;
             sessionSave();
         }
@@ -3382,8 +3402,6 @@ namespace HCI
 
             displayCurrentMapping();
 
-            mapError1.Visible = false;
-            mapError2.Visible = false;
             mapSuccess.Visible = false;
             sessionSave();
 
@@ -3442,16 +3460,34 @@ namespace HCI
 
             addPlacemarkField.Visible = false;
             tblColumnsPanel.Visible = false;
+            saveLatLong.Visible = false;
+            mapColumnsPanel.Visible = false;
+            viewGrid.Visible = true;
+            addLatLong.Visible = true;
             mapPlacemarkName.Visible = true;
             sessionSave();
 
         }
 
+        /// <summary>
+        /// Method to save the currently selected field as the placemark name field. Sets the placemarkFieldName and 
+        /// tableName members of conn.mapping
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void savePlacemarkMapping_click(object sender, EventArgs e)
         {
-            string selectedTable = GridViewTables.SelectedValue.ToString();
             conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
+            if (conn.mapping.tableName.Equals(""))
+            {
+                conn.mapping.setTableName(GridViewTables.SelectedValue.ToString());
+            }
+            else if (conn.mapping.tableName.Equals(GridViewTables.SelectedValue.ToString()))
+            {
+                throw new ODBC2KMLException("Placemark name field table must be the same table as the mapped table.");
+            }
             mapSuccess2.Visible = true;
+            displayCurrentMapping();
             sessionSave();
 
         }
@@ -3502,8 +3538,8 @@ namespace HCI
                 throw new ODBC2KMLException("Unknown database type.");
             }
 
-            //No information about the table yet
-            if (conn.mapping.getTableName() == null)
+            //No information about the lat/lon mapping yet
+            if (conn.mapping.getLatFieldName() == null)
             {
                 if (conn.mapping != null)
                 {
@@ -3533,6 +3569,7 @@ namespace HCI
                 }
             }
 
+            mapPlacemarkName.Visible = false;
             viewGrid.Visible = true;
             saveLatLong.Visible = true;
             addLatLong.Visible = false;
@@ -3558,26 +3595,63 @@ namespace HCI
         protected void saveLatLong_Click(object sender, EventArgs e)
         {
             string tableName = GridViewTables.SelectedValue.ToString();
-            string latFieldName = "";
-            string longFieldName = "";
-            int format = 1;
 
-            if (LLSepPanel.Visible == true)
+            //if the table hasn't bee mapped yet
+            if (conn.mapping.tableName.Equals(tableName) || conn.mapping.tableName.Equals("") || conn.mapping.tableName == null)
             {
-                latFieldName = latDD.SelectedValue.ToString();
-                longFieldName = longDD.SelectedValue.ToString();
-                if (latFieldName.Equals(longFieldName))
+                //if lat/lon mapped separately
+                if (LLSepPanel.Visible == true)
                 {
-                    mapError1.Visible = true;
-                    mapSuccess.Visible = false;
-                }
-                else
-                {
-                    mapError1.Visible = false;
-                    mapError2.Visible = false;
+                    //if the lon field equals the lat field, report error
+                    if (latDD.SelectedValue.ToString().Equals(longDD.SelectedValue.ToString()))
+                    {
+                        //throw new ODBC2KMLException("Latitude and longitue cannot be the same column in this case. If they are, choose the \"Together\" button.");
+                        ErrorHandler eh = new ErrorHandler("Latitude and longitue cannot be the same column in this case. If they are, choose the \"Together\" button.", errorPanel1);
+                        eh.displayError();
+                    }
+                    else
+                    {
+                        //else, set the current mapping to the selected values
+                        conn.mapping.latFieldName = latDD.SelectedValue.ToString();
+                        conn.mapping.longFieldName = longDD.SelectedValue.ToString();
+                        conn.mapping.format = 1;
 
+                        //update the mapping box
+                        displayCurrentMapping();
+
+                        //set and display insert/update message
+                        if (conn.mapping.getTableName() == null)
+                        {
+                            mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
+                        }
+                        else
+                        {
+                            mapSuccess.Text = "Lat/Long Mapping updated successfully!";
+                        }
+                        mapSuccess.Visible = true;
+
+                    }
+                }
+                //else if they are mapped together
+                else if (LLTogetherPanel.Visible == true)
+                {
+                    //set conn.mapping latFieldName and longFieldName to the selected value
+                    conn.mapping.latFieldName = conn.mapping.longFieldName = llDD.SelectedValue.ToString();
+
+                    //if the format is lon first, set the format to 3, else set it to 2
+                    if (LongLatCheck.Selected)
+                    {
+                        conn.mapping.format = 3;
+                    }
+                    else
+                    {
+                        conn.mapping.format = 2;
+                    }
+
+                    //update the current mapping box
                     displayCurrentMapping();
 
+                    //set and display mapping insert/update message
                     if (conn.mapping.getTableName() == null)
                     {
                         mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
@@ -3590,41 +3664,9 @@ namespace HCI
 
                 }
             }
-            else if (LLTogetherPanel.Visible == true)
+            else
             {
-                latFieldName = llDD.SelectedValue.ToString();
-                longFieldName = latFieldName;
-                if ((LatLongCheck.Selected && LongLatCheck.Selected) || (!LatLongCheck.Selected && !LongLatCheck.Selected))
-                {
-                    mapSuccess.Visible = false;
-                    mapError2.Visible = true;
-                }
-                else
-                {
-                    mapError1.Visible = false;
-                    mapError2.Visible = false;
-
-                    if (LongLatCheck.Selected)
-                    {
-                        format = 3;
-                    }
-                    else
-                    {
-                        format = 2;
-                    }
-
-                    displayCurrentMapping();
-
-                    if (conn.mapping.getTableName() == null)
-                    {
-                        mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
-                    }
-                    else
-                    {
-                        mapSuccess.Text = "Lat/Long Mapping updated successfully!";
-                    }
-                    mapSuccess.Visible = true;
-                }
+                throw new ODBC2KMLException("Placemark field table and lat/lon field tables must match. Change the lat/long or placemark mapping to use the same table.");
             }
             sessionSave();
         }

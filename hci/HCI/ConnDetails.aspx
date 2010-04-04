@@ -279,7 +279,11 @@ function OnColorPicked(sender){
                                             </td>
                                             <td>
                                                 <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError"
-                                                        Text="There are not lat/long mappings for this connection." HorizontalAlign="Center" />
+                                                        Text="There are not lat/long mappings for this connection." HorizontalAlign="Center" Visible="false" />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="viewPlacemarkErrorLabel" runat="server" CssClass="descLabelError" 
+                                                        Text="There are no placemark name mappings for this connection." HorizontalAlign="Center" Visible="false" />
                                             </td>
                                             <td width="30%">&nbsp;</td>
                                         </tr>
@@ -325,7 +329,7 @@ function OnColorPicked(sender){
                                         </tr>
                                         <tr>
                                             <td>
-                                                <asp:Label ID="viewNameLabel" runat="server" Text="Placemark Field: " CssClass="descLabel" />
+                                                <asp:Label ID="viewNameLabel" runat="server" Text="Placemark Name Field: " CssClass="descLabel" />
                                             </td>
                                             <td>
                                                 &nbsp;&nbsp;&nbsp;<asp:Label ID="currentNameLabel" runat="server" Text="" CssClass="descLabel2" />
@@ -498,8 +502,6 @@ function OnColorPicked(sender){
                                                                             </table>
                                                                             <p>
                                                                             </p>
-                                                                            <asp:Label ID="mapError1" runat="server" CssClass="descLabelError" Text="Please selected different columns for latitude and longitude."
-                                                                                Visible="false"></asp:Label>
                                                                         </asp:Panel>
                                                                         <asp:Panel ID="LLTogetherPanel" runat="server" Visible="false">
                                                                             <table>
@@ -527,8 +529,6 @@ function OnColorPicked(sender){
                                                                             </table>
                                                                             <p>
                                                                             </p>
-                                                                            <asp:Label ID="mapError2" runat="server" CssClass="descLabelError" Text="Please select either 'Map column as Lat/Long' or 'Map column as Long/Lat'."
-                                                                                Visible="false"></asp:Label>
                                                                         </asp:Panel>
                                                                     </td>
                                                                 </tr>
