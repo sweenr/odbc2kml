@@ -17,6 +17,7 @@ namespace HCI
     public class Mapping
     {
         //Globals
+        public static readonly int NONE = 0;
         public static readonly int SEPARATE = 1;
         public static readonly int LATFIRST = 2;
         public static readonly int LONGFIRST = 3;
@@ -139,6 +140,41 @@ namespace HCI
                 return valid;
             }
             return valid;
+        }
+
+        public Boolean isValid()
+        {
+            //If lat and long mappings are set
+            if (this.getLatFieldName() != "" && this.getLongFieldName() != "")
+            {
+                if (this.getTableName() == "") //See if there is a table name
+                {
+                    //No table name
+                    return false;
+                }
+
+                if (this.getFormat() != 1 || this.getFormat() != 2 || this.getFormat() != 3) //See if there is a format
+                {
+                    //No format
+                    return false;
+                }
+            }
+            else //No lat and long
+            {
+                if (this.getTableName() != "") //See if there is a table name
+                {
+                    //Table name
+                    return false;
+                }
+
+                if (this.getFormat() != -1 || this.getFormat() != Mapping.NONE) //See if format is set to default values
+                {
+                    //Not default
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         //Seperating Long from Lat and vise versa
