@@ -61,6 +61,12 @@ namespace HCI
         /// <returns>String --> A string that is the KML</returns>
         public string generateKMLFromConnection(Connection connection)
         {
+            //if the mapping is invalid, throw an exception and don't try to continue
+            if (!connection.mapping.isValid())
+            {
+                throw new ODBC2KMLException("Mapping is invalid.");
+            }
+            
             //Needed to generate KML, parameter is desired file name within KML file
             KMLGenerationLibrary kmlGenerator = new KMLGenerationLibrary(this.fileName);
 
