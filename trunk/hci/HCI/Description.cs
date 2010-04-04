@@ -58,13 +58,13 @@ namespace HCI
                 if (desc.IndexOf("[TBL]", startIndex, lengthOfTag) != -1)
                 {
                     //if we find another tbl tag, return false
-                    if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]")+4) != -1)
+                    if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) != -1)
                         return false;
                     //else if we don't find a close tbl tag, return false
-                    else if (desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]")+4) == -1)
+                    else if (desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) == -1)
                         return false;
                     //else if the length of the table tag is 0, return false
-                    else if(desc.IndexOf("[TBL]", startIndex, lengthOfTag)+5 - desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]")+4) == 0)
+                    else if(desc.IndexOf("[TBL]", startIndex, lengthOfTag)+5 - desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) == 0)
                         return false;
                 }
                 else
@@ -75,20 +75,20 @@ namespace HCI
                 if (desc.IndexOf("[COL]", startIndex, lengthOfTag) != -1)
                 {
                     //if we find another col tag, return false
-                    if (desc.IndexOf("[COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]")+4) != -1)
+                    if (desc.IndexOf("[COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag)+4) != -1)
                         return false;
                     //else if we don't find a close col tag, return false
-                    else if (desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]")+4) == -1)
+                    else if (desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag)+4) == -1)
                         return false;
                     //else if the length of the column tag is 0, return false
-                    else if (desc.IndexOf("[COL]", startIndex, lengthOfTag) + 5 - desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]") + 4) == 0)
+                    else if (desc.IndexOf("[COL]", startIndex, lengthOfTag) + 5 - desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4) == 0)
                         return false;
                 }
                 else
                 {
                     return false;
                 }
-                startIndex = endIndex;
+                startIndex = endIndex + 8;
             }
 
 
@@ -114,13 +114,13 @@ namespace HCI
                 if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) != -1)
                 {
                     //if we find another title tag, return false
-                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]") + 7) != -1)
+                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7) != -1)
                         return false;
                     //else if we don't find a close title tag, return false
-                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]") + 7) == -1)
+                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7) == -1)
                         return false;
                     //else if the length of the title tag is 0, return false
-                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]") + 7) == 0)
+                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7) == 0)
                         return false;
                 }
                 else
@@ -128,10 +128,10 @@ namespace HCI
                     return false;
                 }
                 //if length of url is 0 return false
-                if(desc.IndexOf("[/TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]") + 5, endIndex-desc.IndexOf("[URL]") + 5) == 0)
+                if(desc.IndexOf("[/TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]", startIndex, lengthOfTag) + 5, endIndex-desc.IndexOf("[URL]", startIndex, lengthOfTag) + 5) == 0)
                     return false;
 
-                startIndex = endIndex;
+                startIndex = endIndex + 6;
             }
 
 
