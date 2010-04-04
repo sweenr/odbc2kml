@@ -284,7 +284,7 @@ namespace HCI
                             }
 
                             condition.setLowerOperator((int)nRow["lowerOperator"]);
-                            condition.setLowerOperator((int)nRow["upperOperator"]);
+                            condition.setUpperOperator((int)nRow["upperOperator"]);
                             condition.setTableName(nRow["tableName"].ToString());
                             condition.setFieldName(nRow["fieldName"].ToString());
                             condition.setId(Convert.ToInt16(nRow["ID"].ToString()));
