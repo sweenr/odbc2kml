@@ -3474,16 +3474,24 @@ namespace HCI
         /// <param name="e"></param>
         protected void savePlacemarkMapping_click(object sender, EventArgs e)
         {
-            conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
+            //if the current mapping doesnt have a table, set it and the placemark field name
             if (conn.mapping.tableName.Equals(""))
             {
+                conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
                 conn.mapping.setTableName(GridViewTables.SelectedValue.ToString());
-            }
+                mapSuccess2.Visible = true;
+            } //else if the currently mapped table matches the currently selected table, set the placemark field name
             else if (conn.mapping.tableName.Equals(GridViewTables.SelectedValue.ToString()))
             {
-                throw new ODBC2KMLException("Placemark name field table must be the same table as the mapped table.");
+                conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
+                mapSuccess2.Visible = true;
             }
-            mapSuccess2.Visible = true;
+            else //else the tables don't match, throw error handler
+            {
+                ErrorHandler eh = new ErrorHandler("Placemark name field table must be the same table as the mapped table.", errorPanel1);
+                eh.displayError();
+            }
+            
             displayCurrentMapping();
             sessionSave();
 
