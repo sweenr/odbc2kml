@@ -2002,33 +2002,8 @@ namespace HCI
 
         protected void addTableName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Database db = new Database();
-            DataTable dt;
-            try
-            {
-                dt = db.executeQueryLocal("SELECT * FROM Connection WHERE ID=" + Request.QueryString.Get("ConnID"));
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                eh.displayError();
-                return;
-            }
             string connectionString = "";
             string providerName = "";
-            int type = 0;
-            string address = "";
-            string dbName = "";
-            string username = "";
-            string password = "";
-            foreach (DataRow dr in dt.Rows)  // it should just be the one row, but I don't know how to just grab 1 row.
-            {
-                type = Convert.ToInt32(dr["type"]);
-                address = dr["address"].ToString();
-                dbName = dr["dbName"].ToString();
-                username = dr["userName"].ToString();
-                password = dr["password"].ToString();
-            }
 
             DropDownList tableList = (DropDownList)sender;
             string selectedTable = tableList.SelectedItem.ToString();
@@ -2045,9 +2020,9 @@ namespace HCI
 
             try
             {
-                if (type == ConnInfo.MSSQL)
+                if (conn.connInfo.databaseType == ConnInfo.MSSQL)
                 {
-                    connectionString = "Data Source=" + address + ";Initial Catalog=" + dbName + ";Persist Security Info=True;User Id=" + username + ";Password=" + password;
+                    connectionString = "Data Source=" + conn.connInfo.serverAddress + ";Initial Catalog=" + conn.connInfo.databaseName + ";Persist Security Info=True;User Id=" + conn.connInfo.userName + ";Password=" + conn.connInfo.password;
                     SqlDataSource temp = new SqlDataSource();
                     temp.ConnectionString = connectionString;
                     temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
@@ -2056,9 +2031,9 @@ namespace HCI
                     fieldList.DataTextField = "COLUMN_NAME";
                     fieldList.DataBind();
                 }
-                else if (type == ConnInfo.MYSQL)
+                else if (conn.connInfo.databaseType == ConnInfo.MYSQL)
                 {
-                    connectionString = "server=" + address + ";User Id=" + username + ";password=" + password + ";Persist Security Info=True;database=" + dbName;
+                    connectionString = "server=" + conn.connInfo.serverAddress + ";User Id=" + conn.connInfo.userName + ";password=" + conn.connInfo.password + ";Persist Security Info=True;database=" + conn.connInfo.databaseName;
                     providerName = "MySql.Data.MySqlClient";
                     SqlDataSource temp = new SqlDataSource();
                     temp.ConnectionString = connectionString;
@@ -2069,9 +2044,9 @@ namespace HCI
                     fieldList.DataTextField = "COLUMN_NAME";
                     fieldList.DataBind();
                 }
-                else if (type == ConnInfo.ORACLE)
+                else if (conn.connInfo.databaseType == ConnInfo.ORACLE)
                 {
-                    connectionString = "Data Source=" + address + ";Persist Security Info=True;User ID=" + username + ";Password=" + password + ";Unicode=True";
+                    connectionString = "Data Source=" + conn.connInfo.serverAddress + ";Persist Security Info=True;User ID=" + conn.connInfo.userName + ";Password=" + conn.connInfo.password + ";Unicode=True";
                     providerName = "System.Data.OracleClient";
                     SqlDataSource temp = new SqlDataSource();
                     temp.ConnectionString = connectionString;
@@ -2092,11 +2067,6 @@ namespace HCI
                 throw ex;
             }
             string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
-            UpdatePanel up;
-            if (tableList.ID.ToString().LastIndexOf("addIconTable") != -1)
-                up = (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + id);
-            else
-                up = (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + id);
             
             sessionSave();
         }
