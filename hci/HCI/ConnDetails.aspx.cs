@@ -2969,10 +2969,6 @@ namespace HCI
             {
                 if (type == ConnInfo.MSSQL)
                 {
-                    iTableNBox.DataSource = MSQLTables_Mapping;
-                    iTableNBox.DataTextField = "TABLE_NAME";
-                    iTableNBox.DataValueField = "TABLE_NAME";
-                    iTableNBox.DataBind();
                     iTableFNBox.DataSource = MSQLTables_Mapping;
                     iTableFNBox.DataTextField = "TABLE_NAME";
                     iTableFNBox.DataValueField = "TABLE_NAME";
@@ -2982,10 +2978,6 @@ namespace HCI
                 }
                 else if (type == ConnInfo.MYSQL)
                 {
-                    iTableNBox.DataSource = SQLTables_Mapping;
-                    iTableNBox.DataTextField = "TABLE_NAME";
-                    iTableNBox.DataValueField = "TABLE_NAME";
-                    iTableNBox.DataBind();
                     iTableFNBox.DataSource = SQLTables_Mapping;
                     iTableFNBox.DataTextField = "TABLE_NAME";
                     iTableFNBox.DataValueField = "TABLE_NAME";
@@ -2995,10 +2987,6 @@ namespace HCI
                 }
                 else if (type == ConnInfo.ORACLE)
                 {
-                    iTableNBox.DataSource = oracleTables_Mapping;
-                    iTableNBox.DataTextField = "TABLE_NAME";
-                    iTableNBox.DataValueField = "TABLE_NAME";
-                    iTableNBox.DataBind();
                     iTableFNBox.DataSource = oracleTables_Mapping;
                     iTableFNBox.DataTextField = "TABLE_NAME";
                     iTableFNBox.DataValueField = "TABLE_NAME";
@@ -3020,8 +3008,7 @@ namespace HCI
 
         protected void dLink_Click(object sender, EventArgs e)
         {
-            dLinkPanel.Visible = true;
-            dTablePanel.Visible = false;
+            dLinkPanel.Visible = !dLinkPanel.Visible;
             dFieldPanel.Visible = false;
             sessionSave();
         }
@@ -3042,6 +3029,7 @@ namespace HCI
                 iLinkError.Visible = false;
                 descriptionBox.Text += descriptionInfo;
             }
+            dLinkPanel.Visible = false;
             sessionSave();
         }
 
@@ -3053,17 +3041,8 @@ namespace HCI
             sessionSave();
         }
 
-        protected void dTable_Click(object sender, EventArgs e)
-        {
-            dLinkPanel.Visible = false;
-            dTablePanel.Visible = true;
-            dFieldPanel.Visible = false;
-            sessionSave();
-        }
-
         protected void dTableInsert_Click(object sender, EventArgs e)
         {
-            string tableText = iTableNBox.SelectedValue.ToString();
             string descriptionInfo = "[TBL/]";
 
             descriptionBox.Text += descriptionInfo;
@@ -3074,8 +3053,7 @@ namespace HCI
         {
 
             dLinkPanel.Visible = false;
-            dTablePanel.Visible = false;
-            dFieldPanel.Visible = true;
+            dFieldPanel.Visible = !dFieldPanel.Visible;
             sessionSave();
         }
 
@@ -3096,6 +3074,7 @@ namespace HCI
                 dFieldError.Visible = false;
                 descriptionBox.Text += descriptionInfo;
             }
+            dFieldPanel.Visible = false;
             sessionSave();
         }
 
