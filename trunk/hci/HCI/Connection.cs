@@ -308,9 +308,111 @@ namespace HCI
 
         //TODO: ADD PARAMETERS TO ALL OF THE FOLLOWING
 
-        //Add Comments
-        public void saveConn()
+        public Boolean saveConn()
         {
+            Boolean validConnInfo = false;
+            Boolean validMapping = false;
+            Boolean validDescription = false;
+            Boolean validIcons = false;
+            Boolean validOverlays = false;
+
+            //Validate the Connection information
+            if (!this.connInfo.isValid(this.connID))
+            {
+                return false;
+            }
+            else
+            {
+                validConnInfo = true;
+            }
+
+            //Validate the mapping
+            if (!this.mapping.isValid())
+            {
+                return false;
+            }
+            else
+            {
+                validMapping = true;
+            }
+
+            //Remove bad icon and overlay conditions
+            if (!this.safeStateConnection())
+            {
+                return false;
+            }
+            else
+            {
+                validOverlays = true;
+                validIcons = true;
+            }
+
+            //ADD DESCRIPTION VERIFICATION
+             
+            //ALL THINGS ARE VALID, ATTEMPT A SAVE
+            if (validConnInfo && validDescription && validIcons && validMapping && validOverlays)
+            {
+                //Database needed to make all of the queries
+                Database database = new Database();
+
+                String query = "UPDATE Connection SET name=\'" + this.connInfo.connectionName
+                    + "\', dbName=\'" + this.connInfo.databaseName
+                    + "\', userName=\'" + this.connInfo.userName
+                    + "\', password=\'" + this.connInfo.password
+                    + "\', port=\'" + this.connInfo.portNumber
+                    + "\', address=\'" + this.connInfo.serverAddress
+                    + "\', protocol=\'" + this.connInfo.oracleProtocol
+                    + "\', SID=\'" + this.connInfo.oracleSID
+                    + "\', serviceName=\'" + this.connInfo.oracleServiceName
+                    + "\', type=\'" + this.connInfo.databaseType + "\' WHERE ID=" + this.connID;
+
+                //Update the connection information
+                database.executeQueryLocal(query);
+
+                //If the latfieldname is empty, and it passed the validation function, then remove the mapping
+                if (this.mapping.getLatFieldName() == "")
+                {
+                    //See if there is a mapping
+                    query = "SELECT * FROM Mapping WHERE connID=" + this.connID;
+                    DataTable checkTable = database.executeQueryLocal(query);
+
+                    //Is there currently a mapping?
+                    if (checkTable.Rows.Count > 0)
+                    {
+                        //Remove the mapping
+                        query = "DELETE FROM Mapping WHERE connID=" + this.connID;
+                        database.executeQueryLocal(query);
+                    }
+                }
+                else
+                {
+                     //See if there is a mapping
+                    query = "SELECT * FROM Mapping WHERE connID=" + this.connID;
+                    DataTable checkTable = database.executeQueryLocal(query);
+
+                    //Is there currently a mapping?
+                    if (checkTable.Rows.Count > 0)
+                    {
+                        query = "UPDATE Mapping SET format=" + this.mapping.getFormat()
+                            + ", latFieldName='" + this.mapping.getLatFieldName() + "'"
+                            + ", longFieldName='" + this.mapping.getLongFieldName() + "'"
+                            + ", tableName='" + this.mapping.getTableName() + "'"
+                            + ", placemarkFieldName='" + this.mapping.getPlacemarkFieldName() + "'";
+                    }
+                    else //Insert mapping
+                    {
+                        query = "INSERT INTO Mapping ";
+                    }
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+
+            //The connection was saved and properly updated
+            return true;
         }
 
         //Add Comments
