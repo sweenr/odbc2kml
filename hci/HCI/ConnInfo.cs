@@ -147,10 +147,47 @@ namespace HCI
 
         public bool isValid()
         {
-            bool valid = false;
+            //If oracle specific information is missing for oracle, return false
+            if (this.databaseType == ConnInfo.ORACLE)
+            {
+                if (!ConnInfo.validSName(this.oracleServiceName) && !ConnInfo.validSID(this.oracleSID))
+                {
+                    return false;
+                }
+                if (!ConnInfo.validProtocol(this.oracleProtocol))
+                {
+                    return false;
+                }
+            }
 
+            //If anything specific to any connection is missing, return false
+            if (!ConnInfo.validConnName(this.connectionName))
+            {
+                return false;
+            }
+            else if (!ConnInfo.validDBAddress(this.serverAddress))
+            {
+                return false;
+            }
+            else if (!ConnInfo.validPort(this.portNumber))
+            {
+                return false;
+            }
+            else if (!ConnInfo.validDBName(this.databaseName))
+            {
+                return false;
+            }
+            else if (!ConnInfo.validUserName(this.userName))
+            {
+                return false;
+            }
+            else if (!ConnInfo.validPassword(this.password))
+            {
+                return false;
+            }
 
-            return valid;
+            //All is good!
+            return true;
 
         }
 
