@@ -156,7 +156,7 @@ namespace HCI
             this.editConnModalPopUp.Show();
         }
 
-        protected Boolean editAndSaveData(object sender, EventArgs e)
+        protected void editAndSaveConnectionInformation(object sender, CommandEventArgs e)
         {
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
@@ -169,13 +169,13 @@ namespace HCI
             tempConnInfo.setPortNumber(editConnDBPort.Text);
             tempConnInfo.setUserName(editConnUser.Text);
             tempConnInfo.setPassword(editConnPass.Text);
-            tempConnInfo.setDatabaseType(Convert.ToInt16(editConnDBType.SelectedItem.ToString()));
+            tempConnInfo.setDatabaseType((editConnDBType.SelectedIndex));
             tempConnInfo.setOracleProtocol(editOracleProtocol.Text);
             tempConnInfo.setOracleServiceName(editOracleService.Text);
             tempConnInfo.setOracleSID(editOracleSID.Text);
             
             //If the connection information is bad, report the error and cancel the function
-            if(!tempConnInfo.isValid())
+            if(!tempConnInfo.isValid(Convert.ToInt32(args)))
             {
                 String error = "The entered connection information is invalid. Please make sure all fields are filled and that they are in proper format.";
 
@@ -188,7 +188,7 @@ namespace HCI
                 ErrorHandler eh = new ErrorHandler(error, errorPanel1);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
-                return false;
+                return;
             }
 
 
@@ -208,13 +208,13 @@ namespace HCI
             try
             {
                 //Force the connection into a safe state, if it is not
-                if (conn.safeStateConnection())
+                if (!conn.safeStateConnection())
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    String error = "Unexpected error when trying to ensure the connection was in a safe state.";
+                    ErrorHandler eh = new ErrorHandler(error, errorPanel1);
+                    this.editConnModalPopUp.Hide();
+                    eh.displayError();
+                    return;
                 }
             }
             catch(ODBC2KMLException err)
@@ -223,24 +223,17 @@ namespace HCI
                 ErrorHandler eh = new ErrorHandler(error, errorPanel1);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
-                return false;
-            }
-
-            this.editConnModalPopUp.Hide();
-
-            return true;
-        }
-
-        protected void editSaveAndLoadData(object sender, EventArgs e)
-        {
-            //save the connection information and redirect
-            if (editAndSaveData(sender, e))
-            {
-                Response.Redirect("ConnDetails.aspx?ConnID=" + ((Button)sender).CommandArgument.ToString() + "&locked=false");
-            }
-            else //Edit and save data will present error
-            {
                 return;
+            }
+
+            if (e.CommandName.Equals("saveConn"))
+            {
+                this.editConnModalPopUp.Hide();
+            }
+            else
+            {
+                this.editConnModalPopUp.Hide();
+                Response.Redirect("ConnDetails.aspx?ConnID=" + ((Button)sender).CommandArgument.ToString() + "&locked=false");
             }
         }
 

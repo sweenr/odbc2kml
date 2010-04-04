@@ -145,7 +145,7 @@ namespace HCI
             this.oracleSID = oracleSID;
         }
 
-        public bool isValid()
+        public bool isValid(int connID)
         {
             //If oracle specific information is missing for oracle, return false
             if (this.databaseType == ConnInfo.ORACLE)
@@ -161,7 +161,7 @@ namespace HCI
             }
 
             //If anything specific to any connection is missing, return false
-            if (!ConnInfo.validConnName(this.connectionName))
+            if (!ConnInfo.validConnName(this.connectionName, connID))
             {
                 return false;
             }
@@ -253,7 +253,7 @@ namespace HCI
         /// </summary>
         /// <param name="name">String --> Connection string to validate</param>
         /// <returns>Boolean --> true -> Valid, False -> Invalid</returns>
-        public static Boolean validConnName(String name)
+        public static Boolean validConnName(String name, int connID)
         {
             //Empty connection name
             if(name.Equals(""))
@@ -263,7 +263,7 @@ namespace HCI
 
             //Create database and execute query
             Database DB = new Database();
-            String query = "SELECT * FROM Connection WHERE name='" + name + "'";
+            String query = "SELECT * FROM Connection WHERE name='" + name + "' AND ID!=" + connID;
 
             DataTable DT = DB.executeQueryLocal(query);
 

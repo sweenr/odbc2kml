@@ -337,10 +337,10 @@
                                                                             </table>
                                                                             <div class="right" style="padding-top: 20px;">
                                                                                 <asp:Button ID="saveEditConn" runat="server" Text="Save" CssClass="button" ToolTip="Update"
-                                                                                    OnClick="editAndSaveData" CommandArgument="none"></asp:Button>
+                                                                                    CommandName="saveConn" OnCommand="editAndSaveConnectionInformation" CommandArgument="0" />
                                                                                 &nbsp;&nbsp;
                                                                                 <asp:Button ID="saveAndEditConn" runat="server" Text="Save and Edit" CssClass="button" ToolTip="Update"
-                                                                                    OnClick="editSaveAndLoadData" CommandArgument="none" />
+                                                                                    OnCommand="editAndSaveConnectionInformation" CommandArgument="2" CommandName="saveAndEditConn" />
                                                                                 &nbsp;&nbsp;
                                                                                 <asp:Button ID="cancelEditConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" OnClick="editCancel" CommandArgument="none" />
                                                                             </div>
