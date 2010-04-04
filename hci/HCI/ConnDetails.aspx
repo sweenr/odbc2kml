@@ -123,8 +123,6 @@ function OnColorPicked(sender){
     <asp:SqlDataSource ID="ColGen" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="oracleTables_Mapping" runat="server"></asp:SqlDataSource>
     <asp:SqlDataSource ID="MSQLTables_Mapping" runat="server"></asp:SqlDataSource>
-    <asp:UpdatePanel runat="server" ID="wholePageUpdatePanel" UpdateMode="Conditional">
-        <ContentTemplate>
                 <div id="wrapIt">
                     <div id="header">
                         <div id="logo">
@@ -1188,8 +1186,6 @@ function OnColorPicked(sender){
                 </asp:Panel>
                 <asp:Panel ID="scriptHandler" runat="server" Visible="true">
                 </asp:Panel>
-        </ContentTemplate>
-    </asp:UpdatePanel>
     </form>
 </body>
 </html>
