@@ -261,6 +261,17 @@ namespace HCI
                 return false;
             }
 
+            //Create database and execute query
+            Database DB = new Database();
+            String query = "SELECT * FROM Connection WHERE name='" + name + "'";
+
+            DataTable DT = DB.executeQueryLocal(query);
+
+            //If the row number isn't 0, return false
+            if (DT.Rows.Count > 0)
+                return false;
+
+
             //Valid name
             return true;
         }

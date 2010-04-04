@@ -156,292 +156,92 @@ namespace HCI
             this.editConnModalPopUp.Show();
         }
 
-        protected void editAndSaveData(object sender, EventArgs e)
+        protected Boolean editAndSaveData(object sender, EventArgs e)
         {
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
 
-            String ConnName = editConnName.Text.ToString();
-            String ConnDBName = editConnDBName.Text.ToString();
-            String ConnDBAddress = editConnDBAddr.Text.ToString();
-            String ConnPortNum = editConnDBPort.Text.ToString();
-            String ConnUser = editConnUser.Text.ToString();
-            String ConnPWD = editConnPass.Text.ToString();
-            String ConnDBType = editConnDBType.SelectedItem.ToString();
-            String oracleProtocol = editOracleProtocol.Text.ToString();
-            String oracleSName = editOracleService.Text.ToString();
-            String oracleSID = editOracleSID.Text.ToString();
-            String DBTypeNum;
-            editConnDBType.SelectedIndex = 0;
+            ConnInfo tempConnInfo = new ConnInfo();
 
-            if (ConnDBType.Equals("MySQL"))
+            tempConnInfo.setConnectionName(editConnName.Text);
+            tempConnInfo.setDatabaseName(editConnDBName.Text);
+            tempConnInfo.setServerAddress(editConnDBAddr.Text);
+            tempConnInfo.setPortNumber(editConnDBPort.Text);
+            tempConnInfo.setUserName(editConnUser.Text);
+            tempConnInfo.setPassword(editConnPass.Text);
+            tempConnInfo.setDatabaseType(Convert.ToInt16(editConnDBType.SelectedItem.ToString()));
+            tempConnInfo.setOracleProtocol(editOracleProtocol.Text);
+            tempConnInfo.setOracleServiceName(editOracleService.Text);
+            tempConnInfo.setOracleSID(editOracleSID.Text);
+            
+            //If the connection information is bad, report the error and cancel the function
+            if(!tempConnInfo.isValid())
             {
-                DBTypeNum = "0";
-            }
-            else if (ConnDBType.Equals("MSSQL"))
-            {
-                DBTypeNum = "1";
-            }
-            else
-            {
-                DBTypeNum = "2";
-            }
+                String error = "The entered connection information is invalid. Please make sure all fields are filled and that they are in proper format.";
 
-            if (DBTypeNum.Equals("2"))
-            {
-                if (oracleSName.Equals("") && oracleSID.Equals(""))
+                if (tempConnInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
-                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1);
-                    this.editConnModalPopUp.Hide();
-                    eh.displayError();
-                    return;
+                    error = "The entered connection information is invalid. Please verify that all fields have a value and the value is of proper type."
+                        + " Also, make sure that Oracle SID or Oracle Service Name and Oracle Protocol have been entered.";
                 }
-                if (oracleProtocol.Equals(""))
-                {
-                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1);
-                    this.editConnModalPopUp.Hide();
-                    eh.displayError();
-                    return;
-                }
+
+                ErrorHandler eh = new ErrorHandler(error, errorPanel1);
+                this.editConnModalPopUp.Hide();
+                eh.displayError();
+                return false;
             }
 
-            if (ConnName.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnDBName.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnDBAddress.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnPortNum.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnUser.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnPWD.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
 
-            ConnInfo testConn = new ConnInfo();
-            testConn.setConnectionName(ConnName);
-            testConn.setDatabaseName(ConnDBName);
-            testConn.setDatabaseType((int)Convert.ToInt32(DBTypeNum));
-            testConn.setPassword(ConnPWD);
-            testConn.setPortNumber(ConnPortNum);
-            testConn.setServerAddress(ConnDBAddress);
-            testConn.setUserName(ConnUser);
-            if (DBTypeNum.Equals("2"))
-            {
-                testConn.setOracleProtocol(oracleProtocol);
-                testConn.setOracleServiceName(oracleSName);
-                testConn.setOracleSID(oracleSID);
-            }
+           //Create database for update query and update
+            Database db = new Database();
+
+            db.executeQueryLocal("UPDATE Connection SET name='" + tempConnInfo.getConnectionName() 
+                + "', dbName='" + tempConnInfo.getDatabaseName() + "', userName='" + tempConnInfo.getUserName() 
+                + "', password='" + tempConnInfo.getPassword() + "', port='" + tempConnInfo.getPortNumber() 
+                + "', address='" + tempConnInfo.getServerAddress() + "', type='" + tempConnInfo.getDatabaseType() 
+                + "', protocol='" + tempConnInfo.getOracleProtocol() + "', serviceName='" + tempConnInfo.getOracleServiceName()
+                + "', SID='" + tempConnInfo.getOracleSID() + "' WHERE (ID='" + args + "')");
+
+            Connection conn = new Connection(Convert.ToInt16(args));
+            conn.populateFields();
 
             try
             {
-                Database dbTest = new Database(testConn);
-                DataTable dtTest;
-                if (DBTypeNum.Equals("0"))
+                //Force the connection into a safe state, if it is not
+                if (conn.safeStateConnection())
                 {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                else if (DBTypeNum.Equals("1"))
-                {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
+                    return true;
                 }
                 else
                 {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM user_tables");
+                    return false;
                 }
-
             }
-            catch (ODBC2KMLException ex)
+            catch(ODBC2KMLException err)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                String error = "Unexpected error when trying to ensure the connection was in a safe state.";
+                ErrorHandler eh = new ErrorHandler(error, errorPanel1);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
-                return;
+                return false;
             }
-            Database db = new Database();
-            if (DBTypeNum.Equals("2"))
-            {
-                db.executeQueryLocal("UPDATE Connection SET name='" + ConnName + "', dbName='" + ConnDBName + "', userName='" + ConnUser + "', password='" + ConnPWD + "', port='" + ConnPortNum + "', address='" + ConnDBAddress + "', type='" + DBTypeNum + "', protocol='" + oracleProtocol + "', serviceName='" + oracleSName + "', SID='" + oracleSID + "' WHERE (ID='" + args + "')");
-            }
-            else
-            {
-                db.executeQueryLocal("UPDATE Connection SET name='" + ConnName + "', dbName='" + ConnDBName + "', userName='" + ConnUser + "', password='" + ConnPWD + "', port='" + ConnPortNum + "', address='" + ConnDBAddress + "', type='" + DBTypeNum + "', protocol='', serviceName='', SID='' WHERE (ID='" + args + "')");
-            }
+
             this.editConnModalPopUp.Hide();
+
+            return true;
         }
 
         protected void editSaveAndLoadData(object sender, EventArgs e)
         {
-            Button sendBtn = (Button)sender;
-            String args = sendBtn.CommandArgument.ToString();
-
-            String ConnName = editConnName.Text.ToString();
-            String ConnDBName = editConnDBName.Text.ToString();
-            String ConnDBAddress = editConnDBAddr.Text.ToString();
-            String ConnPortNum = editConnDBPort.Text.ToString();
-            String ConnUser = editConnUser.Text.ToString();
-            String ConnPWD = editConnPass.Text.ToString();
-            String ConnDBType = editConnDBType.SelectedItem.ToString();
-            String oracleProtocol = editOracleProtocol.Text.ToString();
-            String oracleSName = editOracleService.Text.ToString();
-            String oracleSID = editOracleSID.Text.ToString();
-            String DBTypeNum;
-            editConnDBType.SelectedIndex = 0;
-
-            if (ConnDBType.Equals("MySQL"))
+            //save the connection information and redirect
+            if (editAndSaveData(sender, e))
             {
-                DBTypeNum = "0";
+                Response.Redirect("ConnDetails.aspx?ConnID=" + ((Button)sender).CommandArgument.ToString() + "&locked=false");
             }
-            else if (ConnDBType.Equals("MSSQL"))
+            else //Edit and save data will present error
             {
-                DBTypeNum = "1";
-            }
-            else
-            {
-                DBTypeNum = "2";
-            }
-
-            if (DBTypeNum.Equals("2"))
-            {
-                if (oracleSName.Equals("") && oracleSID.Equals(""))
-                {
-                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1);
-                    this.editConnModalPopUp.Hide();
-                    eh.displayError();
-                    return;
-                }
-                if (oracleProtocol.Equals(""))
-                {
-                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1);
-                    this.editConnModalPopUp.Hide();
-                    eh.displayError();
-                    return;
-                }
-            }
-
-            if (ConnName.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
                 return;
             }
-            else if (ConnDBName.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnDBAddress.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnPortNum.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnUser.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            else if (ConnPWD.Equals(""))
-            {
-                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-
-            ConnInfo testConn = new ConnInfo();
-            testConn.setConnectionName(ConnName);
-            testConn.setDatabaseName(ConnDBName);
-            testConn.setDatabaseType((int)Convert.ToInt32(DBTypeNum));
-            testConn.setPassword(ConnPWD);
-            testConn.setPortNumber(ConnPortNum);
-            testConn.setServerAddress(ConnDBAddress);
-            testConn.setUserName(ConnUser);
-            if (DBTypeNum.Equals("2"))
-            {
-                testConn.setOracleProtocol(oracleProtocol);
-                testConn.setOracleServiceName(oracleSName);
-                testConn.setOracleSID(oracleSID);
-            }
-
-            try
-            {
-                Database dbTest = new Database(testConn);
-                DataTable dtTest;
-                if (DBTypeNum.Equals("0"))
-                {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                else if (DBTypeNum.Equals("1"))
-                {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES");
-                }
-                else
-                {
-                    dtTest = dbTest.executeQueryRemote("SELECT TABLE_NAME FROM user_tables");
-                }
-
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                this.editConnModalPopUp.Hide();
-                eh.displayError();
-                return;
-            }
-            Database db = new Database();
-            if (DBTypeNum.Equals("2"))
-            {
-                db.executeQueryLocal("UPDATE Connection SET name='" + ConnName + "', dbName='" + ConnDBName + "', userName='" + ConnUser + "', password='" + ConnPWD + "', port='" + ConnPortNum + "', address='" + ConnDBAddress + "', type='" + DBTypeNum + "', protocol='" + oracleProtocol + "', serviceName='" + oracleSName + "', SID='" + oracleSID + "' WHERE (ID='" + args + "')");
-            }
-            else
-            {
-                db.executeQueryLocal("UPDATE Connection SET name='" + ConnName + "', dbName='" + ConnDBName + "', userName='" + ConnUser + "', password='" + ConnPWD + "', port='" + ConnPortNum + "', address='" + ConnDBAddress + "', type='" + DBTypeNum + "', protocol='', serviceName='', SID='' WHERE (ID='" + args + "')");
-            }
-            Response.Redirect("ConnDetails.aspx?ConnID=" + args + "&locked=false");
         }
 
         protected void editCancel(object sender, EventArgs e)

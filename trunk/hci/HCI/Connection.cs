@@ -105,7 +105,14 @@ namespace HCI
             this.connInfo = connInfo;
         }
 
-        //Add Comments
+        /// <summary>
+        /// Remove all icon and overlay conditions that are no longer valid. If any conditions are removed,
+        /// purge the description. Returns true if the connection has been validated and false if it failed.
+        /// This is only a temporary purge. If the update is canceled, the connection will be restored to its
+        /// previous state. If something unexpected happen, this function will throw an ODBC2KMLException.
+        /// </summary>
+        /// <param name="descriptionBox">TextBox --> The TextBox that holds the description</param>
+        /// <returns>Boolean --> false if the purge failed, true if it succeeded</returns>
         public bool validateConnnection(TextBox descriptionBox)
         {
             //Return false if the conn information is bad
@@ -192,6 +199,13 @@ namespace HCI
             return true;
         }
 
+        /// <summary>
+        /// This function is called when the information is editted from main. This connection forces all
+        /// invalid connection information to be purged from the database. This is a permanent purge.
+        /// If anything unexpected happens, a ODBC2KMLException will be thrown.
+        /// </summary>
+        /// <returns>Boolean --> False if connection cannot be guaranteed to be in a safe state
+        /// true, if the connection is in a safe state</returns>
         public Boolean safeStateConnection()
         {
             //Return false if the conn information is bad
