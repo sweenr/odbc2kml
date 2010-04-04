@@ -120,38 +120,7 @@ namespace HCI
         /// <returns>ArrayList of parsed descriptions</returns>
         public static ArrayList parseDesc(DataTable inTable, String descString, String tableName)
         {
-            //Database DB = new Database();
-            //DataTable mapping = DB.executeQueryLocal("SELECT 'tableName' FROM Mapping WHERE connID=\'" + connID + "\'");
-            //ArrayList tablesToBeSearched = null;
-            //foreach(DataRow row in mapping.Rows)
-            //{
-            //    foreach(DataColumn col in mapping.Columns)
-            //    {
-            //        tablesToBeSearched.Add(row[col].ToString());
-            //    }
-            //}
-            //DB.setConnInfo(ConnInfo.getConnInfo(connID));
-            //int dbType = ConnInfo.getConnInfo(connID).getDatabaseType();
-            //DataTable desc = DB.executeQueryLocal("SELECT 'description' FROM Description WHERE connID=\'" + connID + "\'");
-            //String descString = desc.ToString();
             ArrayList descArray = new ArrayList();
-            //foreach (String tableName in tablesToBeSearched)
-            //{
-            //    DataTable remote = null;
-            //    if(dbType==ConnInfo.MSSQL)
-            //    {
-            //        remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
-            //    }
-            //    else if(dbType==ConnInfo.MYSQL)
-            //    {
-            //        remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
-            //    }
-            //    else if(dbType==ConnInfo.ORACLE)
-            //    {
-            //        remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
-            //    }
-            //    int rowCount=0;
-                //foreach(DataRow row in remote.Rows)
             foreach (DataRow row in inTable.Rows)
             {
                 while (descString.Contains("[URL]"))
@@ -199,16 +168,10 @@ namespace HCI
                     }
                     descString = descString1 + finalURL + descString2;
                 }
-                while(descString.Contains("[TBL /]"))
+                while(descString.Contains("[TBL/]"))
                 {
                     //look at URL for explanation
-        //below has been changed and can be safely deleted if not used in the future
-                    //int tableIndex = descString.IndexOf("[TABLE]");
-                    //int tableEndIndex = descString.IndexOf("[/TABLE]");
-                    //String descString1 = descString.Substring(0,tableIndex);
-                    //String descString2 = descString.Substring(tableEndIndex);
-                    //descString = descString1 + tableName + descString2;
-                    descString = descString.Replace("[TBL /]", tableName);
+                    descString = descString.Replace("[TBL/]", tableName);
                 }
                 while (descString.Contains("[BR/]"))
                 {
@@ -216,57 +179,49 @@ namespace HCI
                 }
      //field parsing is incomplete and commented out to prevent infinite looping until
      //the correct procedure for parsing a FIELD value is identified.
-                //while(descString.Contains("[FIELD]"))
-                //{
-                //    //look at URL for explanation
-                //    int fieldIndex = descString.IndexOf("[FIELD]");
-                //    int fieldEndIndex = descString.IndexOf("[/FIELD]");
-                //    int fieldLength = fieldEndIndex - fieldIndex;
-                //    String descString1 = descString.Substring(0,fieldIndex);
-                //    String descString2 = descString.Substring(fieldEndIndex);
-                //    String fieldString = descString.Substring(fieldIndex, fieldLength);
-                //    if(fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
-                //    {
-                //        int tblIndex = fieldString.IndexOf("[TBL]");
-                //        int tblEndIndex = fieldString.IndexOf("[/TBL]");
-                //        int tblLength = tblEndIndex - tblIndex;
-                //        //String fieldString1 = fieldString.Substring(0,tblIndex);
-                //        //String fieldString2 = fieldString.Substring(tblEndIndex);
-                //        String tblString = fieldString.Substring(tblIndex, tblLength);
-                //        tblString = tblString.Replace("[TBL]", "");
-                //        tblString = tblString.Replace("[/TBL]", "");
-                //        int colIndex = fieldString.IndexOf("[COL]");
-                //        int colEndIndex = fieldString.IndexOf("[/COL]");
-                //        int colLength = colEndIndex - colIndex;
-                //        //String fieldString1 = fieldString.Substring(0,tblIndex);
-                //        //String fieldString2 = fieldString.Substring(tblEndIndex);
-                //        String colString = fieldString.Substring(colIndex, colLength);
-                //        colString = colString.Replace("[COL]", "");
-                //        colString = colString.Replace("[/COL]", "");
-                //        //DataTable remote2;
-                //        //below isn't finished
-                //        //if(dbType == ConnInfo.MSSQL)
-                //        //{
-                //        //        remote2 = DB.executeQueryRemote("SELECT * FROM " + tblString + "WHERE" );
-                //        //}
-                //        //else if(dbType == ConnInfo.MYSQL)
-                //        //{
-                //        //        remote2 = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
-                //        //}
-                //        //else if(dbType == ConnInfo.ORACLE)
-                //        //{
-                //        //        remote2 = DB.executeQueryRemote("SELECT \"" + colString +"\" FROM \"" + tableName + "\" WHERE rownum=" + rowCount);
-                //        //}
-                //    }
-                //    if(fieldString.Contains("[TBL]") && !fieldString.Contains("[COL]"))
-                //    {
-                //        throw new ODBC2KMLException("Description doesn't contain field Column information");
-                //    }
-                //    if(!fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
-                //    {
-                //        throw new ODBC2KMLException("Description doesn't contain field Table information");
-                //    }
-                //}
+                while (descString.Contains("[FIELD]"))
+                {
+                    //look at URL for explanation
+                    int fieldIndex = descString.IndexOf("[FIELD]");
+                    int fieldEndIndex = descString.IndexOf("[/FIELD]");
+                    int fieldLength = fieldEndIndex - fieldIndex;
+                    String descString1 = descString.Substring(0, fieldIndex);
+                    String descString2 = descString.Substring(fieldEndIndex);
+                    String fieldString = descString.Substring(fieldIndex, fieldLength);
+                    while (fieldString.Contains("[BR/]"))
+                    {
+                        fieldString = fieldString.Replace("[BR/]", "");
+                    }
+                    if (fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
+                    {
+                        int tblIndex = fieldString.IndexOf("[TBL]");
+                        int tblEndIndex = fieldString.IndexOf("[/TBL]");
+                        int tblLength = tblEndIndex - tblIndex;
+                        //String fieldString1 = fieldString.Substring(0,tblIndex);
+                        //String fieldString2 = fieldString.Substring(tblEndIndex);
+                        String tblString = fieldString.Substring(tblIndex, tblLength);
+                        tblString = tblString.Replace("[TBL]", "");
+                        tblString = tblString.Replace("[/TBL]", "");
+                        int colIndex = fieldString.IndexOf("[COL]");
+                        int colEndIndex = fieldString.IndexOf("[/COL]");
+                        int colLength = colEndIndex - colIndex;
+                        //String fieldString1 = fieldString.Substring(0,tblIndex);
+                        //String fieldString2 = fieldString.Substring(tblEndIndex);
+                        String colString = fieldString.Substring(colIndex, colLength);
+                        colString = colString.Replace("[COL]", "");
+                        colString = colString.Replace("[/COL]", "");
+                        fieldString = (String)row[colString];
+                        descString = descString1 + fieldString + descString2;
+                    }
+                    if (fieldString.Contains("[TBL]") && !fieldString.Contains("[COL]"))
+                    {
+                        throw new ODBC2KMLException("Description doesn't contain field Column information");
+                    }
+                    if (!fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
+                    {
+                        throw new ODBC2KMLException("Description doesn't contain field Table information");
+                    }
+                }
   //below is commented out because imageGenWebService has been assigned to low priority
                 //while (descString.Contains("[IMAGE]"))
                 //{
@@ -313,19 +268,6 @@ namespace HCI
                 //rowCount++;
                 descArray.Add(descString);
             }
-                //String URLstringFinal = @"<a href='" +
-                //finish above line
-                //String[] tempDescString = descString.Split("[URL]");
-                //String[] URLstring = tempDescString[1].Split("[/URL]");
-                ////tempDescString[1] = URLstring[1];
-                //if (descString.Contains("[TITLE]"))
-                //{
-                //    String[] tempTitle = URLstring[0].Split("[TITLE]");
-                //    String[] tempTitle2 = tempTitle[1].Split("[/TITLE]");
-                //    String title = tempTitle2[0];
-                //}
-            //the above is where the string will be split to begin parsing the description
-            //descArray.Add(descString);
             return descArray;
         }
     }
