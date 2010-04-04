@@ -61,85 +61,85 @@ namespace HCI
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            tempSaveLoc = Server.MapPath("/temp/");
-            fileSaveLoc = Server.MapPath("/icons/");
-
-            if (!IsPostBack)
+            try
             {
-                //No ID, redirect to main
-                if (Request.QueryString.Get("ConnID") == null)
+                tempSaveLoc = Server.MapPath("/temp/");
+                fileSaveLoc = Server.MapPath("/icons/");
+
+                if (!IsPostBack)
                 {
-                    Response.Redirect("Main.aspx");
-                    return;
-                }
-                else
-                {
-                    //Grab and parse connection ID
-                    conn.connID = int.Parse(Request.QueryString.Get("ConnID"));
-                    conn.populateFields();
-
-                    ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
-                    curOverlayCount = -1;
-
-                    odbcAdd.Text = conn.connInfo.getServerAddress();
-                    odbcDName.Text = conn.connInfo.getDatabaseName();
-                    odbcName.Text = conn.connInfo.getConnectionName();
-                    odbcPass.Attributes.Add("value", conn.connInfo.getPassword());
-                    odbcPN.Text = conn.connInfo.getPortNumber();
-                    odbcUser.Text = conn.connInfo.getUserName();
-                    odbcProtocol.Text = conn.connInfo.getOracleProtocol();
-                    odbcSName.Text = conn.connInfo.getOracleServiceName();
-                    odbcSID.Text = conn.connInfo.getOracleSID();
-
-                    //change below
-                    string connectionString = "";
-                    string providerName = "";
-                    //Set drop down box accordingly
-                    if (conn.connInfo.databaseType == ConnInfo.MSSQL)
+                    //No ID, redirect to main
+                    if (Request.QueryString.Get("ConnID") == null)
                     {
-                        odbcDBType.SelectedValue = "SQL";
-                        connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
-                        MSQLTables.ConnectionString = connectionString;
-                        MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
-                    }
-                    else if (conn.connInfo.databaseType == ConnInfo.MYSQL)
-                    {
-                        odbcDBType.SelectedValue = "MySQL";
-                        connectionString = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
-                        providerName = "MySql.Data.MySqlClient";
-                        SQLTables.ConnectionString = connectionString;
-                        SQLTables.ProviderName = providerName;
-                        SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
-                    }
-                    else if (conn.connInfo.databaseType == ConnInfo.ORACLE)
-                    {
-                        odbcDBType.SelectedValue = "Oracle";
-                        connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
-                        providerName = "System.Data.OracleClient";
-                        oracleTables.ConnectionString = connectionString;
-                        oracleTables.ProviderName = providerName;
-                        oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
+                        Response.Redirect("Main.aspx");
+                        return;
                     }
                     else
                     {
-                        throw new ODBC2KMLException("Unknown database type.");
-                    }
+                        //Grab and parse connection ID
+                        conn.connID = int.Parse(Request.QueryString.Get("ConnID"));
+                        conn.populateFields();
 
-                    if (!alreadySetupLists)
-                    {
-                        fillIconLibraryLists();
-                        fillOverlayLibraryLists();
-                        fillIconListFromDatabase();
-                        alreadySetupLists = true;
-                    }
+                        ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
+                        curOverlayCount = -1;
 
-                    //editor insertion
-                    string connectionString_editor = "";
-                    string providerName_editor = "";
+                        odbcAdd.Text = conn.connInfo.getServerAddress();
+                        odbcDName.Text = conn.connInfo.getDatabaseName();
+                        odbcName.Text = conn.connInfo.getConnectionName();
+                        odbcPass.Attributes.Add("value", conn.connInfo.getPassword());
+                        odbcPN.Text = conn.connInfo.getPortNumber();
+                        odbcUser.Text = conn.connInfo.getUserName();
+                        odbcProtocol.Text = conn.connInfo.getOracleProtocol();
+                        odbcSName.Text = conn.connInfo.getOracleServiceName();
+                        odbcSID.Text = conn.connInfo.getOracleSID();
 
-                    //Set Table Datasources & fill in gridview/boxes
-                    try
-                    {
+                        //change below
+                        string connectionString = "";
+                        string providerName = "";
+                        //Set drop down box accordingly
+                        if (conn.connInfo.databaseType == ConnInfo.MSSQL)
+                        {
+                            odbcDBType.SelectedValue = "SQL";
+                            connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
+                            MSQLTables.ConnectionString = connectionString;
+                            MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                        }
+                        else if (conn.connInfo.databaseType == ConnInfo.MYSQL)
+                        {
+                            odbcDBType.SelectedValue = "MySQL";
+                            connectionString = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
+                            providerName = "MySql.Data.MySqlClient";
+                            SQLTables.ConnectionString = connectionString;
+                            SQLTables.ProviderName = providerName;
+                            SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                        }
+                        else if (conn.connInfo.databaseType == ConnInfo.ORACLE)
+                        {
+                            odbcDBType.SelectedValue = "Oracle";
+                            connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
+                            providerName = "System.Data.OracleClient";
+                            oracleTables.ConnectionString = connectionString;
+                            oracleTables.ProviderName = providerName;
+                            oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
+                        }
+                        else
+                        {
+                            throw new ODBC2KMLException("Unknown database type.");
+                        }
+
+                        if (!alreadySetupLists)
+                        {
+                            fillIconLibraryLists();
+                            fillOverlayLibraryLists();
+                            fillIconListFromDatabase();
+                            alreadySetupLists = true;
+                        }
+
+                        //editor insertion
+                        string connectionString_editor = "";
+                        string providerName_editor = "";
+
+                        //Set Table Datasources & fill in gridview/boxes
                         if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                         {
                             connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
@@ -171,48 +171,40 @@ namespace HCI
                         }
 
                         updateTables(conn.connInfo.getDatabaseType());
+
+
+                        descriptionBox.Text = conn.description.getDesc();
+
+                        //show the current mapping box
+                        displayCurrentMapping();
+
+                        sessionSave();
                     }
-                    catch (Exception ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
-
-                    descriptionBox.Text = conn.description.getDesc();
-
-                    //show the current mapping box
-                    displayCurrentMapping();
-
-                    sessionSave();
                 }
-            }
 
-            sessionLoad();
-            ColorPicker1.InitialColor = "-111111";
-            fillIconLibraryPopup();
-            fillIconLibraryPopupRemove();
-            
-            fillOverlayPopupRemove();
+                sessionLoad();
+                ColorPicker1.InitialColor = "-111111";
+                fillIconLibraryPopup();
+                fillIconLibraryPopupRemove();
 
-            try
-            {
+                fillOverlayPopupRemove();
+
                 genIconConditionTable(sender, e);
                 genOverlayConditionTable(sender, e);
+
+                BuildTypeList();
+                sessionSave();
+
+                if (Request.QueryString.Get("locked") == "true")
+                {
+                    LockPage();
+                }
             }
-            catch (Exception ex)
+            catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("Unable to connect to the connection's database.", errorPanel1);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 eh.displayError();
                 return;
-            }
-            
-            BuildTypeList();
-            sessionSave();
-
-            if (Request.QueryString.Get("locked") == "true")
-            {
-                LockPage();
             }
         }
 
@@ -910,7 +902,16 @@ namespace HCI
                     UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
                     modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + icon.getId().ToString();
                     modifyIconConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
-                    genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
+                    try
+                    {
+                        genIconConditionPopup(modifyIconConditionInsidePopupPanel, icon.getId());
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                     modifyIconConditionPopupPanel.Controls.Add(modifyIconConditionInsidePopupPanel);
 
                     Button submitModifyConditionPopup = new Button();
@@ -1109,9 +1110,9 @@ namespace HCI
                     addTableName.DataBind();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
             
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
@@ -1534,7 +1535,16 @@ namespace HCI
                     UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
                     modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlay.getId();
                     modifyOverlayConditionInsidePopupPanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
-                    genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
+                    try
+                    {
+                        genOverlayConditionPopup(modifyOverlayConditionInsidePopupPanel, overlay.getId());
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
                     modifyOverlayConditionPopupPanel.Controls.Add(modifyOverlayConditionInsidePopupPanel);
 
                     Button submitModifyConditionPopup = new Button();
@@ -1732,9 +1742,9 @@ namespace HCI
                     addTableName.DataBind();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
@@ -2089,9 +2099,9 @@ namespace HCI
                     throw new ODBC2KMLException("Unknown database type.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
             string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
             
@@ -2999,9 +3009,9 @@ namespace HCI
                     throw new ODBC2KMLException("Unknown database type.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
             sessionSave();
         }
@@ -3137,9 +3147,9 @@ namespace HCI
                         throw new ODBC2KMLException("Unknown database type.");
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw new ODBC2KMLException("Unable to connect to target database.");
                 }
             }
             else
@@ -3203,9 +3213,9 @@ namespace HCI
                         throw new ODBC2KMLException("Unknown database type.");
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw new ODBC2KMLException("Unable to connect to target database.");
                 }
 
                 //No information about the lat/lon mapping yet
@@ -3267,9 +3277,9 @@ namespace HCI
                     throw new ODBC2KMLException("Unknown database type.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
 
             sessionSave();
@@ -3328,9 +3338,9 @@ namespace HCI
                 llDD.DataBind();
                 llUP.Update();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
 
             LLSepPanel.Visible = true;
@@ -3371,9 +3381,9 @@ namespace HCI
                     llDD.SelectedValue = conn.mapping.getLatFieldName();
                 llUP.Update();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw new ODBC2KMLException("Unable to connect to target database.");
             }
 
             displayCurrentMapping();
@@ -3428,11 +3438,18 @@ namespace HCI
                 throw new ODBC2KMLException("Unknown database type.");
             }
 
-            nameColumnDD.DataSource = temp;
-            nameColumnDD.DataValueField = "COLUMN_NAME";
-            nameColumnDD.DataTextField = "COLUMN_NAME";
-            nameColumnDD.DataBind();
-            nameColumnUP.Update();
+            try
+            {
+                nameColumnDD.DataSource = temp;
+                nameColumnDD.DataValueField = "COLUMN_NAME";
+                nameColumnDD.DataTextField = "COLUMN_NAME";
+                nameColumnDD.DataBind();
+                nameColumnUP.Update();
+            }
+            catch
+            {
+                throw new ODBC2KMLException("Unable to connect to target database.");
+            }
 
             addPlacemarkField.Visible = false;
             tblColumnsPanel.Visible = false;
