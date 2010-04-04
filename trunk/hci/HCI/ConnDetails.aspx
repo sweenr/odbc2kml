@@ -610,7 +610,7 @@ function OnColorPicked(sender){
                                                 <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
                                                     OnClick="dLink_Click" />&nbsp;&nbsp;
                                                 <asp:Button ID="dTable" runat="server" Text="Table" CssClass="descButton" ToolTip="Insert Table"
-                                                    OnClick="dTable_Click" />&nbsp;&nbsp;
+                                                    OnClick="dTableInsert_Click" />&nbsp;&nbsp;
                                                 <asp:Button ID="dField" runat="server" Text="Field" CssClass="descButton" ToolTip="Insert Field"
                                                     OnClick="dField_Click" />&nbsp;&nbsp;
                                                 <asp:Button ID="dBr" runat="server" Text="Newline" CssClass="descButton" ToolTip="Insert Newline"
@@ -660,51 +660,6 @@ function OnColorPicked(sender){
                                                                             <tr>
                                                                                 <td colspan="3">
                                                                                     <asp:Label ID="iLinkError" runat="server" CssClass="descLabelError" Text="Please insert a valid Site Name and URL."
-                                                                                        Visible="false"></asp:Label>
-                                                                                    &nbsp;&nbsp;
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                            <p>
-                                                            </p>
-                                                        </asp:Panel>
-                                                        <asp:Panel ID="dTablePanel" runat="server" Visible="false" CssClass="descPanel">
-                                                            <table class="descPanelTable">
-                                                                <tr>
-                                                                    <td>
-                                                                        <table>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <asp:Label ID="iTableN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
-                                                                                </td>
-                                                                                <td>
-                                                                                    <asp:UpdatePanel ID="UpdateTables" runat="server" UpdateMode="Conditional">
-                                                                                        <ContentTemplate>
-                                                                                            <asp:DropDownList ID="iTableNBox" runat="server">
-                                                                                            </asp:DropDownList>
-                                                                                        </ContentTemplate>
-                                                                                    </asp:UpdatePanel>
-                                                                                </td>
-                                                                                <td>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                </td>
-                                                                                <td>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <asp:Button ID="dTableInsert" runat="server" CssClass="descButton" OnClick="dTableInsert_Click"
-                                                                                        Text="Insert Table" ToolTip="Insert Table" />
-                                                                                    &nbsp;&nbsp;
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="3">
-                                                                                    <asp:Label ID="iTableError" runat="server" CssClass="descLabelError" Text="Please select a valid database table."
                                                                                         Visible="false"></asp:Label>
                                                                                     &nbsp;&nbsp;
                                                                                 </td>

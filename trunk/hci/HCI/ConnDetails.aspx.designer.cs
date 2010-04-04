@@ -104,6 +104,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.SqlDataSource MSQLTables_Mapping;
         
         /// <summary>
+        /// wholePageUpdatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel wholePageUpdatePanel;
+        
+        /// <summary>
         /// homeIcon control.
         /// </summary>
         /// <remarks>
@@ -939,60 +948,6 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label iLinkError;
-        
-        /// <summary>
-        /// dTablePanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel dTablePanel;
-        
-        /// <summary>
-        /// iTableN control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label iTableN;
-        
-        /// <summary>
-        /// UpdateTables control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdateTables;
-        
-        /// <summary>
-        /// iTableNBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList iTableNBox;
-        
-        /// <summary>
-        /// dTableInsert control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button dTableInsert;
-        
-        /// <summary>
-        /// iTableError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label iTableError;
         
         /// <summary>
         /// dFieldPanel control.
