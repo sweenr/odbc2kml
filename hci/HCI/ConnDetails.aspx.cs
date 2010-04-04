@@ -20,20 +20,38 @@ namespace HCI
     public partial class ConnDetails : System.Web.UI.Page
     {
         
+        // Max height for an icon
         public static readonly int height = 128;
+        
+        // Max width for an icon
         public static readonly int width = 128;
-        internal int curOverlayCount = -1;
+        
+        // Absolute path where icons are temporarily stored
         public static String tempSaveLoc = "";
+        
+        // Absolute path where icons are stored
         public static String fileSaveLoc = "";
+        
+        // Relative path to where icons are stored
         public static String relativeFileSaveLoc = @"/icons/";
+        
+        // Bool set to true after initial page load
         internal bool alreadySetupLists = false;
+        
         internal ArrayList iconListAvailableToAdd = new ArrayList();
+        
         internal ArrayList iconListAvailableToRemove = new ArrayList();
+        
         internal ArrayList overlayListAvailableToRemove = new ArrayList();
+        
         internal ArrayList iconList = new ArrayList();
+        
         internal ArrayList overlayList = new ArrayList();
+        
         internal int tempId = -1;
-
+        
+        internal int curOverlayCount = -1;
+        
         internal SqlDataSource MSQLTables = new SqlDataSource();
         internal SqlDataSource SQLTables = new SqlDataSource();
         internal SqlDataSource oracleTables = new SqlDataSource();
@@ -45,6 +63,7 @@ namespace HCI
         {
             tempSaveLoc = Server.MapPath("/temp/");
             fileSaveLoc = Server.MapPath("/icons/");
+
             if (!IsPostBack)
             {
                 //No ID, redirect to main
@@ -202,9 +221,6 @@ namespace HCI
             if (Session["curOverlayCount"] == null)
             {
                 curOverlayCount = -1;
-                tempSaveLoc = Server.MapPath("/temp/");
-                fileSaveLoc = Server.MapPath("/icons/");
-                relativeFileSaveLoc = @"/icons/";
                 tempId = -1;
                 fillIconLibraryLists();
                 fillOverlayLibraryLists();
@@ -215,9 +231,6 @@ namespace HCI
             }
             curOverlayCount = (int)Session["curOverlayCount"];
             conn = (Connection)Session["Connection"];
-            tempSaveLoc = (String)Session["tempSaveLoc"];
-            fileSaveLoc = (String)Session["fileSaveLoc"];
-            relativeFileSaveLoc = (String)Session["relativeFileSaveLoc"];
             alreadySetupLists = (bool)Session["alreadySetupLists"];
             iconList = (ArrayList)Session["iconList"];
             iconListAvailableToAdd = (ArrayList)Session["iconListAvailableToAdd"];
@@ -236,9 +249,6 @@ namespace HCI
             //Session.Clear();
             Session["curOverlayCount"] = curOverlayCount;
             Session["Connection"] = conn;
-            Session["tempSaveLoc"] = tempSaveLoc;
-            Session["fileSaveLoc"] = fileSaveLoc;
-            Session["relativeFileSaveLoc"] = relativeFileSaveLoc;
             Session["alreadySetupLists"] = alreadySetupLists;
             Session["iconList"] = iconList;
             Session["iconListAvailableToAdd"] = iconListAvailableToAdd;
@@ -312,7 +322,7 @@ namespace HCI
             conn.connInfo.databaseName = odbcDName.Text;
             conn.connInfo.userName = odbcUser.Text;
             conn.connInfo.password = odbcPass.Text;
-            conn.connInfo.databaseType = Convert.ToInt32(odbcDBType.SelectedItem.Value);
+            conn.connInfo.databaseType = odbcDBType.SelectedIndex;
             conn.connInfo.oracleProtocol = odbcProtocol.Text;
             conn.connInfo.oracleServiceName = odbcSName.Text;
             conn.connInfo.oracleSID = odbcSID.Text;
@@ -1074,24 +1084,24 @@ namespace HCI
             addTableName.CssClass = "inputDD";
             addTableName.Width = 120;
             addTableName.AutoPostBack = true;
-            ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
+            
             try
             {
-                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
                     addTableName.DataSource = MSQLTables;
                     addTableName.DataTextField = "TABLE_NAME";
                     addTableName.DataValueField = "TABLE_NAME";
                     addTableName.DataBind();
                 }
-                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                 {
                     addTableName.DataSource = SQLTables;
                     addTableName.DataTextField = "TABLE_NAME";
                     addTableName.DataValueField = "TABLE_NAME";
                     addTableName.DataBind();
                 }
-                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
                     addTableName.DataSource = oracleTables;
                     addTableName.DataTextField = "TABLE_NAME";
@@ -1381,7 +1391,10 @@ namespace HCI
             foreach (Icon icon in iconList)
             {
                 if (icon.getId() == iconId)
+                {
                     replaceWithThisIcon = icon;
+                    break;
+                }
             }
             foreach (Icon icon in conn.icons)
             {
@@ -1694,24 +1707,24 @@ namespace HCI
             addTableName.CssClass = "inputDD";
             addTableName.Width = 120;
             addTableName.AutoPostBack = true;
-            ConnInfo connInfo = ConnInfo.getConnInfo(Convert.ToInt32(Request.QueryString.Get("ConnID")));
+            
             try
             {
-                if (connInfo.getDatabaseType() == ConnInfo.MSSQL)
+                if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
                     addTableName.DataSource = MSQLTables;
                     addTableName.DataTextField = "TABLE_NAME";
                     addTableName.DataValueField = "TABLE_NAME";
                     addTableName.DataBind();
                 }
-                else if (connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                 {
                     addTableName.DataSource = SQLTables;
                     addTableName.DataTextField = "TABLE_NAME";
                     addTableName.DataValueField = "TABLE_NAME";
                     addTableName.DataBind();
                 }
-                else if (connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
                     addTableName.DataSource = oracleTables;
                     addTableName.DataTextField = "TABLE_NAME";
@@ -2000,7 +2013,10 @@ namespace HCI
             foreach (Overlay overlay in overlayList)
             {
                 if (overlay.getId() == overlayId)
+                {
                     replaceWithThisOverlay = overlay;
+                    break;
+                }
             }
             foreach (Overlay overlay in conn.overlays)
             {
@@ -2842,7 +2858,6 @@ namespace HCI
 
         protected void saveLatLonInfo()
         {
-            
             Mapping.insertMapping(conn.mapping);
             sessionSave();
         }
