@@ -16,7 +16,7 @@ namespace HCI
 {
     public class Description
     {
-        private string desc;
+        internal string desc;
 
         //Constructors
         public Description()

@@ -96,11 +96,9 @@
   <ItemGroup>
     <Content Include="ConnDetails.aspx" />
     <Content Include="DBTest.aspx" />
-    <Content Include="editor.aspx" />
     <Content Include="graphics\buttonBackH.gif" />
     <Content Include="graphics\connIcon.gif" />
     <Content Include="graphics\buttonBack.gif" />
-    <Content Include="cp_button.png" />
     <Content Include="graphics\deleteH.gif" />
     <Content Include="graphics\homeH.gif" />
     <Content Include="graphics\kmlH.gif" />
@@ -128,8 +126,6 @@
     <Content Include="jquery\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="KMLGenWebSVC.asmx" />
     <Content Include="Main.aspx" />
-    <Content Include="MainPage.aspx" />
-    <Content Include="Modify.aspx" />
     <Content Include="graphics\globe.jpg" />
     <Content Include="icons\1.png" />
     <Content Include="icons\10.png" />
@@ -181,13 +177,8 @@
     <Content Include="icons\forbidden.png" />
     <Content Include="icons\G.png" />
     <Content Include="icons\gas_stations.png" />
-    <Content Include="library.aspx" />
     <Content Include="logoBack.jpg" />
-    <Content Include="odbc.html" />
     <Content Include="odbcStyle.css" />
-    <Content Include="Overlay.aspx" />
-    <Content Include="tableOptions.htm" />
-    <Content Include="Upload.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -210,13 +201,6 @@
       <DependentUpon>DBTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Description.cs" />
-    <Compile Include="editor.aspx.cs">
-      <DependentUpon>editor.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="editor.aspx.designer.cs">
-      <DependentUpon>editor.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="HashStyleComparer.cs" />
     <Compile Include="Icon.cs" />
@@ -233,44 +217,12 @@
     <Compile Include="Main.aspx.designer.cs">
       <DependentUpon>Main.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.aspx.cs">
-      <DependentUpon>MainPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MainPage.aspx.designer.cs">
-      <DependentUpon>MainPage.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Mapping.cs" />
-    <Compile Include="Modify.aspx.cs">
-      <DependentUpon>Modify.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modify.aspx.designer.cs">
-      <DependentUpon>Modify.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="library.aspx.cs">
-      <DependentUpon>library.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="ODBC2KMLException.cs" />
-    <Compile Include="Overlay.aspx.cs">
-      <DependentUpon>Overlay.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Overlay.aspx.designer.cs">
-      <DependentUpon>Overlay.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Overlay.cs" />
     <Compile Include="Placemark.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style.cs" />
-    <Compile Include="Upload.aspx.cs">
-      <DependentUpon>Upload.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Upload.aspx.designer.cs">
-      <DependentUpon>Upload.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="jquery\.svn\all-wcprops" />

@@ -20,46 +20,27 @@ namespace HCI
     public partial class ConnDetails : System.Web.UI.Page
     {
         
-        //private bool fetch;
-        //private String URL;
-        //private Database DB;
-        public const int height = 128;
-        public const int width = 128;
-        private int curOverlayCount = -1;
-        public String tempSaveLoc = "";
-        public String fileSaveLoc = "";
-        public String relativeFileSaveLoc = @"/icons/";
-        public ArrayList validTypes = new ArrayList();
-        private bool alreadySetupLists = false;
-        private ArrayList iconList = new ArrayList();
-        private ArrayList tempIconList = new ArrayList();
-        private ArrayList iconListAvailableToAdd = new ArrayList();
-        private ArrayList iconListAvailableToRemove = new ArrayList();
-        private ArrayList overlayListAvailableToRemove = new ArrayList();
-        //private ArrayList latLongInsert = new ArrayList();
-        //private ArrayList latLongUpdate = new ArrayList();
-        private Mapping mapping = new Mapping();
-        private ArrayList overlayList = new ArrayList();
-        private ArrayList tempOverlayList = new ArrayList();
-        private ArrayList tableNameList = new ArrayList();
-        private SqlDataSource MSQLTables = new SqlDataSource();
-        private SqlDataSource SQLTables = new SqlDataSource();
-        private SqlDataSource oracleTables = new SqlDataSource();
-        private SqlDataSource colDataSource = new SqlDataSource();
-        private int tempId = -1;
-        private String connName = "";
-        private String connDBAddr = "";
-        private String connDBPort = "";
-        private String connDBName = "";
-        private String connUser = "";
-        private String connPassword = "";
-        private String connDBType = "";
-        private String oracleProtocol = "";
-        private String oracleSName = "";
-        private String oracleSID = "";
-        private String DBTypeNum = "";
-        private ArrayList panels = new ArrayList();
+        public static readonly int height = 128;
+        public static readonly int width = 128;
+        internal int curOverlayCount = -1;
+        public static String tempSaveLoc = "";
+        public static String fileSaveLoc = "";
+        public static String relativeFileSaveLoc = @"/icons/";
+        internal bool alreadySetupLists = false;
+        internal ArrayList iconListAvailableToAdd = new ArrayList();
+        internal ArrayList iconListAvailableToRemove = new ArrayList();
+        internal ArrayList overlayListAvailableToRemove = new ArrayList();
+        internal ArrayList iconList = new ArrayList();
+        internal ArrayList overlayList = new ArrayList();
+        internal int tempId = -1;
 
+        internal SqlDataSource MSQLTables = new SqlDataSource();
+        internal SqlDataSource SQLTables = new SqlDataSource();
+        internal SqlDataSource oracleTables = new SqlDataSource();
+        internal SqlDataSource colDataSource = new SqlDataSource();
+
+        internal Connection conn = new Connection();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             tempSaveLoc = Server.MapPath("/temp/");
@@ -74,61 +55,47 @@ namespace HCI
                 }
                 else
                 {
-                    int conID;
                     //Grab and parse connection ID
-                    conID = int.Parse(Request.QueryString.Get("ConnID"));
-                    
-                    //Create ConnInfo object and populate elements
-                    ConnInfo connInfo = ConnInfo.getConnInfo(conID);
+                    conn.connID = int.Parse(Request.QueryString.Get("ConnID"));
+                    conn.populateFields();
+
                     ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
                     curOverlayCount = -1;
 
-                    if (connDBAddr == "")
-                    {
-                        connDBAddr = connInfo.getServerAddress();
-                        connDBName = connInfo.getDatabaseName();
-                        connName = connInfo.getConnectionName();
-                        connPassword = connInfo.getPassword();
-                        connDBPort = connInfo.getPortNumber();
-                        connUser = connInfo.getUserName();
-                        oracleProtocol = connInfo.getOracleProtocol();
-                        oracleSName = connInfo.getOracleServiceName();
-                        oracleSID = connInfo.getOracleSID();
-                        connDBType = Convert.ToString(connInfo.getDatabaseType());
-                    }
-                    odbcAdd.Text = connDBAddr;
-                    odbcDName.Text = connDBName;
-                    odbcName.Text = connName;
-                    odbcPass.Attributes.Add("value", connPassword);
-                    odbcPN.Text = connDBPort;
-                    odbcUser.Text = connUser;
-                    odbcProtocol.Text = oracleProtocol;
-                    odbcSName.Text = oracleSName;
-                    odbcSID.Text = oracleSID;
+                    odbcAdd.Text = conn.connInfo.getServerAddress();
+                    odbcDName.Text = conn.connInfo.getDatabaseName();
+                    odbcName.Text = conn.connInfo.getConnectionName();
+                    odbcPass.Attributes.Add("value", conn.connInfo.getPassword());
+                    odbcPN.Text = conn.connInfo.getPortNumber();
+                    odbcUser.Text = conn.connInfo.getUserName();
+                    odbcProtocol.Text = conn.connInfo.getOracleProtocol();
+                    odbcSName.Text = conn.connInfo.getOracleServiceName();
+                    odbcSID.Text = conn.connInfo.getOracleSID();
+
                     //change below
                     string connectionString = "";
                     string providerName = "";
                     //Set drop down box accordingly
-                    if (Convert.ToInt32(connDBType) == ConnInfo.MSSQL)
+                    if (conn.connInfo.databaseType == ConnInfo.MSSQL)
                     {
                         odbcDBType.SelectedValue = "SQL";
-                        connectionString = "Data Source=" + connInfo.getServerAddress() + ";Initial Catalog=" + connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword();
+                        connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                         MSQLTables.ConnectionString = connectionString;
                         MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
                     }
-                    else if (Convert.ToInt32(connDBType) == ConnInfo.MYSQL)
+                    else if (conn.connInfo.databaseType == ConnInfo.MYSQL)
                     {
                         odbcDBType.SelectedValue = "MySQL";
-                        connectionString = "server=" + connInfo.getServerAddress() + ";User Id=" + connInfo.getUserName() + ";password=" + connInfo.getPassword() + ";Persist Security Info=True;database=" + connInfo.getDatabaseName();
+                        connectionString = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                         providerName = "MySql.Data.MySqlClient";
                         SQLTables.ConnectionString = connectionString;
                         SQLTables.ProviderName = providerName;
                         SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
                     }
-                    else if (Convert.ToInt32(connDBType) == ConnInfo.ORACLE)
+                    else if (conn.connInfo.databaseType == ConnInfo.ORACLE)
                     {
                         odbcDBType.SelectedValue = "Oracle";
-                        connectionString = "Data Source=" + connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo.getUserName() + ";Password=" + connInfo.getPassword() + ";Unicode=True";
+                        connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                         providerName = "System.Data.OracleClient";
                         oracleTables.ConnectionString = connectionString;
                         oracleTables.ProviderName = providerName;
@@ -138,9 +105,6 @@ namespace HCI
                     {
                         odbcDBType.SelectedValue = "SQL";
                     }
-
-                    //Garbage collection
-                    connInfo = null;
 
                     if (!alreadySetupLists)
                     {
@@ -152,9 +116,6 @@ namespace HCI
                     }
 
                     //editor insertion
-                    //Create ConnInfo object and populate elements
-                    ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
                     string connectionString_editor = "";
                     string providerName_editor = "";
 
@@ -162,25 +123,25 @@ namespace HCI
 
                     try
                     {
-                        if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                        if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                         {
-                            connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                            connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                             MSQLTables_Mapping.ConnectionString = connectionString_editor;
                             MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
                         }
 
-                        else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                        else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                         {
-                            connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                            connectionString_editor = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                             providerName_editor = "MySql.Data.MySqlClient";
                             SQLTables_Mapping.ConnectionString = connectionString_editor;
                             SQLTables_Mapping.ProviderName = providerName_editor;
                             SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
                         }
 
-                        else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                        else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                         {
-                            connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                            connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                             providerName_editor = "System.Data.OracleClient";
                             oracleTables_Mapping.ConnectionString = connectionString_editor;
                             oracleTables_Mapping.ProviderName = providerName_editor;
@@ -191,7 +152,7 @@ namespace HCI
                         {
                         }
 
-                        updateTables(connInfo_editor.getDatabaseType());
+                        updateTables(conn.connInfo.getDatabaseType());
                     }
                     catch (Exception ex)
                     {
@@ -200,13 +161,8 @@ namespace HCI
                         return;
                     }
 
-                    //Get Description
-                    Description conDesc_editor = Description.getDescription(conID);
-                    string descBox = conDesc_editor.getDesc();
-                    descriptionBox.Text = descBox;
+                    descriptionBox.Text = conn.description.getDesc();
 
-                    //Garbage collection
-                    connInfo_editor = null;
                     sessionSave();
                 }
             }
@@ -215,7 +171,7 @@ namespace HCI
             ColorPicker1.InitialColor = "-111111";
             fillIconLibraryPopup();
             fillIconLibraryPopupRemove();
-            //fillOverlayPopupAdd();
+            
             fillOverlayPopupRemove();
 
             try
@@ -239,7 +195,7 @@ namespace HCI
             }
         }
 
-        private void sessionLoad()
+        internal void sessionLoad()
         {
             if (Session["curOverlayCount"] == null)
             {
@@ -256,86 +212,50 @@ namespace HCI
                 return;
             }
             curOverlayCount = (int)Session["curOverlayCount"];
+            conn = (Connection)Session["Connection"];
             tempSaveLoc = (String)Session["tempSaveLoc"];
             fileSaveLoc = (String)Session["fileSaveLoc"];
             relativeFileSaveLoc = (String)Session["relativeFileSaveLoc"];
-            validTypes = (ArrayList)Session["validTypes"];
             alreadySetupLists = (bool)Session["alreadySetupLists"];
             iconList = (ArrayList)Session["iconList"];
-            tempIconList = (ArrayList)Session["tempIconList"];
             iconListAvailableToAdd = (ArrayList)Session["iconListAvailableToAdd"];
             iconListAvailableToRemove = (ArrayList)Session["iconListAvailableToRemove"];
             overlayListAvailableToRemove = (ArrayList)Session["overlayListAvailableToRemove"];
-            //latLongInsert = (ArrayList)Session["latLongInsert"];
-            //latLongUpdate = (ArrayList)Session["latLongUpdate"];
-            mapping = (Mapping)Session["mapping"];
             overlayList = (ArrayList)Session["overlayList"];
-            tempOverlayList = (ArrayList)Session["tempOverlayList"];
-            tableNameList = (ArrayList)Session["tableNameList"];
             MSQLTables = (SqlDataSource)Session["MSQLTables"];
             SQLTables = (SqlDataSource)Session["SQLTables"];
             oracleTables = (SqlDataSource)Session["oracleTables"];
             colDataSource = (SqlDataSource)Session["colDataSource"];
             tempId = (int)Session["tempId"];
-            connName = (String)Session["connName"];
-            connDBAddr = (String)Session["connDBAddr"];
-            connDBPort = (String)Session["connDBPort"];
-            connDBName = (String)Session["connDBName"];
-            connUser = (String)Session["connUser"];
-            connPassword = (String)Session["connPassword"];
-            connDBType = (String)Session["connDBType"];
-            oracleProtocol = (String)Session["oracleProtocol"];
-            oracleSName = (String)Session["oracleSName"];
-            oracleSID = (String)Session["oracleSID"];
-            DBTypeNum = (String)Session["DBTypeNum"];
-            panels = (ArrayList)Session["panels"];
         }
 
-        private void sessionSave()
+        internal void sessionSave()
         {
             //Session.Clear();
             Session["curOverlayCount"] = curOverlayCount;
+            Session["Connection"] = conn;
             Session["tempSaveLoc"] = tempSaveLoc;
             Session["fileSaveLoc"] = fileSaveLoc;
             Session["relativeFileSaveLoc"] = relativeFileSaveLoc;
-            Session["validTypes"] = validTypes;
             Session["alreadySetupLists"] = alreadySetupLists;
             Session["iconList"] = iconList;
-            Session["tempIconList"] = tempIconList;
             Session["iconListAvailableToAdd"] = iconListAvailableToAdd;
             Session["iconListAvailableToRemove"] = iconListAvailableToRemove;
             Session["overlayListAvailableToRemove"] = overlayListAvailableToRemove;
-            //Session["latLongInsert"] = latLongInsert;
-            //Session["latLongUpdate"] = latLongUpdate;
-            Session["mapping"] = mapping;
             Session["overlayList"] = overlayList;
-            Session["tempOverlayList"] = tempOverlayList;
-            Session["tableNameList"] = tableNameList;
             Session["MSQLTables"] = MSQLTables;
             Session["SQLTables"] = SQLTables;
             Session["oracleTables"] = oracleTables;
             Session["colDataSource"] = colDataSource;
             Session["tempId"] = tempId;
-            Session["connName"] = connName;
-            Session["connDBAddr"] = connDBAddr;
-            Session["connDBPort"] = connDBPort;
-            Session["connDBName"] = connDBName;
-            Session["connUser"] = connUser;
-            Session["connPassword"] = connPassword;
-            Session["connDBType"] = connDBType;
-            Session["oracleProtocol"] = oracleProtocol;
-            Session["oracleSName"] = oracleSName;
-            Session["oracleSID"] = oracleSID;
-            Session["DBTypeNum"] = DBTypeNum;
-            Session["panels"] = panels;
         }
 
         /// <summary>
         /// The following code is taken from http://www.codeproject.com/KB/aspnet/Enable_Disable_Controls.aspx
-        /// which is distributed under the CPOL license
+        /// which is distributed under the CPOL license.
+        /// Modified for use in ODBC2KML
         /// </summary>
-        /// <param name="status"></param>
-        private void LockPage()
+        internal void LockPage()
         {
             addLatLong.Visible = false;
             descriptionBox.Enabled = false;
@@ -384,103 +304,76 @@ namespace HCI
             unableToConnect.Visible = false;
             connectionEstablished.Visible = false;
 
-            connName = odbcName.Text.ToString();
-            connDBAddr = odbcAdd.Text.ToString();
-            connDBPort = odbcPN.Text.ToString();
-            connDBName = odbcDName.Text.ToString();
-            connUser = odbcUser.Text.ToString();
-            connPassword = odbcPass.Text.ToString();
-            connDBType = odbcDBType.SelectedItem.ToString();
-            oracleProtocol = odbcProtocol.Text.ToString();
-            oracleSName = odbcSName.Text.ToString();
-            oracleSID = odbcSID.Text.ToString();
+            conn.connInfo.connectionName = odbcName.Text;
+            conn.connInfo.serverAddress = odbcAdd.Text;
+            conn.connInfo.portNumber = odbcPN.Text;
+            conn.connInfo.databaseName = odbcDName.Text;
+            conn.connInfo.userName = odbcUser.Text;
+            conn.connInfo.password = odbcPass.Text;
+            conn.connInfo.databaseType = Convert.ToInt32(odbcDBType.SelectedItem.Value);
+            conn.connInfo.oracleProtocol = odbcProtocol.Text;
+            conn.connInfo.oracleServiceName = odbcSName.Text;
+            conn.connInfo.oracleSID = odbcSID.Text;
 
-            ConnInfo cf = new ConnInfo();
+            //ConnInfo cf = new ConnInfo();
 
-            if (connDBType.Equals("MySQL"))
+            if (conn.connInfo.databaseType == ConnInfo.ORACLE)
             {
-                DBTypeNum = "0";
-                cf.setDatabaseType(0);
-            }
-            else if (connDBType.Equals("SQL"))
-            {
-                DBTypeNum = "1";
-                cf.setDatabaseType(1);
-            }
-            else
-            {
-                DBTypeNum = "2";
-                cf.setDatabaseType(2);
-            }
-
-
-            if (DBTypeNum.Equals("2"))
-            {
-                if (!ConnInfo.validSName(oracleSName) && !ConnInfo.validSID(oracleSID))
+                if (!ConnInfo.validSName(conn.connInfo.oracleServiceName) && !ConnInfo.validSID(conn.connInfo.oracleSID))
                 {
                     invalidConnInfo.Visible = true;
                     return;
                 }
-                if (!ConnInfo.validProtocol(oracleProtocol))
+                if (!ConnInfo.validProtocol(conn.connInfo.oracleProtocol))
                 {
                     invalidConnInfo.Visible = true;
                     return;
                 }
-                cf.setOracleProtocol(oracleProtocol);
-                cf.setOracleServiceName(oracleSName);
-                cf.setOracleSID(oracleSID);
             }
 
-            if (!ConnInfo.validConnName(connName))
+            if (!ConnInfo.validConnName(conn.connInfo.connectionName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (!ConnInfo.validDBAddress(connDBAddr))
+            else if (!ConnInfo.validDBAddress(conn.connInfo.serverAddress))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (!ConnInfo.validPort(connDBPort))
+            else if (!ConnInfo.validPort(conn.connInfo.portNumber))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (!ConnInfo.validConnName(connDBName))
+            else if (!ConnInfo.validDBName(conn.connInfo.databaseName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (!ConnInfo.validUserName(connUser))
+            else if (!ConnInfo.validUserName(conn.connInfo.userName))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-            else if (!ConnInfo.validPassword(connPassword))
+            else if (!ConnInfo.validPassword(conn.connInfo.password))
             {
                 invalidConnInfo.Visible = true;
                 return;
             }
-
-            //Set Conn Info information
-            cf.setConnectionName(connName);
-            cf.setServerAddress(connDBAddr);
-            cf.setPortNumber(connDBPort);
-            cf.setDatabaseName(connDBName);
-            cf.setUserName(connUser);
-            cf.setPassword(connPassword);
 
             String connectionString = "";
 
             //Database needed to see if values need to be purged
-            Database purgeDB = new Database(cf);
+            Database purgeDB = new Database(conn.connInfo);
             
             //DataTable to hold all table names and 
-            //dataset to hold all column names for each table in the datatable
             DataTable purgeDT;
+            
+            //dataset to hold all column names for each table in the datatable
             DataSet newTableColumnRelation = new DataSet();
 
-            if (cf.getDatabaseType() == ConnInfo.MSSQL)
+            if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
             {
                 //MSSQL specific call
                 purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'");
@@ -495,7 +388,7 @@ namespace HCI
                     newTableColumnRelation.Tables.Add(purgeDC);
                 }
             }
-            else if (cf.getDatabaseType() == ConnInfo.MYSQL)
+            else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
             {
                 //MySQL specific call
                 purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'");
@@ -510,7 +403,7 @@ namespace HCI
                     newTableColumnRelation.Tables.Add(purgeDC);
                 }
             }
-            else if (cf.getDatabaseType() == ConnInfo.ORACLE)
+            else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
             {
                 //Oracle specific call
                 purgeDT = purgeDB.executeQueryRemote("select TABLE_NAME from user_tables");
@@ -531,64 +424,20 @@ namespace HCI
             }
 
             //Check variable to allow for easy breaks out of loops
-            //Also, used to check if no column or table was found
             Boolean breakOut = false;
 
             //Check to know if the description should be purged
             Boolean purgeDescription = false;
 
-            //For each icon in icon list
-            /*  foreach (Icon i in iconList)
-              {
-                  //Get the icon's conditions
-                  for (int count = 0; count < i.getConditions().Count; count++)
-                  {
-                      //For each table name, see if the conditions table name matches
-                      foreach (DataRow row in purgeDT.Rows)
-                      {
-                          String rowName = row["TABLE_NAME"].ToString().ToLower();
-                          //Do table names match?
-                          if (rowName.Equals(((Condition)i.getConditions()[count]).getTableName().ToLower()))
-                          {
-                              //Ok, check the column names
-                              foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
-                              {
-                                  String columnName = row1["COLUMN_NAME"].ToString().ToLower();
-                                  if (columnName.Equals(((Condition)i.getConditions()[count]).getFieldName().ToLower()))
-                                  {
-                                      breakOut = true;
-                                      break;
-                                  }
-                              } //End for each
-
-                              if (!breakOut) //Didn't break out, purge condition
-                              {
-                                  i.removeCondition(count);
-                                  purgeDescription = true;
-                                  count--;
-                              }
-                          }
-
-                          if (breakOut) //If a column and row has been matched, break out and proceed with next condition
-                              break;
-                      } //End for each
-
-                      //Never found a match table, purge it
-                      if (!breakOut)
-                      {
-                          i.removeCondition(count);
-                          purgeDescription = true;
-                          count--;
-                      }
-
-                  } //End for each
-              } //End for each*/
+            //Purge if the table never matches
+            Boolean tableMatch = false;
 
             //Reset Variables
             breakOut = false;
+            tableMatch = false;
 
             //For each icon in temp icon list
-            foreach (Icon i in tempIconList)
+            foreach (Icon i in conn.icons)
             {
                 //Get the icon's conditions
                 for (int count = 0; count < i.getConditions().Count; count++ )
@@ -596,17 +445,16 @@ namespace HCI
                     //For each table name, see if the conditions table name matches
                     foreach (DataRow row in purgeDT.Rows)
                     {
-                        String tableName = row["TABLE_NAME"].ToString().ToLower();
-
                         //Do table names match?
-                        if (tableName.Equals(((Condition)i.getConditions()[count]).getTableName().ToLower()))
+                        if (row["TABLE_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getTableName()))
                         {
+                            //Found a table match
+                            tableMatch = true;
+
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
-                                String columnName = row1["COLUMN_NAME"].ToString().ToLower();
-
-                                if (columnName.Equals(((Condition)i.getConditions()[count]).getFieldName().ToLower()))
+                                if (row1["COLUMN_NAME"].ToString().Equals(((Condition)i.getConditions()[count]).getFieldName()))
                                 {
                                     breakOut = true;
                                     break;
@@ -626,73 +474,26 @@ namespace HCI
                     } //End for each
 
                     //Never found a match table, purge it
-                    if (!breakOut)
+                    if (!tableMatch)
                     {
                         i.removeCondition(count);
                         purgeDescription = true;
                         count--;
                     }
 
-                    breakOut = false;
-
                 } //End for each
             } //End for each
 
             //Reset Variables
             breakOut = false;
-
-            //For each overlay in overlay list
-            /* foreach (Overlay o in overlayList)
-             {
-                 //Get the icon's conditions
-                 for (int count = 0; count < o.getConditions().Count; count++ )
-                 {
-                     //For each table name, see if the conditions table name matches
-                     foreach (DataRow row in purgeDT.Rows)
-                     {
-                         String rowName = row["TABLE_NAME"].ToString().ToLower();
-                         //Do table names match?
-                         if (rowName.Equals(((Condition)o.getConditions()[count]).getTableName().ToLower()))
-                         {
-                             //Ok, check the column names
-                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
-                             {
-                                 String columnName = row1["COLUMN_NAME"].ToString().ToLower();
-                                 if (columnName.Equals(((Condition)o.getConditions()[count]).getFieldName().ToLower()))
-                                 {
-                                     breakOut = true;
-                                     break;
-                                 }
-                             } //End for each
-
-                             if (!breakOut) //Didn't break out, purge condition
-                             {
-                                 o.removeCondition(count);
-                                 purgeDescription = true;
-                                 count--;
-                             }
-                         }
-
-                         if (breakOut) //If a column and row has been matched, break out and proceed with next condition
-                             break;
-                     } //End for each
-
-                     //Never found a match table, purge it
-                     if (!breakOut)
-                     {
-                         o.removeCondition(count);
-                         purgeDescription = true;
-                         count--;
-                     }
-
-                 } //End for each
-             } //End for each*/
+            tableMatch = false;
 
             //Reset Variables
             breakOut = false;
+            tableMatch = false;
 
             //For each overlay in temp overlay list
-            foreach (Overlay o in tempOverlayList)
+            foreach (Overlay o in conn.overlays)
             {
                 //Get the icon's conditions
                 for (int count = 0; count < o.getConditions().Count; count++ )
@@ -700,17 +501,16 @@ namespace HCI
                     //For each table name, see if the conditions table name matches
                     foreach (DataRow row in purgeDT.Rows)
                     {
-                        String rowName = row["TABLE_NAME"].ToString().ToLower();
-
                         //Do table names match?
-                        if (rowName.Equals(((Condition)o.getConditions()[count]).getTableName().ToLower()))
+                        if (row["TABLE_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getTableName()))
                         {
+                            //Found a table match
+                            tableMatch = true;
+
                             //Ok, check the column names
                             foreach (DataRow row1 in newTableColumnRelation.Tables[row["TABLE_NAME"].ToString()].Rows)
                             {
-                                String columnName = row1["COLUMN_NAME"].ToString().ToLower();
-
-                                if (columnName.Equals(((Condition)o.getConditions()[count]).getFieldName().ToLower()))
+                                if (row1["COLUMN_NAME"].ToString().Equals(((Condition)o.getConditions()[count]).getFieldName()))
                                 {
                                     breakOut = true;
                                     break;
@@ -730,15 +530,12 @@ namespace HCI
                     } //End for each
 
                     //Never found a match table, purge it
-                    if (!breakOut)
+                    if (!tableMatch)
                     {
                         o.removeCondition(count);
                         purgeDescription = true;
                         count--;
                     }
-
-                    //Reset flag
-                    breakOut = false;
 
                 } //End for each
             } //End for each
@@ -753,27 +550,27 @@ namespace HCI
             //Populate the grid
             try
             {
-                if (cf.getDatabaseType() == ConnInfo.MSSQL)
+                if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
-                    connectionString = "Data Source=" + cf.getServerAddress() + ";Initial Catalog=" + cf.getDatabaseName() + ";Persist Security Info=True;User Id=" + cf.getUserName() + ";Password=" + cf.getPassword();
+                    connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                     MSQLTables_Mapping.ConnectionString = connectionString;
                     MSQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
                 }
 
-                else if (cf.getDatabaseType() == ConnInfo.MYSQL)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                 {
                     String providerName = "";
-                    connectionString = "server=" + cf.getServerAddress() + ";User Id=" + cf.getUserName() + ";password=" + cf.getPassword() + ";Persist Security Info=True;database=" + cf.getDatabaseName();
+                    connectionString = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                     providerName = "MySql.Data.MySqlClient";
                     SQLTables_Mapping.ConnectionString = connectionString;
                     SQLTables_Mapping.ProviderName = providerName;
                     SQLTables_Mapping.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
                 }
 
-                else if (cf.getDatabaseType() == ConnInfo.ORACLE)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
                     String providerName = "";
-                    connectionString = "Data Source=" + cf.getServerAddress() + ";Persist Security Info=True;User ID=" + cf.getUserName() + ";Password=" + cf.getPassword() + ";Unicode=True";
+                    connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                     providerName = "System.Data.OracleClient";
                     oracleTables_Mapping.ConnectionString = connectionString;
                     oracleTables_Mapping.ProviderName = providerName;
@@ -784,7 +581,7 @@ namespace HCI
                 {
                 }
 
-                updateTables(cf.getDatabaseType());
+                updateTables(conn.connInfo.getDatabaseType());
             }
             catch (Exception ex)
             {
@@ -803,63 +600,13 @@ namespace HCI
             overlayList.Clear();
             overlayListAvailableToRemove.Clear();
 
-            Database db = new Database();
-            DataTable dt;
-            try
+            foreach (Overlay o in conn.overlays)
             {
-                dt = db.executeQueryLocal("SELECT ID,color FROM Overlay WHERE connID=" + Request.QueryString.Get("ConnID"));
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                eh.displayError();
-                return;
+                overlayList.Add(new Overlay(o));
+                overlayListAvailableToRemove.Add(new Overlay(o));
             }
 
-            foreach (DataRow dr in dt.Rows)
-            {
-                string overColor = dr["color"].ToString();
-                string overID = dr["ID"].ToString();
-
-                Overlay over = new Overlay();
-                over.setColor(overColor);
-                over.setId(overID);
-
-                Database db2 = new Database();
-                DataTable dt2;
-                try
-                {
-                    dt2 = db2.executeQueryLocal("SELECT * FROM OverlayCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND overlayID = " + overID);
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-                foreach (DataRow dr2 in dt2.Rows)
-                {
-                    Condition condition = new Condition();
-                    condition.setId(Convert.ToInt32(dr2["ID"].ToString()));
-                    condition.setFieldName(dr2["fieldName"].ToString());
-                    condition.setTableName(dr2["tableName"].ToString());
-                    condition.setLowerBound(dr2["lowerBound"].ToString());
-                    condition.setUpperBound(dr2["upperBound"].ToString());
-                    if (dr2["lowerOperator"].ToString() != "")
-                        condition.setLowerOperator(Convert.ToInt32(dr2["lowerOperator"].ToString()));
-                    else
-                        condition.setLowerOperator(0);
-
-                    if (dr2["upperOperator"].ToString() != "")
-                        condition.setUpperOperator(Convert.ToInt32(dr2["upperOperator"].ToString()));
-                    else
-                        condition.setUpperOperator(0);
-                    over.setConditions(condition);
-                }
-                overlayList.Add(new Overlay(over));
-                tempOverlayList.Add(new Overlay(over));
-                overlayListAvailableToRemove.Add(over);
-            }
+            sessionSave();
         }
 
         protected void addSingleIconToLib(String path)
@@ -897,7 +644,6 @@ namespace HCI
                 icon.setLocation(iconLoc);
                 iconListAvailableToAdd.Add(icon);
             }
-            //fillIconLibraryPopup();
 
             Database db2 = new Database();
             DataTable dt2;
@@ -911,7 +657,6 @@ namespace HCI
                 icon.setLocation(iconLoc);
                 iconListAvailableToRemove.Add(icon);
             }
-            //fillIconLibraryPopupRemove();
         }
 
         protected void fillOverlayPopupRemove()
@@ -1061,7 +806,6 @@ namespace HCI
             Icon iconSaved = new Icon();
             icn.setId(args);
 
-            int i = 0;
             foreach (Icon icon in iconListAvailableToAdd)
             {
                 if (icon.getId().Equals(icn.getId()))
@@ -1071,18 +815,15 @@ namespace HCI
                     iconListAvailableToAdd.Remove(icon);
                     iconListAvailableToRemove.Add(new Icon(iconSaved));
                     iconList.Add(new Icon(iconSaved));
-                    tempIconList.Add(new Icon(iconSaved));
+                    conn.icons.Add(new Icon(iconSaved));
                     this.fillIconLibraryPopup();
                     this.fillIconLibraryPopupRemove();
                     this.genIconConditionTable(sender, e);
                     break;
                 }
-                i += 1;
             }
 
             sessionSave();
-            //Database db = new Database();
-            //db.executeQueryLocal("INSERT INTO ICON (ID, connID) VALUES ('" + args + "', '" + Request.QueryString.Get("ConnID") + "')");
         }
 
         //Removes an icon assocaiated with a connection and all conditions associated with it
@@ -1095,7 +836,6 @@ namespace HCI
             Icon iconSaved = new Icon();
             icn.setId(args);
 
-            int i = 0;
             foreach (Icon icon in iconList)
             {
                 if (icon.getId().Equals(icn.getId()))
@@ -1103,18 +843,15 @@ namespace HCI
                     iconList.Remove(icon);
                     break;
                 }
-                i += 1;
             }
-            foreach (Icon icon in tempIconList)
+            foreach (Icon icon in conn.icons)
             {
                 if (icon.getId().Equals(icn.getId()))
                 {
-                    tempIconList.Remove(icon);
+                    conn.icons.Remove(icon);
                     break;
                 }
-                i += 1;
             }
-            i = 0;
             foreach (Icon icon in iconListAvailableToRemove)
             {
                 
@@ -1143,7 +880,6 @@ namespace HCI
                     this.genIconConditionTable(sender, e);
                     break;
                 }
-                i += 1;
             }
             sessionSave();
         }
@@ -1177,18 +913,15 @@ namespace HCI
                 this.AddOverlayPopupExtender.Hide();
                 ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
                 eh.displayError();
-                //return;
-                //overColorExists.Visible = true;
                 
             }
             else
             {
-                //overColorExists.Visible = false;
                 ovr.setId(curOverlayCount.ToString());
                 curOverlayCount -= 1;
                 overlayListAvailableToRemove.Add(ovr);
                 overlayList.Add(new Overlay(ovr));
-                tempOverlayList.Add(new Overlay(ovr));
+                conn.overlays.Add(new Overlay(ovr));
                 this.fillOverlayPopupRemove();
                 this.genOverlayConditionTable(sender, e);
             }
@@ -1203,7 +936,6 @@ namespace HCI
             Overlay ovr = new Overlay();
             ovr.setColor(args);
 
-            int i = 0;
             foreach (Overlay over in overlayList)
             {
                 if (over.getColor().Equals(ovr.getColor()))
@@ -1211,18 +943,15 @@ namespace HCI
                     overlayList.Remove(over);
                     break;
                 }
-                i += 1;
             }
-            foreach (Overlay over in tempOverlayList)
+            foreach (Overlay over in conn.overlays)
             {
                 if (over.getColor().Equals(ovr.getColor()))
                 {
-                    tempOverlayList.Remove(over);
+                    conn.overlays.Remove(over);
                     break;
                 }
-                i += 1;
             }
-            i = 0;
             foreach (Overlay over in overlayListAvailableToRemove)
             {
 
@@ -1233,7 +962,6 @@ namespace HCI
                     this.genOverlayConditionTable(sender, e);
                     break;
                 }
-                i += 1;
             }
             sessionSave();
         }
@@ -1241,56 +969,10 @@ namespace HCI
         protected void fillIconListFromDatabase()
         {
             iconList.Clear();
-            Database db = new Database();
-            DataTable dt;
             
-            dt = db.executeQueryLocal("SELECT DISTINCT IconCondition.iconID, IconLibrary.location FROM IconCondition, IconLibrary WHERE IconCondition.connID = " + Request.QueryString.Get("ConnID") + " AND IconCondition.iconID = IconLibrary.ID");
-            
-            foreach (DataRow dr in dt.Rows)
+            foreach (Icon i in conn.icons)
             {
-                string iconId = dr["iconID"].ToString();
-                string iconLoc = dr["location"].ToString();
-                Icon icon = new Icon();
-                icon.setId(iconId);
-                icon.setLocation(iconLoc);
-
-                Database db2 = new Database();
-                DataTable dt2;
-                dt2 = db2.executeQueryLocal("SELECT * FROM IconCondition WHERE connID = " + Request.QueryString.Get("ConnID") + " AND iconID = " + iconId);
-                foreach (DataRow dr2 in dt2.Rows)
-                {
-                    Condition condition = new Condition();
-                    condition.setId(Convert.ToInt32(dr2["ID"]));
-                    condition.setFieldName(dr2["fieldName"].ToString());
-                    condition.setTableName(dr2["tableName"].ToString());
-                    condition.setLowerBound(dr2["lowerBound"].ToString());
-                    condition.setUpperBound(dr2["upperBound"].ToString());
-                    if (dr2["lowerOperator"].ToString() != "")
-                        condition.setLowerOperator(Convert.ToInt32(dr2["lowerOperator"].ToString()));
-                    else
-                        condition.setLowerOperator(0);
-
-                    if (dr2["upperOperator"].ToString() != "")
-                        condition.setUpperOperator(Convert.ToInt32(dr2["upperOperator"].ToString()));
-                    else
-                        condition.setUpperOperator(0);
-                    icon.setConditions(condition);
-                }
-                iconList.Add(new Icon(icon));
-                tempIconList.Add(new Icon(icon));
-            }
-            Database db3 = new Database();
-            DataTable dt3;
-            dt3 = db3.executeQueryLocal("SELECT IX.ID, IL.location FROM Icon AS IX INNER JOIN IconLibrary AS IL ON IX.ID = IL.ID WHERE (NOT EXISTS (SELECT DISTINCT iconID FROM IconCondition AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + ") AND (iconID = IX.ID))) AND (IX.connID = " + Request.QueryString.Get("ConnID") + ")");
-            foreach (DataRow dr in dt3.Rows)
-            {
-                string iconId = dr["ID"].ToString();
-                string iconLoc = dr["location"].ToString();
-                Icon icon = new Icon();
-                icon.setId(iconId);
-                icon.setLocation(iconLoc);
-                iconList.Add(new Icon(icon));
-                tempIconList.Add(new Icon(icon));
+                iconList.Add(new Icon(i));
             }
             sessionSave();
         }
@@ -1298,7 +980,7 @@ namespace HCI
         protected void genIconConditionTable(object sender, EventArgs e)
         {
             IconConditionPanel.Controls.Clear();
-            if (tempIconList.Count == 0)  // No images set for the condition. Display a simple table stating such.
+            if (conn.icons.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
@@ -1318,7 +1000,7 @@ namespace HCI
             }
             else
             {
-                foreach (Icon icon in tempIconList)
+                foreach (Icon icon in conn.icons)
                 {
                     IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
@@ -1420,8 +1102,6 @@ namespace HCI
                     Panel modifyIconConditionPopupPanel = new Panel();
                     modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                     modifyIconConditionPopupPanel.Style["display"] = "none";
-                    panels.Add("modifyIconConditionPopupPanel" + icon.getId());
-                    sessionSave();
                     modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
                     UpdatePanel modifyIconConditionInsidePopupPanel = new UpdatePanel();
                     modifyIconConditionInsidePopupPanel.ID = "modifyIconConditionInsidePopupPanel" + icon.getId().ToString();
@@ -1451,8 +1131,7 @@ namespace HCI
                         mpe.DropShadow = true;
                         mpe.PopupControlID = modifyIconConditionPopupPanel.ID.ToString();
                         mpe.TargetControlID = modifyButton.ID.ToString();
-                        //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                        //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
+                        
                         IconConditionPanel.Controls.Add(mpe);
 
                         IconConditionPanel.Controls.Add(modifyIconConditionPopupPanel);
@@ -1473,7 +1152,6 @@ namespace HCI
 
         protected void genIconConditionPopup(UpdatePanel modifyIconConditionInsidePopupPanel, String args)
         {
-            //modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Clear();
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
@@ -1517,7 +1195,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             int i = 0;
             
-            foreach (Icon icon in tempIconList)
+            foreach (Icon icon in conn.icons)
             {
                 if (icon.getId() != args)
                     continue;
@@ -1631,7 +1309,7 @@ namespace HCI
             {
                 throw ex;
             }
-            //addTableName.Items.Insert(0, "");
+            
             addTableName.SelectedIndexChanged += new EventHandler(addTableName_SelectedIndexChanged);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
@@ -1641,7 +1319,6 @@ namespace HCI
             addFieldName.ID = "addIconField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 120;
-            //addFieldName.AutoPostBack = true;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1676,7 +1353,6 @@ namespace HCI
             addConditionButton.CssClass = "button";
             addConditionButton.Click += new EventHandler(addConditionToIcon);
             addConditionButton.CommandArgument = args;
-            //addConditionButton.CommandArgument = addLowerBound.Text.ToString() + "|" + addLowerOperator.SelectedItem.Text.ToString() + "|" + addTableName.Text.ToString() + "|" + addFieldName.Text.ToString() + "|" + addUpperOperator.SelectedItem.Text.ToString() + "|" + addUpperBound.Text.ToString() + "|" + args;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addConditionButton);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1697,7 +1373,7 @@ namespace HCI
             {
                 string iconId = btn.CommandArgument.Substring(0, lastSpace);
                 string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
-                foreach (Icon icon in tempIconList)
+                foreach (Icon icon in conn.icons)
                 {
                     if (icon.getId() == iconId)
                     {
@@ -1746,21 +1422,8 @@ namespace HCI
             //Verify that the bounds are of the same datatype as the column value
             if (conditionErrors == "")
             {
-                //Create ConnInfo 
-                ConnInfo testInfo = new ConnInfo();
-                testInfo.setConnectionName(connName);
-                testInfo.setDatabaseName(connDBName);
-                testInfo.setDatabaseType(Int16.Parse(connDBType));
-                testInfo.setOracleProtocol(oracleProtocol);
-                testInfo.setOracleServiceName(oracleSName);
-                testInfo.setOracleSID(oracleSID);
-                testInfo.setPassword(connPassword);
-                testInfo.setPortNumber(connDBPort);
-                testInfo.setServerAddress(connDBAddr);
-                testInfo.setUserName(connUser);
-
                 //Create database based on the connInfo
-                Database testDB = new Database(testInfo);
+                Database testDB = new Database(conn.connInfo);
 
                 //Create the datatable to parse through
                 DataTable testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
@@ -1849,7 +1512,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 genIconConditionTable(sender, e);
                                 genOverlayConditionTable(sender, e);
-                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1);
+                                ErrorHandler eh = new ErrorHandler(conditionErrors, errorPanel1,"MPE_"+iconId);
                                 eh.displayError();
                                 return;
                             }
@@ -1905,7 +1568,7 @@ namespace HCI
                 }
             }
 
-            foreach (Icon icon in tempIconList)
+            foreach (Icon icon in conn.icons)
             {
                 if (icon.getId() == iconId)
                 {
@@ -1926,7 +1589,7 @@ namespace HCI
                 if (icon.getId() == iconId)
                     replaceWithThisIcon = icon;
             }
-            foreach (Icon icon in tempIconList)
+            foreach (Icon icon in conn.icons)
             {
                 if (icon.getId() == iconId)
                     icon.setConditions(replaceWithThisIcon.getDeepCopyOfConditions());
@@ -1938,7 +1601,7 @@ namespace HCI
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
             OverlayConditionPanel.Controls.Clear();
-            if (tempOverlayList.Count == 0)  // No images set for the condition. Display a simple table stating such.
+            if (conn.overlays.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
@@ -1958,7 +1621,7 @@ namespace HCI
             }
             else
             {
-                foreach (Overlay overlay in tempOverlayList)
+                foreach (Overlay overlay in conn.overlays)
                 {
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
@@ -2060,8 +1723,6 @@ namespace HCI
                     Panel modifyOverlayConditionPopupPanel = new Panel();
                     modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
                     modifyOverlayConditionPopupPanel.Style["display"] = "none";
-                    panels.Add("modifyOverlayConditionPopupPanel" + overlay.getId());
-                    sessionSave();
                     modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
                     UpdatePanel modifyOverlayConditionInsidePopupPanel = new UpdatePanel();
                     modifyOverlayConditionInsidePopupPanel.ID = "modifyOverlayConditionInsidePopupPanel" + overlay.getId();
@@ -2091,8 +1752,6 @@ namespace HCI
                         mpe.DropShadow = true;
                         mpe.PopupControlID = modifyOverlayConditionPopupPanel.ID.ToString();
                         mpe.TargetControlID = modifyButton.ID.ToString();
-                        //mpe.OkControlID = submitModifyConditionPopup.ID.ToString();
-                        //mpe.CancelControlID = cancelModifyConditionPopup.ID.ToString();
                         OverlayConditionPanel.Controls.Add(mpe);
 
                         OverlayConditionPanel.Controls.Add(modifyOverlayConditionPopupPanel);
@@ -2113,7 +1772,6 @@ namespace HCI
 
         protected void genOverlayConditionPopup(UpdatePanel modifyOverlayConditionInsidePopupPanel, String args)
         {
-            //modifyOverlayConditionInsidePopupPanel.Controls.Clear();
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<span class=\"connectionStyle\">&nbsp;Modify Condition</span>\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"5\" class=\"mainBox2\">\n"));
@@ -2157,7 +1815,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             int i = 0;
 
-            foreach (Overlay overlay in tempOverlayList)
+            foreach (Overlay overlay in conn.overlays)
             {
                 if (overlay.getId() != args)
                     continue;
@@ -2280,7 +1938,6 @@ namespace HCI
             addFieldName.ID = "addOverlayField" + args;
             addFieldName.CssClass = "inputDD";
             addFieldName.Width = 120;
-            //addFieldName.AutoPostBack = true;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -2315,7 +1972,6 @@ namespace HCI
             addConditionButton.CssClass = "button";
             addConditionButton.Click += new EventHandler(addConditionToOverlay);
             addConditionButton.CommandArgument = args;
-            //addConditionButton.CommandArgument = addLowerBound.Text.ToString() + "|" + addLowerOperator.SelectedItem.Text.ToString() + "|" + addTableName.Text.ToString() + "|" + addFieldName.Text.ToString() + "|" + addUpperOperator.SelectedItem.Text.ToString() + "|" + addUpperBound.Text.ToString() + "|" + args;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addConditionButton);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -2337,7 +1993,7 @@ namespace HCI
             {
                 string overlayId = btn.CommandArgument.Substring(0, lastSpace);
                 string conditionId = btn.CommandArgument.Substring(lastSpace + 1);
-                foreach (Overlay overlay in tempOverlayList)
+                foreach (Overlay overlay in conn.overlays)
                 {
                     if (overlay.getId() == overlayId)
                     {
@@ -2385,21 +2041,8 @@ namespace HCI
             //Verify that the bounds are of the same datatype as the column value
             if (conditionErrors == "")
             {
-                //Create ConnInfo 
-                ConnInfo testInfo = new ConnInfo();
-                testInfo.setConnectionName(connName);
-                testInfo.setDatabaseName(connDBName);
-                testInfo.setDatabaseType(Int16.Parse(connDBType));
-                testInfo.setOracleProtocol(oracleProtocol);
-                testInfo.setOracleServiceName(oracleSName);
-                testInfo.setOracleSID(oracleSID);
-                testInfo.setPassword(connPassword);
-                testInfo.setPortNumber(connDBPort);
-                testInfo.setServerAddress(connDBAddr);
-                testInfo.setUserName(connUser);
-
                 //Create database based on the connInfo
-                Database testDB = new Database(testInfo);
+                Database testDB = new Database(conn.connInfo);
 
                 //Create the datatable to parse through
                 DataTable testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
@@ -2544,7 +2187,7 @@ namespace HCI
                 }
             }
 
-            foreach (Overlay overlay in tempOverlayList)
+            foreach (Overlay overlay in conn.overlays)
             {
                 if (overlay.getId() == overlayId)
                 {
@@ -2565,7 +2208,7 @@ namespace HCI
                 if (overlay.getId() == overlayId)
                     replaceWithThisOverlay = overlay;
             }
-            foreach (Overlay overlay in tempOverlayList)
+            foreach (Overlay overlay in conn.overlays)
             {
                 if (overlay.getId() == overlayId)
                     overlay.setConditions(replaceWithThisOverlay.getDeepCopyOfConditions());
@@ -2672,7 +2315,6 @@ namespace HCI
             else
                 up = (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + id);
             
-            //up.Update();
             sessionSave();
         }
 
@@ -2687,7 +2329,6 @@ namespace HCI
 
         protected void closeAddOverlayFunct(object sender, EventArgs e)
         {
-//            overColorExists.Visible = false;
             this.AddOverlayPopupExtender.Hide();
             sessionSave();
         }
@@ -2699,6 +2340,7 @@ namespace HCI
         /// <param name="e"></param>
         protected void btnSubmitClick(object sender, EventArgs e)
         {
+            ArrayList validTypes = BuildTypeList();
             Boolean valid = false;
             String pathToAdd = "";
             //checks to make sure there is an uploaded file
@@ -2733,7 +2375,7 @@ namespace HCI
                         eh.displayError();
                         return;
                     }
-                    //errorPanel1.Text = "File Saved to: " + fileSaveLoc + file;
+                    
                     Database DB = new Database();
                     try
                     {
@@ -2770,15 +2412,9 @@ namespace HCI
             addSingleIconToLib(pathToAdd);
             sessionSave();
         }
-        //protected void URLsubmitClick(object sender, EventArgs e)
-        //{
-        //    String URL = URLtextBox.Text.Trim();
-        //    URLpanel.Visible = true;
-        //    URLsubmitLabel.Text = "You entered - " + "<a href=\"" + URL + "\" target=NEW>" + URL + "</a>";
-        //    //DB.executeQueryLocal("");
-        //}
+        
         /// <summary>
-        /// used for uploadinc icons from remote sources
+        /// used for uploading icons from remote sources
         /// if fetch is checked this function downloads the linked icon and saves its info to the db and saves the icon
         /// if fetch is not checked it just saves the linked icon's info to the db
         /// </summary>
@@ -2786,9 +2422,12 @@ namespace HCI
         /// <param name="e"></param>
         protected void URLsubmitClick(object sender, EventArgs e)
         {
+            ArrayList validTypes = BuildTypeList();
+
             String URL = URLtextBox.Text.Trim();
             Database DB = new Database();
             WebClient Client = new WebClient();
+            
             //below lines get information to check validity of icon and saves the icon temporarily
             String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
             String ext = System.IO.Path.GetExtension(URL);
@@ -2812,6 +2451,7 @@ namespace HCI
                 return;
             }
             bool valid = false;
+            
             //checks to see if fileType of icon is valid
             foreach (String type in validTypes)
             {
@@ -2864,7 +2504,6 @@ namespace HCI
                 }
                 else
                 {
-                    //ModalPopupExtender3.Hide();
                     fs.Close();
                     File.Delete(tempName);
                     ErrorHandler eh = new ErrorHandler("The file you linked to was to large (max 128 x 128)", errorPanel1);
@@ -2912,6 +2551,7 @@ namespace HCI
             addSingleIconToLib(pathToAdd);
             sessionSave();
         }
+
         /// <summary>
         /// helper function used by saving icons without name overlap
         /// </summary>
@@ -2922,26 +2562,32 @@ namespace HCI
             path = path.Replace(".", ""); // Remove period.
             return path;
         }
+
         /// <summary>
         /// type list used to check for valid file types of icons
         /// </summary>
-        public void BuildTypeList()
+        public ArrayList BuildTypeList()
         {
-            this.validTypes.Add("image/bmp");
-            this.validTypes.Add("image/gif");
-            this.validTypes.Add("image/jpeg");
-            this.validTypes.Add("image/pjpeg");
-            this.validTypes.Add("image/png");
-            this.validTypes.Add("image/tiff");
-            this.validTypes.Add("image/x-tiff");
-            this.validTypes.Add("image/x-windows-bmp");
+            ArrayList validTypes = new ArrayList();
+
+            validTypes.Add("image/bmp");
+            validTypes.Add("image/gif");
+            validTypes.Add("image/jpeg");
+            validTypes.Add("image/pjpeg");
+            validTypes.Add("image/png");
+            validTypes.Add("image/tiff");
+            validTypes.Add("image/x-tiff");
+            validTypes.Add("image/x-windows-bmp");
+
+            return validTypes;
         }
+
         /// <summary>
         /// helper function to check dimensions of uploaded icons
         /// </summary>
         /// <param name="input"></param>
         /// <returns>bool, true if valid dimensions</returns>
-        private bool ValidateFileDimensions(Stream input)
+        internal bool ValidateFileDimensions(Stream input)
         {
             using (System.Drawing.Image myImage =
               System.Drawing.Image.FromStream(input))
@@ -2949,24 +2595,25 @@ namespace HCI
                 return (myImage.Height <= height && myImage.Width <= width);
             }
         }
+
         /// <summary>
         /// helper function to get type of uploaded icons
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns>contentType</returns>
-        private string GetContentType(string fileName)
+        internal string GetContentType(string fileName)
         {
             string contentType = "application/octetstream";
             string ext = System.IO.Path.GetExtension(fileName).ToLower();
             Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
             if (registryKey != null && registryKey.GetValue("Content Type") != null)
                 contentType = registryKey.GetValue("Content Type").ToString();
-            sessionSave();
+            
             return contentType;
         }
+
         protected void modifyConnection(object sender, EventArgs e)
         {
-            sessionSave();
             saveConnInfo();
             saveLatLonInfo();
             updateDescription();
@@ -2974,50 +2621,22 @@ namespace HCI
             saveOverlayList();
             sessionSave();
         }
-        private void saveConnInfo()
+
+        internal void saveConnInfo()
         {
-            connName = odbcName.Text.ToString();
-            connDBAddr = odbcAdd.Text.ToString();
-            connDBPort = odbcPN.Text.ToString();
-            connDBName = odbcDName.Text.ToString();
-            connUser = odbcUser.Text.ToString();
-            connPassword = odbcPass.Text.ToString();
-            connDBType = odbcDBType.SelectedItem.ToString();
-            oracleProtocol = odbcProtocol.Text.ToString();
-            oracleSName = odbcSName.Text.ToString();
-            oracleSID = odbcSID.Text.ToString();
-
-            ConnInfo cf = new ConnInfo();
-
-            if (connDBType.Equals("MySQL"))
-            {
-                DBTypeNum = "0";
-                cf.setDatabaseType(0);
-            }
-            else if (connDBType.Equals("SQL"))
-            {
-                DBTypeNum = "1";
-                cf.setDatabaseType(1);
-            }
-            else
-            {
-                DBTypeNum = "2";
-                cf.setDatabaseType(2);
-            }
             Database DB = new Database();
-            int connID = int.Parse(Request.QueryString.Get("ConnID"));
             try
             {
-                DB.executeQueryLocal("UPDATE Connection SET name=\'" + connName
-                    + "\', dbName=\'" + connDBName
-                    + "\', userName=\'" + connUser
-                    + "\', password=\'" + connPassword
-                    + "\', port=\'" + connDBPort
-                    + "\', address=\'" + connDBAddr
-                    + "\', protocol=\'" + oracleProtocol
-                    + "\', SID=\'" + oracleSID
-                    + "\', serviceName=\'" + oracleSName
-                    + "\', type=\'" + Convert.ToInt32(DBTypeNum) + "\' WHERE ID=" + connID);
+                DB.executeQueryLocal("UPDATE Connection SET name=\'" + conn.connInfo.connectionName
+                    + "\', dbName=\'" + conn.connInfo.databaseName
+                    + "\', userName=\'" + conn.connInfo.userName
+                    + "\', password=\'" + conn.connInfo.password
+                    + "\', port=\'" + conn.connInfo.portNumber
+                    + "\', address=\'" + conn.connInfo.serverAddress
+                    + "\', protocol=\'" + conn.connInfo.oracleProtocol
+                    + "\', SID=\'" + conn.connInfo.oracleSID
+                    + "\', serviceName=\'" + conn.connInfo.oracleServiceName
+                    + "\', type=\'" + conn.connInfo.databaseType + "\' WHERE ID=" + conn.connID);
             }
             catch (ODBC2KMLException ex)
             {
@@ -3026,9 +2645,9 @@ namespace HCI
                 return;
             }
         }
-        private void saveIconList()
+
+        internal void saveIconList()
         {
-            //int connID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             int connID = int.Parse(Request.QueryString.Get("ConnID"));
             Database DB = new Database();
             DataTable iconTable = new DataTable();
@@ -3048,7 +2667,7 @@ namespace HCI
             foreach (DataRow row in iconTable.Rows)
             {
                 bool deleted = true;
-                foreach (Icon icon in tempIconList)
+                foreach (Icon icon in conn.icons)
                 {
                     int iconID = Convert.ToInt32(icon.getId());
                     if(iconID == (int)row[0])
@@ -3062,7 +2681,7 @@ namespace HCI
                     deletedIcons.Add((int)row[0]);
                 }
             }
-            foreach (Icon icon in tempIconList)
+            foreach (Icon icon in conn.icons)
             {
                 bool newIcon = true;
                 foreach (DataRow row in iconTable.Rows)
@@ -3081,7 +2700,7 @@ namespace HCI
             foreach (Icon icon in addedIcons)
             {
                 int iconID = Convert.ToInt32(icon.getId());
-                //int iconID = int.Parse(icon.getId());
+                
                 try
                 {
                     DB.executeQueryLocal("INSERT INTO Icon (ID, connID) VALUES (" + iconID + ", " + connID + ")");
@@ -3097,18 +2716,6 @@ namespace HCI
                 {
                     int lowerOperator, upperOperator = 0;
                     String lowerBound, upperBound, fieldName, tableName = "";
-                    //ID = Convert.ToInt32(condition.getId());
-                    //if ( ID != 0)
-                    //{
-                    //    ErrorHandler eh = new ErrorHandler("Error saving icon condition (already used)", errorPanel1);
-                    //    eh.displayError();
-                    //    return; 
-                    //}
-                    //ID = int.Parse(condition.getId());
-                    //lowerOperator = Convert.ToInt32(condition.getLowerOperator());
-                    //upperOperator = Convert.ToInt32(condition.getUpperOperator());
-                    //lowerOperator = int.Parse(condition.getLowerOperator());
-                    //upperOperator = int.Parse(condition.getUpperOperator());
                     lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
                     upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
                     lowerBound = condition.getLowerBound();
@@ -3147,8 +2754,7 @@ namespace HCI
                     eh.displayError();
                     return;
                 }
-                //int iconID = Convert.ToInt32(icon.getId());
-                //int iconID = int.Parse(icon.getId());
+                
                 ArrayList condArray = icon.getConditions();
                 ArrayList deletedCond = new ArrayList();
                 foreach (DataRow row in conditions.Rows)
@@ -3179,16 +2785,6 @@ namespace HCI
                 ArrayList newArray = new ArrayList();
                 foreach (Condition condition in condArray)
                 {
-                    //try
-                    //{
-                    //    condition.setIDfromDB(connID, iconID);
-                    //}
-                    //catch (ODBC2KMLException ex)
-                    //{
-                    //    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    //    eh.displayError();
-                    //    return;
-                    //}
                     bool alreadyExists = false;
                     foreach (DataRow row in conditions.Rows)
                     {
@@ -3204,28 +2800,16 @@ namespace HCI
                 }
                 foreach (Condition condition in newArray)
                 {
-                    //condition.setIDfromDB(connID, iconID);
                     int lowerOperator, upperOperator = 0;
                     String lowerBound, upperBound, fieldName, tableName = "";
-                    //ID = Convert.ToInt32(condition.getId());
-                    //ID = int.Parse(condition.getId());
                     lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
                     upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
-                    //lowerOperator = int.Parse(condition.getLowerOperator());
-                    //upperOperator = int.Parse(condition.getUpperOperator());
                     lowerBound = condition.getLowerBound();
                     upperBound = condition.getUpperBound();
                     fieldName = condition.getFieldName();
                     tableName = condition.getTableName();
                     try
                     {
-                        //DB.executeQueryLocal("UPDATE IconCondition SET lowerBound=\'" + lowerBound
-                        //    + "\', upperBound=\'" + upperBound
-                        //    + "\', lowerOperator=" + lowerOperator
-                        //    + ", upperOperator=" + upperOperator
-                        //    + ", fieldName=\'" + fieldName
-                        //    + "\', tableName=\'" + tableName + "\' "
-                        //    + "WHERE ID=" + ID + " and connID=" + connID + " and iconID=" + iconID);
                         DB.executeQueryLocal("INSERT INTO IconCondition (connID, iconID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
                             + connID + ", "
                             + iconID + ", \'" + lowerBound + "\', \'"
@@ -3269,9 +2853,9 @@ namespace HCI
             }
             sessionSave();
         }
-        private void saveOverlayList()
+
+        internal void saveOverlayList()
         {
-            //int connID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             int connID = int.Parse(Request.QueryString.Get("ConnID"));
             Database DB = new Database();
             DataTable overlayTable = new DataTable();
@@ -3291,46 +2875,21 @@ namespace HCI
             foreach (DataRow row in overlayTable.Rows)
             {
                 bool deleted = true;
-                //ArrayList usedIDs = new ArrayList();
-                foreach (Overlay overlay in tempOverlayList)
+                
+                foreach (Overlay overlay in conn.overlays)
                 {
                     foreach (DataRow row3 in overlayTable.Rows)
                     {
                         String color = overlay.getColor();
                         if (color == (String)row3[2])
                         {
-                            //bool used = false;
                             int tempID = (int)row3[0];
-                            //foreach (int tID in usedIDs)
-                            //{
-                            //    if (tempID == tID)
-                            //    {
-                            //        used = true;
-                            //    }
-                            //}
+                            
                             overlay.setId(Convert.ToString(tempID));
-                            //usedIDs.Add(tempID);
+                            
                             break;
                         }
                     }
-                    //DataTable ids = new DataTable();
-                    //try
-                    //{
-                    //    ids = DB.executeQueryLocal("SELECT ID FROM Overlay WHERE connID=" + connID + " and color=\'" + overlay.getColor() + "\'");
-                    //}
-                    //catch (ODBC2KMLException ex)
-                    //{
-                    //    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    //    eh.displayError();
-                    //    return;
-                    //}
-                    //int id = 0;
-                    //foreach (DataRow row2 in ids.Rows)
-                    //{
-                    //    id = (int)row2[0];
-                    //}
-                    //finish above to get id to save
-                    //overlay.setId(Convert.ToString(id));
                     int overlayID = Convert.ToInt32(overlay.getId());
                     if(overlayID == (int)row[0])
                     {
@@ -3343,7 +2902,7 @@ namespace HCI
                     deletedOverlays.Add((int)row[0]);
                 }
             }
-            foreach (Overlay overlay in tempOverlayList)
+            foreach (Overlay overlay in conn.overlays)
             {
                 bool newOverlay = true;
                 foreach (DataRow row in overlayTable.Rows)
@@ -3362,10 +2921,9 @@ namespace HCI
             foreach (Overlay overlay in addedOverlays)
             {
                 DataTable overlayTable2 = new DataTable();
-                //int overlayID = int.Parse(overlay.getId());
+                
                 try
                 {
-                    //DB.executeQueryLocal("INSERT INTO Overlay (ID, connID, color) VALUES (" + overlayID + ", " + connID + ", '" + overlay.getColor() + "')");
                     DB.executeQueryLocal("INSERT INTO Overlay (connID, color) VALUES (" + connID + ", \'" + overlay.getColor() + "\')");
                 }
                 catch (ODBC2KMLException ex)
@@ -3400,18 +2958,6 @@ namespace HCI
                 {
                     int lowerOperator, upperOperator = 0;
                     String lowerBound, upperBound, fieldName, tableName = "";
-                    //ID = Convert.ToInt32(condition.getId());
-                    //if ( ID != 0)
-                    //{
-                    //    ErrorHandler eh = new ErrorHandler("Error saving Overlay condition ID=" + ID + " (already used)", errorPanel1);
-                    //    eh.displayError();
-                    //    return; 
-                    //}
-                    //ID = int.Parse(condition.getId());
-                    //lowerOperator = Convert.ToInt32(condition.getLowerOperator());
-                    //upperOperator = Convert.ToInt32(condition.getUpperOperator());
-                    //lowerOperator = int.Parse(condition.getLowerOperator());
-                    //upperOperator = int.Parse(condition.getUpperOperator());
                     lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
                     upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
                     lowerBound = condition.getLowerBound();
@@ -3450,8 +2996,7 @@ namespace HCI
                     eh.displayError();
                     return;
                 }
-                //int overlayID = Convert.ToInt32(overlay.getId());
-                //int overlayID = int.Parse(overlay.getId());
+                
                 ArrayList condArray = overlay.getConditions();
                 ArrayList deletedCond = new ArrayList();
                 foreach (DataRow row in conditions.Rows)
@@ -3482,16 +3027,6 @@ namespace HCI
                 ArrayList newArray = new ArrayList();
                 foreach (Condition condition in condArray)
                 {
-                    //try
-                    //{
-                    //    condition.setIDfromDB(connID, overlayID);
-                    //}
-                    //catch (ODBC2KMLException ex)
-                    //{
-                    //    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                    //    eh.displayError();
-                    //    return;
-                    //}
                     bool alreadyExists = false;
                     foreach (DataRow row in conditions.Rows)
                     {
@@ -3507,28 +3042,16 @@ namespace HCI
                 }
                 foreach (Condition condition in newArray)
                 {
-                    //condition.setIDfromDB(connID, overlayID);
                     int lowerOperator, upperOperator = 0;
                     String lowerBound, upperBound, fieldName, tableName = "";
-                    //ID = Convert.ToInt32(condition.getId());
-                    //ID = int.Parse(condition.getId());
                     lowerOperator = Condition.operatorStringToInt(condition.getLowerOperator());
                     upperOperator = Condition.operatorStringToInt(condition.getUpperOperator());
-                    //lowerOperator = int.Parse(condition.getLowerOperator());
-                    //upperOperator = int.Parse(condition.getUpperOperator());
                     lowerBound = condition.getLowerBound();
                     upperBound = condition.getUpperBound();
                     fieldName = condition.getFieldName();
                     tableName = condition.getTableName();
                     try
                     {
-                        //DB.executeQueryLocal("UPDATE OverlayCondition SET lowerBound=\'" + lowerBound
-                        //    + "\', upperBound=\'" + upperBound
-                        //    + "\', lowerOperator=" + lowerOperator
-                        //    + ", upperOperator=" + upperOperator
-                        //    + ", fieldName=\'" + fieldName
-                        //    + "\', tableName=\'" + tableName + "\' "
-                        //    + "WHERE ID=" + ID + " and connID=" + connID + " and overlayID=" + overlayID);
                         DB.executeQueryLocal("INSERT INTO OverlayCondition (connID, overlayID, lowerBound, upperBound, lowerOperator, upperOperator, fieldName, tableName) VALUES ("
                             + connID + ", "
                             + overlayID + ", \'" + lowerBound + "\', \'"
@@ -3573,7 +3096,7 @@ namespace HCI
             sessionSave();
         }
 
-        private void loadLatLongFromDb()
+        internal void loadLatLongFromDb()
         {
             int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             Database db = new Database();
@@ -3591,27 +3114,22 @@ namespace HCI
 
             foreach (DataRow dr in dt.Rows)
             {
-                /*string tableName = dr["tableName"].ToString();
-                string latFieldName = dr["latFieldName"].ToString();
-                string longFieldName = dr["longFieldName"].ToString();
-                int format = Convert.ToInt32(dr["format"]);
-                latLongInsert.Add(conID + "," + tableName + "," + latFieldName + "," + longFieldName + "," + format);*/
-                mapping.setConnID(Convert.ToInt32(Request.QueryString.Get("ConnID")));
-                mapping.setTableName(dr["tableName"].ToString());
-                mapping.setLatFieldName(dr["latFieldName"].ToString());
-                mapping.setLongFieldName(dr["longFieldName"].ToString());
-                mapping.setFormat(Convert.ToInt32(dr["format"]));
-                mapping.setPlacemarkFieldName(dr["placemarkFieldName"].ToString());
+                conn.mapping.setConnID(Convert.ToInt32(Request.QueryString.Get("ConnID")));
+                conn.mapping.setTableName(dr["tableName"].ToString());
+                conn.mapping.setLatFieldName(dr["latFieldName"].ToString());
+                conn.mapping.setLongFieldName(dr["longFieldName"].ToString());
+                conn.mapping.setFormat(Convert.ToInt32(dr["format"]));
+                conn.mapping.setPlacemarkFieldName(dr["placemarkFieldName"].ToString());
             }
 
-            displayCurrentMapping(mapping);
+            displayCurrentMapping(conn.mapping);
 
             sessionSave();
         }
         protected void saveLatLonInfo()
         {
             
-            Mapping.insertMapping(mapping);
+            Mapping.insertMapping(conn.mapping);
             sessionSave();
         }
 
@@ -3667,9 +3185,9 @@ namespace HCI
 
         protected void removeCurrentMapping(object sender, EventArgs e)
         {
-            mapping = new Mapping();
+            conn.mapping = new Mapping();
             sessionSave();
-            displayCurrentMapping(mapping);
+            displayCurrentMapping(conn.mapping);
         }
 
         //editor methods
@@ -3758,7 +3276,7 @@ namespace HCI
         protected void dNewline_Click(object sender, EventArgs e)
         {
             
-            string descriptionInfo = "[BR][/BR]";
+            string descriptionInfo = "[BR/]";
             descriptionBox.Text += descriptionInfo;
             sessionSave();
         }
@@ -3774,7 +3292,7 @@ namespace HCI
         protected void dTableInsert_Click(object sender, EventArgs e)
         {
             string tableText = iTableNBox.SelectedValue.ToString();
-            string descriptionInfo = "[TABLE]" + tableText + "[/TABLE]";
+            string descriptionInfo = "[TBL/]";
 
             descriptionBox.Text += descriptionInfo;
             sessionSave();
@@ -3814,18 +3332,15 @@ namespace HCI
             string selectedTable = iTableFNBox.SelectedValue.ToString();
             if (selectedTable != "")
             {
-                int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-                ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
                 string connectionString_editor = "";
                 string providerName_editor = "";
 
                 try
                 {
                     //Set drop down box accordingly
-                    if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                    if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                     {
-                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                        connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                         SqlDataSource temp = new SqlDataSource();
                         temp.ConnectionString = connectionString_editor;
                         temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
@@ -3835,9 +3350,9 @@ namespace HCI
                         iColFNBox.DataBind();
                         UpdateFieldCol.Update();
                     }
-                    else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                    else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                     {
-                        connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                        connectionString_editor = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                         providerName_editor = "MySql.Data.MySqlClient";
 
                         SqlDataSource temp = new SqlDataSource();
@@ -3851,9 +3366,9 @@ namespace HCI
                         UpdateFieldCol.Update();
 
                     }
-                    else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                    else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                     {
-                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                        connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                         providerName_editor = "System.Data.OracleClient";
 
                         SqlDataSource temp = new SqlDataSource();
@@ -3874,9 +3389,6 @@ namespace HCI
                 {
                     throw ex;
                 }
-
-                //Garbage collection
-                connInfo_editor = null;
             }
             else
             {
@@ -3888,36 +3400,33 @@ namespace HCI
 
         protected void GridViewTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             columnButtons.Visible = true;
             columnMessage.Visible = false;
             string selectedTable = GridViewTables.SelectedValue.ToString();
             selectedGVTable.Value = selectedTable;
 
-            string pageInfo = "viewTable.aspx?con=" + conID + "&tbl=" + selectedTable;
+            string pageInfo = "viewTable.aspx?con=" + conn.connID + "&tbl=" + selectedTable;
             string window = "window.open('" + pageInfo + "'); return false;";
             viewTable.Attributes.Add("onclick", window);
 
             if (selectedTable != "")
             {
-                ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
                 string connectionString_editor = "";
                 string providerName_editor = "";
 
                 try
                 {
                     //Set drop down box accordingly
-                    if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                    if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                     {
-                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                        connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                         ColGen.ConnectionString = connectionString_editor;
                         ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
                         ColGen.DataBind();
                     }
-                    else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                    else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                     {
-                        connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                        connectionString_editor = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                         providerName_editor = "MySql.Data.MySqlClient";
 
                         ColGen.ConnectionString = connectionString_editor;
@@ -3926,9 +3435,9 @@ namespace HCI
                         ColGen.DataBind();
 
                     }
-                    else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                    else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                     {
-                        connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                        connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                         providerName_editor = "System.Data.OracleClient";
 
                         ColGen.ConnectionString = connectionString_editor;
@@ -3946,39 +3455,16 @@ namespace HCI
                     throw ex;
                 }
 
-                //Mapping conMapping = Mapping.getMapping(conID, selectedTable);
-                /*Mapping conMapping = new Mapping();
-                if ((mapping != null))
-                {
-                    if ((mapTableName.Equals(selectedTable) && (mapConID.Equals(conID.ToString()))))
-                    {
-                        mapping.setTableName(mapTableName);
-                        mapping.setLatFieldName(mapLatFieldName);
-                        mapping.setLongFieldName(mapLongFieldName);
-                        mapping.setFormat(Convert.ToInt32(mapFormat));
-                    }
-                }*/
-
-                string dbTable = mapping.getTableName();
-
-                int dbFormat = mapping.getFormat();
-
-                string dbLat = mapping.getLatFieldName();
-                string dbLong = mapping.getLongFieldName();
-
                 //No information about the table yet
-                if (dbTable == null)
+                if (conn.mapping.getTableName() == null)
                 {
                     mapUpdates(ColGen);
                 }
 
                 else
                 {
-                    mapUpdates(ColGen, dbTable, dbLat, dbLong, dbFormat);
+                    mapUpdates(ColGen, true);
                 }
-
-                //Garbage collection
-                connInfo_editor = null;
             }
             else
             {
@@ -3990,26 +3476,23 @@ namespace HCI
 
         protected void GridViewColumns_PageIndexChanged(object sender, EventArgs e)
         {
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-            ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
             string connectionString_editor = "";
             string providerName_editor = "";
 
             try
             {
                 //Set drop down box accordingly
-                if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+                if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                    connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                     ColGen.ConnectionString = connectionString_editor;
                     ColGen.ProviderName = providerName_editor;
                     ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
                     ColGen.DataBind();
                 }
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                 {
-                    connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                    connectionString_editor = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                     providerName_editor = "MySql.Data.MySqlClient";
                     ColGen.ConnectionString = connectionString_editor;
                     ColGen.ProviderName = providerName_editor;
@@ -4017,9 +3500,9 @@ namespace HCI
                     ColGen.DataBind();
 
                 }
-                else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+                else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
                 {
-                    connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                    connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                     providerName_editor = "System.Data.OracleClient";
                     ColGen.ConnectionString = connectionString_editor;
                     ColGen.ProviderName = providerName_editor;
@@ -4035,32 +3518,25 @@ namespace HCI
                 throw ex;
             }
 
-            //Garbage collection
-            connInfo_editor = null;
             sessionSave();
         }
 
         protected void updateDescription()
         {
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-            Description conDesc_editor = Description.getDescription(conID);
-            string descBox = conDesc_editor.getDesc();
-
             string descText = descriptionBox.Text.ToString();
 
             //No description entry exists
-            if (descBox == null)
+            if (conn.description.getDesc() == null)
             {
-                Description.insertDescription(conID, descText);
-                descSuccess.Text = "Description inserted successfully!";
+                Description.insertDescription(conn.connID, descText);
             }
 
             //Update existing description entry
             else
             {
-                Description.updateDescription(conID, descText);
-                descSuccess.Text = "Description updated successfully!";
+                Description.updateDescription(conn.connID, descText);
             }
+
             sessionSave();
         }
 
@@ -4112,7 +3588,12 @@ namespace HCI
             sessionSave();
         }
 
-        protected void mapUpdates(SqlDataSource temp, string table, string latitude, string longitude, int format)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="temp"></param>
+        /// <param name="mappingExists">Only used to denote mapping exists</param>
+        protected void mapUpdates(SqlDataSource temp, bool mappingExists)
         {
             try
             {
@@ -4120,22 +3601,22 @@ namespace HCI
                 latDD.DataValueField = "COLUMN_NAME";
                 latDD.DataTextField = "COLUMN_NAME";
                 latDD.DataBind();
-                if (latDD.Items.Contains(new ListItem(latitude)))
-                    latDD.SelectedValue = latitude;
+                if (latDD.Items.Contains(new ListItem(conn.mapping.getLatFieldName())))
+                    latDD.SelectedValue = conn.mapping.getLatFieldName();
                 latUP.Update();
                 longDD.DataSource = temp;
                 longDD.DataValueField = "COLUMN_NAME";
                 longDD.DataTextField = "COLUMN_NAME";
                 longDD.DataBind();
-                if (longDD.Items.Contains(new ListItem(longitude)))
-                    longDD.SelectedValue = longitude;
+                if (longDD.Items.Contains(new ListItem(conn.mapping.getLongFieldName())))
+                    longDD.SelectedValue = conn.mapping.getLongFieldName();
                 longUP.Update();
                 llDD.DataSource = temp;
                 llDD.DataValueField = "COLUMN_NAME";
                 llDD.DataTextField = "COLUMN_NAME";
                 llDD.DataBind();
-                if (llDD.Items.Contains(new ListItem(latitude)))
-                    llDD.SelectedValue = latitude;
+                if (llDD.Items.Contains(new ListItem(conn.mapping.getLatFieldName())))
+                    llDD.SelectedValue = conn.mapping.getLatFieldName();
                 llUP.Update();
             }
             catch (Exception ex)
@@ -4143,9 +3624,7 @@ namespace HCI
                 throw ex;
             }
 
-            Mapping map = new Mapping(Convert.ToInt32(Request.QueryString.Get("ConnID")), table, latitude, longitude, format);
-
-            displayCurrentMapping(mapping);
+            displayCurrentMapping(conn.mapping);
 
             mapError1.Visible = false;
             mapError2.Visible = false;
@@ -4156,9 +3635,6 @@ namespace HCI
 
         protected void addPlacemarkField_Click(object sender, EventArgs e)
         {
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-            ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
             string selectedTable = GridViewTables.SelectedValue.ToString();
             string connectionString_editor = "";
             string providerName_editor = "";
@@ -4166,17 +3642,17 @@ namespace HCI
             SqlDataSource temp = new SqlDataSource();
 
             //Set drop down box accordingly
-            if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+            if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
             {
-                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                 temp.ConnectionString = connectionString_editor;
                 temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
 
             }
 
-            else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+            else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
             {
-                connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                connectionString_editor = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                 providerName_editor = "MySql.Data.MySqlClient";
 
                 temp.ConnectionString = connectionString_editor;
@@ -4186,9 +3662,9 @@ namespace HCI
 
             }
 
-            else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+            else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
             {
-                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                 providerName_editor = "System.Data.OracleClient";
 
                 temp.ConnectionString = connectionString_editor;
@@ -4200,8 +3676,6 @@ namespace HCI
             else //Default set to SQL
             {
             }
-
-            Mapping conMapping = Mapping.getMapping(conID, selectedTable);
 
             nameColumnDD.DataSource = temp;
             nameColumnDD.DataValueField = "COLUMN_NAME";
@@ -4218,9 +3692,8 @@ namespace HCI
 
         protected void savePlacemarkMapping_click(object sender, EventArgs e)
         {
-            int connID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
             string selectedTable = GridViewTables.SelectedValue.ToString();
-            mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
+            conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
             mapSuccess2.Visible = true;
             sessionSave();
 
@@ -4229,9 +3702,6 @@ namespace HCI
         //look here
         protected void addLatLong_Click(object sender, EventArgs e)
         {
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-            ConnInfo connInfo_editor = ConnInfo.getConnInfo(conID);
-
             string selectedTable = GridViewTables.SelectedValue.ToString();
             string connectionString_editor = "";
             string providerName_editor = "";
@@ -4239,17 +3709,17 @@ namespace HCI
             SqlDataSource temp = new SqlDataSource();
 
             //Set drop down box accordingly
-            if (connInfo_editor.getDatabaseType() == ConnInfo.MSSQL)
+            if (conn.connInfo.getDatabaseType() == ConnInfo.MSSQL)
             {
-                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Initial Catalog=" + connInfo_editor.getDatabaseName() + ";Persist Security Info=True;User Id=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword();
+                connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                 temp.ConnectionString = connectionString_editor;
                 temp.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedTable + "')";
 
             }
 
-            else if (connInfo_editor.getDatabaseType() == ConnInfo.MYSQL)
+            else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
             {
-                connectionString_editor = "server=" + connInfo_editor.getServerAddress() + ";User Id=" + connInfo_editor.getUserName() + ";password=" + connInfo_editor.getPassword() + ";Persist Security Info=True;database=" + connInfo_editor.getDatabaseName();
+                connectionString_editor = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
                 providerName_editor = "MySql.Data.MySqlClient";
 
                 temp.ConnectionString = connectionString_editor;
@@ -4259,9 +3729,9 @@ namespace HCI
 
             }
 
-            else if (connInfo_editor.getDatabaseType() == ConnInfo.ORACLE)
+            else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
             {
-                connectionString_editor = "Data Source=" + connInfo_editor.getServerAddress() + ";Persist Security Info=True;User ID=" + connInfo_editor.getUserName() + ";Password=" + connInfo_editor.getPassword() + ";Unicode=True";
+                connectionString_editor = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
                 providerName_editor = "System.Data.OracleClient";
 
                 temp.ConnectionString = connectionString_editor;
@@ -4274,60 +3744,41 @@ namespace HCI
             {
             }
 
-
-            //Mapping conMapping = Mapping.getMapping(conID, selectedTable);
-
-            string dbTable = mapping.getTableName();
-
-            int dbFormat = mapping.getFormat();
-
-            string dbLat = mapping.getLatFieldName();
-            string dbLong = mapping.getLongFieldName();
+            /*string dbTable = conn.mapping.getTableName();
+            int dbFormat = conn.mapping.getFormat();
+            string dbLat = conn.mapping.getLatFieldName();
+            string dbLong = conn.mapping.getLongFieldName();*/
 
             //No information about the table yet
-            if (dbTable == null)
+            if (conn.mapping.getTableName() == null)
             {
-                if (mapping != null)
+                if (conn.mapping != null)
                 {
                     mapUpdates(temp);
                 }
                 else
                 {
-                    int connID = mapping.getConnID();
-                    String tableName = mapping.getTableName();
-                    String latFieldName = mapping.getLatFieldName();
-                    String longFieldName = mapping.getLongFieldName();
-                    int format = mapping.getFormat();
-                    if (tableName == selectedTable && conID == connID)
+                    if (conn.mapping.getTableName() == selectedTable)
                     {
-                        mapUpdates(temp, tableName, latFieldName, longFieldName, format);
+                        mapUpdates(temp, true);
                     }
                 }
             }
 
             else
             {
-                if (mapping != null)
+                if (conn.mapping != null)
                 {
-                    mapUpdates(temp, dbTable, dbLat, dbLong, dbFormat);
+                    mapUpdates(temp, true);
                 }
                 else
                 {
-                    int connID = mapping.getConnID();
-                    String tableName = mapping.getTableName();
-                    String latFieldName = mapping.getLatFieldName();
-                    String longFieldName = mapping.getLongFieldName();
-                    int format = mapping.getFormat();
-                    if (tableName == selectedTable && conID == connID)
+                    if (conn.mapping.getTableName() == selectedTable)
                     {
-                        mapUpdates(temp, tableName, latFieldName, longFieldName, format);
+                        mapUpdates(temp, true);
                     }
                 }
             }
-
-
-            //Garbage collection
-            connInfo_editor = null;
 
             viewGrid.Visible = true;
             saveLatLong.Visible = true;
@@ -4358,10 +3809,6 @@ namespace HCI
             string longFieldName = "";
             int format = 1;
 
-            int conID = Convert.ToInt32(Request.QueryString.Get("ConnID"));
-            Mapping saveMapping = Mapping.getMapping(conID, tableName);
-            string mapTblName = saveMapping.getTableName();
-
             if (LLSepPanel.Visible == true)
             {
                 latFieldName = latDD.SelectedValue.ToString();
@@ -4376,11 +3823,9 @@ namespace HCI
                     mapError1.Visible = false;
                     mapError2.Visible = false;
 
-                    mapping = new Mapping(conID, tableName, latFieldName, longFieldName, format);
+                    displayCurrentMapping(conn.mapping);
 
-                    displayCurrentMapping(mapping);
-
-                    if (mapTblName == null)
+                    if (conn.mapping.getTableName() == null)
                     {
                         mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
                     }
@@ -4415,10 +3860,9 @@ namespace HCI
                         format = 2;
                     }
 
-                    mapping = new Mapping(conID, tableName, latFieldName, longFieldName, format);
-                    displayCurrentMapping(mapping);
+                    displayCurrentMapping(conn.mapping);
 
-                    if (mapTblName == null)
+                    if (conn.mapping.getTableName() == null)
                     {
                         mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
                     }
@@ -4431,6 +3875,5 @@ namespace HCI
             }
             sessionSave();
         }
-
     }
 }

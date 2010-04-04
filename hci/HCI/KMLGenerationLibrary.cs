@@ -6,7 +6,7 @@ namespace HCI
     public class KMLGenerationLibrary
     {
         //XML formatted KML
-        private String formattedKML;
+        internal String formattedKML;
 
         //Constructor
 

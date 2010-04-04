@@ -16,10 +16,10 @@ namespace HCI
 {
     public class Icon
     {
-        private string location;
-        private ArrayList conditions;
-        private string iconId;
-        private Boolean isLocal;
+        internal string location;
+        internal ArrayList conditions;
+        internal string iconId;
+        internal Boolean isLocal;
 
         public Icon()
         {
@@ -241,7 +241,7 @@ namespace HCI
                         {
                             //Set the location of the icon
                             newIcon.setLocation(nRow["location"].ToString());
-
+                            newIcon.setId(nRow["ID"].ToString());
                             if ((Boolean)nRow["isLocal"] == false)
                             {
                                 newIcon.setLocality(false);

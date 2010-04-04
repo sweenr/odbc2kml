@@ -17,12 +17,12 @@ namespace HCI
     public class Connection
     {
         //Datatypes
-        private Description description;
-        private Mapping mapping;
-        private ArrayList icons;
-        private ArrayList overlays;
-        private ConnInfo connInfo;
-        private int connID;
+        internal Description description;
+        internal Mapping mapping;
+        internal ArrayList icons;
+        internal ArrayList overlays;
+        internal ConnInfo connInfo;
+        internal int connID;
 
         //Functions
 
@@ -115,20 +115,7 @@ namespace HCI
 
         //Additional
 
-        //Add Comments
-        public bool openConn()
-        {
-            bool open = false;
-
-            return open;
-        }
-
         //TODO: ADD PARAMETERS TO ALL OF THE FOLLOWING
-
-        //Add Comments
-        public void closeConn() 
-        {
-        }
 
         //Add Comments
         public void saveConn()
@@ -160,11 +147,6 @@ namespace HCI
             {
                 throw e;
             }
-        }
-
-        //Add Comments
-        public void retrieveRows()
-        {
         }
     }
 }

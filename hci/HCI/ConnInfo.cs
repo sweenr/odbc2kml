@@ -24,16 +24,16 @@ namespace HCI
         //Add More as needed
 
         //Datatypes
-        private int databaseType;
-        private string serverAddress;
-        private string userName;
-        private string password;
-        private string databaseName;
-        private string portNumber;
-        private string connectionName;
-        private string oracleProtocol;
-        private string oracleServiceName;
-        private string oracleSID;
+        internal int databaseType;
+        internal string serverAddress;
+        internal string userName;
+        internal string password;
+        internal string databaseName;
+        internal string portNumber;
+        internal string connectionName;
+        internal string oracleProtocol;
+        internal string oracleServiceName;
+        internal string oracleSID;
 
         //Constructors
         public ConnInfo()
