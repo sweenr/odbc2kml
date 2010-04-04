@@ -36,37 +36,106 @@ namespace HCI
 
         public bool isValid()
         {
-            bool valid = false;
+            //validate field tags
+            int startIndex = 0;
+            int endIndex = 0;
+            int lengthOfTag = 0;
+            //if start of field tag is found
+            while (desc.IndexOf("[FIELD]", startIndex) != -1)
+            {
+                //if end of field tag is found, set startindex, else return false
+                if (desc.IndexOf("[/FIELD]") != -1)
+                {
+                    //get the index of end of tag and calculate lengthoftag
+                    endIndex = desc.IndexOf("[/FIELD]", startIndex);
+                    lengthOfTag = endIndex - startIndex;
+                }
+                else 
+                { 
+                    return false; 
+                }
+                //if start of table tag found look for end of field tag else return false
+                if (desc.IndexOf("[TBL]", startIndex, lengthOfTag) != -1)
+                {
+                    //if we find another tbl tag, return false
+                    if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]")+4) != -1)
+                        return false;
+                    //else if we don't find a close tbl tag, return false
+                    else if (desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]")+4) == -1)
+                        return false;
+                    //else if the length of the table tag is 0, return false
+                    else if(desc.IndexOf("[TBL]", startIndex, lengthOfTag)+5 - desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]")+4) == 0)
+                        return false;
+                }
+                else
+                {
+                    return false;
+                }
+                //if start of column tag is found, look for end of field tag else return false
+                if (desc.IndexOf("[COL]", startIndex, lengthOfTag) != -1)
+                {
+                    //if we find another col tag, return false
+                    if (desc.IndexOf("[COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]")+4) != -1)
+                        return false;
+                    //else if we don't find a close col tag, return false
+                    else if (desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]")+4) == -1)
+                        return false;
+                    //else if the length of the column tag is 0, return false
+                    else if (desc.IndexOf("[COL]", startIndex, lengthOfTag) + 5 - desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]") + 4) == 0)
+                        return false;
+                }
+                else
+                {
+                    return false;
+                }
+                startIndex = endIndex;
+            }
 
-            return valid;
-        }
 
-        public string generateFieldValue()
-        {
-            string fieldValue = "test";
+            //validate url tags
+            startIndex = 0;
+            endIndex = 0;
+            lengthOfTag = 0;
+            //if start of url tag is found
+            while (desc.IndexOf("[URL]", startIndex) != -1)
+            {
+                //if end of url tag is found, set startindex, else return false
+                if (desc.IndexOf("[/URL]") != -1)
+                {
+                    //get the index of end of tag and calculate lengthoftag
+                    endIndex = desc.IndexOf("[/URL]", startIndex);
+                    lengthOfTag = endIndex - startIndex;
+                }
+                else
+                {
+                    return false;
+                }
+                //if start of title tag found look for end of title tag else return false
+                if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) != -1)
+                {
+                    //if we find another title tag, return false
+                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]") + 7) != -1)
+                        return false;
+                    //else if we don't find a close title tag, return false
+                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]") + 7) == -1)
+                        return false;
+                    //else if the length of the title tag is 0, return false
+                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]") + 7) == 0)
+                        return false;
+                }
+                else
+                {
+                    return false;
+                }
+                //if length of url is 0 return false
+                if(desc.IndexOf("[/TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]") + 5, endIndex-desc.IndexOf("[URL]") + 5) == 0)
+                    return false;
 
-            return fieldValue;
-        }
+                startIndex = endIndex;
+            }
 
-        public string generateFieldName()
-        {
-            string fieldName = "test";
 
-            return fieldName;
-        }
-
-        public string generateImageLink()
-        {
-            string imageLink = "test";
-
-            return imageLink;
-        }
-
-        public string generateHref()
-        {
-            string href = "test";
-
-            return href;
+            return true;
         }
 
         public static void insertDescription(int connID, string desc)
@@ -111,7 +180,6 @@ namespace HCI
             return description;
         }
 
-        //public static ArrayList parseDesc(int connID)
         /// <summary>
         /// parses the description
         /// </summary>
@@ -222,50 +290,6 @@ namespace HCI
                         throw new ODBC2KMLException("Description doesn't contain field Table information");
                     }
                 }
-  //below is commented out because imageGenWebService has been assigned to low priority
-                //while (descString.Contains("[IMAGE]"))
-                //{
-                //    //look at URL for explanation
-                //    int imageIndex = descString.IndexOf("[IMAGE]");
-                //    int imageEndIndex = descString.IndexOf("[/IMAGE]");
-                //    int imageLength = imageEndIndex - imageIndex;
-                //    String descString1 = descString.Substring(0, imageIndex);
-                //    String descString2 = descString.Substring(imageEndIndex);
-                //    String imageString = descString.Substring(imageIndex, imageLength);
-                //    imageString = imageString.Replace("[IMAGE]", "");
-                //    imageString = imageString.Replace("[/IMAGE]", "");
-                //    if (imageString.Contains("[TBL]") && imageString.Contains("[COL]"))
-                //    {
-                //        int tblIndex = imageString.IndexOf("[TBL]");
-                //        int tblEndIndex = imageString.IndexOf("[/TBL]");
-                //        int tblLength = tblEndIndex - tblIndex;
-                //        String tblString = imageString.Substring(tblIndex, tblLength);
-                //        tblString = tblString.Replace("[TBL]", "");
-                //        tblString = tblString.Replace("[/TBL]", "");
-                //        int colIndex = imageString.IndexOf("[COL]");
-                //        int colEndIndex = imageString.IndexOf("[/COL]");
-                //        int colLength = colEndIndex - colIndex;
-                //        String colString = imageString.Substring(colIndex, colLength);
-                //        colString = colString.Replace("[COL]", "");
-                //        colString = colString.Replace("[/COL]", "");
-                //        //imageString = "<img src=\"./ImageWebSVC.asmx/getImage?connID="
-                //        //    + connID + "&table="
-                //        //    + tblString + "&field="
-                //        //    + colString + "&row="
-                //        //    + rowCount + "\" />";
-                //        imageString = "this function doesn't work right now";
-                //    }
-                //    if (imageString.Contains("[TBL]") && !imageString.Contains("[COL]"))
-                //    {
-                //        throw new ODBC2KMLException("Description doesn't contain Image Column information");
-                //    }
-                //    if (!imageString.Contains("[TBL]") && imageString.Contains("[COL]"))
-                //    {
-                //        throw new ODBC2KMLException("Description doesn't contain Image Table information");
-                //    }
-                //    descString = descString1 + imageString + descString2;
-                //}
-                //rowCount++;
                 descArray.Add(descString);
             }
             return descArray;
