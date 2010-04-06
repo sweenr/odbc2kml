@@ -418,7 +418,6 @@ function OnColorPicked(sender){
                                                     </td>
                                                     <td class="mainBox3" valign="top" align="left">
                                                         <asp:Panel ID="mapPlacemarkName" runat="server" Visible="false">
-                                                            <br />
                                                             <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
                                                                 <tr>
                                                                     <td>
@@ -462,7 +461,6 @@ function OnColorPicked(sender){
                                                             </table>
                                                         </asp:Panel>
                                                         <asp:Panel ID="mapColumnsPanel" runat="server" Visible="false">
-                                                            <br />
                                                             <table class="omainBox4" cellspacing="0" cellpadding="0" width="100%">
                                                                 <tr>
                                                                     <td>
@@ -546,7 +544,6 @@ function OnColorPicked(sender){
                                                             </table>
                                                         </asp:Panel>
                                                         <asp:Panel ID="tblColumnsPanel" runat="server">
-                                                            <br />
                                                             <asp:GridView ID="GridViewColumns" runat="server" AllowPaging="True" AutoGenerateColumns="False"
                                                                 CellPadding="4" DataSourceID="ColGen" ForeColor="#333333" GridLines="None" PageSize="10"
                                                                 ShowHeader="False" Width="100%" OnPageIndexChanged="GridViewColumns_PageIndexChanged">
@@ -587,12 +584,12 @@ function OnColorPicked(sender){
                                                                                 CssClass="button" OnClick="addPlacemarkField_Click" />
                                                                             <asp:Button ID="addLatLong" runat="server" Text="Map Lat/Long" ToolTip="Map Lat/Long"
                                                                                 CssClass="button" OnClick="addLatLong_Click" />
-                                                                            <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
-                                                                                CssClass="button" OnClick="viewGrid_Click" />
                                                                         </td>
                                                                         <td>
                                                                             <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table"
                                                                                 CssClass="button" CausesValidation="False" />
+                                                                             <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
+                                                                                CssClass="button" OnClick="viewGrid_Click" />
                                                                         </td>
                                                                     </tr>
                                                                 </table>
