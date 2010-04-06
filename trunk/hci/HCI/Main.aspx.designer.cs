@@ -212,15 +212,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox odbcNameE;
         
         /// <summary>
-        /// odbcDNameE control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox odbcDNameE;
-        
-        /// <summary>
         /// odbcDatabaseE control.
         /// </summary>
         /// <remarks>
@@ -237,6 +228,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox odbcPNE;
+        
+        /// <summary>
+        /// odbcDNameE control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox odbcDNameE;
         
         /// <summary>
         /// odbcUserE control.
@@ -338,15 +338,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox editConnName;
         
         /// <summary>
-        /// editConnDBName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox editConnDBName;
-        
-        /// <summary>
         /// editConnDBAddr control.
         /// </summary>
         /// <remarks>
@@ -363,6 +354,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox editConnDBPort;
+        
+        /// <summary>
+        /// editConnDBName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox editConnDBName;
         
         /// <summary>
         /// editConnUser control.

@@ -167,14 +167,6 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>
-                                                                                        <span class="connectionTitle">Database Name: </span>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <asp:TextBox ID="odbcDNameE" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
                                                                                         <span class="connectionTitle">Database Address: </span>
                                                                                     </td>
                                                                                     <td>
@@ -187,6 +179,14 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <asp:TextBox ID="odbcPNE" runat="server" CssClass="inputBox" Width="100"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Database Name: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="odbcDNameE" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -281,14 +281,6 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td>
-                                                                                        <span class="connectionTitle">Database Name: </span>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <asp:TextBox ID="editConnDBName" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
                                                                                         <span class="connectionTitle">Database Address: </span>
                                                                                     </td>
                                                                                     <td>
@@ -301,6 +293,14 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <asp:TextBox ID="editConnDBPort" runat="server" CssClass="inputBox" Width="100"></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <span class="connectionTitle">Database Name: </span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <asp:TextBox ID="editConnDBName" runat="server" CssClass="inputBox" Width="350"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
