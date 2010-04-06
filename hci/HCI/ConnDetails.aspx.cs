@@ -20,15 +20,6 @@ namespace HCI
     public partial class ConnDetails : System.Web.UI.Page
     {
         
-        // Max height for an icon
-        public static readonly int height = 128;
-        
-        // Max width for an icon
-        public static readonly int width = 128;
-        
-        // Absolute path where icons are temporarily stored
-        public static String tempSaveLoc = "";
-        
         // Absolute path where icons are stored
         public static String fileSaveLoc = "";
         
@@ -63,7 +54,6 @@ namespace HCI
         {
             try
             {
-                tempSaveLoc = Server.MapPath("/temp/");
                 fileSaveLoc = Server.MapPath("/icons/");
 
                 if (!IsPostBack)
@@ -169,7 +159,6 @@ namespace HCI
                 genIconConditionTable(sender, e);
                 genOverlayConditionTable(sender, e);
 
-                BuildTypeList();
                 sessionSave();
 
                 if (Request.QueryString.Get("locked") == "true")
@@ -2403,73 +2392,16 @@ namespace HCI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void btnSubmitClick(object sender, EventArgs e)
+        protected void uploadClick(object sender, EventArgs e)
         {
-            ArrayList validTypes = BuildTypeList();
-            Boolean valid = false;
             String pathToAdd = "";
-            //checks to make sure there is an uploaded file
-            if ((fileUpEx.HasFile) && (!fileUpEx.FileName.Equals("")))
+            try
             {
-                //checks for valid filetype
-                foreach (String type in validTypes)
-                {
-                    if (fileUpEx.PostedFile.ContentType.Equals(type))
-                    {
-                        valid = true;
-                    }
-                }
-                //checks for valid dimensions
-                if (valid && ValidateFileDimensions(fileUpEx.PostedFile.InputStream))
-                {
-                    String filepath = fileUpEx.PostedFile.FileName;
-                    String file_ext = System.IO.Path.GetExtension(filepath);
-                    String filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
-                    String suffix = GetRandomString();
-                    String file = filename + suffix + file_ext;
-                    String relativeName = relativeFileSaveLoc + file;
-                    pathToAdd = relativeName;
-                    //save the file to the server
-                    try
-                    {
-                        fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
-                    }
-                    catch (DirectoryNotFoundException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler("Error saving file, please ensure " + fileSaveLoc + " exists on this machine", errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
-                    
-                    Database DB = new Database();
-                    try
-                    {
-                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
-                    }
-                    catch (ODBC2KMLException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
-                }
-                else if (!valid)
-                {
-                    String errorText = "Current File type = " + fileUpEx.PostedFile.ContentType + " File type not appropriate (only jpg, gif, tiff, png, bmp accepted)";
-                    ErrorHandler eh = new ErrorHandler(errorText, errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-                else
-                {
-                    ErrorHandler eh = new ErrorHandler("File dimensions to large (max 128 x 128)", errorPanel1);
-                    eh.displayError();
-                    return;
-                }
+                pathToAdd = Utilities.uploadClick(fileSaveLoc, relativeFileSaveLoc, fileUpEx);
             }
-            else
+            catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("Please select a file to upload.", errorPanel1);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 eh.displayError();
                 return;
             }
@@ -2497,210 +2429,26 @@ namespace HCI
         /// <param name="e"></param>
         protected void URLsubmitClick(object sender, EventArgs e)
         {
-            ArrayList validTypes = BuildTypeList();
-
+            String pathToAdd = "";
             String URL = URLtextBox.Text.Trim();
-            Database DB = new Database();
-            WebClient Client = new WebClient();
-            
-            //below lines get information to check validity of icon and saves the icon temporarily
-            String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
-            String ext = System.IO.Path.GetExtension(URL);
-            String suffix = GetRandomString();
-            String tempName = tempSaveLoc + fileName + suffix + ext;
-            String pathToAdd = URL;
+            bool fetch = fetchCheckBox.Checked;
             try
             {
-                Client.DownloadFile(URL, tempName);
-            }
-            catch (WebException ex)
-            {
-                ErrorHandler eh = new ErrorHandler("Error with temporary download, please ensure " + tempSaveLoc + " exists on this machine", errorPanel1);
-                eh.displayError();
-                return;
-            }
-            catch (ArgumentException ex)
-            {
-                ErrorHandler eh = new ErrorHandler("No URL entered", errorPanel1);
-                eh.displayError();
-                return;
-            }
-            bool valid = false;
-
-            //checks to see if fileType of icon is valid
-            foreach (String type in validTypes)
-            {
-                String localFileType = GetContentType(tempName);
-                if (localFileType.Equals(type))
-                {
-                    valid = true;
-                    break;
-                }
-                //if (tempName.EndsWith(type))
-                //{
-                //    valid = true;
-                //    break;
-                //}
-
-            }
-            FileStream fs = File.OpenRead(tempName);
-            if (fetchCheckBox.Checked)
-            {
-                String Name = fileSaveLoc + fileName + suffix + ext;
-                String relativeName = relativeFileSaveLoc + fileName + suffix + ext;
-                pathToAdd = relativeName;
-                //checks if icon has valid dimensions
-                if (valid && ValidateFileDimensions(fs))
-                {
-                    fs.Close();
-                    try
-                    {
-                        File.Move(tempName, Name);
-                    }
-                    catch (DirectoryNotFoundException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler("Error saving file, please ensure " + fileSaveLoc + " exists on this machine", errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
-                    File.Delete(tempName);
-                    try
-                    {
-                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + relativeName + "\', 1)");
-                    }
-                    catch (ODBC2KMLException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
-                }
-                else if (!valid)
-                {
-                    fs.Close();
-                    File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("You linked to an invalid file type", errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-                else
-                {
-                    fs.Close();
-                    File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("The file you linked to was to large (max 128 x 128)", errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-            }
-            else
-            {
-                //checks if icon has valid dimensions
-                if (valid && ValidateFileDimensions(fs))
-                {
-                    fs.Close();
-                    File.Delete(tempName);
-                    try
-                    {
-                        DB.executeQueryLocal("INSERT INTO IconLibrary (location, isLocal) VALUES (\'" + URL + "\', 0)");
-                    }
-                    catch (ODBC2KMLException ex)
-                    {
-                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                        eh.displayError();
-                        return;
-                    }
-                }
-                else if (!valid)
-                {
-                    fs.Close();
-                    File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("You linked to an invalid file type", errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-                else
-                {
-                    fs.Close();
-                    File.Delete(tempName);
-                    ErrorHandler eh = new ErrorHandler("The file you linked to was to large (max 128 x 128)", errorPanel1);
-                    eh.displayError();
-                    return;
-                }
-            }
-            fetchCheckBox.Checked = false;
-            URLtextBox.Text = "";
-
-            try
-            {
-                addSingleIconToLib(pathToAdd);
+                pathToAdd = Utilities.URLsubmitClick(fetch, URL, fileSaveLoc, relativeFileSaveLoc);
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 eh.displayError();
+                return;
             }
-
-            sessionSave();
-        }
-
-        /// <summary>
-        /// helper function used by saving icons without name overlap
-        /// </summary>
-        /// <returns></returns>
-        public static string GetRandomString()
-        {
-            string path = Path.GetRandomFileName();
-            path = path.Replace(".", ""); // Remove period.
-            return path;
-        }
-
-        /// <summary>
-        /// type list used to check for valid file types of icons
-        /// </summary>
-        public ArrayList BuildTypeList()
-        {
-            ArrayList validTypes = new ArrayList();
-
-            validTypes.Add("image/bmp");
-            validTypes.Add("image/gif");
-            validTypes.Add("image/jpeg");
-            validTypes.Add("image/pjpeg");
-            validTypes.Add("image/png");
-            validTypes.Add("image/tiff");
-            validTypes.Add("image/x-tiff");
-            validTypes.Add("image/x-windows-bmp");
-
-            return validTypes;
-        }
-
-        /// <summary>
-        /// helper function to check dimensions of uploaded icons
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns>bool, true if valid dimensions</returns>
-        internal bool ValidateFileDimensions(Stream input)
-        {
-            using (System.Drawing.Image myImage =
-              System.Drawing.Image.FromStream(input))
+            fetchCheckBox.Checked = false;
+            URLtextBox.Text = "";
+            if (!pathToAdd.Equals(""))
             {
-                return (myImage.Height <= height && myImage.Width <= width);
+                addSingleIconToLib(pathToAdd);
             }
-        }
-
-        /// <summary>
-        /// helper function to get type of uploaded icons
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns>contentType</returns>
-        private string GetContentType(string fileName)
-        {
-            string contentType = "application/octetstream";
-            string ext = System.IO.Path.GetExtension(fileName).ToLower();
-            Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-            if (registryKey != null && registryKey.GetValue("Content Type") != null)
-                contentType = registryKey.GetValue("Content Type").ToString();
             sessionSave();
-            return contentType;
         }
 
         protected void modifyConnection(object sender, EventArgs e)
