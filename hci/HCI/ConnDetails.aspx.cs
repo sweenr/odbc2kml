@@ -2958,6 +2958,10 @@ namespace HCI
             sessionSave();
         }*/
 
+        /// <summary>
+        /// Method to show the current mapping on the page. Updates the labels on the ConnDetails page using
+        /// the values stored in conn.mapping. Should be called after every change to the current mapping.
+        /// </summary>
         protected void displayCurrentMapping()
         {
             if (conn.mapping.getFormat() == 1)
@@ -2994,11 +2998,11 @@ namespace HCI
                 //if the placemark field name hasn't been set, show no placemark message, else show mapping 
                 if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
                 {
-                    currentNameLabel.Text = "No placemark name mapped";
+                    currentNameLabel2.Text = "No placemark name mapped";
                 }
                 else
                 {
-                    currentNameLabel.Text = conn.mapping.getPlacemarkFieldName();
+                    currentNameLabel2.Text = conn.mapping.getPlacemarkFieldName();
                 }
 
                 LLSepPanel.Visible = false;
@@ -3017,11 +3021,11 @@ namespace HCI
                 //if the placemark field name hasn't been set, show error message, else show mapping 
                 if (conn.mapping.getPlacemarkFieldName().Equals("") || conn.mapping.getPlacemarkFieldName() == null)
                 {
-                    currentNameLabel.Text = "No placemark name mapped";
+                    currentNameLabel2.Text = "No placemark name mapped";
                 }
                 else
                 {
-                    currentNameLabel.Text = conn.mapping.getPlacemarkFieldName();
+                    currentNameLabel2.Text = conn.mapping.getPlacemarkFieldName();
                 }
 
                 LLSepPanel.Visible = false;
@@ -3726,6 +3730,7 @@ namespace HCI
                     //conn.mapping.connID = conn.connID;
                     //set conn.mapping latFieldName and longFieldName to the selected value
                     conn.mapping.latFieldName = conn.mapping.longFieldName = llDD.SelectedValue.ToString();
+                    conn.mapping.tableName = tableName;
 
                     //if the format is lon first, set the format to 3, else set it to 2
                     if (LongLatCheck.Selected)
