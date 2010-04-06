@@ -3278,6 +3278,12 @@ namespace HCI
             }
         }
 
+        /// <summary>
+        /// Method to remove the current mapping from the connection. Sets conn.mapping to a new, empty 
+        /// connection, then displays the current (empty) mapping.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void removeCurrentMapping(object sender, EventArgs e)
         {
             conn.mapping = new Mapping();
@@ -3288,6 +3294,7 @@ namespace HCI
         //editor methods
         protected void updateTables(int type)
         {
+            iTableFNBox.Items.Clear();
             try
             {
                 if (type == ConnInfo.MSSQL)
