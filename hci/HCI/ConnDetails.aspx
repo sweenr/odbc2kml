@@ -271,112 +271,8 @@ function OnColorPicked(sender){
                                     <div class="mainBox">
                                         <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                                         <div class="full">
-                                            <asp:Panel ID="viewLatLongErrorPanel" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
-                                                <table style="text-align:left;" width="100%">
-                                                    <tr>
-                                                        <td width="30%" rowspan="3" style="text-align:center;">
-                                                            <asp:Label ID="curMappingLabel3" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError"
-                                                                    Text="There are not lat/long mappings for this connection." HorizontalAlign="Center" Visible="false" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="viewPlacemarkErrorLabel" runat="server" CssClass="descLabelError" 
-                                                                    Text="There are no placemark name mappings for this connection." HorizontalAlign="Center" Visible="false" />
-                                                        </td>
-                                                        <td width="30%">&nbsp;</td>
-                                                    </tr>
-                                                </table>
-                                            </asp:Panel>
-                                            <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
-                                                <table style="text-align:left;" width="100%">
-                                                    <tr>
-                                                        <td width="30%" rowspan="4" style="text-align:center;">
-                                                            <asp:Label ID="curMappingLabel1" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                        <td width="30%" rowspan="4">
-                                                            <% if (Request.QueryString.Get("locked") != "true")
-                                                               { %>
-                                                                <asp:Button ID="removeCurMappingButton1" runat="server" Text="Remove" CssClass="button" 
-                                                                        OnClick="removeCurrentMapping" ToolTip="Remove" />
-                                                            <% } else { %>
-                                                                $nbsp;
-                                                            <% } %>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewNameLabel" runat="server" Text="Placemark Name Field: " CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentNameLabel" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </asp:Panel>
-                                            <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
-                                                <table style="text-align:left;" width="100%">
-                                                    <tr>
-                                                        <td width="30%" rowspan="3" style="text-align:center;">
-                                                            <asp:Label ID="curMappingLabel2" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                        <td width="30%" rowspan="3">
-                                                            <% if (Request.QueryString.Get("locked") != "true")
-                                                            { %>
-                                                                <asp:Button ID="removeCurMappingButton2" runat="server" Text="Remove" CssClass="button" 
-                                                                        OnClick="removeCurrentMapping" ToolTip="Remove" />
-                                                            <% } else { %>
-                                                                $nbsp;
-                                                            <% } %>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <asp:Label ID="viewNameLabel2" runat="server" Text="Placemark Name Field: " CssClass="descLabel" />
-                                                        </td>
-                                                        <td>
-                                                            <asp:Label ID="currentNameLabel2" runat="server" Text="" CssClass="descLabel2" />
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </asp:Panel>
+                                        
+                                            
                                             <table cellspacing="10" cellpadding="10" class="mainBox2">
                                                 <tr>
                                                     <td class="dbTitle">
@@ -598,7 +494,122 @@ function OnColorPicked(sender){
                                                     </td>
                                                 </tr>
                                             </table>
+                                            
+                                            <table cellspacing="10" cellpadding="10" class="mainBox2">
+                                         <tr><td class="dbTitle">Current Mapping</td></tr>
+                                         <tr><td class="mainBox3">
+                                            <asp:Panel ID="viewLatLongErrorPanel" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
+                                                <table style="text-align:left;" width="100%">
+                                                    <tr>
+                                                        <td width="30%" rowspan="3" style="text-align:center;">
+                                                            <asp:Label ID="curMappingLabel3" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError"
+                                                                    Text="There are not lat/long mappings for this connection." HorizontalAlign="Center" Visible="false" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="viewPlacemarkErrorLabel" runat="server" CssClass="descLabelError" 
+                                                                    Text="There are no placemark name mappings for this connection." HorizontalAlign="Center" Visible="false" />
+                                                        </td>
+                                                        <td width="30%">&nbsp;</td>
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
+                                                <table style="text-align:left;" width="100%">
+                                                    <tr>
+                                                        <td width="30%" rowspan="4" style="text-align:center;">
+                                                            <asp:Label ID="curMappingLabel1" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentTableLabel" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                        <td width="30%" rowspan="4">
+                                                            <% if (Request.QueryString.Get("locked") != "true")
+                                                               { %>
+                                                                <asp:Button ID="removeCurMappingButton1" runat="server" Text="Remove" CssClass="button" 
+                                                                        OnClick="removeCurrentMapping" ToolTip="Remove" />
+                                                            <% } else { %>
+                                                                $nbsp;
+                                                            <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewLatLabel" runat="server" Text="Latitude Field: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLongLabel" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewNameLabel" runat="server" Text="Placemark Name Field: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;&nbsp;<asp:Label ID="currentNameLabel" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" BackColor="#D1DDF1" HorizontalAlign="Center">
+                                                <table style="text-align:left;" width="100%">
+                                                    <tr>
+                                                        <td width="30%" rowspan="3" style="text-align:center;">
+                                                            <asp:Label ID="curMappingLabel2" runat="server" Text="Current Mapping" CssClass="descLabel" Visible="true" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                        <td width="30%" rowspan="3">
+                                                            <% if (Request.QueryString.Get("locked") != "true")
+                                                            { %>
+                                                                <asp:Button ID="removeCurMappingButton2" runat="server" Text="Remove" CssClass="button" 
+                                                                        OnClick="removeCurrentMapping" ToolTip="Remove" />
+                                                            <% } else { %>
+                                                                $nbsp;
+                                                            <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewNameLabel2" runat="server" Text="Placemark Name Field: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="currentNameLabel2" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            </td></tr></table>
                                         </div>
+                                        
+                                          
+                                        
+                                    </div>
                                     </div>
                                     <br />
                                     <br />
