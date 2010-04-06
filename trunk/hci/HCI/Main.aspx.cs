@@ -24,82 +24,88 @@ namespace HCI
             DataTable dt;
             dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
             int i = 0;
-
-            foreach (DataRow dr in dt.Rows)
+            if (dt.Rows.Count == 0)
             {
-                string dbID = dr.ItemArray.ElementAt(0).ToString();
-                string odbcName = dr.ItemArray.ElementAt(1).ToString();
-                
-                //Defines buttons
-                ImageButton openConn = new ImageButton();
-                openConn.CssClass = "openIcon";
-                openConn.ImageUrl = "graphics/connIcon.gif";
-                openConn.AlternateText = "Open Connection";
-                openConn.ToolTip = "Open Connection";
-                openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID + "&locked=true";
-
-                ImageButton editConn = new ImageButton();
-                editConn.CssClass = "editIcon";
-                editConn.ImageUrl = "graphics/connIcon.gif";
-                editConn.AlternateText = "Edit Connection";
-                editConn.ToolTip = "Edit Connection";
-                editConn.Click += new ImageClickEventHandler(confirmEdit);
-                editConn.CommandArgument = dbID;
-
-                ImageButton deleteConn = new ImageButton();
-                deleteConn.ID = "dc" + Convert.ToString(i);
-                deleteConn.CssClass = "deleteIcon";
-                deleteConn.ImageUrl = "graphics/connIcon.gif";
-                deleteConn.AlternateText = "Delete Connection";
-                deleteConn.ToolTip = "Delete Connection";
-                deleteConn.Click += new ImageClickEventHandler(confirmDelete);
-                deleteConn.CommandArgument = dbID;
-                deleteConn.CommandArgument += "#" + odbcName;
-
-                ImageButton genKML = new ImageButton();
-                genKML.CssClass = "kmlIcon";
-                genKML.ImageUrl = "graphics/connIcon.gif";
-                genKML.AlternateText = "Generate KML File";
-                genKML.ToolTip = "Generate KML File";
-                genKML.Click += new ImageClickEventHandler(genKMLFunction);
-                genKML.CommandArgument = dbID;
-
-
-                //End button definition
-                if (i % 2.00 == 0)
+                ConnectionsAvailable.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">No connections currently exist.</td></tr>\n"));
+            }
+            else
+            {
+                foreach (DataRow dr in dt.Rows)
                 {
-                    ConnectionsAvailable.Controls.Add(new LiteralControl("<tr class=\"oddConn\">\n"));
-                }
-                else
-                {
-                    ConnectionsAvailable.Controls.Add(new LiteralControl("<tr class=\"evenConn\">\n"));
-                }
+                    string dbID = dr.ItemArray.ElementAt(0).ToString();
+                    string odbcName = dr.ItemArray.ElementAt(1).ToString();
 
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<span id=\"Conn" + dbID + "\">" + odbcName + "</span>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<a href=\"#\" title=\"Open Connection\"></a>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<td class=\"connIcons\">\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<table>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<tr>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                ConnectionsAvailable.Controls.Add(openConn);
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                ConnectionsAvailable.Controls.Add(editConn);
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                ConnectionsAvailable.Controls.Add(deleteConn);
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                ConnectionsAvailable.Controls.Add(genKML);
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</table>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
-                ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
+                    //Defines buttons
+                    ImageButton openConn = new ImageButton();
+                    openConn.CssClass = "openIcon";
+                    openConn.ImageUrl = "graphics/connIcon.gif";
+                    openConn.AlternateText = "Open Connection";
+                    openConn.ToolTip = "Open Connection";
+                    openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID + "&locked=true";
 
-                i += 1;
+                    ImageButton editConn = new ImageButton();
+                    editConn.CssClass = "editIcon";
+                    editConn.ImageUrl = "graphics/connIcon.gif";
+                    editConn.AlternateText = "Edit Connection";
+                    editConn.ToolTip = "Edit Connection";
+                    editConn.Click += new ImageClickEventHandler(confirmEdit);
+                    editConn.CommandArgument = dbID;
+
+                    ImageButton deleteConn = new ImageButton();
+                    deleteConn.ID = "dc" + Convert.ToString(i);
+                    deleteConn.CssClass = "deleteIcon";
+                    deleteConn.ImageUrl = "graphics/connIcon.gif";
+                    deleteConn.AlternateText = "Delete Connection";
+                    deleteConn.ToolTip = "Delete Connection";
+                    deleteConn.Click += new ImageClickEventHandler(confirmDelete);
+                    deleteConn.CommandArgument = dbID;
+                    deleteConn.CommandArgument += "#" + odbcName;
+
+                    ImageButton genKML = new ImageButton();
+                    genKML.CssClass = "kmlIcon";
+                    genKML.ImageUrl = "graphics/connIcon.gif";
+                    genKML.AlternateText = "Generate KML File";
+                    genKML.ToolTip = "Generate KML File";
+                    genKML.Click += new ImageClickEventHandler(genKMLFunction);
+                    genKML.CommandArgument = dbID;
+
+
+                    //End button definition
+                    if (i % 2.00 == 0)
+                    {
+                        ConnectionsAvailable.Controls.Add(new LiteralControl("<tr class=\"oddConn\">\n"));
+                    }
+                    else
+                    {
+                        ConnectionsAvailable.Controls.Add(new LiteralControl("<tr class=\"evenConn\">\n"));
+                    }
+
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<span id=\"Conn" + dbID + "\">" + odbcName + "</span>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<a href=\"#\" title=\"Open Connection\"></a>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<td class=\"connIcons\">\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<table>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<tr>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
+                    ConnectionsAvailable.Controls.Add(openConn);
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
+                    ConnectionsAvailable.Controls.Add(editConn);
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
+                    ConnectionsAvailable.Controls.Add(deleteConn);
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
+                    ConnectionsAvailable.Controls.Add(genKML);
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</table>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
+
+                    i += 1;
+                }
             }
         }
 
