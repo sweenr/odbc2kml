@@ -1175,13 +1175,13 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.FileUpload fileUpEx;
         
         /// <summary>
-        /// btnSubmit control.
+        /// uploadSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmit;
+        protected global::System.Web.UI.WebControls.Button uploadSubmit;
         
         /// <summary>
         /// btnClose3 control.

@@ -894,7 +894,7 @@ function OnColorPicked(sender){
                                                                                                             <br />
                                                                                                             <div align="right">
                                                                                                                 <p>
-                                                                                                                    <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmitClick" Text="Submit"
+                                                                                                                    <asp:Button ID="uploadSubmit" runat="server" OnClick="uploadClick" Text="Submit"
                                                                                                                         CssClass="button" />
                                                                                                                 </p>
                                                                                                             </div>

@@ -17,8 +17,15 @@ namespace HCI
 {
     public partial class Main : System.Web.UI.Page
     {
+        // Absolute path where icons are stored
+        public static String fileSaveLoc = "";
+
+        // Relative path to where icons are stored
+        public static String relativeFileSaveLoc = @"/icons/";
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            fileSaveLoc = Server.MapPath("/icons/");
             //Get the DB stuff from here
             Database db = new Database();
             DataTable dt;
@@ -507,6 +514,50 @@ namespace HCI
 
                 Response.Redirect("ConnDetails.aspx?ConnID=" + connID + "&locked=false");
             }
+        }
+        /// <summary>
+        /// used for uploading icons from local computer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void uploadClick(object sender, EventArgs e)
+        {
+            try
+            {
+                Utilities.uploadClick(fileSaveLoc, relativeFileSaveLoc, fileUpEx);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            fileUpEx = new FileUpload(); // this is to clear the upload box incase someone wants to upload another file
+        }
+
+        /// <summary>
+        /// used for uploading icons from remote sources
+        /// if fetch is checked this function downloads the linked icon and saves its info to the db and saves the icon
+        /// if fetch is not checked it just saves the linked icon's info to the db
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void URLsubmitClick(object sender, EventArgs e)
+        {
+            String URL = URLtextBox.Text.Trim();
+            bool fetch = fetchCheckBox.Checked;
+            try
+            {
+                Utilities.URLsubmitClick(fetch, URL, fileSaveLoc, relativeFileSaveLoc);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            fetchCheckBox.Checked = false;
+            URLtextBox.Text = "";
         }
     }
 }
