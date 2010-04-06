@@ -93,39 +93,7 @@ namespace HCI
                         odbcSName.Text = conn.connInfo.getOracleServiceName();
                         odbcSID.Text = conn.connInfo.getOracleSID();
 
-                        //change below
-                        string connectionString = "";
-                        string providerName = "";
-                        //Set drop down box accordingly
-                        if (conn.connInfo.databaseType == ConnInfo.MSSQL)
-                        {
-                            odbcDBType.SelectedValue = "MSSQL";
-                            connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
-                            MSQLTables.ConnectionString = connectionString;
-                            MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
-                        }
-                        else if (conn.connInfo.databaseType == ConnInfo.MYSQL)
-                        {
-                            odbcDBType.SelectedValue = "MySQL";
-                            connectionString = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
-                            providerName = "MySql.Data.MySqlClient";
-                            SQLTables.ConnectionString = connectionString;
-                            SQLTables.ProviderName = providerName;
-                            SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
-                        }
-                        else if (conn.connInfo.databaseType == ConnInfo.ORACLE)
-                        {
-                            odbcDBType.SelectedValue = "Oracle";
-                            connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
-                            providerName = "System.Data.OracleClient";
-                            oracleTables.ConnectionString = connectionString;
-                            oracleTables.ProviderName = providerName;
-                            oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
-                        }
-                        else
-                        {
-                            throw new ODBC2KMLException("Unknown database type.");
-                        }
+                        updateSqlDataSources();
 
                         if (!alreadySetupLists)
                         {
@@ -380,6 +348,10 @@ namespace HCI
 
                 updateTables(conn.connInfo.getDatabaseType());
 
+                updateSqlDataSources();
+                genIconConditionTable(sender, e);
+                genOverlayConditionTable(sender, e);
+
                 sessionSave();
                 genIconConditionTable(sender, e);
                 genOverlayConditionTable(sender, e);
@@ -397,6 +369,42 @@ namespace HCI
                 return;
             }
               
+        }
+
+        protected void updateSqlDataSources()
+        {
+            string connectionString = "";
+            string providerName = "";
+            //Set drop down box accordingly
+            if (conn.connInfo.databaseType == ConnInfo.MSSQL)
+            {
+                odbcDBType.SelectedValue = "MSSQL";
+                connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
+                MSQLTables.ConnectionString = connectionString;
+                MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+            }
+            else if (conn.connInfo.databaseType == ConnInfo.MYSQL)
+            {
+                odbcDBType.SelectedValue = "MySQL";
+                connectionString = "server=" + conn.connInfo.getServerAddress() + ";User Id=" + conn.connInfo.getUserName() + ";password=" + conn.connInfo.getPassword() + ";Persist Security Info=True;database=" + conn.connInfo.getDatabaseName();
+                providerName = "MySql.Data.MySqlClient";
+                SQLTables.ConnectionString = connectionString;
+                SQLTables.ProviderName = providerName;
+                SQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+            }
+            else if (conn.connInfo.databaseType == ConnInfo.ORACLE)
+            {
+                odbcDBType.SelectedValue = "Oracle";
+                connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Persist Security Info=True;User ID=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword() + ";Unicode=True";
+                providerName = "System.Data.OracleClient";
+                oracleTables.ConnectionString = connectionString;
+                oracleTables.ProviderName = providerName;
+                oracleTables.SelectCommand = "SELECT TABLE_NAME FROM user_tables";
+            }
+            else
+            {
+                throw new ODBC2KMLException("Unknown database type.");
+            }
         }
 
         protected void fillOverlayLibraryLists()
@@ -716,7 +724,7 @@ namespace HCI
             ovr.setColor(args);
 
             bool exists = false;
-            foreach (Overlay over in overlayList)
+            foreach (Overlay over in conn.overlays)
             {
                 if (over.getColor().Equals(ovr.getColor()))
                 {
@@ -744,7 +752,7 @@ namespace HCI
                     ovr.setId(curOverlayCount.ToString());
                     curOverlayCount -= 1;
                     overlayListAvailableToRemove.Add(ovr);
-                    overlayList.Add(new Overlay(ovr));
+                    //overlayList.Add(new Overlay(ovr));
                     conn.overlays.Add(new Overlay(ovr));
                     this.fillOverlayPopupRemove();
                     this.genOverlayConditionTable(sender, e);
@@ -767,14 +775,15 @@ namespace HCI
             Overlay ovr = new Overlay();
             ovr.setColor(args);
 
-            foreach (Overlay over in overlayList)
+            // This should only be for the overlays in conn.overlays, not for overlayList -Micah
+            /*foreach (Overlay over in overlayList)
             {
                 if (over.getColor().Equals(ovr.getColor()))
                 {
                     overlayList.Remove(over);
                     break;
                 }
-            }
+            }*/
             foreach (Overlay over in conn.overlays)
             {
                 if (over.getColor().Equals(ovr.getColor()))
@@ -1272,7 +1281,7 @@ namespace HCI
                 try
                 {
                     genIconConditionTable(sender, e);
-                    genOverlayConditionTable(sender, e);
+                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -1318,7 +1327,7 @@ namespace HCI
                                 try
                                 {
                                     genIconConditionTable(sender, e);
-                                    genOverlayConditionTable(sender, e);
+                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                                 }
                                 catch (ODBC2KMLException ex)
                                 {
@@ -1346,7 +1355,7 @@ namespace HCI
                                 try
                                 {
                                     genIconConditionTable(sender, e);
-                                    genOverlayConditionTable(sender, e);
+                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                                 }
                                 catch (ODBC2KMLException ex)
                                 {
@@ -1380,7 +1389,7 @@ namespace HCI
                                 try
                                 {
                                     genIconConditionTable(sender, e);
-                                    genOverlayConditionTable(sender, e);
+                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                                 }
                                 catch (ODBC2KMLException ex)
                                 {
@@ -1407,7 +1416,7 @@ namespace HCI
                                 try
                                 {
                                     genIconConditionTable(sender, e);
-                                    genOverlayConditionTable(sender, e);
+                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                                 }
                                 catch (ODBC2KMLException ex)
                                 {
@@ -1441,7 +1450,7 @@ namespace HCI
                                 try
                                 {
                                     genIconConditionTable(sender, e);
-                                    genOverlayConditionTable(sender, e);
+                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                                 }
                                 catch (ODBC2KMLException ex)
                                 {
@@ -1468,7 +1477,7 @@ namespace HCI
                                 try
                                 {
                                     genIconConditionTable(sender, e);
-                                    genOverlayConditionTable(sender, e);
+                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
                                 }
                                 catch (ODBC2KMLException ex)
                                 {
@@ -1993,7 +2002,7 @@ namespace HCI
             {
                 try
                 {
-                    genIconConditionTable(sender, e);
+                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                     genOverlayConditionTable(sender, e);
                 }
                 catch (ODBC2KMLException ex)
@@ -2039,7 +2048,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 try
                                 {
-                                    genIconConditionTable(sender, e);
+                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                                     genOverlayConditionTable(sender, e);
                                 }
                                 catch (ODBC2KMLException ex)
@@ -2066,7 +2075,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 try
                                 {
-                                    genIconConditionTable(sender, e);
+                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                                     genOverlayConditionTable(sender, e);
                                 }
                                 catch (ODBC2KMLException ex)
@@ -2100,7 +2109,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 try
                                 {
-                                    genIconConditionTable(sender, e);
+                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                                     genOverlayConditionTable(sender, e);
                                 }
                                 catch (ODBC2KMLException ex)
@@ -2127,7 +2136,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 try
                                 {
-                                    genIconConditionTable(sender, e);
+                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                                     genOverlayConditionTable(sender, e);
                                 }
                                 catch (ODBC2KMLException ex)
@@ -2161,7 +2170,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 try
                                 {
-                                    genIconConditionTable(sender, e);
+                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                                     genOverlayConditionTable(sender, e);
                                 }
                                 catch (ODBC2KMLException ex)
@@ -2188,7 +2197,7 @@ namespace HCI
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 try
                                 {
-                                    genIconConditionTable(sender, e);
+                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
                                     genOverlayConditionTable(sender, e);
                                 }
                                 catch (ODBC2KMLException ex)
