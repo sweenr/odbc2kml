@@ -229,6 +229,7 @@ namespace HCI
             if (e.CommandName.Equals("saveConn"))
             {
                 this.editConnModalPopUp.Hide();
+                Response.Redirect("Main.aspx");
             }
             else
             {
@@ -240,6 +241,55 @@ namespace HCI
         protected void editCancel(object sender, EventArgs e)
         {
             this.editConnModalPopUp.Hide();
+        }
+
+        protected void viewIconLibFunc(object sender, EventArgs e)
+        {
+            Database db = new Database();
+            DataTable dt;
+            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary");
+
+            int sizeOfBox = 6;
+            int currentBoxCount = 0;
+
+            iconLibPanel.Controls.Clear();
+            iconLibPanel.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
+            if (dt.Rows.Count == 0)
+            {
+                iconLibPanel.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">All icons in the icon library are currently being used in the connection.</td></tr>\n"));
+            }
+            else
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (currentBoxCount == sizeOfBox)
+                    {
+                        iconLibPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                        currentBoxCount = 0;
+                    }
+                    if (currentBoxCount == 0)
+                    {
+                        iconLibPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    }
+
+                    iconLibPanel.Controls.Add(new LiteralControl("<td>"));
+                    Image img = new Image();
+                    img.ID = "imgLib_" + dr["ID"].ToString();
+                    img.ImageUrl = dr["location"].ToString();
+                    img.AlternateText = "Icon Cannot be Displayed";
+                    img.ToolTip = dr["location"].ToString();
+
+                    iconLibPanel.Controls.Add(img);
+                    iconLibPanel.Controls.Add(new LiteralControl("</td>"));
+
+
+                    currentBoxCount += 1;
+                }
+            }
+            iconLibPanel.Controls.Add(new LiteralControl("</table>\n"));
+            this.IconLibModalPopup.Show();
+            //iconLibPanel
+
         }
 
         protected void deleteConnFunction(object sender, EventArgs e)
