@@ -153,7 +153,7 @@ namespace HCI
                     return false;
                 }
 
-                if (this.getFormat() != 1 || this.getFormat() != 2 || this.getFormat() != 3) //See if there is a format
+                if (this.getFormat() != 1 && this.getFormat() != 2 && this.getFormat() != 3) //See if there is a format
                 {
                     //No format
                     return false;
