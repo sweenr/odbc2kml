@@ -378,6 +378,16 @@ namespace HCI
                 }
 
                 updateTables(conn.connInfo.getDatabaseType());
+
+                sessionSave();
+                genIconConditionTable(sender, e);
+                genOverlayConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
             }
             catch (Exception ex)
             {
@@ -386,9 +396,6 @@ namespace HCI
                 return;
             }
               
-            sessionSave();
-            genIconConditionTable(sender, e);
-            genOverlayConditionTable(sender, e);
         }
 
         protected void fillOverlayLibraryLists()
@@ -602,21 +609,30 @@ namespace HCI
             Icon iconSaved = new Icon();
             icn.setId(args);
 
-            foreach (Icon icon in iconListAvailableToAdd)
+            try
             {
-                if (icon.getId().Equals(icn.getId()))
+                foreach (Icon icon in iconListAvailableToAdd)
                 {
-                    iconSaved.setId(icon.getId());
-                    iconSaved.setLocation(icon.getLocation());
-                    iconListAvailableToAdd.Remove(icon);
-                    iconListAvailableToRemove.Add(new Icon(iconSaved));
-                    iconList.Add(new Icon(iconSaved));
-                    conn.icons.Add(new Icon(iconSaved));
-                    this.fillIconLibraryPopup();
-                    this.fillIconLibraryPopupRemove();
-                    this.genIconConditionTable(sender, e);
-                    break;
+                    if (icon.getId().Equals(icn.getId()))
+                    {
+                        iconSaved.setId(icon.getId());
+                        iconSaved.setLocation(icon.getLocation());
+                        iconListAvailableToAdd.Remove(icon);
+                        iconListAvailableToRemove.Add(new Icon(iconSaved));
+                        iconList.Add(new Icon(iconSaved));
+                        conn.icons.Add(new Icon(iconSaved));
+                        this.fillIconLibraryPopup();
+                        this.fillIconLibraryPopupRemove();
+                        this.genIconConditionTable(sender, e);
+                        break;
+                    }
                 }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
             }
 
             sessionSave();
@@ -648,34 +664,43 @@ namespace HCI
                     break;
                 }
             }
-            foreach (Icon icon in iconListAvailableToRemove)
+            try
             {
-                
-                if (icon.getId().Equals(icn.getId()))
+                foreach (Icon icon in iconListAvailableToRemove)
                 {
-                    iconSaved.setId(icon.getId());
-                    iconSaved.setLocation(icon.getLocation());
-                    iconListAvailableToRemove.Remove(icon);
-                    int j = 0;
-                    foreach (Icon icon2 in iconListAvailableToAdd)
+
+                    if (icon.getId().Equals(icn.getId()))
                     {
-                        if (System.Convert.ToInt32(iconSaved.getId()) < System.Convert.ToInt32(icon2.getId()))
+                        iconSaved.setId(icon.getId());
+                        iconSaved.setLocation(icon.getLocation());
+                        iconListAvailableToRemove.Remove(icon);
+                        int j = 0;
+                        foreach (Icon icon2 in iconListAvailableToAdd)
                         {
-                            iconListAvailableToAdd.Insert(j,iconSaved);
-                            break;
+                            if (System.Convert.ToInt32(iconSaved.getId()) < System.Convert.ToInt32(icon2.getId()))
+                            {
+                                iconListAvailableToAdd.Insert(j, iconSaved);
+                                break;
+                            }
+                            j += 1;
+                            if (j == iconListAvailableToAdd.Count)
+                            {
+                                iconListAvailableToAdd.Add(iconSaved);
+                                break;
+                            }
                         }
-                        j += 1;
-                        if (j == iconListAvailableToAdd.Count)
-                        {
-                            iconListAvailableToAdd.Add(iconSaved);
-                            break;
-                        }
+                        this.fillIconLibraryPopup();
+                        this.fillIconLibraryPopupRemove();
+                        this.genIconConditionTable(sender, e);
+                        break;
                     }
-                    this.fillIconLibraryPopup();
-                    this.fillIconLibraryPopupRemove();
-                    this.genIconConditionTable(sender, e);
-                    break;
                 }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
             }
             sessionSave();
         }
@@ -713,13 +738,22 @@ namespace HCI
             }
             else
             {
-                ovr.setId(curOverlayCount.ToString());
-                curOverlayCount -= 1;
-                overlayListAvailableToRemove.Add(ovr);
-                overlayList.Add(new Overlay(ovr));
-                conn.overlays.Add(new Overlay(ovr));
-                this.fillOverlayPopupRemove();
-                this.genOverlayConditionTable(sender, e);
+                try
+                {
+                    ovr.setId(curOverlayCount.ToString());
+                    curOverlayCount -= 1;
+                    overlayListAvailableToRemove.Add(ovr);
+                    overlayList.Add(new Overlay(ovr));
+                    conn.overlays.Add(new Overlay(ovr));
+                    this.fillOverlayPopupRemove();
+                    this.genOverlayConditionTable(sender, e);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
             }
             sessionSave();
         }
@@ -748,16 +782,25 @@ namespace HCI
                     break;
                 }
             }
-            foreach (Overlay over in overlayListAvailableToRemove)
+            try
             {
-
-                if (over.getColor().Equals(ovr.getColor()))
+                foreach (Overlay over in overlayListAvailableToRemove)
                 {
-                    overlayListAvailableToRemove.Remove(over);
-                    this.fillOverlayPopupRemove();
-                    this.genOverlayConditionTable(sender, e);
-                    break;
+
+                    if (over.getColor().Equals(ovr.getColor()))
+                    {
+                        overlayListAvailableToRemove.Remove(over);
+                        this.fillOverlayPopupRemove();
+                        this.genOverlayConditionTable(sender, e);
+                        break;
+                    }
                 }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
             }
             sessionSave();
         }
@@ -947,7 +990,7 @@ namespace HCI
                     DropDownList addTableName = (DropDownList)Page.FindControl("addIconTable" + icon.getId());
                     if ((addTableName != null) && (addTableName.Items.Count != 0))
                     {
-                        addTableName.SelectedIndex = 0;
+                        //addTableName.SelectedIndex = 0;
                         addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
                 }  // end of foreach icon in tempIconlist
@@ -1186,7 +1229,16 @@ namespace HCI
                     }
                 }
             }
-            genIconConditionTable(sender, e);
+            try
+            {
+                genIconConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             sessionSave();
         }
 
@@ -1216,8 +1268,17 @@ namespace HCI
             string conditionErrors = condition.getErrorText();
             if (conditionErrors != "")
             {
-                genIconConditionTable(sender, e);
-                genOverlayConditionTable(sender, e);
+                try
+                {
+                    genIconConditionTable(sender, e);
+                    genOverlayConditionTable(sender, e);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh2.displayError();
+                    return;
+                }
                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel"+iconId), "MPE_"+iconId);
                 eh.displayError();
                 errorUpdatePanel.Update();
@@ -1253,9 +1314,18 @@ namespace HCI
                             //If value is not a double, throw an error
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
@@ -1272,8 +1342,17 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
@@ -1297,8 +1376,17 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
@@ -1315,8 +1403,17 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
@@ -1340,8 +1437,17 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
@@ -1358,8 +1464,17 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 return;
@@ -1380,7 +1495,16 @@ namespace HCI
                     icon.setConditions(condition);
                 }
             }
-            genIconConditionTable(sender, e);
+            try
+            {
+                genIconConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             sessionSave();
         }
 
@@ -1402,7 +1526,16 @@ namespace HCI
                 if (icon.getId() == iconId)
                     icon.setConditions(replaceWithThisIcon.getDeepCopyOfConditions());
             }
-            genIconConditionTable(sender, e);
+            try
+            {
+                genIconConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             sessionSave();
         }
 
@@ -1579,7 +1712,7 @@ namespace HCI
                     DropDownList addTableName = (DropDownList)Page.FindControl("addOverlayTable" + overlay.getId());
                     if ((addTableName != null) && (addTableName.Items.Count != 0))
                     {
-                        addTableName.SelectedIndex = 0;
+                        //addTableName.SelectedIndex = 0;
                         addTableName_SelectedIndexChanged(addTableName, new EventArgs());
                     }
                 }  // end of foreach overlay in tempOverlaylist
@@ -1818,7 +1951,16 @@ namespace HCI
                     }
                 }
             }
-            genOverlayConditionTable(sender, e);
+            try
+            {
+                genOverlayConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             sessionSave();
         }
 
@@ -1848,8 +1990,17 @@ namespace HCI
             string conditionErrors = condition.getErrorText();
             if (conditionErrors != "")
             {
-                genIconConditionTable(sender, e);
-                genOverlayConditionTable(sender, e);
+                try
+                {
+                    genIconConditionTable(sender, e);
+                    genOverlayConditionTable(sender, e);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh2.displayError();
+                    return;
+                }
                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                 eh.displayError();
                 return;
@@ -1885,8 +2036,17 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
@@ -1903,8 +2063,17 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
@@ -1928,8 +2097,17 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
@@ -1946,8 +2124,17 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
@@ -1971,8 +2158,17 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
@@ -1989,8 +2185,17 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                genIconConditionTable(sender, e);
-                                genOverlayConditionTable(sender, e);
+                                try
+                                {
+                                    genIconConditionTable(sender, e);
+                                    genOverlayConditionTable(sender, e);
+                                }
+                                catch (ODBC2KMLException ex)
+                                {
+                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
+                                    eh2.displayError();
+                                    return;
+                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
@@ -2011,7 +2216,16 @@ namespace HCI
                     overlay.setConditions(condition);
                 }
             }
-            genOverlayConditionTable(sender, e);
+            try
+            {
+                genOverlayConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             sessionSave();
         }
 
@@ -2033,7 +2247,16 @@ namespace HCI
                 if (overlay.getId() == overlayId)
                     overlay.setConditions(replaceWithThisOverlay.getDeepCopyOfConditions());
             }
-            genOverlayConditionTable(sender, e);
+            try
+            {
+                genOverlayConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
             sessionSave();
         }
 
