@@ -2411,7 +2411,7 @@ namespace HCI
         protected void modifyConnection(object sender, EventArgs e)
         {
             saveConnInfo();
-            saveLatLonInfo();
+            //saveLatLonInfo();
             updateDescription();
             saveIconList();
             saveOverlayList();
@@ -2890,7 +2890,7 @@ namespace HCI
             sessionSave();
         }
 
-        protected void saveLatLonInfo()
+      /*  protected void saveLatLonInfo()
         {
             Database DB = new Database();
             //if statement checks to see if this is an empty mapping (ie its been removed)
@@ -2956,7 +2956,7 @@ namespace HCI
                 }
             }
             sessionSave();
-        }
+        }*/
 
         protected void displayCurrentMapping()
         {
@@ -3698,7 +3698,7 @@ namespace HCI
                     else
                     {
                         //else, set the current mapping to the selected values
-                        conn.mapping.connID = conn.connID;
+                        //conn.mapping.connID = conn.connID;
                         conn.mapping.tableName = tableName;
                         conn.mapping.latFieldName = latDD.SelectedValue.ToString();
                         conn.mapping.longFieldName = longDD.SelectedValue.ToString();
@@ -3723,7 +3723,7 @@ namespace HCI
                 //else if they are mapped together
                 else if (LLTogetherPanel.Visible == true)
                 {
-                    conn.mapping.connID = conn.connID;
+                    //conn.mapping.connID = conn.connID;
                     //set conn.mapping latFieldName and longFieldName to the selected value
                     conn.mapping.latFieldName = conn.mapping.longFieldName = llDD.SelectedValue.ToString();
 
