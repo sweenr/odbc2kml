@@ -494,7 +494,7 @@ namespace HCI
                                 query = "INSERT INTO IconCondition (iconID, connID, lowerBound, upperBound, "
                                     + "lowerOperator, upperOperator, fieldName, tableName) VALUES(" + i.getId()
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
-                                    + c.getLowerOperator() + ", " + c.getUpperOperator() + ", '" + c.getFieldName()
+                                    + Condition.operatorStringToInt(c.getLowerOperator()) + ", " + Condition.operatorStringToInt(c.getUpperOperator()) + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
                                 database.executeQueryLocal(query);
                             }
@@ -557,9 +557,16 @@ namespace HCI
                         //Add all current icons to the database
                         foreach (Overlay o in this.overlays)
                         {
-                            query = "INSERT INTO Overlay (connID, ID, color) VALUES(" + this.connID + ", " + o.getId()
-                                + ", '" + o.getColor() + "')";
+                            query = "INSERT INTO Overlay (connID, color) VALUES(" + this.connID + ", '"  
+                                + o.getColor() + "')";
                             database.executeQueryLocal(query);
+
+                            query = "SELECT ID FROM Overlay WHERE connID=" + this.connID + " AND "
+                                + "color='" + o.getColor() + "'";
+                            DataTable tempTable = database.executeQueryLocal(query);
+
+                            //Set ID
+                            o.setId(tempTable.Rows[0]["ID"].ToString());
 
                             //Add all conditions
                             foreach (Condition c in o.getConditions())
@@ -567,7 +574,7 @@ namespace HCI
                                 query = "INSERT INTO OverlayCondition (overlayID, connID, lowerBound, upperBound, "
                                     + "lowerOperator, upperOperator, fieldName, tableName) VALUES(" + o.getId()
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
-                                    + c.getLowerOperator() + ", " + c.getUpperOperator() + ", '" + c.getFieldName()
+                                    + Condition.operatorStringToInt(c.getLowerOperator()) + ", " + Condition.operatorStringToInt(c.getUpperOperator()) + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
                                 database.executeQueryLocal(query);
                             }
