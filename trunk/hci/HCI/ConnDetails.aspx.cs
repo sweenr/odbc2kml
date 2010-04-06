@@ -97,10 +97,19 @@ namespace HCI
 
                         if (!alreadySetupLists)
                         {
-                            fillIconLibraryLists();
-                            fillOverlayLibraryLists();
-                            fillIconListFromDatabase();
-                            alreadySetupLists = true;
+                            try
+                            {
+                                fillIconLibraryLists();
+                                fillOverlayLibraryLists();
+                                fillIconListFromDatabase();
+                                alreadySetupLists = true;
+                            }
+                            catch (ODBC2KMLException ex)
+                            {
+                                ErrorHandler eh = new ErrorHandler("There was an error populating the icon and overlay lists", errorPanel1);
+                                eh.displayError();
+                                return;
+                            }
                         }
 
                         //editor insertion
@@ -182,10 +191,17 @@ namespace HCI
             {
                 curOverlayCount = -1;
                 tempId = -1;
-                fillIconLibraryLists();
-                fillOverlayLibraryLists();
-                fillIconListFromDatabase();
-                alreadySetupLists = true;
+                try
+                {
+                    fillIconLibraryLists();
+                    fillOverlayLibraryLists();
+                    fillIconListFromDatabase();
+                    alreadySetupLists = true;
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    throw ex;
+                }
                 sessionSave();
                 return;
             }
@@ -425,7 +441,16 @@ namespace HCI
         {
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE location=\'"+path+"\'");
+
+            try
+            {
+                dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE location=\'" + path + "\'");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
+            }
+
             foreach (DataRow dr in dt.Rows)
             {
                 string iconId = dr["ID"].ToString();
@@ -446,7 +471,16 @@ namespace HCI
 
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + " ) AND (ID = IL.ID)))");
+
+            try
+            {
+                dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + " ) AND (ID = IL.ID)))");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
+            }
+            
             foreach (DataRow dr in dt.Rows)
             {
                 string iconId = dr["ID"].ToString();
@@ -459,7 +493,15 @@ namespace HCI
 
             Database db2 = new Database();
             DataTable dt2;
-            dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary,Icon Where IconLibrary.ID=Icon.ID AND Icon.ConnID=" + Request.QueryString.Get("ConnID"));
+            try
+            {
+                dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary,Icon Where IconLibrary.ID=Icon.ID AND Icon.ConnID=" + Request.QueryString.Get("ConnID"));
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
+            }
+
             foreach (DataRow dr2 in dt2.Rows)
             {
                 string iconId = dr2["ID"].ToString();
@@ -2432,7 +2474,17 @@ namespace HCI
                 return;
             }
             fileUpEx = new FileUpload(); // this is to clear the upload box incase someone wants to upload another file
-            addSingleIconToLib(pathToAdd);
+            
+            try
+            {
+                addSingleIconToLib(pathToAdd);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
+                eh.displayError();
+            }
+
             sessionSave();
         }
         
@@ -2577,7 +2629,17 @@ namespace HCI
             }
             fetchCheckBox.Checked = false;
             URLtextBox.Text = "";
-            addSingleIconToLib(pathToAdd);
+
+            try
+            {
+                addSingleIconToLib(pathToAdd);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
+                eh.displayError();
+            }
+
             sessionSave();
         }
 
