@@ -23,7 +23,6 @@ namespace HCI
         public static readonly int LONGFIRST = 3;
 
         //Datatypes
-        internal int connID;
         internal string tableName;
         internal string latFieldName;
         internal string longFieldName;
@@ -35,21 +34,14 @@ namespace HCI
         //Constructor
         public Mapping()
         {
-            connID = -1;
             tableName = "";
             latFieldName = "";
             longFieldName = "";
             placemarkFieldName = "";
-            format = -1;
+            format = 0;
         }
 
         //Getters
-
-        //Retrieve connID
-        public int getConnID()
-        {
-            return this.connID;
-        }
 
         //Retrieve tableName
         public string getTableName()
@@ -82,12 +74,6 @@ namespace HCI
         }
 
         //Setters
-
-        //Set connID
-        public void setConnID(int connID)
-        {
-            this.connID = connID;
-        }
 
         //Set tableName
         public void setTableName(string tableName)
@@ -159,7 +145,7 @@ namespace HCI
                     return false;
                 }
             }
-            else //No lat and long
+            else if (this.getTableName() == "")//No lat and long
             {
                 if (this.getTableName() != "") //See if there is a table name
                 {
@@ -172,6 +158,22 @@ namespace HCI
                     //Not default
                     return false;
                 }
+            }
+            else
+            {
+                if (this.getTableName() != null)
+                {
+                    if (this.getLatFieldName() == null)
+                    {
+                        return false;
+                    }
+
+                    if (this.getFormat() == null)
+                    {
+                        return false;
+                    }
+                }
+
             }
 
             return true;
@@ -278,11 +280,11 @@ namespace HCI
         /// Function to insert this mapping into the local database. Uses the values currently in this mapping object
         /// to populate the database fields.
         /// </summary>
-        public static void insertMapping(Mapping m)
+    /*    public static void insertMapping(Mapping m)
         {
             Database localDatabase = new Database();
 
-            string query = "INSERT INTO MAPPING (tableName, latFieldName, longFieldName, placemarkFieldName, format, connID) VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" + m.connID + "')";
+            string query = "INSERT INTO MAPPING (tableName, latFieldName, longFieldName, placemarkFieldName, format, connID) VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" +  + "')";
             try
             {
                 localDatabase.executeQueryLocal(query);
@@ -315,7 +317,7 @@ namespace HCI
 
             string query = "DELETE FROM Mapping WHERE connID = '" + m.connID + "'";
             localDatabase.executeQueryLocal(query);
-        }
+        }*/
 
         /// <summary>
         /// DEPRECATED - Use insertMapping() instead.
