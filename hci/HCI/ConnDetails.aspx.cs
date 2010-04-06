@@ -2198,7 +2198,7 @@ namespace HCI
                 eh.displayError();
                 return;
             }
-            fileUpEx = new FileUpload();
+            fileUpEx = new FileUpload(); // this is to clear the upload box incase someone wants to upload another file
             addSingleIconToLib(pathToAdd);
             sessionSave();
         }
@@ -2245,11 +2245,18 @@ namespace HCI
             //checks to see if fileType of icon is valid
             foreach (String type in validTypes)
             {
-                if (tempName.EndsWith(type))
+                String localFileType = GetContentType(tempName);
+                if (localFileType.Equals(type))
                 {
                     valid = true;
                     break;
                 }
+                //if (tempName.EndsWith(type))
+                //{
+                //    valid = true;
+                //    break;
+                //}
+
             }
             FileStream fs = File.OpenRead(tempName);
             if (fetchCheckBox.Checked)
@@ -2359,13 +2366,14 @@ namespace HCI
         {
             ArrayList validTypes = new ArrayList();
 
-            validTypes.Add("bmp");
-            validTypes.Add("gif");
-            validTypes.Add("jpeg");
-            validTypes.Add("jpg");
-            validTypes.Add("png");
-            validTypes.Add("tiff");
-            validTypes.Add("tif");
+            validTypes.Add("image/bmp");
+            validTypes.Add("image/gif");
+            validTypes.Add("image/jpeg");
+            validTypes.Add("image/pjpeg");
+            validTypes.Add("image/png");
+            validTypes.Add("image/tiff");
+            validTypes.Add("image/x-tiff");
+            validTypes.Add("image/x-windows-bmp");
 
             return validTypes;
         }
@@ -2382,6 +2390,22 @@ namespace HCI
             {
                 return (myImage.Height <= height && myImage.Width <= width);
             }
+        }
+
+        /// <summary>
+        /// helper function to get type of uploaded icons
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>contentType</returns>
+        private string GetContentType(string fileName)
+        {
+            string contentType = "application/octetstream";
+            string ext = System.IO.Path.GetExtension(fileName).ToLower();
+            Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
+            if (registryKey != null && registryKey.GetValue("Content Type") != null)
+                contentType = registryKey.GetValue("Content Type").ToString();
+            sessionSave();
+            return contentType;
         }
 
         protected void modifyConnection(object sender, EventArgs e)
