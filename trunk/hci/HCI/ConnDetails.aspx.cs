@@ -262,6 +262,7 @@ namespace HCI
         internal void LockPage()
         {
             addLatLong.Visible = false;
+            addPlacemarkField.Visible = false;
             descriptionBox.Enabled = false;
 
             foreach (Control c in Page.Controls)

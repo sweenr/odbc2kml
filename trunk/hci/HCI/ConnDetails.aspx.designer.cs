@@ -635,15 +635,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel viewLatLongErrorPanel;
         
         /// <summary>
-        /// curMappingLabel3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label curMappingLabel3;
-        
-        /// <summary>
         /// viewLatLongErrorLabel control.
         /// </summary>
         /// <remarks>
@@ -671,15 +662,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel viewLatLongPanel;
         
         /// <summary>
-        /// curMappingLabel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label curMappingLabel1;
-        
-        /// <summary>
         /// viewTableLabel control.
         /// </summary>
         /// <remarks>
@@ -696,15 +678,6 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label currentTableLabel;
-        
-        /// <summary>
-        /// removeCurMappingButton1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button removeCurMappingButton1;
         
         /// <summary>
         /// viewLatLabel control.
@@ -761,6 +734,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Label currentNameLabel;
         
         /// <summary>
+        /// removeCurMappingButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button removeCurMappingButton1;
+        
+        /// <summary>
         /// viewLatLongPanel2 control.
         /// </summary>
         /// <remarks>
@@ -768,15 +750,6 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel viewLatLongPanel2;
-        
-        /// <summary>
-        /// curMappingLabel2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label curMappingLabel2;
         
         /// <summary>
         /// viewTableLabel2 control.
