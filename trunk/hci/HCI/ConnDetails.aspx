@@ -514,8 +514,8 @@ function OnColorPicked(sender){
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" HorizontalAlign="Center">
-                                                <table style="text-align:left;" width="100%">
-                                                    <tr>
+                                                <table style="text-align:left;" width="100%" cellspacing="0">
+                                                    <tr style="background-color: #E6ECF7;">
                                                        
                                                         <td>
                                                             <asp:Label ID="viewTableLabel" runat="server" Text="Table: " CssClass="descLabel" />
@@ -532,7 +532,7 @@ function OnColorPicked(sender){
                                                             &nbsp;&nbsp;&nbsp;<asp:Label ID="currentLatLabel" runat="server" Text="" CssClass="descLabel2" />
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr style="background-color: #E6ECF7;">
                                                         <td>
                                                             <asp:Label ID="viewLongLabel" runat="server" Text="Longitude Field: " CssClass="descLabel" />
                                                         </td>
@@ -554,30 +554,20 @@ function OnColorPicked(sender){
                                                                 <asp:Button ID="removeCurMappingButton1" runat="server" Text="Remove" CssClass="button" 
                                                                         OnClick="removeCurrentMapping" ToolTip="Remove Mapping" />
                                                             <% } else { %>
-                                                                $nbsp;
+                                                                &nbsp;
                                                             <% } %></div>
                                             </asp:Panel>
                                             <asp:Panel ID="viewLatLongPanel2" runat="server" Visible="false" HorizontalAlign="Center">
                                                 <table style="text-align:left;" width="100%">
                                                     <tr>
-                                                       
                                                         <td>
                                                             <asp:Label ID="viewTableLabel2" runat="server" Text="Table: " CssClass="descLabel" />
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2" />
                                                         </td>
-                                                        <td width="30%" valign="bottom">
-                                                            <% if (Request.QueryString.Get("locked") != "true")
-                                                            { %>
-                                                                <asp:Button ID="removeCurMappingButton2" runat="server" Text="Remove" CssClass="button" 
-                                                                        OnClick="removeCurrentMapping" ToolTip="Remove" />
-                                                            <% } else { %>
-                                                                $nbsp;
-                                                            <% } %>
-                                                        </td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr style="background-color: #E6ECF7;">
                                                         <td>
                                                             <asp:Label ID="viewLatLongLabel" runat="server" Text="" CssClass="descLabel" />
                                                         </td>
@@ -594,6 +584,13 @@ function OnColorPicked(sender){
                                                         </td>
                                                     </tr>
                                                 </table>
+                                                 <div align="right"> <% if (Request.QueryString.Get("locked") != "true")
+                                                               { %>
+                                                                <asp:Button ID="Button2" runat="server" Text="Remove" CssClass="button" 
+                                                                        OnClick="removeCurrentMapping" ToolTip="Remove Mapping" />
+                                                            <% } else { %>
+                                                                &nbsp;
+                                                            <% } %></div>
                                             </asp:Panel>
                                             </td></tr></table>
                                         </div>
