@@ -420,7 +420,7 @@ namespace HCI
                         }
                         else //Insert mapping
                         {
-                            query = "INSERT INTO Mapping format, latFieldName, longFieldName, tableName, placemarkFieldName, connID "
+                            query = "INSERT INTO Mapping (format, latFieldName, longFieldName, tableName, placemarkFieldName, connID) "
                                 + "VALUES(" + this.mapping.getFormat() + ", '" + this.mapping.getLatFieldName() + "', '"
                                 + this.mapping.getLongFieldName() + "', '" + this.mapping.getTableName() + "', '"
                                 + this.mapping.getPlacemarkFieldName() + "', " + this.connID + ")";
@@ -450,7 +450,7 @@ namespace HCI
                         }
                         else //Insert the description
                         {
-                            query = "INSERT INTO Description connID, description VALUES(" + this.connID
+                            query = "INSERT INTO Description (connID, description) VALUES(" + this.connID
                                 + ", '" + this.description.getDesc() + "')";
                         }
 
@@ -485,14 +485,14 @@ namespace HCI
                         //Add all current icons to the database
                         foreach (Icon i in this.icons)
                         {
-                            query = "INSERT INTO Icon connID, ID VALUES(" + this.connID + ", " + i.getId() + ")";
+                            query = "INSERT INTO Icon (connID, ID) VALUES(" + this.connID + ", " + i.getId() + ")";
                             database.executeQueryLocal(query);
 
                             //Add all conditions
                             foreach (Condition c in i.getConditions())
                             {
-                                query = "INSERT INTO IconCondition iconID, connID, lowerBound, upperBound, "
-                                    + "lowerOperator, upperOperator, fieldName, tableName VALUES(" + i.getId()
+                                query = "INSERT INTO IconCondition (iconID, connID, lowerBound, upperBound, "
+                                    + "lowerOperator, upperOperator, fieldName, tableName) VALUES(" + i.getId()
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
                                     + c.getLowerOperator() + ", " + c.getUpperOperator() + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
@@ -557,15 +557,15 @@ namespace HCI
                         //Add all current icons to the database
                         foreach (Overlay o in this.overlays)
                         {
-                            query = "INSERT INTO Overlay connID, ID, color VALUES(" + this.connID + ", " + o.getId()
+                            query = "INSERT INTO Overlay (connID, ID, color) VALUES(" + this.connID + ", " + o.getId()
                                 + ", '" + o.getColor() + "')";
                             database.executeQueryLocal(query);
 
                             //Add all conditions
                             foreach (Condition c in o.getConditions())
                             {
-                                query = "INSERT INTO OverlayCondition overlayID, connID, lowerBound, upperBound, "
-                                    + "lowerOperator, upperOperator, fieldName, tableName VALUES(" + o.getId()
+                                query = "INSERT INTO OverlayCondition (overlayID, connID, lowerBound, upperBound, "
+                                    + "lowerOperator, upperOperator, fieldName, tableName) VALUES(" + o.getId()
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
                                     + c.getLowerOperator() + ", " + c.getUpperOperator() + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
