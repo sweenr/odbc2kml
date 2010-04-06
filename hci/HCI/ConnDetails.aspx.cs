@@ -99,7 +99,7 @@ namespace HCI
                         //Set drop down box accordingly
                         if (conn.connInfo.databaseType == ConnInfo.MSSQL)
                         {
-                            odbcDBType.SelectedValue = "SQL";
+                            odbcDBType.SelectedValue = "MSSQL";
                             connectionString = "Data Source=" + conn.connInfo.getServerAddress() + ";Initial Catalog=" + conn.connInfo.getDatabaseName() + ";Persist Security Info=True;User Id=" + conn.connInfo.getUserName() + ";Password=" + conn.connInfo.getPassword();
                             MSQLTables.ConnectionString = connectionString;
                             MSQLTables.SelectCommand = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
@@ -2634,12 +2634,11 @@ namespace HCI
 
         protected void modifyConnection(object sender, EventArgs e)
         {
-            saveConnInfo();
-            //saveLatLonInfo();
-            updateDescription();
-            saveIconList();
-            saveOverlayList();
+            //Set the current description right before save
+            conn.description.setDesc(descriptionBox.Text);
+            conn.saveConn();
             sessionSave();
+            Response.Redirect("ConnDetails.aspx?ConnID=" + conn.connID + "&locked=false");
         }
 
         internal void saveConnInfo()
