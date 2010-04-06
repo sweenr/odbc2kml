@@ -3674,12 +3674,17 @@ namespace HCI
         {
             viewGrid.Visible = false;
             saveLatLong.Visible = false;
+
+
             if (Request.QueryString.Get("locked") != "true")
             {
                 addLatLong.Visible = true;
+                addPlacemarkField.Visible = true;
             }
             mapColumnsPanel.Visible = false;
+            mapPlacemarkName.Visible = false;
             tblColumnsPanel.Visible = true;
+            mapSuccess.Visible = false;
             sessionSave();
         }
 
@@ -3696,7 +3701,7 @@ namespace HCI
                     //if the lon field equals the lat field, report error
                     if (latDD.SelectedValue.ToString().Equals(longDD.SelectedValue.ToString()))
                     {
-                        ErrorHandler eh = new ErrorHandler("Latitude and longitue cannot be the same column in this case. If they are, choose the \"Together\" button.", errorPanel1);
+                        ErrorHandler eh = new ErrorHandler("Latitude and longitude cannot be the same column in this case. If they are, choose the \"Together\" button.", errorPanel1);
                         eh.displayError();
                     }
                     else
