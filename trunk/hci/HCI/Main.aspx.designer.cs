@@ -77,6 +77,51 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel ConnectionsAvailable;
         
         /// <summary>
+        /// viewIconLib control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button viewIconLib;
+        
+        /// <summary>
+        /// IconLibModalPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender IconLibModalPopup;
+        
+        /// <summary>
+        /// iconLibMainPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel iconLibMainPanel;
+        
+        /// <summary>
+        /// iconLibPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel iconLibPanel;
+        
+        /// <summary>
+        /// viewLibClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button viewLibClose;
+        
+        /// <summary>
         /// newConnection control.
         /// </summary>
         /// <remarks>

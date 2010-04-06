@@ -79,6 +79,34 @@
                                 </asp:Panel>
                             </table>
                             <div class="newConn">
+                                <div class="left">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <asp:Button ID="viewIconLib" runat="server" CssClass="button" ToolTip="View Icon Library"
+                                                    Text="View Icon Library" OnClick="viewIconLibFunc"></asp:Button>
+                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="viewLibClose"
+                                                    runat="server" PopupControlID="iconLibMainPanel" ID="IconLibModalPopup" TargetControlID="dummyLink3" />
+                                                <asp:Panel ID="iconLibMainPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                    <div class="mainBoxP">
+                                                        <span class="connectionStyle">&nbsp;Icon Library</span>
+                                                        <table cellspacing="0" cellpadding="5" class="mainBox2">
+                                                            <tr>
+                                                                <td>
+                                                                    <asp:Panel ID="iconLibPanel" Height="300px" ScrollBars="Both" runat="server" Visible="true">
+                                                                    </asp:Panel>
+                                                                    <div class="right" style="padding-top: 20px;">
+                                                                        <asp:Button ID="viewLibClose" runat="server" Text="Close" CssClass="button" />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </asp:Panel>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                                 <div class="right">
                                     <table>
                                         <tr>
