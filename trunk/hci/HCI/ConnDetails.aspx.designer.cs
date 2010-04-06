@@ -104,15 +104,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.SqlDataSource MSQLTables_Mapping;
         
         /// <summary>
-        /// wholePageUpdatePanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel wholePageUpdatePanel;
-        
-        /// <summary>
         /// homeIcon control.
         /// </summary>
         /// <remarks>
@@ -444,6 +435,24 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label currentLatLongLabel;
+        
+        /// <summary>
+        /// viewNameLabel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label viewNameLabel2;
+        
+        /// <summary>
+        /// currentNameLabel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label currentNameLabel2;
         
         /// <summary>
         /// DBLabel control.

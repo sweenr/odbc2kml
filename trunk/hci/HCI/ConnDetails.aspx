@@ -349,7 +349,7 @@ function OnColorPicked(sender){
                                                         <td>
                                                             <asp:Label ID="currentTableLabel2" runat="server" Text="" CssClass="descLabel2" />
                                                         </td>
-                                                        <td width="30%" rowspan="2">
+                                                        <td width="30%" rowspan="3">
                                                             <% if (Request.QueryString.Get("locked") != "true")
                                                             { %>
                                                                 <asp:Button ID="removeCurMappingButton2" runat="server" Text="Remove" CssClass="button" 
@@ -365,6 +365,14 @@ function OnColorPicked(sender){
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="currentLatLongLabel" runat="server" Text="" CssClass="descLabel2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="viewNameLabel2" runat="server" Text="Placemark Name Field: " CssClass="descLabel" />
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="currentNameLabel2" runat="server" Text="" CssClass="descLabel2" />
                                                         </td>
                                                     </tr>
                                                 </table>
