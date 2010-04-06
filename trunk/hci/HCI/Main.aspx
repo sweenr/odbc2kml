@@ -27,6 +27,48 @@
 	});
     </script>
 
+    <script type="text/javascript">
+    $(document).ready(function(){
+        if($('#odbcDBType').val() == 'Oracle') 
+        { 
+            $('#oracleTable').css('display', 'block'); 
+        }
+        else 
+        { 
+            $('#oracleTable').css('display', 'none');
+        }
+        $("#odbcDBType").change(function () {
+           if($('#odbcDBType').val() == 'Oracle') 
+           { 
+                $('#oracleTable').css('display', 'block'); 
+           }
+           else 
+           { 
+                $('#oracleTable').css('display', 'none');
+           }
+        });
+        
+        if($('#editConnDBType').val() == 'Oracle') 
+        { 
+            $('#odbcTable1').css('display', 'block'); 
+        }
+        else 
+        { 
+            $('#odbcTable1').css('display', 'none');
+        }
+        $("#editConnDBType").change(function () {
+           if($('#editConnDBType').val() == 'Oracle') 
+           { 
+                $('#odbcTable1').css('display', 'block'); 
+           }
+           else 
+           { 
+                $('#odbcTable1').css('display', 'none');
+           }
+        });
+    });
+    </script>
+
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
     
     <style type="text/css" media="all">
@@ -41,6 +83,10 @@
          <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink3"
         runat="server">na</a>
     <form id="mainForm" runat="server">
+    <asp:ScriptManager ID="ConnSMgr" runat="server">
+    </asp:ScriptManager>
+    <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
+    </asp:Panel>
     <div id="wrapIt">
         <div id="header">
             <div id="logo">
@@ -87,7 +133,7 @@
                                                     Text="View Icon Library" OnClick="viewIconLibFunc"></asp:Button>
                                                 <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="viewLibClose"
                                                     runat="server" PopupControlID="iconLibMainPanel" ID="IconLibModalPopup" TargetControlID="dummyLink3" />
-                                                <asp:Panel ID="iconLibMainPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                <asp:Panel ID="iconLibMainPanel" runat="server" Style="display: none;" CssClass="boxPopupStyle">
                                                     <div class="mainBoxP">
                                                         <span class="connectionStyle">&nbsp;Icon Library</span>
                                                         <table cellspacing="0" cellpadding="5" class="mainBox2">
@@ -123,7 +169,7 @@
                                                     <!-- Sample Panels for Connection Pop-Ups --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="cancelDelConn"
                                                         runat="server" PopupControlID="deleteConnPanel" ID="deletePopupExtender" TargetControlID="dummyLink" />
-                                                    <asp:Panel ID="deleteConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                    <asp:Panel ID="deleteConnPanel" runat="server" Style="display: none;" CssClass="boxPopupStyle">
                                                         <div class="mainBoxP">
                                                             <span id="DelSpan" visible="true" class="connectionStyle">&nbsp;Delete Connection</span>
                                                             <table cellspacing="0" cellpadding="10" class="mainBox2">
@@ -149,7 +195,7 @@
                                                             </table>
                                                         </div>
                                                     </asp:Panel>
-                                                    <asp:Panel ID="newConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                    <asp:Panel ID="newConnPanel" runat="server" Style="display: none;" CssClass="boxPopupStyle">
                                                         <div class="mainBoxP">
                                                             <span id="validConn" visible="true" class="connectionStyle">&nbsp;Connection Information</span>
                                                             <table cellspacing="0" cellpadding="10" class="mainBox2">
@@ -262,8 +308,8 @@
                                                         </div>
                                                     </asp:Panel>
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 
-                                                        runat="server" PopupControlID="editConnPanel" ID="editConnModalPopUp" TargetControlID="dummyLink3" />
-                                                    <asp:Panel ID="editConnPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
+                                                        runat="server" PopupControlID="editConnPanel" ID="editConnModalPopUp" TargetControlID="dummyLink3" CancelControlID="cancelEditConn" />
+                                                    <asp:Panel ID="editConnPanel" runat="server" Style="display: none;" CssClass="boxPopupStyle">
                                                         <div class="mainBoxP">
                                                             <span id="Span1" visible="true" class="connectionStyle">&nbsp;Connection Information</span>
                                                             <table cellspacing="0" cellpadding="10" class="mainBox2">
@@ -370,7 +416,7 @@
                                                                                 <asp:Button ID="saveAndEditConn" runat="server" Text="Save and Edit" CssClass="button" ToolTip="Update"
                                                                                     OnCommand="editAndSaveConnectionInformation" CommandArgument="2" CommandName="saveAndEditConn" />
                                                                                 &nbsp;&nbsp;
-                                                                                <asp:Button ID="cancelEditConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel" OnClick="editCancel" CommandArgument="none" />
+                                                                                <asp:Button ID="cancelEditConn" runat="server" Text="Cancel" CssClass="button" ToolTip="Cancel"/>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -396,10 +442,6 @@
                 <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
         </div>
     </div>
-    <asp:Panel ID="errorPanel1" runat="server" Visible="true" Style="color: White">
-    </asp:Panel>
-    <asp:ScriptManager ID="ConnSMgr" runat="server">
-    </asp:ScriptManager>
     </form>
 </body>
 </html>

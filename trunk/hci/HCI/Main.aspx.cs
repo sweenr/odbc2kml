@@ -101,19 +101,6 @@ namespace HCI
 
                 i += 1;
             }
-
-            ConnSMgr.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#odbcDBType').change("
-              + "function()"
-              + "{ if($('#odbcDBType').val() == 'Oracle') { $('#oracleTable').css('display', 'block'); }"
-              + "else { $('#oracleTable').css('display', 'none');}"
-              + "})</script>"));
-
-            ConnSMgr.Controls.Add(new LiteralControl("<script type='text/JavaScript'>$('#editConnDBType').change("
-              + "function()"
-              + "{ if($('#editConnDBType').val() == 'Oracle') { $('#odbcTable1').css('display', 'block'); }"
-              + "else { $('#odbcTable1').css('display', 'none');}"
-              + "})</script>"));
-
         }
 
         protected void confirmEdit(object sender, EventArgs e)
@@ -240,7 +227,9 @@ namespace HCI
 
         protected void editCancel(object sender, EventArgs e)
         {
-            this.editConnModalPopUp.Hide();
+            newConnPanel.Style["display"] = "none";
+            deleteConnPanel.Style["display"] = "none";
+            editConnPanel.Style["display"] = "none";
         }
 
         protected void viewIconLibFunc(object sender, EventArgs e)
