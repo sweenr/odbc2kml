@@ -2892,7 +2892,69 @@ namespace HCI
 
         protected void saveLatLonInfo()
         {
-            Mapping.insertMapping(conn.mapping);
+            Database DB = new Database();
+            //if statement checks to see if this is an empty mapping (ie its been removed)
+            if (conn.mapping.connID == -1)
+            {
+                try
+                {
+                    DB.executeQueryLocal("DELETE FROM Mapping WHERE connID=" + conn.connID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+            }
+            else
+            {
+                DataTable latLonTable = new DataTable();
+                try
+                {
+                    latLonTable = DB.executeQueryLocal("SELECT * FROM Mapping WHERE connID=" + conn.connID);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+                //below checks to see if there is a mapping already saved for this connID
+                bool exists = false;
+                foreach (DataRow row in latLonTable.Rows)
+                {
+                    exists = true;
+                    break;
+                }
+                if (exists)
+                {
+                    try
+                    {
+                        Mapping.updateMapping(conn.mapping);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+                //does an insert if no mapping currently exists
+                else
+                {
+                    try
+                    {
+                        Mapping.insertMapping(conn.mapping);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
+                }
+            }
             sessionSave();
         }
 
@@ -3636,6 +3698,7 @@ namespace HCI
                     else
                     {
                         //else, set the current mapping to the selected values
+                        conn.mapping.connID = conn.connID;
                         conn.mapping.tableName = tableName;
                         conn.mapping.latFieldName = latDD.SelectedValue.ToString();
                         conn.mapping.longFieldName = longDD.SelectedValue.ToString();
@@ -3660,6 +3723,7 @@ namespace HCI
                 //else if they are mapped together
                 else if (LLTogetherPanel.Visible == true)
                 {
+                    conn.mapping.connID = conn.connID;
                     //set conn.mapping latFieldName and longFieldName to the selected value
                     conn.mapping.latFieldName = conn.mapping.longFieldName = llDD.SelectedValue.ToString();
 

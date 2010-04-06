@@ -283,7 +283,14 @@ namespace HCI
             Database localDatabase = new Database();
 
             string query = "INSERT INTO MAPPING (tableName, latFieldName, longFieldName, placemarkFieldName, format, connID) VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" + m.connID + "')";
-            localDatabase.executeQueryLocal(query);
+            try
+            {
+                localDatabase.executeQueryLocal(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw new ODBC2KMLException(ex.errorText);
+            }
         }
 
         /// <summary>
@@ -294,7 +301,7 @@ namespace HCI
         {
             Database localDatabase = new Database();
 
-            string query = "UPDATE MAPPING SET latFieldName = '" + m.latFieldName + "', longFieldName = '" + m.longFieldName + "', placemarkFieldName = '" + m.placemarkFieldName + "', format = '" + m.format + "', tableName = '" + m.tableName + "', WHERE connID = '" + m.connID + "'";
+            string query = "UPDATE MAPPING SET latFieldName = '" + m.latFieldName + "', longFieldName = '" + m.longFieldName + "', placemarkFieldName = '" + m.placemarkFieldName + "', format = '" + m.format + "', tableName = '" + m.tableName + "' WHERE connID = '" + m.connID + "'";
             localDatabase.executeQueryLocal(query);
         }
 
