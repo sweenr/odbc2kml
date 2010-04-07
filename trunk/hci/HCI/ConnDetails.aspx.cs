@@ -2453,8 +2453,21 @@ namespace HCI
 
         protected void modifyConnection(object sender, EventArgs e)
         {
-            //Set the current description right before save
+            //Set the current description and conninfo right before save
             conn.description.setDesc(descriptionBox.Text);
+
+            conn.connInfo.setConnectionName(odbcName.Text);
+            conn.connInfo.setDatabaseName(odbcDName.Text);
+            conn.connInfo.setDatabaseType(odbcDBType.SelectedIndex);
+            conn.connInfo.setOracleProtocol(odbcProtocol.Text);
+            conn.connInfo.setOracleServiceName(odbcSName.Text);
+            conn.connInfo.setOracleSID(odbcSID.Text);
+            conn.connInfo.setPassword(odbcPass.Text);
+            conn.connInfo.setPortNumber(odbcPN.Text);
+            conn.connInfo.setServerAddress(odbcAdd.Text);
+            conn.connInfo.setUserName(odbcUser.Text);
+
+
             conn.saveConn();
             sessionSave();
             Response.Redirect("ConnDetails.aspx?ConnID=" + conn.connID + "&locked=false");
@@ -3818,6 +3831,66 @@ namespace HCI
                 eh.displayError();
             }
             sessionSave();
+        }
+
+        protected void KMLModalPopulate(object sender, EventArgs e)
+        {
+            Panel KMLPopupPanel = new Panel();
+            KMLPopupPanel.ID = "KMLPopupPanel";
+            KMLPopupPanel.Controls.Add(new LiteralControl("<div class='mainBoxP'>\n"));
+            KMLPopupPanel.Controls.Add(new LiteralControl("<div id='map3d' style='height: 600px; width: 600px;' />\n"));
+            Button closeKMLPopup = new Button();
+            closeKMLPopup.ID = "closeKMLPopup";
+            closeKMLPopup.Text = "Close";
+            closeKMLPopup.CssClass = "button";
+            KMLPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
+            KMLPopupPanel.Controls.Add(closeKMLPopup);
+
+            AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
+            mpe.ID = "KMLModal";
+            mpe.BackgroundCssClass = "modalBackground";
+            mpe.DropShadow = true;
+            mpe.PopupControlID = KMLPopupPanel.ID.ToString();
+            mpe.TargetControlID = makeKMLWORK.ID.ToString();
+            
+            KMLPanel.Controls.Add(KMLPopupPanel);
+            KMLPanel.Controls.Add(mpe);
+                        
+
+            //KMLPanel.Visible = true;
+
+            String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
+            KMLGenerator generator = new KMLGenerator(conn.getConnInfo().getConnectionName() + ".kml", serverPath);
+
+            String KML = "";
+
+            //Generate KML
+            try
+            {
+                KML = generator.generateKML(conn.connID);
+                KML = KML.Replace('\n', ' ');
+
+                KMLPopupPanel.Controls.Add(new LiteralControl("<script type='text/javascript'>"
+                    + "var ge; google.load('earth', '1'); function init() { google.earth.createInstance('map3d', initCB, failureCB); }"
+                    + " function initCB(instance) ge = instance; ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);"
+                    + " ge.getInfoWindow().setVisibility(ge.VISBILITY_AUTO); ge.getWindow().setVisibility(true);"
+                    + " var kmlString =" + KML + "; var kmlObject = ge.parseKml(kmlString); ge.getFeatures().appendChild(kmlObject);"
+                    + " ge.getView().setAbstractView(kmlObject.getAbstractView()); }"
+                    + " function failureCB(errorCode) { alert('Google Earth did not load properly.'); }"
+                    + " google.setOnLoadCallback(init); </script>"));
+
+                 
+            }
+            catch (ODBC2KMLException err)
+            {
+                //errorpanel1, KMLModal, text
+            }
+        }
+
+        protected void closeKMLModal(object sender, EventArgs e)
+        {
+            KMLPanel.Visible = false;
+           // KMLModal.Show();
         }
     }
 }

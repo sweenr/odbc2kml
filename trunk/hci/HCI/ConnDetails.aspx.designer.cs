@@ -1490,6 +1490,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button saveConn;
         
         /// <summary>
+        /// makeKMLWORK control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button makeKMLWORK;
+        
+        /// <summary>
         /// warningModal control.
         /// </summary>
         /// <remarks>
@@ -1524,6 +1533,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button cancelUpdate;
+        
+        /// <summary>
+        /// KMLPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel KMLPanel;
         
         /// <summary>
         /// scriptHandler control.
