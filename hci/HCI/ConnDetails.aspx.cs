@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Net;
+using System.Text;
 using HCI;
 
 namespace HCI
@@ -3891,6 +3892,52 @@ namespace HCI
         {
             KMLPanel.Visible = false;
            // KMLModal.Show();
+        }
+
+        protected void googleEarthPopup(object sender, EventArgs args)
+        {
+            //Server side KML generation
+            String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
+            KMLGenerator generator = new KMLGenerator(conn.getConnInfo().getConnectionName() + ".kml", serverPath);
+            String KML = generator.generateKMLFromConnection(this.conn);
+            KML = KML.Replace('\n', ' ');
+
+            //Pass the information out to a new popup window using JavaScript
+            StringBuilder sb = new StringBuilder();
+            sb.Capacity = 50000;
+           // sb.Append("<script src='http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ' type='text/javascript' />");
+
+            sb.Append("<script src='http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ'>");
+            sb.Append("window.open('', 'KML Preview', '');");
+            sb.Append(" var ge;");
+            sb.Append(" google.load('earth', '1');"); 
+            sb.Append(" function init() { google.earth.createInstance('map3d', initCB, failureCB); }");
+            sb.Append(" function initCB(instance) {");
+            sb.Append(" ge = instance;");
+            sb.Append(" ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);");
+            sb.Append(" ge.getInfoWindow().setVisibility(ge.VISBILITY_AUTO);");
+            sb.Append(" ge.getWindow().setVisibility(true);");
+            sb.Append(" var kmlString =");
+            sb.Append(KML);
+            sb.Append(";");
+            sb.Append(" kmlObject = ge.parseKml(kmlString);");
+            sb.Append(" ge.getFeatures().appendChild(kmlObject);");
+            sb.Append(" ge.getView().setAbstractView(kmlObject.getAbstractView()); }");
+            sb.Append(" function failureCB(errorCode) { alert('Google Earth did not load properly.'); }");
+            sb.Append(" google.setOnLoadCallback(init);");
+            sb.Append("</scri");
+            sb.Append("pt>");
+
+            ClientScript.RegisterStartupScript(typeof(Page), "Preview KML", sb.ToString());
+
+            StringBuilder sb1 = new StringBuilder();
+            sb1.Append("<script>");
+            sb1.Append("window.open('http://msdn.microsoft.com', '', '');");
+            sb1.Append("</scri");
+            sb1.Append("pt>");
+
+            Page.RegisterStartupScript("test", sb1.ToString());
+            //Page.RegisterStartupScript("test", sb.ToString());
         }
     }
 }
