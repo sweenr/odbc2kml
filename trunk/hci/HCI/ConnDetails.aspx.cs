@@ -892,24 +892,24 @@ namespace HCI
 
                     if (icon.getConditions().Count != 0)  // conditions exist; display them.
                     {
-                        IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox7\" cellspacing=\"0\" cellpadding=\"0\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("Table\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("Field\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -919,35 +919,35 @@ namespace HCI
                             IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                             if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                             {
-                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                             }
                             else
                             {
-                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                             }
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             IconConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
                             IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             IconConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                             IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                             if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                             {
-                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
                                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                             }
                             else
                             {
-                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                                IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                             }
 
                             IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1059,24 +1059,24 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</p>\n"));
 
             // icon popup table's header
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox7\" cellspacing=\"0\" cellpadding=\"0\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Bound\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Operator\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Table\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Field\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Operator\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Bound\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
@@ -1096,35 +1096,35 @@ namespace HCI
                     modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
                     if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                     }
-                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                     modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
                     modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                     modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                     modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                     }
                     modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
@@ -1144,14 +1144,14 @@ namespace HCI
             }
 
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             TextBox addLowerBound = new TextBox();
             addLowerBound.ID = "addIconLowerBound" + args;
             addLowerBound.Width = 40;
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addLowerOperator = new DropDownList();
             addLowerOperator.ID = "addIconLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
@@ -1164,7 +1164,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerOperator);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addIconTable" + args;
             addTableName.CssClass = "inputDD";
@@ -1204,7 +1204,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addIconField" + args;
             addFieldName.CssClass = "inputDD";
@@ -1212,7 +1212,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "addIconUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
@@ -1225,7 +1225,7 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperOperator);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             TextBox addUpperBound = new TextBox();
             addUpperBound.ID = "addIconUpperBound" + args;
             addUpperBound.MaxLength = 30;
@@ -1615,24 +1615,24 @@ namespace HCI
 
                     if (overlay.getConditions().Count != 0)  // conditions exist; display them.
                     {
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox7\" cellspacing=\"0\" cellpadding=\"0\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Bound\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("Lower Operator\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("Table\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("Field\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Operator\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("Upper Bound\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1642,35 +1642,35 @@ namespace HCI
                             OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                             if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                             {
-                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                             }
                             else
                             {
-                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                             }
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
                             OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                            OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                             OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                             if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                             {
-                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                             }
                             else
                             {
-                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                                OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                             }
 
                             OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1781,24 +1781,24 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</p>\n"));
 
             // overlay popup table's header
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox7\" cellspacing=\"0\" cellpadding=\"0\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTRTitle\">\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Bound\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Lower Operator\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Table\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Field\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Operator\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Upper Bound\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
@@ -1818,35 +1818,35 @@ namespace HCI
                     modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
                     if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerOperator() + "\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                     }
-                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                     modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getTableName() + "\n"));
                     modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                    modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                     modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                     modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
                     {
-                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperBound() + "\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
                     }
                     else
                     {
-                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">&nbsp;</td><td class=\"tableTD\">&nbsp;</td>\n"));
+                        modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">&nbsp;</td><td class=\"tableTD2\">&nbsp;</td>\n"));
                     }
                     modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"textCenter\">\n"));
                     Button deleteConditionButton = new Button();
@@ -1866,14 +1866,14 @@ namespace HCI
             }
 
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr class=\"tableTR\">\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             TextBox addLowerBound = new TextBox();
             addLowerBound.ID = "addOverlayLowerBound" + args;
             addLowerBound.Width = 40;
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerBound);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addLowerOperator = new DropDownList();
             addLowerOperator.ID = "addOverlayLowerOperator" + args;
             addLowerOperator.CssClass = "inputDD";
@@ -1886,7 +1886,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addLowerOperator);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addOverlayTable" + args;
             addTableName.CssClass = "inputDD";
@@ -1925,7 +1925,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addTableName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addOverlayField" + args;
             addFieldName.CssClass = "inputDD";
@@ -1933,7 +1933,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             DropDownList addUpperOperator = new DropDownList();
             addUpperOperator.ID = "addOverlayUpperOperator" + args;
             addUpperOperator.CssClass = "inputDD";
@@ -1946,7 +1946,7 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addUpperOperator);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
             TextBox addUpperBound = new TextBox();
             addUpperBound.ID = "addOverlayUpperBound" + args;
             addUpperBound.MaxLength = 30;
