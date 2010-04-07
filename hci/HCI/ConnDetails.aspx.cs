@@ -2407,15 +2407,17 @@ namespace HCI
                 return;
             }
             fileUpEx = new FileUpload(); // this is to clear the upload box incase someone wants to upload another file
-            
-            try
+            if (!pathToAdd.Equals(""))
             {
-                addSingleIconToLib(pathToAdd);
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
-                eh.displayError();
+                try
+                {
+                    addSingleIconToLib(pathToAdd);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
+                    eh.displayError();
+                }
             }
 
             sessionSave();
@@ -2447,7 +2449,15 @@ namespace HCI
             URLtextBox.Text = "";
             if (!pathToAdd.Equals(""))
             {
-                addSingleIconToLib(pathToAdd);
+                try
+                {
+                    addSingleIconToLib(pathToAdd);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
+                    eh.displayError();
+                }
             }
             sessionSave();
         }
