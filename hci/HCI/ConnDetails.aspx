@@ -32,6 +32,9 @@
     <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
 
     <link href="jquery/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
+    
+    <script src="http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ" type="text/javascript">
+    </script>
 
     <script type="text/javascript"> 
 
@@ -1154,6 +1157,7 @@ function OnColorPicked(sender){
                                         <% } %>
                                         <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
                                             CssClass="button" />
+                                        <asp:Button ID="makeKMLWORK" runat="server" Text="Preview KML" CssClass="button" OnClick="KMLModalPopulate" />
                                     </div>
                                 </td>
                             </tr>
@@ -1187,6 +1191,8 @@ function OnColorPicked(sender){
                             CssClass="button" />
                         <asp:Button ID="cancelUpdate" runat="server" Text="No" CssClass="button" />
                     </div>
+                </asp:Panel>
+                <asp:Panel ID="KMLPanel" runat="server" Visible="true">
                 </asp:Panel>
                 <asp:Panel ID="scriptHandler" runat="server" Visible="true">
                 </asp:Panel>
