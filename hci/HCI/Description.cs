@@ -180,6 +180,7 @@ namespace HCI
         /// <returns>ArrayList of parsed descriptions</returns>
         public static ArrayList parseDesc(DataTable inTable, String descString, String tableName)
         {
+            String descStringOrig = descString;
             ArrayList descArray = new ArrayList();
             foreach (DataRow row in inTable.Rows)
             {
@@ -248,6 +249,8 @@ namespace HCI
                     String descString1 = descString.Substring(0, fieldIndex);
                     String descString2 = descString.Substring(fieldEndIndex);
                     String fieldString = descString.Substring(fieldIndex, fieldLength);
+                    fieldString = fieldString.Replace("[FIELD]", "");
+                    fieldString = fieldString.Replace("[/FIELD]", "");
                     while (fieldString.Contains("[BR/]"))
                     {
                         fieldString = fieldString.Replace("[BR/]", "");
@@ -283,6 +286,7 @@ namespace HCI
                     }
                 }
                 descArray.Add(descString);
+                descString = descStringOrig;
             }
             return descArray;
         }
