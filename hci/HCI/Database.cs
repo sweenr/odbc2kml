@@ -212,15 +212,15 @@ namespace HCI
             {
                 //My SQL connection string
                 return "Driver={MySQL ODBC 5.1 Driver};Server="
-                    + info.getServerAddress() + ";Database="
+                    + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";User=" + info.getUserName()
                     + "; Password=" + info.getPassword() + ";Option=3;";
             }//Database type = MS SQL
             else if (ConnInfo.MSSQL == info.getDatabaseType())
             {
                 //MS SQL connection string
-                return "Driver={SQL Native Client};Server="
-                    + info.getServerAddress() + ";Database="
+                return "Driver={SQL Native Client};Address="
+                    + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";Uid=" + info.getUserName()
                     + ";Pwd=" + info.getPassword() + ";";
             }
