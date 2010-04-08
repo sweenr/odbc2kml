@@ -1145,7 +1145,7 @@ function OnColorPicked(sender){
                             <% } %>
                             <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
                                 CssClass="button" />
-                            <asp:Button ID="makeKMLWORK" runat="server" Text="Preview KML" CssClass="button"
+                            <asp:Button ID="previewKML" runat="server" Text="Preview KML" CssClass="button"
                                 OnClick="googleEarthPopup" />
                         </div>
                     </td>

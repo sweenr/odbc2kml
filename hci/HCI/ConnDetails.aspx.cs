@@ -2515,21 +2515,8 @@ namespace HCI
             conn.connInfo.setServerAddress(odbcAdd.Text);
             conn.connInfo.setUserName(odbcUser.Text);
 
-            if (conn.mapping.getFormat() == 2 || conn.mapping.getFormat() == 3)
-            {
-                conn.mapping.setLatFieldName(currentLatLongLabel.Text);
-                conn.mapping.setLongFieldName(currentLatLongLabel.Text);
-                conn.mapping.setPlacemarkFieldName(currentNameLabel2.Text);
-                conn.mapping.setTableName(currentTableLabel2.Text);
-            }
-            else if (conn.mapping.getFormat() == 1)
-            {
-                conn.mapping.setLatFieldName(currentLatLabel.Text);
-                conn.mapping.setLongFieldName(currentLongLabel.Text);
-                conn.mapping.setPlacemarkFieldName(currentNameLabel.Text);
-                conn.mapping.setTableName(currentTableLabel.Text);
-            }
-            else
+            //If format is 0, set mapping to null for save connection validation
+            if (conn.mapping.getFormat() == 0)
             {
                 conn.mapping = null;
             }
@@ -3362,128 +3349,37 @@ namespace HCI
             sessionSave();
         }
 
-        protected void KMLModalPopulate(object sender, EventArgs e)
-        {
-            Panel KMLPopupPanel = new Panel();
-            KMLPopupPanel.ID = "KMLPopupPanel";
-            KMLPopupPanel.Controls.Add(new LiteralControl("<div class='mainBoxP'>\n"));
-            KMLPopupPanel.Controls.Add(new LiteralControl("<div id='map3d' style='height: 600px; width: 600px;' />\n"));
-            Button closeKMLPopup = new Button();
-            closeKMLPopup.ID = "closeKMLPopup";
-            closeKMLPopup.Text = "Close";
-            closeKMLPopup.CssClass = "button";
-            KMLPopupPanel.Controls.Add(new LiteralControl("</div>\n"));
-            KMLPopupPanel.Controls.Add(closeKMLPopup);
-
-            AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
-            mpe.ID = "KMLModal";
-            mpe.BackgroundCssClass = "modalBackground";
-            mpe.DropShadow = true;
-            mpe.PopupControlID = KMLPopupPanel.ID.ToString();
-            mpe.TargetControlID = makeKMLWORK.ID.ToString();
-            
-            KMLPanel.Controls.Add(KMLPopupPanel);
-            KMLPanel.Controls.Add(mpe);
-                        
-
-            //KMLPanel.Visible = true;
-
-            String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
-            KMLGenerator generator = new KMLGenerator(conn.getConnInfo().getConnectionName() + ".kml", serverPath);
-
-            String KML = "";
-
-            //Generate KML
-            try
-            {
-                KML = generator.generateKML(conn.connID);
-                KML = KML.Replace('\n', ' ');
-
-                KMLPopupPanel.Controls.Add(new LiteralControl("<script type='text/javascript'>"
-                    + "var ge; google.load('earth', '1'); function init() { google.earth.createInstance('map3d', initCB, failureCB); }"
-                    + " function initCB(instance) ge = instance; ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);"
-                    + " ge.getInfoWindow().setVisibility(ge.VISBILITY_AUTO); ge.getWindow().setVisibility(true);"
-                    + " var kmlString =" + KML + "; var kmlObject = ge.parseKml(kmlString); ge.getFeatures().appendChild(kmlObject);"
-                    + " ge.getView().setAbstractView(kmlObject.getAbstractView()); }"
-                    + " function failureCB(errorCode) { alert('Google Earth did not load properly.'); }"
-                    + " google.setOnLoadCallback(init); </script>"));
-
-                 
-            }
-            catch (ODBC2KMLException err)
-            {
-                //errorpanel1, KMLModal, text
-            }
-        }
-
-        protected void closeKMLModal(object sender, EventArgs e)
-        {
-            KMLPanel.Visible = false;
-           // KMLModal.Show();
-        }
-
         protected void googleEarthPopup(object sender, EventArgs args)
         {
-            //Server side KML generation
+            //Set any variables that might have been saved
+            conn.description.setDesc(descriptionBox.Text);
+            conn.connInfo.setConnectionName(odbcName.Text);
+            conn.connInfo.setDatabaseName(odbcDName.Text);
+            conn.connInfo.setDatabaseType(odbcDBType.SelectedIndex);
+            conn.connInfo.setOracleProtocol(odbcProtocol.Text);
+            conn.connInfo.setOracleServiceName(odbcSName.Text);
+            conn.connInfo.setOracleSID(odbcSID.Text);
+            conn.connInfo.setPassword(odbcPass.Text);
+            conn.connInfo.setPortNumber(odbcPN.Text);
+            conn.connInfo.setServerAddress(odbcAdd.Text);
+            conn.connInfo.setUserName(odbcUser.Text);
+
+            //Generate the server path and pass the connection object and path to preview
             String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
-            KMLGenerator generator = new KMLGenerator(conn.getConnInfo().getConnectionName() + ".kml", serverPath);
-            String KML = null;
+            Session["serverPath"] = serverPath;
+            Session["Connection"] = conn;
 
-            try
-            {
-                KML = generator.generateKMLFromConnection(this.conn);
-            }
-            catch (ODBC2KMLException ex)
-            {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
-                eh.displayError();
-                return;
-            }
+            //Save the session
+            sessionSave();
 
-            KML = KML.Replace('\n', ' ');
-
-            //Pass the information out to a new popup window using JavaScript
+            //String that generates script that calls for new page
             StringBuilder sb = new StringBuilder();
-            sb.Append("<html>");
-            sb.Append("<head>");
-            sb.Append("<script src='http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ' />");
-            sb.Append("</head>");
-            sb.Append("<body>");
-            sb.Append("<div id='map3d' />");
             sb.Append("<script>");
-            sb.Append("window.open('', 'KML Preview', '');");
-            sb.Append(" var ge;");
-            sb.Append(" google.load('earth', '1');"); 
-            sb.Append(" function init() { google.earth.createInstance('map3d', initCB, failureCB); }");
-            sb.Append(" function initCB(instance) {");
-            sb.Append(" ge = instance;");
-            sb.Append(" ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);");
-            sb.Append(" ge.getInfoWindow().setVisibility(ge.VISBILITY_AUTO);");
-            sb.Append(" ge.getWindow().setVisibility(true);");
-            sb.Append(" var kmlString =");
-            sb.Append(KML);
-            sb.Append(";");
-            sb.Append(" kmlObject = ge.parseKml(kmlString);");
-            sb.Append(" ge.getFeatures().appendChild(kmlObject);");
-            sb.Append(" ge.getView().setAbstractView(kmlObject.getAbstractView()); }");
-            sb.Append(" function failureCB(errorCode) { alert('Google Earth did not load properly.'); }");
-            sb.Append(" google.setOnLoadCallback(init);");
+            sb.Append("window.open('PreviewKML.aspx', 'Preview KML', '');");
             sb.Append("</scri");
             sb.Append("pt>");
 
-            sb.Append("</body>");
-            sb.Append("</html>");
-
-            ClientScript.RegisterStartupScript(typeof(Page), "Preview KML", sb.ToString());
-
-           /* StringBuilder sb1 = new StringBuilder();
-            sb1.Append("<script>");
-            sb1.Append("window.open('http://msdn.microsoft.com', '', '');");
-            sb1.Append("</scri");
-            sb1.Append("pt>");
-
-            Page.RegisterStartupScript("test", sb1.ToString());*/
-            //Page.RegisterStartupScript("test", sb.ToString());
+            Page.RegisterStartupScript("Preview KML", sb.ToString());
         }
     }
 }
