@@ -2522,12 +2522,16 @@ namespace HCI
                 conn.mapping.setPlacemarkFieldName(currentNameLabel2.Text);
                 conn.mapping.setTableName(currentTableLabel2.Text);
             }
-            else
+            else if (conn.mapping.getFormat() == 1)
             {
                 conn.mapping.setLatFieldName(currentLatLabel.Text);
                 conn.mapping.setLongFieldName(currentLongLabel.Text);
                 conn.mapping.setPlacemarkFieldName(currentNameLabel.Text);
                 conn.mapping.setTableName(currentTableLabel.Text);
+            }
+            else
+            {
+                conn.mapping = null;
             }
 
             try
@@ -3439,10 +3443,13 @@ namespace HCI
 
             //Pass the information out to a new popup window using JavaScript
             StringBuilder sb = new StringBuilder();
-            sb.Capacity = 50000;
-           // sb.Append("<script src='http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ' type='text/javascript' />");
-
-            sb.Append("<script src='http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ'>");
+            sb.Append("<html>");
+            sb.Append("<head>");
+            sb.Append("<script src='http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ' />");
+            sb.Append("</head>");
+            sb.Append("<body>");
+            sb.Append("<div id='map3d' />");
+            sb.Append("<script>");
             sb.Append("window.open('', 'KML Preview', '');");
             sb.Append(" var ge;");
             sb.Append(" google.load('earth', '1');"); 
@@ -3463,15 +3470,18 @@ namespace HCI
             sb.Append("</scri");
             sb.Append("pt>");
 
+            sb.Append("</body>");
+            sb.Append("</html>");
+
             ClientScript.RegisterStartupScript(typeof(Page), "Preview KML", sb.ToString());
 
-            StringBuilder sb1 = new StringBuilder();
+           /* StringBuilder sb1 = new StringBuilder();
             sb1.Append("<script>");
             sb1.Append("window.open('http://msdn.microsoft.com', '', '');");
             sb1.Append("</scri");
             sb1.Append("pt>");
 
-            Page.RegisterStartupScript("test", sb1.ToString());
+            Page.RegisterStartupScript("test", sb1.ToString());*/
             //Page.RegisterStartupScript("test", sb.ToString());
         }
     }
