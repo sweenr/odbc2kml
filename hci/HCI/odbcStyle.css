@@ -484,6 +484,59 @@ a.selectTable:hover
 	border: solid 1px rgb(76,166,240);
 }
 
+
+.buttonMain
+{
+	background: rgb(125,0,110) url('graphics/buttonBackMain.gif');
+	border: solid 1px rgb(125,0,110);
+	color: white;
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
+.buttonMain:hover
+{
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
+}
+
+.buttonMain2
+{
+	background: rgb(0,100,40) url('graphics/buttonBackMain2.gif');
+	border: solid 1px rgb(0,100,40);
+	color: white;
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
+.buttonMain2:hover
+{
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
+}
+
+.buttonMain3
+{
+	background: rgb(0,20,130) url('graphics/buttonBackMain3.gif');
+	border: solid 1px rgb(0,20,130);
+	color: white;
+	font-weight: bold;
+	height: 22px;
+	cursor: pointer, default;	
+}
+
+.buttonMain3:hover
+{
+	background: rgb(176,212,244)  url('graphics/buttonBackH.gif');
+	color: rgb(26,49,76);
+	border: solid 1px rgb(76,166,240);
+}
+
+
 .descLabel
 {
 	color: rgb(26,49,76);

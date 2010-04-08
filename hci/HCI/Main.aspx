@@ -177,11 +177,11 @@
                                 </asp:Panel>
                             </table>
                             <div class="newConn">
-                                <div class="center">
-                                    <table>
+                                <div class="right">
+                                    <table style="text-align:right;">
                                         <tr>
                                             <td>
-                                                <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="button" />
+                                                <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="buttonMain" />
                                                 <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="btnClose3"
                                                             runat="server" PopupControlID="UploadIconsPanel" ID="ModalPopupExtender3" TargetControlID="uploadIcon" />
                                                         <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
@@ -265,9 +265,9 @@
                                                             </div>
                                                         </asp:Panel>
                                             </td>
-                                            <td style="width:210px">&nbsp;</td>
+                                           
                                             <td>
-                                                <asp:Button ID="viewIconLib" runat="server" CssClass="button" ToolTip="View Icon Library"
+                                                <asp:Button ID="viewIconLib" runat="server" CssClass="buttonMain3" ToolTip="View Icon Library"
                                                     Text="View Icon Library" OnClick="viewIconLibFunc"></asp:Button>
                                                 <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="viewLibClose"
                                                     runat="server" PopupControlID="iconLibMainPanel" ID="IconLibModalPopup" TargetControlID="dummyLink3" />
@@ -288,14 +288,12 @@
                                                     </div>
                                                 </asp:Panel>
                                             </td>
-                                            <td style="width:210px">&nbsp;</td>
-                                            <td>
-                                                <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
-                                                    AlternateText="Create Connection" ToolTip="New Connection" OnClick="launchNewConnection" />
-                                            </td>
                                             <td>
                                                 <div class="newConnA">
-                                                    <asp:Button ID="newConnectionA" runat="server" CssClass="button" ToolTip="New Connection" Text="New Connection" OnClick="launchNewConnection"></asp:Button>
+                                                    <asp:Button ID="newConnectionA" runat="server" CssClass="buttonMain2" ToolTip="New Connection" Text="New Connection" OnClick="launchNewConnection"></asp:Button>
+                                                    <asp:ImageButton ID="newConnection" runat="server" CssClass="newIcon" ImageUrl="graphics/connIcon.gif"
+                                                    AlternateText="Create Connection" ToolTip="New Connection" OnClick="launchNewConnection" Visible="false"/>
+                                           
                                                     <!-- Sample Extender for New Connection Button --->
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="newConnCancel"
                                                         runat="server" PopupControlID="newConnPanel" ID="NewConn1ModalPopUp" TargetControlID="dummyLink2" />
