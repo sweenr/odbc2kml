@@ -209,6 +209,7 @@ namespace HCI
                 {
                     this.removeCondition(count);
                     didPurge = true;
+                    count--;
                 }
             }
 
@@ -237,6 +238,7 @@ namespace HCI
                     try
                     {
                         temp.executeQueryLocal(query);
+                        count--;
                     }
                     catch (ODBC2KMLException ex)
                     {
