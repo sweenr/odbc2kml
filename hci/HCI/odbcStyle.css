@@ -68,14 +68,22 @@ body
 
 #mainTable
 {
-	width: 100%;
 	padding-left: 8px; 
 	padding-right: 12px;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	min-width: 900px;
+	max-width: 900px;
 }
 
 .mainBox
+{
+	border: solid 2px rgb(26,49,76);
+	background-color: rgb(26,49,76);
+	width: 100%;
+}
+
+.mainBoxMP
 {
 	border: solid 2px rgb(26,49,76);
 	background-color: rgb(26,49,76);
@@ -144,7 +152,7 @@ body
 
 .omainBox7
 {
-	border-collapse:collapse;
+	
 	border: solid 1px rgb(60,106,142);
 	width: 100%;
 	vertical-align:middle;
@@ -603,6 +611,8 @@ a.selectTable:hover
 	height: 160px;
 	margin: 0 auto;
 	background: rgb(26,49,76);
+	border-left:0px;
+	border-right:0px;
 	border-bottom: solid 4px rgb(18,64,110);
 }
 
@@ -611,7 +621,7 @@ a.selectTable:hover
 	width: 750px;
 	height: 85px;
 	color: white;
-	background:  url('graphics/odbc2kml.gif') left bottom no-repeat;
+	background:  rgb(26,49,76) url('graphics/odbc2kml.gif') left bottom no-repeat;
 }
 
 #siteInfo
