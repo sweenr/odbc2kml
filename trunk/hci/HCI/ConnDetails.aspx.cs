@@ -3287,6 +3287,7 @@ namespace HCI
         {
             viewGrid.Visible = false;
             saveLatLong.Visible = false;
+            savePlacemarkMapping.Visible = false;
 
 
             if (Request.QueryString.Get("locked") != "true")
