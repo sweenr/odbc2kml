@@ -49,7 +49,8 @@ namespace HCI
         {
             //Database connection string
             string connectionString = "Driver={SQL Native Client};Database=odbc2kml;Server=" 
-                + Environment.MachineName + "\\sqlexpress;Trusted_Connection=yes;";
+                + Environment.MachineName + "\\sqlexpress;Trusted_Connection=yes;"
+                + "Connection Timeout=5;";
             //Create the Odbc Connection
             OdbcConnection connection = new OdbcConnection(connectionString);
 
@@ -214,7 +215,8 @@ namespace HCI
                 return "Driver={MySQL ODBC 5.1 Driver};Server="
                     + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";User=" + info.getUserName()
-                    + "; Password=" + info.getPassword() + ";Option=3;";
+                    + "; Password=" + info.getPassword() + ";Option=3;"
+                    + "Connection Timeout=10;";
             }//Database type = MS SQL
             else if (ConnInfo.MSSQL == info.getDatabaseType())
             {
@@ -222,14 +224,16 @@ namespace HCI
                 return "Driver={SQL Native Client};Server="
                     + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";Uid=" + info.getUserName()
-                    + ";Pwd=" + info.getPassword() + ";";
+                    + ";Pwd=" + info.getPassword() + ";"
+                    + "Connection Timeout=10;";
             }
             else if (ConnInfo.ORACLE == info.getDatabaseType())
             {
                 //Oracle connection string
                 return "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS="
                     + "(PROTOCOL=" + info.getOracleProtocol() + ")(HOST=" + info.getServerAddress()
-                    + ")(PORT=" + info.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)";
+                    + ")(PORT=" + info.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)"
+                    + "Connection Timeout=10;";
             }
 
             return "";
