@@ -3282,6 +3282,11 @@ namespace HCI
 
         }
 
+        /// <summary>
+        /// Method to set up to add placemark name to the mapping.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void addPlacemarkField_Click(object sender, EventArgs e)
         {
             string selectedTable = GridViewTables.SelectedValue.ToString();
@@ -3327,6 +3332,7 @@ namespace HCI
                 throw new ODBC2KMLException("Unknown database type.");
             }
 
+            //populate name column drop down with the columns in the selected table
             try
             {
                 nameColumnDD.DataSource = temp;
@@ -3340,11 +3346,13 @@ namespace HCI
                 throw new ODBC2KMLException("Unable to connect to target database.");
             }
 
+            //if the placemark field name is mapped and the current table is the mapped table, set the dropdown to the current mapping
             if ((!conn.mapping.getPlacemarkFieldName().Equals("")) && (selectedTable == conn.mapping.tableName))
             {
                 nameColumnDD.SelectedValue = conn.mapping.getPlacemarkFieldName();
             }
 
+            //set up asp panels and buttons
             addPlacemarkField.Visible = false;
             tblColumnsPanel.Visible = false;
             saveLatLong.Visible = false;
