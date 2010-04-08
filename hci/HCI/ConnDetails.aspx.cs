@@ -2643,34 +2643,21 @@ namespace HCI
         //editor methods
         protected void updateTables(int type)
         {
-            //clears the drop down list incase the database info is changed and drop down has to be repopulated
-            iTableFNBox.Items.Clear();
+            
             try
             {
                 if (type == ConnInfo.MSSQL)
                 {
-                    iTableFNBox.DataSource = MSQLTables_Mapping;
-                    iTableFNBox.DataTextField = "TABLE_NAME";
-                    iTableFNBox.DataValueField = "TABLE_NAME";
-                    iTableFNBox.DataBind();
                     GridViewTables.DataSource = MSQLTables_Mapping;
                     GridViewTables.DataBind();
                 }
                 else if (type == ConnInfo.MYSQL)
                 {
-                    iTableFNBox.DataSource = SQLTables_Mapping;
-                    iTableFNBox.DataTextField = "TABLE_NAME";
-                    iTableFNBox.DataValueField = "TABLE_NAME";
-                    iTableFNBox.DataBind();
                     GridViewTables.DataSource = SQLTables_Mapping;
                     GridViewTables.DataBind();
                 }
                 else if (type == ConnInfo.ORACLE)
                 {
-                    iTableFNBox.DataSource = oracleTables_Mapping;
-                    iTableFNBox.DataTextField = "TABLE_NAME";
-                    iTableFNBox.DataValueField = "TABLE_NAME";
-                    iTableFNBox.DataBind();
                     GridViewTables.DataSource = oracleTables_Mapping;
                     GridViewTables.DataBind();
                 }
@@ -2689,6 +2676,15 @@ namespace HCI
         protected void dLink_Click(object sender, EventArgs e)
         {
             dLinkPanel.Visible = !dLinkPanel.Visible;
+            dFieldPanel.Visible = false;
+            iLinkNBox.Text = "";
+            iLinkURLBox.Text = "";
+            sessionSave();
+        }
+
+        protected void dClear_Click(object sender, EventArgs e)
+        {
+            dLinkPanel.Visible = false;
             dFieldPanel.Visible = false;
             sessionSave();
         }
@@ -2739,7 +2735,7 @@ namespace HCI
 
         protected void dFieldInsert_Click(object sender, EventArgs e)
         {
-            string tableText = iTableFNBox.SelectedValue.ToString();
+            string tableText = conn.mapping.getTableName();
             string colText = iColFNBox.SelectedValue.ToString();
 
             string descriptionInfo = "[FIELD][TBL]" + tableText + "[/TBL][COL]" + colText + "[/COL][/FIELD]";
@@ -2760,7 +2756,7 @@ namespace HCI
 
         protected void iTableFNBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedTable = iTableFNBox.SelectedValue.ToString();
+            string selectedTable = conn.mapping.getTableName();
             if (selectedTable != "")
             {
                 string connectionString_editor = "";
