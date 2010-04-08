@@ -105,8 +105,8 @@ namespace HCI
             if (errorUpdatePanel == null)
             {
                 errorPanel.Visible = true;
-                errorPanel.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\"><p>" + errorText + "</p></div>"));
-                errorPanel.Controls.Add(new LiteralControl("<script type=\"text/javascript\">$(\"#errorPanel1\").dialog('open')</script>"));
+                errorPanel.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\" id=\"" + errorPanel.ClientID + "errorDiv\"><p>" + errorText + "</p></div>"));
+                errorPanel.Controls.Add(new LiteralControl(jsError));
             }
             else
             {

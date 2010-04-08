@@ -253,10 +253,20 @@ namespace HCI
         public static Mapping getMapping(int connID)
         {
             Database localDatabase = new Database();
+            DataTable table = null;
 
             //Create mapping query and populate table
             string query = "SELECT * FROM Mapping WHERE connID=" + connID;
-            DataTable table = localDatabase.executeQueryLocal(query);
+
+            try
+            {
+                table = localDatabase.executeQueryLocal(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ex.errorText = "Error selecting the mapping from the database";
+                throw ex;
+            }
 
             //Mapping to return
             Mapping map = new Mapping();
@@ -275,171 +285,5 @@ namespace HCI
             //Return populated map object
             return map;
         }
-
-        /// <summary>
-        /// Function to insert this mapping into the local database. Uses the values currently in this mapping object
-        /// to populate the database fields.
-        /// </summary>
-    /*    public static void insertMapping(Mapping m)
-        {
-            Database localDatabase = new Database();
-
-            string query = "INSERT INTO MAPPING (tableName, latFieldName, longFieldName, placemarkFieldName, format, connID) VALUES ('" + m.tableName + "', '" + m.latFieldName + "', '" + m.longFieldName + "', '" + m.placemarkFieldName + "', '" + m.format + "', '" +  + "')";
-            try
-            {
-                localDatabase.executeQueryLocal(query);
-            }
-            catch (ODBC2KMLException ex)
-            {
-                throw new ODBC2KMLException(ex.errorText);
-            }
-        }
-
-        /// <summary>
-        /// Function to update a mapping already in the local database. Updates all columns except the connID columns.
-        /// Uses the values currently in this mapping object to update the database fields.
-        /// </summary>
-        public static void updateMapping(Mapping m)
-        {
-            Database localDatabase = new Database();
-
-            string query = "UPDATE MAPPING SET latFieldName = '" + m.latFieldName + "', longFieldName = '" + m.longFieldName + "', placemarkFieldName = '" + m.placemarkFieldName + "', format = '" + m.format + "', tableName = '" + m.tableName + "' WHERE connID = '" + m.connID + "'";
-            localDatabase.executeQueryLocal(query);
-        }
-
-        /// <summary>
-        /// Function to delete a mapping from the local database. Deletes the mapping that corresponds to this mapping
-        /// object's connID to delete the database row.
-        /// </summary>
-        public static void deleteMapping(Mapping m)
-        {
-            Database localDatabase = new Database();
-
-            string query = "DELETE FROM Mapping WHERE connID = '" + m.connID + "'";
-            localDatabase.executeQueryLocal(query);
-        }*/
-
-        /// <summary>
-        /// DEPRECATED - Use insertMapping() instead.
-        /// Function to add to the Mapping database the values passed to it.
-        /// </summary>
-        /// <param name="connID"> - int --> Connection ID </param>
-        /// <param name="tableName">string --> Name of table mapped</param>
-        /// <param name="latFieldName">string --> Name of field that contains the latitude</param>
-        /// <param name="longFieldName">string --> Name of field that contains the longitude. If the lat and lon are both in the same column, put that same column in both latFieldName and longFieldName.</param>
-        /// <param name="format">string --> Format of lat/lon field names, 1 for SEPARATE, 2 for together and LATFIRST, 3 for together and LONGFIRST</param>
-        public static void insertMapping(int connID, string tableName, string latFieldName, string longFieldName, int format)
-        {
-            Mapping mapping = new Mapping();
-            Database localDatabase = new Database();
-
-            string query = "INSERT INTO MAPPING ('tableName', 'latFieldName', 'longFieldName', 'format', 'connID') VALUES ('" + tableName + "', '" + latFieldName + "', '" + longFieldName + "', '" + format + "', '" + connID + "')";
-            localDatabase.executeQueryLocal(query);
-        }
-
-        /// <summary>
-        /// DEPRECATED - Use updateMapping() instead.
-        /// Function to update the Mapping database with the values passed to it.
-        /// </summary>
-        /// <param name="connID"> - int --> Connection ID </param>
-        /// <param name="tableName">string --> Name of table mapped</param>
-        /// <param name="latFieldName">string --> Name of field that contains the latitude</param>
-        /// <param name="longFieldName">string --> Name of field that contains the longitude. If the lat and lon are both in the same column, put that same column in both latFieldName and longFieldName.</param>
-        /// <param name="format">string --> Format of lat/lon field names, 1 for SEPARATE, 2 for together and LATFIRST, 3 for together and LONGFIRST</param>
-        public static void updateMapping(int connID, string tableName, string latFieldName, string longFieldName, int format)
-        {
-            Mapping mapping = new Mapping();
-            Database localDatabase = new Database();
-
-            string query = "UPDATE MAPPING SET latFieldName = '" + latFieldName + "', longFieldName = '" + longFieldName + "', format = '"+ format +"' WHERE connID = '" + connID + "' AND tableName = '" + tableName + "'";
-            localDatabase.executeQueryLocal(query);
-        }
-
-        /// <summary>
-        /// Get a specific mapping for a given tableName. Used to generate KML
-        /// </summary>
-        /// <param name="connID">int --> connection ID</param>
-        /// <param name="tableName">String --> Table name you want to fetch the mapping for</param>
-        /// <returns>Mapping --> Mapping of specific table name</returns>
-        public static Mapping getMapping(int connID, string tableName)
-        {
-            Mapping mapping = new Mapping();
-            Database localDatabase = new Database();
-
-            //Create mapping query and populate table
-            string query = "SELECT * FROM Mapping WHERE connID='" + connID + "' AND tableName = '" + tableName + "'";
-            DataTable table = localDatabase.executeQueryLocal(query);
-
-            foreach (DataRow row in table.Rows)
-            {
-                foreach (DataColumn col in table.Columns)
-                {
-                    //Set mapping
-                    switch (col.ColumnName)
-                    {
-                        case "tableName":
-                            mapping.setTableName(row[col].ToString());
-                            break;
-                        case "latFieldName":
-                            mapping.setLatFieldName(row[col].ToString());
-                            break;
-                        case "longFieldName":
-                            mapping.setLongFieldName(row[col].ToString());
-                            break;
-                        case "placemarkFieldName":
-                            mapping.setPlacemarkFieldName(row[col].ToString());
-                            break;
-                        case "format":
-                            mapping.setFormat((int)row[col]);
-                            break;
-                        default:
-                            break;
-
-                    }
-                }
-            }//End outer loop
-
-            return mapping;
-        }
-
-        public static Mapping getDeepCopyOfMapping(int connID)
-        {
-            Mapping mapping = new Mapping();
-
-            Database localDatabase = new Database();
-
-            //Create mapping query and populate table
-            string query = "SELECT * FROM Mapping WHERE connID='" + connID + "'";
-            DataTable table = localDatabase.executeQueryLocal(query);
-
-            foreach (DataRow row in table.Rows)
-            {
-                foreach (DataColumn col in table.Columns)
-                {
-                    //Set mapping
-                    switch (col.ColumnName)
-                    {
-                        case "tableName":
-                            mapping.setTableName(row[col].ToString());
-                            break;
-                        case "latFieldName":
-                            mapping.setLatFieldName(row[col].ToString());
-                            break;
-                        case "longFieldName":
-                            mapping.setLongFieldName(row[col].ToString());
-                            break;
-                        case "format":
-                            mapping.setFormat((int)row[col]);
-                            break;
-                        default:
-                            break;
-
-                    }
-                }
-            }//End outer loop
-
-            return mapping;
-        }
-
     }
 }

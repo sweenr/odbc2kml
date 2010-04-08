@@ -64,7 +64,17 @@ namespace HCI
                 Database db = new Database();
                 DataTable dt;
 
-                dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
+                try
+                {
+                    dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler("There was an error getting the list of connections", errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+
                 connectionSelector.DataSource = dt;
                 connectionSelector.DataTextField = "name";
                 connectionSelector.DataValueField = "id";
@@ -123,7 +133,16 @@ namespace HCI
                         return;
                     }
 
-                    info = ConnInfo.getConnInfo(int.Parse(connectionSelector.SelectedItem.Value));
+                    try
+                    {
+                        info = ConnInfo.getConnInfo(int.Parse(connectionSelector.SelectedItem.Value));
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                        eh.displayError();
+                        return;
+                    }
 
                     db.setConnInfo(info);
                     try
