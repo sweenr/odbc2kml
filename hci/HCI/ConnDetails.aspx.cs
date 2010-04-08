@@ -2515,6 +2515,21 @@ namespace HCI
             conn.connInfo.setServerAddress(odbcAdd.Text);
             conn.connInfo.setUserName(odbcUser.Text);
 
+            if (conn.mapping.getFormat() == 2 || conn.mapping.getFormat() == 3)
+            {
+                conn.mapping.setLatFieldName(currentLatLongLabel.Text);
+                conn.mapping.setLongFieldName(currentLatLongLabel.Text);
+                conn.mapping.setPlacemarkFieldName(currentNameLabel2.Text);
+                conn.mapping.setTableName(currentTableLabel2.Text);
+            }
+            else
+            {
+                conn.mapping.setLatFieldName(currentLatLabel.Text);
+                conn.mapping.setLongFieldName(currentLongLabel.Text);
+                conn.mapping.setPlacemarkFieldName(currentNameLabel.Text);
+                conn.mapping.setTableName(currentTableLabel.Text);
+            }
+
             try
             {
                 conn.saveConn();
