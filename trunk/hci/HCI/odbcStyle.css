@@ -132,7 +132,7 @@ body
 .omainBox5
 {
 	width: 100%;
-	border: solid 1px rgb(60,106,142);
+	vertical-align:middle;
 }
 
 .omainBox6
@@ -142,7 +142,21 @@ body
 	background-color: rgb(200,225,250);
 }
 
+.omainBox7
+{
+	
+	border: solid 1px rgb(60,106,142);
+	width: 100%;
+	vertical-align:middle;
+}
+
 .tableTD
+{
+	/*border-right: solid 1px rgb(60,106,142);*/
+	padding: 5px;
+}
+
+.tableTD2
 {
 	border-right: solid 1px rgb(60,106,142);
 	padding: 5px;
@@ -358,12 +372,13 @@ a.selectTable:hover
 	padding:5px;
 	vertical-align:top;
 	text-align: center;
+	background-color:White;
+	
+	border: solid 1px rgb(60,106,142);
 }
 
 .conditionsBoxStyle
 {
-	background: rgb(255,255,255);
-	width:100%;
 	color:Black;
 }
 
