@@ -153,7 +153,7 @@ namespace HCI
                     return false;
                 }
 
-                if (this.getFormat() != -1 || this.getFormat() != Mapping.NONE) //See if format is set to default values
+                if (this.getFormat() != Mapping.NONE) //See if format is set to default values
                 {
                     //Not default
                     return false;
@@ -168,7 +168,7 @@ namespace HCI
                         return false;
                     }
 
-                    if (this.getFormat() == 0)
+                    if (this.getFormat() == null)
                     {
                         return false;
                     }

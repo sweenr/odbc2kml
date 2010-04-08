@@ -351,10 +351,12 @@ namespace HCI
             if (removeDescription)
             {
                 String query = "DELETE FROM Description WHERE connID=" + this.connID;
+                String query2 = "DELETE FROM Mapping WHERE connID=" + this.connID;
 
                 try
                 {
                     purgeDB.executeQueryLocal(query);
+                    purgeDB.executeQueryLocal(query2);
                 }
                 catch (ODBC2KMLException ex)
                 {
@@ -400,7 +402,7 @@ namespace HCI
                 }
 
                 //Validate the mapping
-                if (this.mapping != null && !this.mapping.isValid()) //TODO: resolve this
+                if (!this.mapping.isValid()) //TODO: resolve this
                 {
                     return 2;
                 }
