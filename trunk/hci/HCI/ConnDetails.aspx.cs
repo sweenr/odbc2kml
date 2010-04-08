@@ -1592,7 +1592,7 @@ namespace HCI
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                OverlayConditionPanel.Controls.Add(new LiteralControl("<span style=\"color: white;\">No overlays are currently set for this connection.</span>\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("No overlays are currently set for this connection.</span>\n"));
                 if (Request.QueryString.Get("locked") == "false")
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<br />Add some using the Add Overlay button below.\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
