@@ -106,6 +106,8 @@ namespace HCI
             WebClient Client = new WebClient();
 
             //Create a request for the URL.
+            if (URL.Equals(""))
+                throw new ODBC2KMLException("Please enter a URL.");
             WebRequest request = WebRequest.Create(URL);
             request.Proxy = null;
             try
@@ -145,10 +147,10 @@ namespace HCI
                 {
                     throw new ODBC2KMLException("Error with temporary download, please ensure " + fileSaveLoc + " exists on this machine");
                 }
-                catch (ArgumentException)
+                /*catch (ArgumentException)
                 {
                     throw new ODBC2KMLException("No URL entered");
-                }
+                }*/
 
                 FileStream fs = File.OpenRead(name);
                 bool validDim = ValidateFileDimensions(fs);
