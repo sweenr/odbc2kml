@@ -614,9 +614,9 @@ function OnColorPicked(sender){
                                     <asp:Label ID="dLabel" runat="server" Text="Insert: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                     <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
                                         OnClick="dLink_Click" />&nbsp;&nbsp;
-                                    <asp:Button ID="dTable" runat="server" Text="Table" CssClass="descButton" ToolTip="Insert Table"
+                                    <asp:Button ID="dTable" runat="server" Text="Table Name" CssClass="descButton" ToolTip="Insert Table Name"
                                         OnClick="dTableInsert_Click" />&nbsp;&nbsp;
-                                    <asp:Button ID="dField" runat="server" Text="Field" CssClass="descButton" ToolTip="Insert Field"
+                                    <asp:Button ID="dField" runat="server" Text="Field Name" CssClass="descButton" ToolTip="Insert Field Name"
                                         OnClick="dField_Click" />&nbsp;&nbsp;
                                     <asp:Button ID="dBr" runat="server" Text="Newline" CssClass="descButton" ToolTip="Insert Newline"
                                         OnClick="dNewline_Click" />&nbsp;&nbsp;
