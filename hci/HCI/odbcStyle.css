@@ -714,5 +714,11 @@ a.selectTable:hover
 	width: 100px;
 }
 
+.titleConn
+{
+	color: White;
+	font-weight:bold;
+	background-color:rgb(26,49,76);
+}
 
 
