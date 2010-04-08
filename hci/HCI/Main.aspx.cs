@@ -183,6 +183,22 @@ namespace HCI
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
 
+            Database dbCheck = new Database();
+            DataTable dtCheck;
+            DataRow dr;
+
+            try
+            {
+                dtCheck = dbCheck.executeQueryLocal("SELECT name,dbName,userName,password,port,address,type,protocol,serviceName,SID FROM Connection WHERE ID=\'" + args + "\'");
+                dr = dtCheck.Rows[0];
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1, "editConnModalPopUp");
+                eh.displayError();
+                return;
+            }
+
             ConnInfo tempConnInfo = new ConnInfo();
 
             tempConnInfo.setConnectionName(editConnName.Text);
@@ -195,9 +211,44 @@ namespace HCI
             tempConnInfo.setOracleProtocol(editOracleProtocol.Text);
             tempConnInfo.setOracleServiceName(editOracleService.Text);
             tempConnInfo.setOracleSID(editOracleSID.Text);
+
+            if (editConnName.Text.Equals(dr["name"].ToString()) && editConnDBName.Text.Equals(dr["dbName"].ToString()) && editConnDBAddr.Text.Equals(dr["address"].ToString())
+                && editConnDBPort.Text.Equals(dr["port"].ToString()) && editConnUser.Text.Equals(dr["userName"].ToString()) && editConnPass.Text.Equals(dr["password"].ToString())
+                && editConnDBType.SelectedIndex.ToString().Equals(dr["type"].ToString()) && editOracleProtocol.Text.Equals(dr["protocol"].ToString()) && editOracleService.Text.Equals(dr["serviceName"].ToString())
+                && editOracleSID.Text.Equals(dr["SID"].ToString()))
+            {
+                updateConnection(sender, e);
+                
+            }else{
+                this.editConnModalPopUp.Hide();
+                this.warningModal.Show();
+                continueUpdate.CommandName = e.CommandName.ToString();
+                continueUpdate.CommandArgument = args;
+            }
             
+        }
+
+        protected void updateConnection(object sender, CommandEventArgs e)
+        {
+
+            Button sendBtn = (Button)sender;
+            String args = sendBtn.CommandArgument.ToString();
+
+            ConnInfo tempConnInfo = new ConnInfo();
+
+            tempConnInfo.setConnectionName(editConnName.Text);
+            tempConnInfo.setDatabaseName(editConnDBName.Text);
+            tempConnInfo.setServerAddress(editConnDBAddr.Text);
+            tempConnInfo.setPortNumber(editConnDBPort.Text);
+            tempConnInfo.setUserName(editConnUser.Text);
+            tempConnInfo.setPassword(editConnPass.Text);
+            tempConnInfo.setDatabaseType((editConnDBType.SelectedIndex));
+            tempConnInfo.setOracleProtocol(editOracleProtocol.Text);
+            tempConnInfo.setOracleServiceName(editOracleService.Text);
+            tempConnInfo.setOracleSID(editOracleSID.Text);
+
             //If the connection information is bad, report the error and cancel the function
-            if(!tempConnInfo.isValid(Convert.ToInt32(args)))
+            if (!tempConnInfo.isValid(Convert.ToInt32(args)))
             {
                 String error = "The entered connection information is invalid. Please make sure all fields are filled and that they are in proper format.";
 
@@ -214,13 +265,13 @@ namespace HCI
             }
 
 
-           //Create database for update query and update
+            //Create database for update query and update
             Database db = new Database();
 
-            db.executeQueryLocal("UPDATE Connection SET name='" + tempConnInfo.getConnectionName() 
-                + "', dbName='" + tempConnInfo.getDatabaseName() + "', userName='" + tempConnInfo.getUserName() 
-                + "', password='" + tempConnInfo.getPassword() + "', port='" + tempConnInfo.getPortNumber() 
-                + "', address='" + tempConnInfo.getServerAddress() + "', type='" + tempConnInfo.getDatabaseType() 
+            db.executeQueryLocal("UPDATE Connection SET name='" + tempConnInfo.getConnectionName()
+                + "', dbName='" + tempConnInfo.getDatabaseName() + "', userName='" + tempConnInfo.getUserName()
+                + "', password='" + tempConnInfo.getPassword() + "', port='" + tempConnInfo.getPortNumber()
+                + "', address='" + tempConnInfo.getServerAddress() + "', type='" + tempConnInfo.getDatabaseType()
                 + "', protocol='" + tempConnInfo.getOracleProtocol() + "', serviceName='" + tempConnInfo.getOracleServiceName()
                 + "', SID='" + tempConnInfo.getOracleSID() + "' WHERE (ID='" + args + "')");
 
@@ -239,7 +290,7 @@ namespace HCI
                     return;
                 }
             }
-            catch(ODBC2KMLException err)
+            catch (ODBC2KMLException err)
             {
                 String error = "Unexpected error when trying to ensure the connection was in a safe state.";
                 ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
@@ -265,6 +316,15 @@ namespace HCI
             newConnPanel.Style["display"] = "none";
             deleteConnPanel.Style["display"] = "none";
             editConnPanel.Style["display"] = "none";
+        }
+
+        protected void cancelUpdateConnection(object sender, EventArgs e)
+        {
+            newConnPanel.Style["display"] = "none";
+            deleteConnPanel.Style["display"] = "none";
+            editConnPanel.Style["display"] = "none";
+            connUpdateWarning.Style["display"] = "none";
+            this.warningModal.Hide();
         }
 
         protected void viewIconLibFunc(object sender, EventArgs e)
