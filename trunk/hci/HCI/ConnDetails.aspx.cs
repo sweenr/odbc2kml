@@ -1482,7 +1482,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null)
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1495,6 +1495,10 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
+                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -1504,7 +1508,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1516,6 +1520,10 @@ namespace HCI
                                 upperOperator.SelectedValue = condition.getUpperOperator();
                                 upperBound.Text = condition.getUpperBound();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -1533,7 +1541,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1546,6 +1554,10 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
+                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -1555,7 +1567,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1567,6 +1579,10 @@ namespace HCI
                                 upperOperator.SelectedValue = condition.getUpperOperator();
                                 upperBound.Text = condition.getUpperBound();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -1580,7 +1596,7 @@ namespace HCI
                         Double upper;
 
                         //See if the lower conditions evaluate to doubles
-                        if (Double.TryParse(condition.getUpperBound(), out upper))
+                        if (Double.TryParse(condition.getUpperBound(), out upper) && row[condition.getFieldName()] != null) 
                         {
                             Double value;
                             //If value is not a double, throw an error
@@ -1597,6 +1613,10 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
+                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -1606,9 +1626,9 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
-                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
+                                conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";                                
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
                                 lowerBound.Text = condition.getLowerBound();
@@ -1618,6 +1638,10 @@ namespace HCI
                                 upperOperator.SelectedValue = condition.getUpperOperator();
                                 upperBound.Text = condition.getUpperBound();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -2232,17 +2256,6 @@ namespace HCI
             string conditionErrors = condition.getErrorText();
             if (conditionErrors != "")
             {
-                try
-                {
-                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                    genOverlayConditionTable(sender, e);
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh2.displayError();
-                    return;
-                }
                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                 eh.displayError();
                 return;
@@ -2285,23 +2298,16 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                                    genOverlayConditionTable(sender, e);
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -2315,20 +2321,13 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                                    genOverlayConditionTable(sender, e);
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -2346,23 +2345,16 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null)
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                                    genOverlayConditionTable(sender, e);
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -2373,23 +2365,16 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                                    genOverlayConditionTable(sender, e);
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -2407,23 +2392,16 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                                    genOverlayConditionTable(sender, e);
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
@@ -2434,23 +2412,16 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    //genIconConditionTable(sender, e); // why would you update the icon table/popup here? If nothin breaks, remove this line.
-                                    genOverlayConditionTable(sender, e);
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                                 eh.displayError();
                                 return;
+                            }
+                            else //Decrement counter, this row wasn't a valid row and should be ignored
+                            {
+                                counter--;
                             }
 
                             //test five elements
