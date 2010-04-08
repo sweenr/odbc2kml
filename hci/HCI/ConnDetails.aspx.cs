@@ -3098,6 +3098,11 @@ namespace HCI
                 throw new ODBC2KMLException("Unable to connect to target database.");
             }
 
+            if (conn.mapping.getPlacemarkFieldName() != null || conn.mapping.getPlacemarkFieldName().Equals(""))
+            {
+                nameColumnDD.SelectedValue = conn.mapping.getPlacemarkFieldName();
+            }
+
             addPlacemarkField.Visible = false;
             tblColumnsPanel.Visible = false;
             saveLatLong.Visible = false;
