@@ -3397,10 +3397,11 @@ namespace HCI
             //Server side KML generation
             String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
             KMLGenerator generator = new KMLGenerator(conn.getConnInfo().getConnectionName() + ".kml", serverPath);
+            String KML = null;
 
             try
             {
-                String KML = generator.generateKMLFromConnection(this.conn);
+                KML = generator.generateKMLFromConnection(this.conn);
             }
             catch (ODBC2KMLException ex)
             {
