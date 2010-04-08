@@ -400,7 +400,7 @@ namespace HCI
                 }
 
                 //Validate the mapping
-                if (!this.mapping.isValid())
+                if (this.mapping != null && !this.mapping.isValid()) //TODO: resolve this
                 {
                     return 2;
                 }
