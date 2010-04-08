@@ -146,20 +146,6 @@ namespace HCI
             {
                 connectionString = Database.getConnectionString(connInfo);
                 
-                if(connInfo.getOracleServiceName().Length != 0)
-                {
-                    connectionString += "(SERVICE_NAME="
-                    + connInfo.getOracleServiceName() + ")";
-                }
-                else if(connInfo.getOracleSID().Length != 0)
-                {
-                    connectionString += "(SID="
-                    + connInfo.getOracleSID() + ")";
-                }
-                
-                connectionString += "));User Id=" + connInfo.getUserName() + ";Password="
-                    + connInfo.getPassword() + ";";
-
                 using (OracleConnection connection = new OracleConnection(connectionString))
                 {
                     OracleCommand command = new OracleCommand(query);
@@ -229,11 +215,26 @@ namespace HCI
             }
             else if (ConnInfo.ORACLE == info.getDatabaseType())
             {
-                //Oracle connection string
-                return "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS="
+                string connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS="
                     + "(PROTOCOL=" + info.getOracleProtocol() + ")(HOST=" + info.getServerAddress()
-                    + ")(PORT=" + info.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)"
-                    + "Connection Timeout=10;";
+                    + ")(PORT=" + info.getPortNumber() + ")))(CONNECT_DATA=(SERVER=DEDICATED)";
+
+                if (info.getOracleServiceName().Length != 0)
+                {
+                    connectionString += "(SERVICE_NAME="
+                    + info.getOracleServiceName() + ")";
+                }
+                else if (info.getOracleSID().Length != 0)
+                {
+                    connectionString += "(SID="
+                    + info.getOracleSID() + ")";
+                }
+
+                connectionString += "));User Id=" + info.getUserName() + ";Password="
+                    + info.getPassword() + ";";
+
+                //Oracle connection string
+                return connectionString;
             }
 
             return "";
