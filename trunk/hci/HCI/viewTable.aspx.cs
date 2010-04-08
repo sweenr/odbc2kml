@@ -110,10 +110,10 @@ namespace HCI
             //resultsPanel.Visible = true;
             bool altTables = true;
 
-            Page.Controls.Add(new LiteralControl("<span style=\"color: white; font-weight:bold;\">&nbsp;" + table +" Database Query Results</span>"));
+            Page.Controls.Add(new LiteralControl("<span style=\"color: white; font-weight:bold; background-color:rgb(26,49,76);\">&nbsp;" + table + " Database Query Results</span>"));
             Page.Controls.Add(new LiteralControl("<div>"));
 
-            Page.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"2\" border=\"1\">"));
+            Page.Controls.Add(new LiteralControl("<table cellpadding=\"5\" cellspacing=\"2\">"));
 
             Page.Controls.Add(new LiteralControl("<tr><td>"));
             Page.Controls.Add(new LiteralControl("<div>"));
