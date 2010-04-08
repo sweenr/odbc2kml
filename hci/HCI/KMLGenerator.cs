@@ -64,7 +64,7 @@ namespace HCI
             //if the mapping is invalid, throw an exception and don't try to continue
             if (!connection.mapping.isValid())
             {
-                throw new ODBC2KMLException("Mapping is invalid.");
+                throw new ODBC2KMLException("There was an exception generating KML. Mapping is invalid.");
             }
             
             //Needed to generate KML, parameter is desired file name within KML file
@@ -99,60 +99,68 @@ namespace HCI
 
                 //Create database
                 Database DB = new Database(connection.getConnInfo());
-                
+
                 //originally took string table name, changed for test
-               // foreach (Mapping map in mappings)
-               // {
-                    //Grab the tablename out of mapping
-                    String tableName = map.getTableName();
+                // foreach (Mapping map in mappings)
+                // {
+                //Grab the tablename out of mapping
+                String tableName = map.getTableName();
 
-                    try
+                try
+                {
+                    if (connection.getConnInfo().getDatabaseType() == ConnInfo.MSSQL)
                     {
-                        if (connection.getConnInfo().getDatabaseType() == ConnInfo.MSSQL)
-                        {
-                            remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
-                        }
-                        else if (connection.getConnInfo().getDatabaseType() == ConnInfo.MYSQL)
-                        {
-                            remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
-                        }
-                        else if (connection.getConnInfo().getDatabaseType() == ConnInfo.ORACLE)
-                        {
-                            remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
-                        }
+                        remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
                     }
-                    catch (ODBC2KMLException ex)
+                    else if (connection.getConnInfo().getDatabaseType() == ConnInfo.MYSQL)
                     {
-                        ex.errorText = "There was a problem retreiving data from the remote server";
-                        throw ex;
+                        remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
                     }
-
-                    //Parsed descriptions for rows
-                    descArray = Description.parseDesc(remote, descString, tableName);
-
-                    int counter = 0;
-                    //For each row in the table!!!
-                    foreach (DataRow remoteRow in remote.Rows)
+                    else if (connection.getConnInfo().getDatabaseType() == ConnInfo.ORACLE)
                     {
+                        remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
+                    }
+                }
+                catch
+                {
+                    throw new ODBC2KMLException("There was an exception generating KML. There was a problem retreiving data from the remote server");
+                }
+
+                //Parsed descriptions for rows
+                descArray = Description.parseDesc(remote, descString, tableName);
+
+                int counter = 0;
+                //For each row in the table!!!
+                foreach (DataRow remoteRow in remote.Rows)
+                {
                         //Set placemark name
                         string placemarkName;
-                        if (map.getPlacemarkFieldName() == null || map.getPlacemarkFieldName().Trim().Equals(""))
+                    try
+                        {
+                        if (map.getPlacemarkFieldName() == null || map.getPlacemarkFieldName().Trim().Equals("") || map.getPlacemarkFieldName().Trim().Equals("No placemark name mapped"))
                         {
                             placemarkName = "";
                         }
                         else
                         {
                             placemarkName = (String)remoteRow[map.getPlacemarkFieldName()];
-                            
+
                         }
+                    }
+                    catch
+                    {
+                        throw new ODBC2KMLException("There was an exception generating KML. Error parsing placemark.");
+                    }
 
-                        //Foreach row set the description for each row
-                        String rowDesc = descArray[counter].ToString();
+                    //Foreach row set the description for each row
+                    String rowDesc = descArray[counter].ToString();
 
-                        //Declare the lat and long holders
-                        Double rowLat = 0, rowLon = 0;
+                    //Declare the lat and long holders
+                    Double rowLat = 0, rowLon = 0;
 
-                        //Check to see how many columns there are
+                    //Check to see how many columns there are
+                    try
+                    {
                         if (map.getFormat() != Mapping.SEPARATE)
                         {
                             //Select the column value
@@ -198,108 +206,113 @@ namespace HCI
                                 }
                             }//End for each
                         }//End else
+                    }
+                    catch
+                    {
+                        throw new ODBC2KMLException("There was an exception generating KML. Error parsing lat/long rows.");
+                    }
 
-                        //Row's icon
-                        Icon rowIcon = new Icon();
-                        rowIcon.setLocation("");
+                    //Row's icon
+                    Icon rowIcon = new Icon();
+                    rowIcon.setLocation("");
 
-                        //For each icon until the first one found, compare the icons
-                        //conditions against the given row
-                        Boolean breakLoop = false;
-                        foreach (Icon i in icons)
+                    //For each icon until the first one found, compare the icons
+                    //conditions against the given row
+                    Boolean breakLoop = false;
+                    foreach (Icon i in icons)
+                    {
+                        foreach (Condition c in i.getConditions())
                         {
-                            foreach (Condition c in i.getConditions())
+                            //See if the condition applies to the given row
+                            if (c.evaluateCondition(remoteRow, c, tableName))
                             {
-                                //See if the condition applies to the given row
-                                if (c.evaluateCondition(remoteRow, c, tableName))
-                                {
-                                    //Set temp icon to row icon and tell it to break out
-                                    rowIcon = new Icon(i);
-                                    breakLoop = true;
-                                }
-
-                                //Grabbed the first icon, break out
-                                if (breakLoop)
-                                    break;
-                            }//End inner for each
+                                //Set temp icon to row icon and tell it to break out
+                                rowIcon = new Icon(i);
+                                breakLoop = true;
+                            }
 
                             //Grabbed the first icon, break out
                             if (breakLoop)
                                 break;
-                        }//End outer for each
+                        }//End inner for each
 
-                        //Long unsigned int, needed to properly interpret colors
-                        UInt64 color = 0;
-                        foreach (Overlay o in overlays)
+                        //Grabbed the first icon, break out
+                        if (breakLoop)
+                            break;
+                    }//End outer for each
+
+                    //Long unsigned int, needed to properly interpret colors
+                    UInt64 color = 0;
+                    foreach (Overlay o in overlays)
+                    {
+                        foreach (Condition c in o.getConditions())
                         {
-                            foreach (Condition c in o.getConditions())
+                            //See if the condition applies
+                            if (c.evaluateCondition(remoteRow, c, tableName))
                             {
-                                //See if the condition applies
-                                if (c.evaluateCondition(remoteRow, c, tableName))
+                                if (color == 0)
                                 {
-                                    if (color == 0)
-                                    {
-                                        //Set the color to hex value
-                                        color = 0xFF000000;
-                                    }
-                                    //Mix the colors, if multiple colors work
-                                    color = color | (Convert.ToUInt64(o.getColor(), 16));
+                                    //Set the color to hex value
+                                    color = 0xFF000000;
                                 }
-                            }//End inner for each
-                        }//End outer for each
-
-                        //Create Style and placemark for this coordinate set
-                        Style rowStyle = new Style();
-                        Placemark rowPlacemark;
-
-                        //if there is an icon, create the name of the style based on the icon name and color
-                        if (rowIcon.getLocation() != "")
-                        {
-                            if (rowIcon.getLocality() == false)
-                            {
-                                //Create new style with external icon
-                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
-                                rowIcon.setLocation("");
+                                //Mix the colors, if multiple colors work
+                                color = color | (Convert.ToUInt64(o.getColor(), 16));
                             }
-                            else //If the icon is local, append server data
-                            {
-                                //Create the new style, with local icon
-                                rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
-                                rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
-                                rowIcon.setLocation("");
-                            }
-                        }
-                        else if (rowIcon.getLocation() == "" && color != 0) //Create the style name based on the color
-                        {
-                            rowStyle = new Style(rowIcon, color, color.ToString("X"));
-                        }
-                        else //If rowstyle is null, ignore it
-                        {
-                            rowStyle = null;
-                        }
+                        }//End inner for each
+                    }//End outer for each
 
-                        //Create placemark and add it to array list
-                        rowPlacemark = new Placemark(rowLat, rowLon, rowDesc, placemarkName);
+                    //Create Style and placemark for this coordinate set
+                    Style rowStyle = new Style();
+                    Placemark rowPlacemark;
 
-                        placemarks.Add(rowPlacemark);              
-                      
-                        //If there is a row style, add it to the placemark and the array list
-                        if (rowStyle != null)
+                    //if there is an icon, create the name of the style based on the icon name and color
+                    if (rowIcon.getLocation() != "")
+                    {
+                        if (rowIcon.getLocality() == false)
                         {
-                            rowPlacemark.setPlacemarkStyleName("#" + rowStyle.getStyleName());
-                            styles.Add(rowStyle);
+                            //Create new style with external icon
+                            rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                            rowIcon.setLocation("");
                         }
-                        else
+                        else //If the icon is local, append server data
                         {
-                            //Default value which won't add a style to this placemark in KML
-                            rowPlacemark.setPlacemarkStyleName("");
+                            //Create the new style, with local icon
+                            rowIcon.setLocation(this.serverPath + rowIcon.getLocation());
+                            rowStyle = new Style(rowIcon, color, (rowIcon.getLocation() + "_" + color.ToString("X")));
+                            rowIcon.setLocation("");
                         }
+                    }
+                    else if (rowIcon.getLocation() == "" && color != 0) //Create the style name based on the color
+                    {
+                        rowStyle = new Style(rowIcon, color, color.ToString("X"));
+                    }
+                    else //If rowstyle is null, ignore it
+                    {
+                        rowStyle = null;
+                    }
 
-                        //Increment counter for next row (associated with getting the row description)
-                        counter++;
+                    //Create placemark and add it to array list
+                    rowPlacemark = new Placemark(rowLat, rowLon, rowDesc, placemarkName);
 
-                       }//End for each
-               // }//End for each
+                    placemarks.Add(rowPlacemark);
+
+                    //If there is a row style, add it to the placemark and the array list
+                    if (rowStyle != null)
+                    {
+                        rowPlacemark.setPlacemarkStyleName("#" + rowStyle.getStyleName());
+                        styles.Add(rowStyle);
+                    }
+                    else
+                    {
+                        //Default value which won't add a style to this placemark in KML
+                        rowPlacemark.setPlacemarkStyleName("");
+                    }
+
+                    //Increment counter for next row (associated with getting the row description)
+                    counter++;
+
+                }//End for each
+                // }//End for each
 
                 //Add each style to the KML
                 foreach (Style s in styles)

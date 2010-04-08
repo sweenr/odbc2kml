@@ -379,9 +379,9 @@ namespace HCI
                 Response.End();
                 return;
             }
-            catch (Exception error) 
+            catch (ODBC2KMLException ex) 
             {
-                ErrorHandler err = new ErrorHandler("There was an exception generating KML.", errorPanel1);
+                ErrorHandler err = new ErrorHandler(ex.errorText, errorPanel1);
                 err.displayError();
                 return;
             }
