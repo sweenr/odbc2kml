@@ -3086,6 +3086,7 @@ namespace HCI
             mapColumnsPanel.Visible = false;
             viewGrid.Visible = true;
             addLatLong.Visible = true;
+            savePlacemarkMapping.Visible = true;
             mapPlacemarkName.Visible = true;
             sessionSave();
 
@@ -3199,11 +3200,13 @@ namespace HCI
                 }
             }
 
+            savePlacemarkMapping.Visible = false;
             mapPlacemarkName.Visible = false;
-            viewGrid.Visible = true;
-            saveLatLong.Visible = true;
             addLatLong.Visible = false;
             tblColumnsPanel.Visible = false;
+            addPlacemarkField.Visible = true;
+            viewGrid.Visible = true;
+            saveLatLong.Visible = true;
             mapColumnsPanel.Visible = true;
             sessionSave();
 
