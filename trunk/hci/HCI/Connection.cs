@@ -451,7 +451,7 @@ namespace HCI
                     database.executeQueryLocal(query);
 
                     //If the latfieldname is empty, and it passed the validation function, then remove the mapping
-                    if (this.mapping.getLatFieldName() == "")
+                    if (this.mapping == null)
                     {
                         //Remove the mapping
                         query = "DELETE FROM Mapping WHERE connID=" + this.connID;
