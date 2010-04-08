@@ -1417,6 +1417,7 @@ namespace HCI
             DropDownList fieldName = (DropDownList)Page.FindControl("addIconField" + args);
             DropDownList upperOperator = (DropDownList)Page.FindControl("addIconUpperOperator" + args);
             TextBox upperBound = (TextBox)Page.FindControl("addIconUpperBound" + args);
+            UpdatePanel modifyIconConditionInsidePopupPanel = (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + args);
             string iconId = args;
 
             Condition condition = new Condition();
@@ -1433,20 +1434,15 @@ namespace HCI
             string conditionErrors = condition.getErrorText();
             if (conditionErrors != "")
             {
-                try
-                {
-                    genIconConditionTable(sender, e);
-                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                }
-                catch (ODBC2KMLException ex)
-                {
-                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                    eh2.displayError();
-                    return;
-                }
                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel"+iconId), "MPE_"+iconId);
                 eh.displayError();
-                errorUpdatePanel.Update();
+                lowerBound.Text = condition.getLowerBound();
+                lowerOperator.SelectedValue = condition.getLowerOperator();
+                tableName.SelectedValue = condition.getTableName();
+                fieldName.SelectedValue = condition.getFieldName();
+                upperOperator.SelectedValue = condition.getUpperOperator();
+                upperBound.Text = condition.getUpperBound();
+                //errorUpdatePanel.Update();
                 return;
             }
 
@@ -1488,20 +1484,15 @@ namespace HCI
                             //If value is not a double, throw an error
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
-                                try
-                                {
-                                    genIconConditionTable(sender, e);
-                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 return;
                             }
 
@@ -1516,19 +1507,14 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    genIconConditionTable(sender, e);
-                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 return;
                             }
 
@@ -1550,19 +1536,14 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    genIconConditionTable(sender, e);
-                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 return;
                             }
 
@@ -1577,19 +1558,14 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    genIconConditionTable(sender, e);
-                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 return;
                             }
 
@@ -1611,19 +1587,14 @@ namespace HCI
                             if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    genIconConditionTable(sender, e);
-                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 return;
                             }
 
@@ -1638,19 +1609,14 @@ namespace HCI
                             if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
-                                try
-                                {
-                                    genIconConditionTable(sender, e);
-                                    //genOverlayConditionTable(sender, e); // why would you update the overlay table/popup here? If nothin breaks, remove this line.
-                                }
-                                catch (ODBC2KMLException ex)
-                                {
-                                    ErrorHandler eh2 = new ErrorHandler(ex.errorText, errorPanel1);
-                                    eh2.displayError();
-                                    return;
-                                }
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
                                 eh.displayError();
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 return;
                             }
 
