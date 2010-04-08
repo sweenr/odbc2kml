@@ -761,7 +761,7 @@ function OnColorPicked(sender){
                                                 <asp:Panel ID="IconConditionPanel" runat="server" Visible="true">
                                                 </asp:Panel>
                                             </table>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="btnClose"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="btnClose"
                                                 runat="server" PopupControlID="AddIconsPanel" ID="ModalPopupExtender1" TargetControlID="addIcon" />
                                             <asp:Panel ID="AddIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
@@ -795,7 +795,7 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="btnClose2"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="btnClose2"
                                                 runat="server" PopupControlID="RemoveIconsPanel" ID="ModalPopupExtender2" TargetControlID="removeIcon" />
                                             <asp:Panel ID="RemoveIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
@@ -829,7 +829,7 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="btnClose3"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="btnClose3"
                                                 runat="server" PopupControlID="UploadIconsPanel" ID="ModalPopupExtender3" TargetControlID="uploadIcon" />
                                             <asp:Panel ID="UploadIconsPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
@@ -918,7 +918,7 @@ function OnColorPicked(sender){
                                             <div class="newConnA">
                                                 <asp:Button ID="Button4" runat="server" Text="Modify Overlay" CssClass="button" Width="135"
                                                     Style="display: none; visibility: hidden;" />
-                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="modCondCancel1"
+                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="modCondCancel1"
                                                     runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7" TargetControlID="Button4" />
                                                 <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                     <span class="connectionStyle">&nbsp;Modify Condition</span>
@@ -1038,7 +1038,7 @@ function OnColorPicked(sender){
                                                 <asp:Panel ID="OverlayConditionPanel" runat="server" Visible="true">
                                                 </asp:Panel>
                                             </table>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" CancelControlID="closeRemoveOverlay"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" CancelControlID="closeRemoveOverlay"
                                                 runat="server" PopupControlID="RemoveOverlayPanel" ID="RemoveOverlayPopupExtender"
                                                 TargetControlID="RemoveOverlayButton" />
                                             <asp:Panel ID="RemoveOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
@@ -1072,7 +1072,7 @@ function OnColorPicked(sender){
                                                     </table>
                                                 </div>
                                             </asp:Panel>
-                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" runat="server"
+                                            <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="False" runat="server"
                                                 PopupControlID="AddOverlayPanel" ID="AddOverlayPopupExtender" TargetControlID="AddOverlayButton" />
                                             <asp:Panel ID="AddOverlayPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
                                                 <div class="mainBoxP">
@@ -1160,7 +1160,7 @@ function OnColorPicked(sender){
     </div>
     <ajax:ModalPopupExtender OkControlID="cancelUpdate" runat="server" PopupControlID="connUpdateWarning"
         TargetControlID="connectButton" ID="warningModal" BackgroundCssClass="modalBackground"
-        DropShadow="true">
+        DropShadow="False">
     </ajax:ModalPopupExtender>
     <asp:Panel ID="connUpdateWarning" runat="server" Visible="true" Style="display: none">
         <div class='mainBoxP'>

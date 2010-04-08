@@ -40,7 +40,7 @@
         </asp:DropDownList>
         <asp:TextBox runat="server" CssClass="inputBox" Width="300" ID="queryString" />
         <asp:Button runat="server" ID="runQuery" OnClick="executeQuery" Text="Show Results" CssClass="button"/>
-        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" OkControlID="hideResults"
+        <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="false" OkControlID="hideResults"
              runat="server" PopupControlID="resultsPanel" ID="ModalPopupExtender6"
             TargetControlID="runQuery" />
         <asp:Panel ID="resultsPanel" runat="server" visible="false" Style="display: none;" CssClass="boxPopupStyle">
