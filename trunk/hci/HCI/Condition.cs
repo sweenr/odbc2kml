@@ -282,9 +282,9 @@ namespace HCI
                 errorString = "Your lower bound is not less than your upper bound.";
             else if ((lowerBound != "") && (upperBound != "") && (!double.TryParse(lowerBound, out tempDouble)) && (String.Compare(lowerBound, upperBound)) >= 0)  // string case
                 errorString = "Your lower bound is not less than your upper bound.";
-            else if (!double.TryParse(lowerBound, out tempDouble) && (lowerBound != "") && (lowerOperator != 5 || lowerOperator != 6))
+            else if (!double.TryParse(lowerBound, out tempDouble) && (lowerBound != "") && (lowerOperator != 5) && (lowerOperator != 6))
                 errorString = "You cannot use non-doubles with a comparison operator.";
-            else if (!double.TryParse(upperBound, out tempDouble) && (upperBound != "") && (upperOperator != 5 || upperOperator != 6))
+            else if (!double.TryParse(upperBound, out tempDouble) && (upperBound != "") && (upperOperator != 5) && (upperOperator != 6))
                 errorString = "You cannot use non-doubles with a comparison operator.";
             
             return errorString;
