@@ -167,10 +167,10 @@
             </div>
         </div>
         <div id="page">
-            <table id="mainTable">
+            <table id="mainTable" cellspacing="2">
                 <tr>
-                    <td>
-                        <div class="mainBox">
+                    <td style="width:900px;">
+                        <div class="mainBoxMP">
                             <span class="connectionStyle">&nbsp;Connection Information</span>
                             <table cellspacing="0" cellpadding="10" class="connectionBox">
                                 <asp:Panel ID="ConnectionsAvailable" runat="server" Visible="true">
