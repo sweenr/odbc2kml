@@ -613,9 +613,9 @@ function OnColorPicked(sender){
                                     <asp:Label ID="dLabel" runat="server" Text="Insert: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
                                     <asp:Button ID="dLink" runat="server" Text="Link" CssClass="descButton" ToolTip="Insert Link"
                                         OnClick="dLink_Click" />&nbsp;&nbsp;
-                                    <asp:Button ID="dTable" runat="server" Text="Table Name" CssClass="descButton" ToolTip="Insert Table Name"
+                                    <asp:Button ID="dTable" runat="server" Text="Table Name" CssClass="descButton" ToolTip="Insert Currently Mapped Table Name"
                                         OnClick="dTableInsert_Click" />&nbsp;&nbsp;
-                                    <asp:Button ID="dField" runat="server" Text="Field Name" CssClass="descButton" ToolTip="Insert Field Name"
+                                    <asp:Button ID="dField" runat="server" Text="Field Name" CssClass="descButton" ToolTip="Insert Currently Mapped Field Name"
                                         OnClick="dField_Click" />&nbsp;&nbsp;
                                     <asp:Button ID="dBr" runat="server" Text="Newline" CssClass="descButton" ToolTip="Insert Newline"
                                         OnClick="dNewline_Click" />&nbsp;&nbsp;
@@ -638,6 +638,7 @@ function OnColorPicked(sender){
                                                                     </td>
                                                                     <td>
                                                                     </td>
+                                                                    <td></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
@@ -649,6 +650,7 @@ function OnColorPicked(sender){
                                                                     </td>
                                                                     <td>
                                                                     </td>
+                                                                    <td></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
@@ -660,9 +662,13 @@ function OnColorPicked(sender){
                                                                             Text="Insert Link" ToolTip="Insert Link" />
                                                                         &nbsp;&nbsp;
                                                                     </td>
+                                                                    <td>
+                                                                        <asp:Button ID="dLinkClear" runat="server" CssClass="descButton" OnClick="dClear_Click"
+                                                                            Text="Close" ToolTip="Close Panel" />
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="3">
+                                                                    <td colspan="4">
                                                                         <asp:Label ID="iLinkError" runat="server" CssClass="descLabelError" Text="Please insert a valid Site Name and URL."
                                                                             Visible="false"></asp:Label>
                                                                         &nbsp;&nbsp;
@@ -680,23 +686,7 @@ function OnColorPicked(sender){
                                                     <tr>
                                                         <td>
                                                             <table>
-                                                                <tr>
-                                                                    <td>
-                                                                        <asp:Label ID="iTableFN" runat="server" Text="Table Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
-                                                                    </td>
-                                                                    <td>
-                                                                        <asp:UpdatePanel ID="UpdateFieldTable" runat="server" UpdateMode="Conditional">
-                                                                            <ContentTemplate>
-                                                                                <asp:DropDownList ID="iTableFNBox" runat="server" OnSelectedIndexChanged="iTableFNBox_SelectedIndexChanged"
-                                                                                    AutoPostBack="true" AppendDataBoundItems="true">
-                                                                                    <asp:ListItem Value="">--Select Table--</asp:ListItem>
-                                                                                </asp:DropDownList>
-                                                                            </ContentTemplate>
-                                                                        </asp:UpdatePanel>
-                                                                    </td>
-                                                                    <td>
-                                                                    </td>
-                                                                </tr>
+                                                               
                                                                 <tr>
                                                                     <td>
                                                                         <asp:Label ID="iColFN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
@@ -711,6 +701,7 @@ function OnColorPicked(sender){
                                                                     </td>
                                                                     <td>
                                                                     </td>
+                                                                    <td></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
@@ -722,9 +713,11 @@ function OnColorPicked(sender){
                                                                             Text="Insert Field" ToolTip="Insert Field" />
                                                                         &nbsp;&nbsp;
                                                                     </td>
+                                                                    <td><asp:Button ID="dFieldClear" runat="server" CssClass="descButton" OnClick="dClear_Click"
+                                                                            Text="Close" ToolTip="Close Panel" /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="3">
+                                                                    <td colspan="4">
                                                                         <asp:Label ID="dFieldError" runat="server" CssClass="descLabelError" Text="Please select a valid database table and column."
                                                                             Visible="false"></asp:Label>
                                                                         &nbsp;&nbsp;
