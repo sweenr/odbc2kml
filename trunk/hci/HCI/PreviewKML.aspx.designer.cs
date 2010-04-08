@@ -11,6 +11,6 @@
 namespace HCI {
     
     
-    public partial class PreviewKMLTest {
+    public partial class PreviewKML {
     }
 }
