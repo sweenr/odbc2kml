@@ -68,7 +68,11 @@ namespace HCI
                     else
                     {
                         //Grab and parse connection ID
-                        conn.connID = int.Parse(Request.QueryString.Get("ConnID"));
+                        bool isValidConnId = int.TryParse(Request.QueryString.Get("ConnID"),out conn.connID);
+                        if (!isValidConnId)
+                        {
+                            Response.Redirect("Main.aspx");
+                        }
                         conn.populateFields();
 
                         ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
@@ -162,7 +166,7 @@ namespace HCI
 
                 sessionSave();
 
-                if (Request.QueryString.Get("locked") == "true")
+                if (Request.QueryString.Get("locked") != "false")
                 {
                     LockPage();
                 }
