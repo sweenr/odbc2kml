@@ -1382,24 +1382,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Panel AddOverlayPanel;
         
         /// <summary>
-        /// HiddenValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HiddenValue;
-        
-        /// <summary>
-        /// addColorMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label addColorMessage;
-        
-        /// <summary>
         /// ColorPicker1 control.
         /// </summary>
         /// <remarks>
@@ -1416,6 +1398,24 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox ColorAddText;
+        
+        /// <summary>
+        /// HiddenValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenValue;
+        
+        /// <summary>
+        /// addColorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label addColorMessage;
         
         /// <summary>
         /// overColorExists control.
