@@ -2703,9 +2703,9 @@ namespace HCI
             conn.connInfo.setUserName(odbcUser.Text);
 
             //If format is 0, set mapping to null for save connection validation
-            if (conn.mapping.getFormat() == 0)
+            if (conn.mapping.getFormat() == -1)
             {
-                conn.mapping = null;
+                conn.mapping.setFormat(0) ;
             }
 
             try
