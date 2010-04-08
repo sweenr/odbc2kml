@@ -162,6 +162,33 @@ body
 	padding: 5px;
 }
 
+.tableTD3
+{
+	background-color:rgb(200,225,250);
+	border-right: solid 1px rgb(60,106,142);
+	padding: 5px;
+}
+
+.tableTD3C
+{
+	background-color:rgb(200,225,250);
+	text-align:center;
+}
+
+.tableTDAdd
+{
+	background-color:rgb(74,128,174);
+	border-right: solid 1px rgb(60,106,142);
+	padding: 5px;
+}
+
+.tableTDAddC
+{
+	background-color:rgb(74,128,174);
+	text-align:center;
+}
+
+
 .tableTRTitle
 {
 	background-color: rgb(26,49,76);
