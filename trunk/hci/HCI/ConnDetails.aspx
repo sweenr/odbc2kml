@@ -589,9 +589,13 @@ function OnColorPicked(sender){
                                                             <td>
                                                                 <asp:Button ID="viewTable" runat="server" Text="View Table" ToolTip="View Table"
                                                                     CssClass="button" CausesValidation="False" />
-                                                                <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
-                                                                    CssClass="button" OnClick="viewGrid_Click" />
                                                             </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td style="text-align:right;"> <asp:Button ID="viewGrid" runat="server" Text="Return" ToolTip="Return" Visible="false"
+                                                                    CssClass="descButton" OnClick="viewGrid_Click" /></td>
                                                         </tr>
                                                     </table>
                                                 </div>
