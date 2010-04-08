@@ -141,7 +141,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1, "editConnModalPopUp");
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1);
                 eh.displayError();
                 return;
             }
@@ -194,7 +194,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1, "editConnModalPopUp");
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1);
                 eh.displayError();
                 return;
             }
@@ -258,7 +258,7 @@ namespace HCI
                         + " Also, make sure that Oracle SID or Oracle Service Name and Oracle Protocol have been entered.";
                 }
 
-                ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
+                ErrorHandler eh = new ErrorHandler(error, errorPanel1);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -285,7 +285,7 @@ namespace HCI
                 {
                     String error = "Invalid connection information. Please verify all of your fields are filled in correctly."
                     + "If you are using an oracle connection, please make sure you filled out the oracle specific information.";
-                    ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
+                    ErrorHandler eh = new ErrorHandler(error, errorPanel1);
                     this.editConnModalPopUp.Hide();
                     eh.displayError();
                     return;
@@ -293,7 +293,7 @@ namespace HCI
             }
             catch (ODBC2KMLException err)
             {
-                ErrorHandler eh = new ErrorHandler(err.errorText, errorPanel1, "editConnPanel");
+                ErrorHandler eh = new ErrorHandler(err.errorText, errorPanel1);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -482,14 +482,14 @@ namespace HCI
 
             if (DBTypeNum.Equals("2")){
                 if (oracleSName.Equals("") && oracleSID.Equals("")){
-                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1, "NewConn1ModalPopUp");
+                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1);
                     this.NewConn1ModalPopUp.Hide();
                     eh.displayError();
                     return;
                 }
                 if (oracleProtocol.Equals(""))
                 {
-                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1, "NewConn1ModalPopUp");
+                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1);
                     this.NewConn1ModalPopUp.Hide();
                     eh.displayError();
                     return;
@@ -505,49 +505,49 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error getting the Connection's name", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("There was an error getting the Connection's name", errorPanel1);
             }
 
             if (dtCheck.Rows.Count > 0)
             {
-                ErrorHandler eh = new ErrorHandler("Connection name already in use!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("Connection name already in use!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }
             if (ConnName.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnDBName.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnDBAddress.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnPortNum.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if(ConnUser.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnPWD.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -588,7 +588,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -611,7 +611,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error saving the connection to the database.", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("There was an error saving the connection to the database.", errorPanel1);
                 eh.displayError();
                 return;
             }
@@ -625,7 +625,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error retreiving the new connection's connID.", errorPanel1, "NewConn1ModalPopUp");
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving the new connection's connID.", errorPanel1);
                 eh.displayError();
                 return;
             }
@@ -650,7 +650,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, "UploadIconsPanel");
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 eh.displayError();
                 return;
             }
@@ -674,7 +674,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, "UploadIconsPanel");
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 eh.displayError();
                 return;
             }
