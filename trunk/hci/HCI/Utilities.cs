@@ -106,6 +106,20 @@ namespace HCI
             Database DB = new Database();
             WebClient Client = new WebClient();
 
+            //Create a request for the URL.
+            WebRequest request = WebRequest.Create(URL);
+            request.Proxy = null;
+            try
+            {
+                //Get the response.
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            }
+            catch (Exception exc)
+            {
+                throw new ODBC2KMLException("Cannot connect to the URL you entered");
+                return "";
+            }
+
             //below lines get information to check validity of icon and saves the icon temporarily
             String fileName = System.IO.Path.GetFileNameWithoutExtension(URL);
             String ext = System.IO.Path.GetExtension(URL);
