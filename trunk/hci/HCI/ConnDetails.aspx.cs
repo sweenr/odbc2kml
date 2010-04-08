@@ -78,7 +78,7 @@ namespace HCI
                         {
                             conn.populateFields();
                         }
-                        catch (ODBC2KMLException ex)
+                        catch (ODBC2KMLException)
                         {
                             ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information", errorPanel1);
                             eh.displayError();
@@ -109,7 +109,7 @@ namespace HCI
                                 fillIconListFromDatabase();
                                 alreadySetupLists = true;
                             }
-                            catch (ODBC2KMLException ex)
+                            catch (ODBC2KMLException)
                             {
                                 ErrorHandler eh = new ErrorHandler("There was an error populating the icon and overlay lists", errorPanel1);
                                 eh.displayError();
@@ -384,7 +384,7 @@ namespace HCI
                 eh.displayError();
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ErrorHandler eh = new ErrorHandler("An unexpected error occured, please check your database connection.", errorPanel1);
                 eh.displayError();
@@ -1457,7 +1457,7 @@ namespace HCI
                     //Create the datatable to parse through
                     testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
                 }
-                catch (ODBC2KMLException ex)
+                catch (ODBC2KMLException)
                 {
                     ErrorHandler eh = new ErrorHandler("There was an error connecting to the remote database to verify icon condition information", errorPanel1);
                     eh.displayError();
@@ -2260,7 +2260,7 @@ namespace HCI
                     //Create the datatable to parse through
                     testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
                 }
-                catch (ODBC2KMLException ex)
+                catch (ODBC2KMLException)
                 {
                     ErrorHandler eh = new ErrorHandler("There was an error connecting to the remote database to verify overlay condition information", errorPanel1);
                     eh.displayError();
@@ -2623,7 +2623,7 @@ namespace HCI
                 {
                     addSingleIconToLib(pathToAdd);
                 }
-                catch (ODBC2KMLException ex)
+                catch (ODBC2KMLException)
                 {
                     ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
                     eh.displayError();
@@ -2663,7 +2663,7 @@ namespace HCI
                 {
                     addSingleIconToLib(pathToAdd);
                 }
-                catch (ODBC2KMLException ex)
+                catch (ODBC2KMLException)
                 {
                     ErrorHandler eh = new ErrorHandler("There was an error adding the icon to the library", errorPanel1);
                     eh.displayError();
@@ -2698,7 +2698,7 @@ namespace HCI
             {
                 conn.saveConn();
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error saving the connection", errorPanel1);
                 eh.displayError();
@@ -3560,7 +3560,7 @@ namespace HCI
             sb.Append("</scri");
             sb.Append("pt>");
 
-            Page.RegisterStartupScript("Preview KML", sb.ToString());
+            ClientScript.RegisterStartupScript(this.GetType(), "Preview KML", sb.ToString());
         }
     }
 }

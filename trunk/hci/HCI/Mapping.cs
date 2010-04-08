@@ -120,7 +120,7 @@ namespace HCI
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 valid = false;
                 return valid;
@@ -168,7 +168,7 @@ namespace HCI
                         return false;
                     }
 
-                    if (this.getFormat() == null)
+                    if (this.getFormat() == 0)
                     {
                         return false;
                     }
@@ -239,7 +239,7 @@ namespace HCI
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ODBC2KMLException("This is not a Longitude and Latitude Coordinate.");
             }
