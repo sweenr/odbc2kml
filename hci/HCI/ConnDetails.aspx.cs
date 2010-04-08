@@ -372,10 +372,11 @@ namespace HCI
                 updateSqlDataSources();
                 genIconConditionTable(sender, e);
                 genOverlayConditionTable(sender, e);
+                displayCurrentMapping();
 
                 sessionSave();
-                genIconConditionTable(sender, e);
-                genOverlayConditionTable(sender, e);
+               // genIconConditionTable(sender, e);
+               // genOverlayConditionTable(sender, e);
             }
             catch (ODBC2KMLException ex)
             {

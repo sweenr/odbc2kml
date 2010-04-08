@@ -207,6 +207,7 @@ namespace HCI
                 if(i.purgeInvalidIconConditions(purgeDT, newTableColumnRelation))
                 {
                     descriptionBox.Text = "";
+                    this.mapping = new Mapping();
                 }
             }
 
@@ -215,6 +216,7 @@ namespace HCI
                 if (o.purgeInvalidOverlayConditions(purgeDT, newTableColumnRelation))
                 {
                     descriptionBox.Text = "";
+                    this.mapping = new Mapping();
                 }
             }
 
