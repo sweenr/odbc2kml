@@ -1482,7 +1482,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null)
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "")
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1508,7 +1508,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1541,7 +1541,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1567,7 +1567,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -1596,7 +1596,7 @@ namespace HCI
                         Double upper;
 
                         //See if the lower conditions evaluate to doubles
-                        if (Double.TryParse(condition.getUpperBound(), out upper) && row[condition.getFieldName()] != null) 
+                        if (Double.TryParse(condition.getUpperBound(), out upper) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                         {
                             Double value;
                             //If value is not a double, throw an error
@@ -1626,7 +1626,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";                                
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyIconConditionInsidePopupPanel" + iconId), "MPE_" + iconId);
@@ -2305,7 +2305,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
@@ -2331,7 +2331,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value))
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "")
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
@@ -2364,7 +2364,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null)
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "")
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
@@ -2390,7 +2390,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
@@ -2423,7 +2423,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is not a double, throw an error
-                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (!Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
@@ -2449,7 +2449,7 @@ namespace HCI
                         {
                             Double value;
                             //If value is a double, throw an error
-                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null) 
+                            if (Double.TryParse(row[condition.getFieldName()].ToString(), out value) && row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") 
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
