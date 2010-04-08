@@ -568,9 +568,6 @@ function OnColorPicked(sender){
                                             <asp:Panel ID="columnButtons" runat="server" Visible="false">
                                                 <p>
                                                 </p>
-                                                &nbsp;&nbsp;<asp:Label ID="mapSuccess" runat="server" CssClass="descLabel"></asp:Label>
-                                                <p>
-                                                </p>
                                                 <div class="right">
                                                     <table>
                                                         <tr>

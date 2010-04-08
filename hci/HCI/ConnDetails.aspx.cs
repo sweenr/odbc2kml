@@ -3040,8 +3040,6 @@ namespace HCI
 
             LLSepPanel.Visible = true;
             LLTogetherPanel.Visible = false;
-
-            mapSuccess.Visible = false;
             sessionSave();
         }
 
@@ -3082,8 +3080,6 @@ namespace HCI
             }
 
             displayCurrentMapping();
-
-            mapSuccess.Visible = false;
             sessionSave();
 
         }
@@ -3297,7 +3293,6 @@ namespace HCI
             mapColumnsPanel.Visible = false;
             mapPlacemarkName.Visible = false;
             tblColumnsPanel.Visible = true;
-            mapSuccess.Visible = false;
             sessionSave();
         }
 
@@ -3329,17 +3324,6 @@ namespace HCI
                         //update the mapping box
                         displayCurrentMapping();
 
-                        //set and display insert/update message
-                        if (conn.mapping.getTableName() == null)
-                        {
-                            mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
-                        }
-                        else
-                        {
-                            mapSuccess.Text = "Lat/Long Mapping updated successfully!";
-                        }
-                        mapSuccess.Visible = true;
-
                     }
                 }
                 //else if they are mapped together
@@ -3362,17 +3346,6 @@ namespace HCI
 
                     //update the current mapping box
                     displayCurrentMapping();
-
-                    //set and display mapping insert/update message
-                    if (conn.mapping.getTableName() == null)
-                    {
-                        mapSuccess.Text = "Lat/Long Mapping inserted successfully!";
-                    }
-                    else
-                    {
-                        mapSuccess.Text = "Lat/Long Mapping updated successfully!";
-                    }
-                    mapSuccess.Visible = true;
 
                 }
             }
