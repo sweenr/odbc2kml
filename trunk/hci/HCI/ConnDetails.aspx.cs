@@ -2728,7 +2728,7 @@ namespace HCI
 
         protected void dField_Click(object sender, EventArgs e)
         {
-
+            iTableFNBox_SelectedIndexChanged(sender, e);
             dLinkPanel.Visible = false;
             dFieldPanel.Visible = !dFieldPanel.Visible;
             sessionSave();
