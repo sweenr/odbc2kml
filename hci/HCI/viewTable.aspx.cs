@@ -37,7 +37,7 @@ namespace HCI
                 dt = db.executeQueryLocal(query);
                 if (dt.HasErrors)
                 {
-                    throw new ODBC2KMLException("Unknown Database error");
+                    throw new ODBC2KMLException("There was a problem getting the connection information from the local database");
                 }
             }
             catch (ODBC2KMLException ex)
