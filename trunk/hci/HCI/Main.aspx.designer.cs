@@ -230,15 +230,6 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.Button viewLibClose;
         
         /// <summary>
-        /// newConnection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton newConnection;
-        
-        /// <summary>
         /// newConnectionA control.
         /// </summary>
         /// <remarks>
@@ -246,6 +237,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button newConnectionA;
+        
+        /// <summary>
+        /// newConnection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton newConnection;
         
         /// <summary>
         /// NewConn1ModalPopUp control.
