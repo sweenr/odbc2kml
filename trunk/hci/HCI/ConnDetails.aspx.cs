@@ -2240,6 +2240,7 @@ namespace HCI
             DropDownList fieldName = (DropDownList)Page.FindControl("addOverlayField" + args);
             DropDownList upperOperator = (DropDownList)Page.FindControl("addOverlayUpperOperator" + args);
             TextBox upperBound = (TextBox)Page.FindControl("addOverlayUpperBound" + args);
+            UpdatePanel modifyIconConditionInsidePopupPanel = (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + args);
             string overlayId = args;
 
             Condition condition = new Condition();
@@ -2258,6 +2259,12 @@ namespace HCI
             {
                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
                 eh.displayError();
+                lowerBound.Text = condition.getLowerBound();
+                lowerOperator.SelectedValue = condition.getLowerOperator();
+                tableName.SelectedValue = condition.getTableName();
+                fieldName.SelectedValue = condition.getFieldName();
+                upperOperator.SelectedValue = condition.getUpperOperator();
+                upperBound.Text = condition.getUpperBound();
                 return;
             }
 
@@ -2302,6 +2309,12 @@ namespace HCI
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
                             }
@@ -2322,6 +2335,12 @@ namespace HCI
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound(); 
                                 eh.displayError();
                                 return;
                             }
@@ -2349,6 +2368,12 @@ namespace HCI
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
                             }
@@ -2369,6 +2394,12 @@ namespace HCI
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
                             }
@@ -2396,6 +2427,12 @@ namespace HCI
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
                             }
@@ -2416,6 +2453,12 @@ namespace HCI
                             {
                                 conditionErrors = "The datatype of the entered bounds do not match the datatype of the database values.";
                                 ErrorHandler eh = new ErrorHandler(conditionErrors, (UpdatePanel)Page.FindControl("modifyOverlayConditionInsidePopupPanel" + overlayId), "MPE_OVERLAY_" + overlayId);
+                                lowerBound.Text = condition.getLowerBound();
+                                lowerOperator.SelectedValue = condition.getLowerOperator();
+                                tableName.SelectedValue = condition.getTableName();
+                                fieldName.SelectedValue = condition.getFieldName();
+                                upperOperator.SelectedValue = condition.getUpperOperator();
+                                upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
                             }
