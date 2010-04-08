@@ -535,11 +535,11 @@ namespace HCI
                     imgBtn.CssClass = "overlayBox";
                     imgBtn.BorderColor = (System.Drawing.Color)colConvert.ConvertFromString("#000000");
                     imgBtn.BorderWidth = Unit.Pixel(2);
-                    imgBtn.Width = Unit.Pixel(25);
-                    imgBtn.Height = Unit.Pixel(25);
                     imgBtn.Click += new ImageClickEventHandler(removeOverlayColorFromConn);
                     imgBtn.CommandArgument = over.getColor().ToString();
-                    imgBtn.AlternateText = "Remove";
+                    imgBtn.ImageUrl = "graphics/overlayBack.gif";
+                    
+                    imgBtn.AlternateText = " Remove ";
 
                     removeOverlayInteriorPanel.Controls.Add(imgBtn);
                     removeOverlayInteriorPanel.Controls.Add(new LiteralControl("</td>"));
@@ -560,7 +560,7 @@ namespace HCI
             removeIconFromConn.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
             if (iconListAvailableToRemove.Count == 0)
             {
-                removeIconFromConn.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">No icons currently exist for this connection.</td></tr>\n"));
+                removeIconFromConn.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\"><span style=\"color: white;\">No icons currently exist for this connection.</span></td></tr>\n"));
             }
             else
             {
@@ -605,7 +605,7 @@ namespace HCI
             addIconToLibary.Controls.Add(new LiteralControl("<table class=\"boxPopupStyle2\" cellpadding=\"5\">\n"));
             if (iconListAvailableToAdd.Count == 0)
             {
-                addIconToLibary.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\">All icons in the icon library are currently being used in the connection.</td></tr>\n"));
+                addIconToLibary.Controls.Add(new LiteralControl("<tr><td class=\"tableTD\"><span style=\"color: white;\">All icons in the icon library are currently being used in the connection.</span></td></tr>\n"));
             }
             else
             {
@@ -1592,7 +1592,7 @@ namespace HCI
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<table class=\"omainBox5\" cellspacing=\"0\" cellpadding=\"0\">\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
-                OverlayConditionPanel.Controls.Add(new LiteralControl("No overlays are currently set for this connection.\n"));
+                OverlayConditionPanel.Controls.Add(new LiteralControl("<span style=\"color: white;\">No overlays are currently set for this connection.</span>\n"));
                 if (Request.QueryString.Get("locked") == "false")
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<br />Add some using the Add Overlay button below.\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));

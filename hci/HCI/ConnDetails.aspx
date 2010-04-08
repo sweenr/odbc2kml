@@ -823,7 +823,7 @@ function OnColorPicked(sender){
                                                                             <asp:Panel ID="removeIconFromConn" Height="300px" ScrollBars="Both" runat="server"
                                                                                 Visible="true">
                                                                             </asp:Panel>
-                                                                            <div class="right">
+                                                                           <div class="right" style="padding-top: 20px;">
                                                                                 <asp:Button ID="btnClose2" runat="server" Text="Cancel" CssClass="button" />
                                                                             </div>
                                                                         </td>
@@ -1076,31 +1076,25 @@ function OnColorPicked(sender){
                                                                                         <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    Use the Color Picker to select an overlay color. Choose a color and click Save.
+                                                                                                    Click the color box to select an overlay color. Choose a color and click Save.  The color is displayed in the box below.
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </table>
                                                                                         <p>
                                                                                         </p>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                            <asp:HiddenField runat="server" ID="HiddenValue" Value="" />
-                                                                            <asp:Label ID="addColorMessage" runat="server" Text="&nbsp;" />
-                                                                            <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <!--Color Info Here (Color Box? Color Drop Down?)--->
                                                                                         <div class="colorPicker">
-                                                                                            &nbsp;&nbsp;Click here:
                                                                                             <obout:ColorPicker ID="ColorPicker1" runat="server" ZIndex="500000" OnClientOpen="OnColorOpen"
                                                                                                 OnClientPicked="OnColorPicked" TargetId="ColorAddText" TargetProperty="style.backgroundColor">
-                                                                                                <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="cursor: pointer;" runat="server" />
+                                                                                                <span class="connectionStyle">&nbsp;Select Color:</span><br />
+                                                                                                <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="cursor: pointer;" runat="server" width="200" Height="75"/>
                                                                                             </obout:ColorPicker>
                                                                                         </div>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
+                                                                               
+                                                                            <asp:HiddenField runat="server" ID="HiddenValue" Value="" />
+                                                                            <asp:Label ID="addColorMessage" runat="server" Text="&nbsp;" />
                                                                             <div class="right" style="padding-top: 20px;">
                                                                                 <!-- <asp:Label ID="overColorExists" runat="server" Visible="false" Text="Overlay Color Exists! Please Choose Another:" /> -->
                                                                                 <asp:Button ID="submitAddOverlay" runat="server" Text="Submit" CssClass="button"
