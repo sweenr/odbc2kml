@@ -146,9 +146,11 @@ namespace HCI
 
         public static Description getDescription(int connID)
         {
+            //Basic Constructs
             Description description = new Description();
             Database localDatabase = new Database();
             DataTable table = null;
+            description.setDesc("");
             //Create description query and populate table
             string query = "SELECT * FROM Description WHERE connID=" + connID;
 
@@ -164,14 +166,7 @@ namespace HCI
 
             foreach (DataRow row in table.Rows)
             {
-                foreach (DataColumn col in table.Columns)
-                {
-                    //Set Description
-                    if (col.ColumnName == "description")
-                    {
-                        description.setDesc(row[col].ToString());
-                    }
-                }
+                description.setDesc(row["description"].ToString());
             }//End outer loop
 
             return description;
