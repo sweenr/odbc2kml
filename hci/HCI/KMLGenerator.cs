@@ -100,9 +100,6 @@ namespace HCI
                 //Create database
                 Database DB = new Database(connection.getConnInfo());
 
-                //originally took string table name, changed for test
-                // foreach (Mapping map in mappings)
-                // {
                 //Grab the tablename out of mapping
                 String tableName = map.getTableName();
 
@@ -133,10 +130,10 @@ namespace HCI
                 //For each row in the table!!!
                 foreach (DataRow remoteRow in remote.Rows)
                 {
-                        //Set placemark name
-                        string placemarkName;
+                    //Set placemark name
+                    string placemarkName;
                     try
-                        {
+                    {
                         if (map.getPlacemarkFieldName() == null || map.getPlacemarkFieldName().Trim().Equals("") || map.getPlacemarkFieldName().Trim().Equals("No placemark name mapped"))
                         {
                             placemarkName = "";
