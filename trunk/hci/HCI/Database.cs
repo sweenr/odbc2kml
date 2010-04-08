@@ -219,7 +219,7 @@ namespace HCI
             else if (ConnInfo.MSSQL == info.getDatabaseType())
             {
                 //MS SQL connection string
-                return "Driver={SQL Native Client};Address="
+                return "Driver={SQL Native Client};Server="
                     + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";Uid=" + info.getUserName()
                     + ";Pwd=" + info.getPassword() + ";";
