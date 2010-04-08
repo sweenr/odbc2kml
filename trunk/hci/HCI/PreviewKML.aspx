@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PreviewKML.aspx.cs" Inherits="HCI.PreviewKML" %>
 
 <%
-    if (Session["connection"] == "" || Session["connection"] == null
+    if (Session["Connection"] == "" || Session["Connection"] == null
         || Session["serverPath"] == "" || Session["serverPath"] == null)
     { %>
     <script type="text/javascript">
@@ -10,7 +10,7 @@
       <%  Response.Redirect("Main.aspx");
     }
     
-    HCI.Connection connection = (HCI.Connection)Session["connection"];
+    HCI.Connection connection = (HCI.Connection)Session["Connection"];
     //Test code
     String serverPath = Session["serverPath"].ToString(); //Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
     HCI.KMLGenerator generator = new HCI.KMLGenerator("Test_FILE", serverPath);

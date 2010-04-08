@@ -283,7 +283,8 @@ namespace HCI
                 //Force the connection into a safe state, if it is not
                 if (!conn.safeStateConnection())
                 {
-                    String error = "Unexpected error when trying to ensure the connection was in a safe state.";
+                    String error = "Invalid connection information. Please verify all of your fields are filled in correctly."
+                    + "If you are using an oracle connection, please make sure you filled out the oracle specific information.";
                     ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
                     this.editConnModalPopUp.Hide();
                     eh.displayError();
@@ -292,8 +293,7 @@ namespace HCI
             }
             catch (ODBC2KMLException err)
             {
-                String error = "Unexpected error when trying to ensure the connection was in a safe state.";
-                ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
+                ErrorHandler eh = new ErrorHandler(err.errorText, errorPanel1, "editConnPanel");
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
