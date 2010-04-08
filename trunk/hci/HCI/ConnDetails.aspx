@@ -784,7 +784,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Both" runat="server" Visible="true">
+                                                                <asp:Panel ID="addIconToLibary" Height="300px" ScrollBars="Auto" runat="server" Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <!-- <asp:Button ID="btnOk" runat="server" Text="Add Icon" CssClass="button" OnClick="addIconFromLibraryToConn" CommandArgument="none"/>&nbsp;&nbsp; -->
@@ -818,7 +818,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeIconFromConn" Height="300px" ScrollBars="Both" runat="server"
+                                                                <asp:Panel ID="removeIconFromConn" Height="300px" ScrollBars="Auto" runat="server"
                                                                     Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
@@ -1062,7 +1062,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeOverlayInteriorPanel" runat="server" ScrollBars="Both" Visible="true">
+                                                                <asp:Panel ID="removeOverlayInteriorPanel" runat="server" ScrollBars="Auto" Visible="true">
                                                                 </asp:Panel>
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <asp:Button ID="closeRemoveOverlay" runat="server" Text="Cancel" CssClass="button" />

@@ -1045,7 +1045,7 @@ namespace HCI
                     }
                     Panel modifyIconConditionPopupPanel = new Panel();
 
-                    modifyIconConditionPopupPanel.ScrollBars = ScrollBars.Vertical;
+                    modifyIconConditionPopupPanel.ScrollBars = ScrollBars.Auto;
                     modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                     modifyIconConditionPopupPanel.Style["display"] = "none";
                     modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
@@ -1879,7 +1879,7 @@ namespace HCI
                         OverlayConditionPanel.Controls.Add(modifyButton);
                     }
                     Panel modifyOverlayConditionPopupPanel = new Panel();
-                    modifyOverlayConditionPopupPanel.ScrollBars = ScrollBars.Vertical;
+                    modifyOverlayConditionPopupPanel.ScrollBars = ScrollBars.Auto;
                     modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
                     modifyOverlayConditionPopupPanel.Style["display"] = "none";
                     modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
