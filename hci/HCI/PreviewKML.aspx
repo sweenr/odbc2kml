@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PreviewKMLTest.aspx.cs" Inherits="HCI.PreviewKMLTest" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PreviewKML.aspx.cs" Inherits="HCI.PreviewKML" %>
 
 <%
     if (Session["connection"] == "" || Session["connection"] == null
