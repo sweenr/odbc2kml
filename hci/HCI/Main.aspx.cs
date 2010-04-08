@@ -34,7 +34,7 @@ namespace HCI
             {
                 dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error getting the current connections", errorPanel1);
                 eh.displayError();
@@ -139,7 +139,7 @@ namespace HCI
             {
                 dtCheck = dbCheck.executeQueryLocal("SELECT name,dbName,userName,password,port,address,type,protocol,serviceName,SID FROM Connection WHERE ID=\'" + args + "\'");
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1);
                 eh.displayError();
@@ -192,7 +192,7 @@ namespace HCI
                 dtCheck = dbCheck.executeQueryLocal("SELECT name,dbName,userName,password,port,address,type,protocol,serviceName,SID FROM Connection WHERE ID=\'" + args + "\'");
                 dr = dtCheck.Rows[0];
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1);
                 eh.displayError();
@@ -387,7 +387,7 @@ namespace HCI
             {
                 db.executeQueryLocal("DELETE FROM CONNECTION WHERE ID=" + args);
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error deleting the connection", errorPanel1);
                 eh.displayError();
@@ -503,7 +503,7 @@ namespace HCI
             {
                 dtCheck = dbCheck.executeQueryLocal("SELECT name FROM Connection WHERE name=\'" + ConnName + "\'");
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error getting the Connection's name", errorPanel1);
             }
@@ -609,7 +609,7 @@ namespace HCI
                     db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '', '', '')");
                 }
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error saving the connection to the database.", errorPanel1);
                 eh.displayError();
@@ -623,7 +623,7 @@ namespace HCI
             {
                 dt = db.executeQueryLocal("SELECT ID FROM CONNECTION WHERE name='" + ConnName + "' AND dbName='" + ConnDBName + "' AND userName='" + ConnUser + "' AND port='" + ConnPortNum + "' AND address='" + ConnDBAddress + "' AND type='" + DBTypeNum + "'");
             }
-            catch (ODBC2KMLException ex)
+            catch (ODBC2KMLException)
             {
                 ErrorHandler eh = new ErrorHandler("There was an error retreiving the new connection's connID.", errorPanel1);
                 eh.displayError();

@@ -68,7 +68,7 @@ namespace HCI
                 {
                     dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
                 }
-                catch (ODBC2KMLException ex)
+                catch (ODBC2KMLException)
                 {
                     ErrorHandler eh = new ErrorHandler("There was an error getting the list of connections", errorPanel1);
                     eh.displayError();

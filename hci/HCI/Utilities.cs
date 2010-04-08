@@ -59,7 +59,7 @@ namespace HCI
                     {
                         fileUpEx.PostedFile.SaveAs(fileSaveLoc + file);
                     }
-                    catch (DirectoryNotFoundException ex)
+                    catch (DirectoryNotFoundException)
                     {
                         throw new ODBC2KMLException("Error saving file, please ensure " + fileSaveLoc + " exists on this machine");
                     }
@@ -89,7 +89,6 @@ namespace HCI
             {
                 throw new ODBC2KMLException("Please select a file to upload.");
             }
-            return "";
         }
 
         /// <summary>
@@ -114,10 +113,9 @@ namespace HCI
                 //Get the response.
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 throw new ODBC2KMLException("Cannot connect to the URL you entered");
-                return "";
             }
 
             //below lines get information to check validity of icon and saves the icon temporarily
@@ -143,11 +141,11 @@ namespace HCI
                 {
                     Client.DownloadFile(URL, name);
                 }
-                catch (WebException ex)
+                catch (WebException)
                 {
                     throw new ODBC2KMLException("Error with temporary download, please ensure " + fileSaveLoc + " exists on this machine");
                 }
-                catch (ArgumentException ex)
+                catch (ArgumentException)
                 {
                     throw new ODBC2KMLException("No URL entered");
                 }
