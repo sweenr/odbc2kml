@@ -444,10 +444,7 @@ function OnColorPicked(sender){
                                                                                             </ContentTemplate>
                                                                                         </asp:UpdatePanel>
                                                                                     </td>
-                                                                                    <td>
-                                                                                        <asp:Button ID="savePlacemarkMapping" runat="server" Text="Submit" CssClass="descButton"
-                                                                                            ToolTip="Submit" OnClick="savePlacemarkMapping_click" />
-                                                                                    </td>
+                                                                                    
                                                                                 </tr>
                                                                             </table>
                                                                             <p>
@@ -578,8 +575,10 @@ function OnColorPicked(sender){
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <asp:Button ID="saveLatLong" runat="server" Text="Save" ToolTip="Save" CssClass="button"
+                                                                <asp:Button ID="saveLatLong" runat="server" Text="Submit" ToolTip="Submit" CssClass="button"
                                                                     OnClick="saveLatLong_Click" Visible="false" />
+                                                                <asp:Button ID="savePlacemarkMapping" runat="server" Text="Submit" CssClass="button"
+                                                                    ToolTip="Submit" OnClick="savePlacemarkMapping_click" Visible="false" />
                                                             </td>
                                                             <td>
                                                                 <asp:Button ID="addPlacemarkField" runat="server" Text="Map Name" ToolTip="Map Placemark Name"
