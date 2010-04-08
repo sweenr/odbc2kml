@@ -115,13 +115,13 @@ namespace HCI
                     Char[] colorHandler = style.getStyleColor().ToString("X").ToCharArray();
 
                     //Swap the RGB to BGR, if not, google will not interpret the colors correctly
-                    Char temp = colorHandler[0];
-                    colorHandler[0] = colorHandler[4];
-                    colorHandler[4] = temp;
+                    Char temp = colorHandler[2];
+                    colorHandler[2] = colorHandler[6];
+                    colorHandler[6] = temp;
 
-                    temp = colorHandler[1];
-                    colorHandler[1] = colorHandler[5];
-                    colorHandler[5] = temp;
+                    temp = colorHandler[3];
+                    colorHandler[3] = colorHandler[7];
+                    colorHandler[7] = temp;
 
                     //Set color
                     String color = new String(colorHandler);
@@ -139,12 +139,14 @@ namespace HCI
                     Char[] colorHandler = style.getStyleColor().ToString("X").ToCharArray();
 
                     //Swap the RGB to BGR, if not, google will not interpret the colors correctly
-                    for (int x = 0; x < 3; x++)
-                    {
-                        Char temp = colorHandler[x + 2];
-                        colorHandler[x + 2] = colorHandler[colorHandler.Length-x-1];
-                        colorHandler[colorHandler.Length-x-1] = temp;
-                    }
+                    Char temp = colorHandler[2];
+                    colorHandler[2] = colorHandler[6];
+                    colorHandler[6] = temp;
+
+                    temp = colorHandler[3];
+                    colorHandler[3] = colorHandler[7];
+                    colorHandler[7] = temp;
+
 
                     //Set color
                     String color = new String(colorHandler);
