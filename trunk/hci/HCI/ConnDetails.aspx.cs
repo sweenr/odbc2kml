@@ -996,6 +996,7 @@ namespace HCI
                         IconConditionPanel.Controls.Add(modifyButton);
                     }
                     Panel modifyIconConditionPopupPanel = new Panel();
+                    modifyIconConditionPopupPanel.ScrollBars = ScrollBars.Vertical;
                     modifyIconConditionPopupPanel.ID = "modifyIconConditionPopupPanel" + icon.getId();
                     modifyIconConditionPopupPanel.Style["display"] = "none";
                     modifyIconConditionPopupPanel.CssClass = "boxPopupStyle";
@@ -1183,7 +1184,7 @@ namespace HCI
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addIconTable" + args;
             addTableName.CssClass = "inputDD";
-            addTableName.Width = 120;
+            //addTableName.Width = "auto";
             addTableName.AutoPostBack = true;
             
             try
@@ -1223,7 +1224,7 @@ namespace HCI
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addIconField" + args;
             addFieldName.CssClass = "inputDD";
-            addFieldName.Width = 120;
+            //addFieldName.Width = "auto";
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
@@ -1728,6 +1729,7 @@ namespace HCI
                         OverlayConditionPanel.Controls.Add(modifyButton);
                     }
                     Panel modifyOverlayConditionPopupPanel = new Panel();
+                    modifyOverlayConditionPopupPanel.ScrollBars = ScrollBars.Vertical;
                     modifyOverlayConditionPopupPanel.ID = "modifyOverlayConditionPopupPanel" + overlay.getId();
                     modifyOverlayConditionPopupPanel.Style["display"] = "none";
                     modifyOverlayConditionPopupPanel.CssClass = "boxPopupStyle";
@@ -1914,7 +1916,7 @@ namespace HCI
             DropDownList addTableName = new DropDownList();
             addTableName.ID = "addOverlayTable" + args;
             addTableName.CssClass = "inputDD";
-            addTableName.Width = 120;
+            //addTableName.Width = "auto";
             addTableName.AutoPostBack = true;
             
             try
@@ -1953,7 +1955,7 @@ namespace HCI
             DropDownList addFieldName = new DropDownList();
             addFieldName.ID = "addOverlayField" + args;
             addFieldName.CssClass = "inputDD";
-            addFieldName.Width = 120;
+            //addFieldName.Width = "auto";
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(addFieldName);
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
 
