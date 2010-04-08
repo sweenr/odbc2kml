@@ -3146,7 +3146,7 @@ namespace HCI
                 throw new ODBC2KMLException("Unable to connect to target database.");
             }
 
-            if (conn.mapping.getPlacemarkFieldName() != null || conn.mapping.getPlacemarkFieldName().Equals(""))
+            if ((!conn.mapping.getPlacemarkFieldName().Equals("")) && (selectedTable == conn.mapping.tableName))
             {
                 nameColumnDD.SelectedValue = conn.mapping.getPlacemarkFieldName();
             }
