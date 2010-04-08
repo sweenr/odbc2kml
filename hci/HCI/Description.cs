@@ -244,7 +244,7 @@ namespace HCI
                 {
                     //look at URL for explanation
                     int fieldIndex = descString.IndexOf("[FIELD]");
-                    int fieldEndIndex = descString.IndexOf("[/FIELD]");
+                    int fieldEndIndex = descString.IndexOf("[/FIELD]")+8;
                     int fieldLength = fieldEndIndex - fieldIndex;
                     String descString1 = descString.Substring(0, fieldIndex);
                     String descString2 = descString.Substring(fieldEndIndex);
