@@ -2866,6 +2866,11 @@ namespace HCI
                         ColGen.ConnectionString = connectionString_editor;
                         ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
                         ColGen.DataBind();
+                        nameColumnDD.DataSource = ColGen;
+                        nameColumnDD.DataValueField = "COLUMN_NAME";
+                        nameColumnDD.DataTextField = "COLUMN_NAME";
+                        nameColumnDD.DataBind();
+                        nameColumnUP.Update();
                     }
                     else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                     {
@@ -2876,6 +2881,11 @@ namespace HCI
                         ColGen.ProviderName = providerName_editor;
                         ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
                         ColGen.DataBind();
+                        nameColumnDD.DataSource = ColGen;
+                        nameColumnDD.DataValueField = "COLUMN_NAME";
+                        nameColumnDD.DataTextField = "COLUMN_NAME";
+                        nameColumnDD.DataBind();
+                        nameColumnUP.Update();
 
                     }
                     else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
@@ -2887,12 +2897,20 @@ namespace HCI
                         ColGen.ProviderName = providerName_editor;
                         ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
                         ColGen.DataBind();
+                        nameColumnDD.DataSource = ColGen;
+                        nameColumnDD.DataValueField = "COLUMN_NAME";
+                        nameColumnDD.DataTextField = "COLUMN_NAME";
+                        nameColumnDD.DataBind();
+                        nameColumnUP.Update();
 
                     }
                     else
                     {
                         throw new ODBC2KMLException("Unknown database type.");
                     }
+
+
+
                 }
                 catch
                 {
@@ -2933,6 +2951,11 @@ namespace HCI
                     ColGen.ProviderName = providerName_editor;
                     ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
                     ColGen.DataBind();
+                    nameColumnDD.DataSource = ColGen;
+                    nameColumnDD.DataValueField = "COLUMN_NAME";
+                    nameColumnDD.DataTextField = "COLUMN_NAME";
+                    nameColumnDD.DataBind();
+                    nameColumnUP.Update();
                 }
                 else if (conn.connInfo.getDatabaseType() == ConnInfo.MYSQL)
                 {
@@ -2942,6 +2965,11 @@ namespace HCI
                     ColGen.ProviderName = providerName_editor;
                     ColGen.SelectCommand = "SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + selectedGVTable.Value + "')";
                     ColGen.DataBind();
+                    nameColumnDD.DataSource = ColGen;
+                    nameColumnDD.DataValueField = "COLUMN_NAME";
+                    nameColumnDD.DataTextField = "COLUMN_NAME";
+                    nameColumnDD.DataBind();
+                    nameColumnUP.Update();
 
                 }
                 else if (conn.connInfo.getDatabaseType() == ConnInfo.ORACLE)
@@ -2952,6 +2980,11 @@ namespace HCI
                     ColGen.ProviderName = providerName_editor;
                     ColGen.SelectCommand = "SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + selectedGVTable.Value + "')";
                     ColGen.DataBind();
+                    nameColumnDD.DataSource = ColGen;
+                    nameColumnDD.DataValueField = "COLUMN_NAME";
+                    nameColumnDD.DataTextField = "COLUMN_NAME";
+                    nameColumnDD.DataBind();
+                    nameColumnUP.Update();
                 }
                 else
                 {
