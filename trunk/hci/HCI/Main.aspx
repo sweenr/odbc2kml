@@ -132,6 +132,8 @@
         runat="server">na</a>
          <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink3"
         runat="server">na</a>
+        <a href="#" style="display: none; visibility: hidden;" onclick="return false" id="dummyLink4"
+        runat="server">na</a>
     <form id="mainForm" runat="server">
     <asp:ScriptManager ID="ConnSMgr" runat="server">
     </asp:ScriptManager>
@@ -436,6 +438,29 @@
                                                                     </td>
                                                                 </tr>
                                                             </table>
+                                                        </div>
+                                                    </asp:Panel>
+                                                    <ajax:ModalPopupExtender runat="server" PopupControlID="connUpdateWarning"
+                                                        TargetControlID="dummyLink4" ID="warningModal" BackgroundCssClass="modalBackground"
+                                                        DropShadow="true">
+                                                    </ajax:ModalPopupExtender>
+                                                    <asp:Panel ID="connUpdateWarning" runat="server" Visible="true" Style="display: none">
+                                                        <div class='mainBoxP'>
+                                                            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td>
+                                                                        If there are any differences between the original database and the one being updated,
+                                                                        description and any conditions associated with tables no longer present will be
+                                                                        removed from the connection. Are you sure you would like to update the connection
+                                                                        information?
+                                                                        <br />
+                                                                        <br />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <asp:Button ID="continueUpdate" runat="server" Text="Yes" OnCommand="updateConnection"
+                                                                CssClass="button" />
+                                                            <asp:Button ID="cancelUpdateWarning" runat="server" Text="No" OnClick="cancelUpdateConnection" CssClass="button" />
                                                         </div>
                                                     </asp:Panel>
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="true" 

@@ -50,6 +50,15 @@ namespace HCI {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor dummyLink3;
         
         /// <summary>
+        /// dummyLink4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor dummyLink4;
+        
+        /// <summary>
         /// mainForm control.
         /// </summary>
         /// <remarks>
@@ -408,6 +417,42 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button newConnCancel;
+        
+        /// <summary>
+        /// warningModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender warningModal;
+        
+        /// <summary>
+        /// connUpdateWarning control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel connUpdateWarning;
+        
+        /// <summary>
+        /// continueUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button continueUpdate;
+        
+        /// <summary>
+        /// cancelUpdateWarning control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button cancelUpdateWarning;
         
         /// <summary>
         /// editConnModalPopUp control.
