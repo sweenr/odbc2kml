@@ -29,7 +29,18 @@ namespace HCI
             //Get the DB stuff from here
             Database db = new Database();
             DataTable dt;
-            dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
+
+            try
+            {
+                dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error getting the current connections", errorPanel1);
+                eh.displayError();
+                return;
+            }
+
             int i = 0;
             if (dt.Rows.Count == 0)
             {
@@ -123,7 +134,18 @@ namespace HCI
 
             Database dbCheck = new Database();
             DataTable dtCheck;
-            dtCheck = dbCheck.executeQueryLocal("SELECT name,dbName,userName,password,port,address,type,protocol,serviceName,SID FROM Connection WHERE ID=\'" + args + "\'");
+
+            try
+            {
+                dtCheck = dbCheck.executeQueryLocal("SELECT name,dbName,userName,password,port,address,type,protocol,serviceName,SID FROM Connection WHERE ID=\'" + args + "\'");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1, "editConnModalPopUp");
+                eh.displayError();
+                return;
+            }
+            
             foreach (DataRow dr in dtCheck.Rows)
             {
                 editConnName.Text = dr[0].ToString();
@@ -185,7 +207,7 @@ namespace HCI
                         + " Also, make sure that Oracle SID or Oracle Service Name and Oracle Protocol have been entered.";
                 }
 
-                ErrorHandler eh = new ErrorHandler(error, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -211,7 +233,7 @@ namespace HCI
                 if (!conn.safeStateConnection())
                 {
                     String error = "Unexpected error when trying to ensure the connection was in a safe state.";
-                    ErrorHandler eh = new ErrorHandler(error, errorPanel1);
+                    ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
                     this.editConnModalPopUp.Hide();
                     eh.displayError();
                     return;
@@ -220,7 +242,7 @@ namespace HCI
             catch(ODBC2KMLException err)
             {
                 String error = "Unexpected error when trying to ensure the connection was in a safe state.";
-                ErrorHandler eh = new ErrorHandler(error, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(error, errorPanel1, "editConnPanel");
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -299,8 +321,19 @@ namespace HCI
             //Delete the connection
             Button sendBtn = (Button)sender;
             String args = sendBtn.CommandArgument.ToString();
-            Database db = new Database();
-            db.executeQueryLocal("DELETE FROM CONNECTION WHERE ID="+args);
+            Database db = new Database(); 
+
+            try
+            {
+                db.executeQueryLocal("DELETE FROM CONNECTION WHERE ID=" + args);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error deleting the connection", errorPanel1);
+                eh.displayError();
+                return;
+            }
+            
             this.deletePopupExtender.Hide();
             Response.Redirect("Main.aspx");
             
@@ -351,7 +384,7 @@ namespace HCI
                 ErrorHandler err = new ErrorHandler("There was an exception generating KML.", errorPanel1);
                 err.displayError();
                 return;
-            } 
+            }
 
             //Response.Redirect("Main.aspx", true);
         }
@@ -389,14 +422,14 @@ namespace HCI
 
             if (DBTypeNum.Equals("2")){
                 if (oracleSName.Equals("") && oracleSID.Equals("")){
-                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1);
+                    ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1, "NewConn1ModalPopUp");
                     this.NewConn1ModalPopUp.Hide();
                     eh.displayError();
                     return;
                 }
                 if (oracleProtocol.Equals(""))
                 {
-                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1);
+                    ErrorHandler eh = new ErrorHandler("Oracle protocol must be provided!", errorPanel1, "NewConn1ModalPopUp");
                     this.NewConn1ModalPopUp.Hide();
                     eh.displayError();
                     return;
@@ -404,48 +437,57 @@ namespace HCI
             }
 
             Database dbCheck = new Database();
-            DataTable dtCheck;
-            dtCheck = dbCheck.executeQueryLocal("SELECT name FROM Connection WHERE name=\'" + ConnName + "\'");
+            DataTable dtCheck = null;
+
+            try
+            {
+                dtCheck = dbCheck.executeQueryLocal("SELECT name FROM Connection WHERE name=\'" + ConnName + "\'");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error getting the Connection's name", errorPanel1, "NewConn1ModalPopUp");
+            }
+
             if (dtCheck.Rows.Count > 0)
             {
-                ErrorHandler eh = new ErrorHandler("Connection name already in use!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("Connection name already in use!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }
             if (ConnName.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("The connection must have a unique name!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnDBName.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("The connection must have a database name!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnDBAddress.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("The connection must have a database address!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnPortNum.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("The connection must have a port number!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if(ConnUser.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("The connection must have a user name!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
             }else if (ConnPWD.Equals(""))
             {
-                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("The connection must have a password!", errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -486,7 +528,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, "NewConn1ModalPopUp");
                 this.NewConn1ModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -495,19 +537,39 @@ namespace HCI
             //Call Create DB with the DB Function
             Database db = new Database();
             DataTable dt;
-            if (DBTypeNum.Equals("2"))
+
+            try
             {
-                db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '"+oracleProtocol+"', '"+oracleSName+"', '"+oracleSID+"')");
+                if (DBTypeNum.Equals("2"))
+                {
+                    db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '" + oracleProtocol + "', '" + oracleSName + "', '" + oracleSID + "')");
+                }
+                else
+                {
+                    db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '', '', '')");
+                }
             }
-            else
+            catch (ODBC2KMLException ex)
             {
-                db.executeQueryLocal("INSERT INTO Connection (name, dbName, userName, password, port, address, type, protocol, serviceName, SID) VALUES ('" + ConnName + "', '" + ConnDBName + "', '" + ConnUser + "', '" + ConnPWD + "', '" + ConnPortNum + "', '" + ConnDBAddress + "', '" + DBTypeNum + "', '', '', '')");
+                ErrorHandler eh = new ErrorHandler("There was an error saving the connection to the database.", errorPanel1, "NewConn1ModalPopUp");
+                eh.displayError();
+                return;
             }
 
             this.NewConn1ModalPopUp.Hide();
             //Jump to the Modify page
-            
-            dt = db.executeQueryLocal("SELECT ID FROM CONNECTION WHERE name='"+ConnName+"' AND dbName='"+ConnDBName+"' AND userName='"+ConnUser+"' AND port='"+ConnPortNum+"' AND address='"+ConnDBAddress+"' AND type='"+DBTypeNum+"'");
+
+            try
+            {
+                dt = db.executeQueryLocal("SELECT ID FROM CONNECTION WHERE name='" + ConnName + "' AND dbName='" + ConnDBName + "' AND userName='" + ConnUser + "' AND port='" + ConnPortNum + "' AND address='" + ConnDBAddress + "' AND type='" + DBTypeNum + "'");
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving the new connection's connID.", errorPanel1, "NewConn1ModalPopUp");
+                eh.displayError();
+                return;
+            }
+
             foreach (DataRow dr in dt.Rows)
             {
                 string connID = dr.ItemArray.ElementAt(0).ToString();
@@ -528,7 +590,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, "UploadIconsPanel");
                 eh.displayError();
                 return;
             }
@@ -552,7 +614,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, "UploadIconsPanel");
                 eh.displayError();
                 return;
             }

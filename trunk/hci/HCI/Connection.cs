@@ -122,69 +122,84 @@ namespace HCI
         /// <returns>Boolean --> false if the purge failed, true if it succeeded</returns>
         public bool validateConnnection(TextBox descriptionBox)
         {
-            //Return false if the conn information is bad
-            if (!this.connInfo.isValid(this.connID))
+            try
             {
-                return false;
+                //Return false if the conn information is bad
+                if (!this.connInfo.isValid(this.connID))
+                {
+                    return false;
+                }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
             }
 
             //Database needed to see if values need to be purged
             Database purgeDB = new Database(this.connInfo);
 
             //DataTable to hold all table names and 
-            DataTable purgeDT;
+            DataTable purgeDT = null;
 
             //dataset to hold all column names for each table in the datatable
             DataSet newTableColumnRelation = new DataSet();
 
-            if (this.connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            try
             {
-                //MSSQL specific call
-                purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'");
-
-                foreach (DataRow row in purgeDT.Rows)
+                if (this.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
-                    //Retrieve each column name for each table in the purge data table
-                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+                    //MSSQL specific call
+                    purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'");
 
-                    //Add the retrieved table to the Dataset
-                    purgeDC.TableName = row["TABLE_NAME"].ToString();
-                    newTableColumnRelation.Tables.Add(purgeDC);
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Retrieve each column name for each table in the purge data table
+                        DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                        //Add the retrieved table to the Dataset
+                        purgeDC.TableName = row["TABLE_NAME"].ToString();
+                        newTableColumnRelation.Tables.Add(purgeDC);
+                    }
+                }
+                else if (this.connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    //MySQL specific call
+                    purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'");
+
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Retrieve each column name for each table in the purge data table
+                        DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                        //Add the retrieved table to the Dataset
+                        purgeDC.TableName = row["TABLE_NAME"].ToString();
+                        newTableColumnRelation.Tables.Add(purgeDC);
+                    }
+                }
+                else if (this.connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    //Oracle specific call
+                    purgeDT = purgeDB.executeQueryRemote("select TABLE_NAME from user_tables");
+
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Retrieve each column name for each table in the purge data table
+                        DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                        //Add the retrieved table to the Dataset
+                        purgeDC.TableName = row["TABLE_NAME"].ToString();
+                        newTableColumnRelation.Tables.Add(purgeDC);
+                    }
+                }
+                else //Just in case....Bad error
+                {
+                    throw new ODBC2KMLException("The update function failed to perform properly, please try again.");
                 }
             }
-            else if (this.connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            catch (ODBC2KMLException ex)
             {
-                //MySQL specific call
-                purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'");
-
-                foreach (DataRow row in purgeDT.Rows)
-                {
-                    //Retrieve each column name for each table in the purge data table
-                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
-
-                    //Add the retrieved table to the Dataset
-                    purgeDC.TableName = row["TABLE_NAME"].ToString();
-                    newTableColumnRelation.Tables.Add(purgeDC);
-                }
-            }
-            else if (this.connInfo.getDatabaseType() == ConnInfo.ORACLE)
-            {
-                //Oracle specific call
-                purgeDT = purgeDB.executeQueryRemote("select TABLE_NAME from user_tables");
-
-                foreach (DataRow row in purgeDT.Rows)
-                {
-                    //Retrieve each column name for each table in the purge data table
-                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + row["TABLE_NAME"] + "')");
-
-                    //Add the retrieved table to the Dataset
-                    purgeDC.TableName = row["TABLE_NAME"].ToString();
-                    newTableColumnRelation.Tables.Add(purgeDC);
-                }
-            }
-            else //Just in case....Bad error
-            {
-                throw new ODBC2KMLException("The update function failed to perform properly, please try again.");
+                ex.errorText = "There was a problem retreiving column names from the remote database";
+                throw ex;
             }
 
             foreach (Icon i in this.getIcons())
@@ -215,10 +230,17 @@ namespace HCI
         /// true, if the connection is in a safe state</returns>
         public Boolean safeStateConnection()
         {
-            //Return false if the conn information is bad
-            if (!this.connInfo.isValid(this.connID))
+            try
             {
-                return false;
+                //Return false if the conn information is bad
+                if (!this.connInfo.isValid(this.connID))
+                {
+                    return false;
+                }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
             }
 
             //Database needed to see if values need to be purged
@@ -230,82 +252,113 @@ namespace HCI
             //dataset to hold all column names for each table in the datatable
             DataSet newTableColumnRelation = new DataSet();
 
-            if (this.connInfo.getDatabaseType() == ConnInfo.MSSQL)
+            try
             {
-                //MSSQL specific call
-                purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'");
-
-                foreach (DataRow row in purgeDT.Rows)
+                if (this.connInfo.getDatabaseType() == ConnInfo.MSSQL)
                 {
-                    //Retrieve each column name for each table in the purge data table
-                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+                    //MSSQL specific call
+                    purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'");
 
-                    //Add the retrieved table to the Dataset
-                    purgeDC.TableName = row["TABLE_NAME"].ToString();
-                    newTableColumnRelation.Tables.Add(purgeDC);
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Retrieve each column name for each table in the purge data table
+                        DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                        //Add the retrieved table to the Dataset
+                        purgeDC.TableName = row["TABLE_NAME"].ToString();
+                        newTableColumnRelation.Tables.Add(purgeDC);
+                    }
+                }
+                else if (this.connInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    //MySQL specific call
+                    purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'");
+
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Retrieve each column name for each table in the purge data table
+                        DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                        //Add the retrieved table to the Dataset
+                        purgeDC.TableName = row["TABLE_NAME"].ToString();
+                        newTableColumnRelation.Tables.Add(purgeDC);
+                    }
+                }
+                else if (this.connInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    //Oracle specific call
+                    purgeDT = purgeDB.executeQueryRemote("select TABLE_NAME from user_tables");
+
+                    foreach (DataRow row in purgeDT.Rows)
+                    {
+                        //Retrieve each column name for each table in the purge data table
+                        DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + row["TABLE_NAME"] + "')");
+
+                        //Add the retrieved table to the Dataset
+                        purgeDC.TableName = row["TABLE_NAME"].ToString();
+                        newTableColumnRelation.Tables.Add(purgeDC);
+                    }
+                }
+                else //Just in case....Bad error
+                {
+                    throw new ODBC2KMLException("The update function failed to perform properly, please try again.");
                 }
             }
-            else if (this.connInfo.getDatabaseType() == ConnInfo.MYSQL)
+            catch (ODBC2KMLException ex)
             {
-                //MySQL specific call
-                purgeDT = purgeDB.executeQueryRemote("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'");
-
-                foreach (DataRow row in purgeDT.Rows)
-                {
-                    //Retrieve each column name for each table in the purge data table
-                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE (TABLE_NAME = '" + row["TABLE_NAME"] + "')");
-
-                    //Add the retrieved table to the Dataset
-                    purgeDC.TableName = row["TABLE_NAME"].ToString();
-                    newTableColumnRelation.Tables.Add(purgeDC);
-                }
-            }
-            else if (this.connInfo.getDatabaseType() == ConnInfo.ORACLE)
-            {
-                //Oracle specific call
-                purgeDT = purgeDB.executeQueryRemote("select TABLE_NAME from user_tables");
-
-                foreach (DataRow row in purgeDT.Rows)
-                {
-                    //Retrieve each column name for each table in the purge data table
-                    DataTable purgeDC = purgeDB.executeQueryRemote("SELECT COLUMN_NAME FROM dba_tab_columns WHERE (OWNER IS NOT NULL AND TABLE_NAME = '" + row["TABLE_NAME"] + "')");
-
-                    //Add the retrieved table to the Dataset
-                    purgeDC.TableName = row["TABLE_NAME"].ToString();
-                    newTableColumnRelation.Tables.Add(purgeDC);
-                }
-            }
-            else //Just in case....Bad error
-            {
-                throw new ODBC2KMLException("The update function failed to perform properly, please try again.");
+                ex.errorText = "There was a problem retreiving column names from the remote database";
+                throw ex;
             }
 
             //Flag used to see if the description should be removed
             Boolean removeDescription = false;
 
-            //For any invalid icon conditions, remove them from the database
-            foreach (Icon i in this.getIcons())
+            try
             {
-                if (i.purgeInvalidIconConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB))
+                //For any invalid icon conditions, remove them from the database
+                foreach (Icon i in this.getIcons())
                 {
-                    removeDescription = true;
+                    if (i.purgeInvalidIconConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB))
+                    {
+                        removeDescription = true;
+                    }
                 }
             }
-
-            //For any invalid overlay conditions, remove them from the database
-            foreach (Overlay o in this.getOverlays())
+            catch (ODBC2KMLException ex)
             {
-                if (o.purgeInvalidOverlayConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB))
+                throw ex;
+            }
+
+            try
+            {
+                //For any invalid overlay conditions, remove them from the database
+                foreach (Overlay o in this.getOverlays())
                 {
-                    removeDescription = true;
+                    if (o.purgeInvalidOverlayConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB))
+                    {
+                        removeDescription = true;
+                    }
                 }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
             }
 
             //Remove the description from the database
             if (removeDescription)
             {
                 String query = "DELETE FROM Description WHERE connID=" + this.connID;
-                purgeDB.executeQueryLocal(query);
+
+                try
+                {
+                    purgeDB.executeQueryLocal(query);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ex.errorText = "There was a problem deleting the decription from the database";
+                    throw ex;
+                }
             }
 
             return true;

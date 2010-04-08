@@ -160,30 +160,37 @@ namespace HCI
                 }
             }
 
-            //If anything specific to any connection is missing, return false
-            if (!ConnInfo.validConnName(this.connectionName, connID))
+            try
             {
-                return false;
+                //If anything specific to any connection is missing, return false
+                if (!ConnInfo.validConnName(this.connectionName, connID))
+                {
+                    return false;
+                }
+                else if (!ConnInfo.validDBAddress(this.serverAddress))
+                {
+                    return false;
+                }
+                else if (!ConnInfo.validPort(this.portNumber))
+                {
+                    return false;
+                }
+                else if (!ConnInfo.validDBName(this.databaseName))
+                {
+                    return false;
+                }
+                else if (!ConnInfo.validUserName(this.userName))
+                {
+                    return false;
+                }
+                else if (!ConnInfo.validPassword(this.password))
+                {
+                    return false;
+                }
             }
-            else if (!ConnInfo.validDBAddress(this.serverAddress))
+            catch (ODBC2KMLException ex)
             {
-                return false;
-            }
-            else if (!ConnInfo.validPort(this.portNumber))
-            {
-                return false;
-            }
-            else if (!ConnInfo.validDBName(this.databaseName))
-            {
-                return false;
-            }
-            else if (!ConnInfo.validUserName(this.userName))
-            {
-                return false;
-            }
-            else if (!ConnInfo.validPassword(this.password))
-            {
-                return false;
+                throw ex;
             }
 
             //All is good!
@@ -198,7 +205,17 @@ namespace HCI
 
             //Construct the connInfo query and retrieve the DataTable
             string query = "SELECT * FROM Connection WHERE ID=" + connID;
-            DataTable table = localDatabase.executeQueryLocal(query);
+            DataTable table = null;
+
+            try
+            {
+                table = localDatabase.executeQueryLocal(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ex.errorText = "Error getting connection information for the connection";
+                throw ex;
+            }
 
             //Cycle through each row and column
             foreach (DataRow row in table.Rows)
@@ -265,7 +282,17 @@ namespace HCI
             Database DB = new Database();
             String query = "SELECT * FROM Connection WHERE name='" + name + "' AND ID!=" + connID;
 
-            DataTable DT = DB.executeQueryLocal(query);
+            DataTable DT = null;
+
+            try
+            {
+                DT = DB.executeQueryLocal(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ex.errorText = "Error getting connection information";
+                throw ex;
+            }
 
             //If the row number isn't 0, return false
             if (DT.Rows.Count > 0)

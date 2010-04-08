@@ -109,10 +109,21 @@ namespace HCI
         {
             Database localDatabase = new Database();
             ArrayList overlays = new ArrayList();
+            DataTable table = null;
 
             //Create overlay query and populate table
             string query = "SELECT * FROM Overlay WHERE connID=" + connID;
-            DataTable table = localDatabase.executeQueryLocal(query);
+
+            try
+            {
+                table = localDatabase.executeQueryLocal(query);
+            }
+            catch(ODBC2KMLException ex)
+            {
+                ex.errorText = "There was an error retreiving overlays";
+                throw ex;
+            }
+
 
             foreach (DataRow row in table.Rows)
             {
@@ -127,7 +138,16 @@ namespace HCI
                 //Query string and query
                 string conQuery = "SELECT * FROM OverlayCondition WHERE overlayID="
                     + (Convert.ToInt16(newOverlay.getId())) + " AND connID=" + connID;
-                newTable = localDatabase.executeQueryLocal(conQuery);
+
+                try
+                {
+                    newTable = localDatabase.executeQueryLocal(conQuery);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ex.errorText = "There was a problem selecting overlay conditions";
+                    throw ex;
+                }
 
                 //Cycle through each condition
                 foreach (DataRow nRow in newTable.Rows)
@@ -213,7 +233,17 @@ namespace HCI
                 if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
                 {
                     String query = "DELETE FROM OverlayCondition WHERE ID=" + ((Condition)this.getConditions()[count]).getId();
-                    temp.executeQueryLocal(query);
+
+                    try
+                    {
+                        temp.executeQueryLocal(query);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ex.errorText = "There was a problem purging invalid overlay conditions from the database";
+                        throw ex;
+                    }
+
                     this.removeCondition(count);
                     didPurge = true;
                 }

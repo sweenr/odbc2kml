@@ -106,17 +106,25 @@ namespace HCI
                     //Grab the tablename out of mapping
                     String tableName = map.getTableName();
 
-                    if (connection.getConnInfo().getDatabaseType() == ConnInfo.MSSQL)
+                    try
                     {
-                        remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
+                        if (connection.getConnInfo().getDatabaseType() == ConnInfo.MSSQL)
+                        {
+                            remote = DB.executeQueryRemote("SELECT * FROM " + tableName);
+                        }
+                        else if (connection.getConnInfo().getDatabaseType() == ConnInfo.MYSQL)
+                        {
+                            remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
+                        }
+                        else if (connection.getConnInfo().getDatabaseType() == ConnInfo.ORACLE)
+                        {
+                            remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
+                        }
                     }
-                    else if (connection.getConnInfo().getDatabaseType() == ConnInfo.MYSQL)
+                    catch (ODBC2KMLException ex)
                     {
-                        remote = DB.executeQueryRemote("SELECT * FROM " + tableName + ";");
-                    }
-                    else if (connection.getConnInfo().getDatabaseType() == ConnInfo.ORACLE)
-                    {
-                        remote = DB.executeQueryRemote("SELECT * FROM \"" + tableName + "\"");
+                        ex.errorText = "There was a problem retreiving data from the remote server";
+                        throw ex;
                     }
 
                     //Parsed descriptions for rows

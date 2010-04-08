@@ -144,32 +144,23 @@ namespace HCI
             return true;
         }
 
-        public static void insertDescription(int connID, string desc)
-        {
-            Description description = new Description();
-            Database localDatabase = new Database();
-
-            string query = "INSERT INTO DESCRIPTION VALUES ('" + connID + "', '" + desc + "')";
-            localDatabase.executeQueryLocal(query);
-        } 
-
-        public static void updateDescription(int connID, string desc)
-        {
-            Description description = new Description();
-            Database localDatabase = new Database();
-
-            string query = "UPDATE DESCRIPTION SET description = '" + desc + "' WHERE connID = '" + connID + "'";
-            localDatabase.executeQueryLocal(query);
-        } 
-
         public static Description getDescription(int connID)
         {
             Description description = new Description();
             Database localDatabase = new Database();
-
+            DataTable table = null;
             //Create description query and populate table
             string query = "SELECT * FROM Description WHERE connID=" + connID;
-            DataTable table = localDatabase.executeQueryLocal(query);
+
+            try
+            {
+                table = localDatabase.executeQueryLocal(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ex.errorText = "Error retreiving description from the local database";
+                throw ex;
+            }
 
             foreach (DataRow row in table.Rows)
             {

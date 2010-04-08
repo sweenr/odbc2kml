@@ -73,7 +73,17 @@ namespace HCI
                         {
                             Response.Redirect("Main.aspx");
                         }
-                        conn.populateFields();
+
+                        try
+                        {
+                            conn.populateFields();
+                        }
+                        catch (ODBC2KMLException ex)
+                        {
+                            ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information", errorPanel1);
+                            eh.displayError();
+                            return;
+                        }
 
                         ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
                         curOverlayCount = -1;
@@ -1337,9 +1347,18 @@ namespace HCI
             {
                 //Create database based on the connInfo
                 Database testDB = new Database(conn.connInfo);
-
-                //Create the datatable to parse through
-                DataTable testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
+                DataTable testTable = null;
+                try
+                {
+                    //Create the datatable to parse through
+                    testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler("There was an error connecting to the remote database to verify icon condition information", errorPanel1);
+                    eh.displayError();
+                    return;
+                }
 
                 //Check the bounds against the database values
                 foreach (DataRow row in testTable.Rows)
@@ -2058,9 +2077,19 @@ namespace HCI
             {
                 //Create database based on the connInfo
                 Database testDB = new Database(conn.connInfo);
+                DataTable testTable = null;
 
-                //Create the datatable to parse through
-                DataTable testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
+                try
+                {
+                    //Create the datatable to parse through
+                    testTable = testDB.executeQueryRemote("SELECT " + condition.getFieldName() + " FROM " + condition.getTableName());
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ErrorHandler eh = new ErrorHandler("There was an error connecting to the remote database to verify overlay condition information", errorPanel1);
+                    eh.displayError();
+                    return;
+                }
 
                 //Check the bounds against the database values
                 foreach (DataRow row in testTable.Rows)
@@ -2483,8 +2512,17 @@ namespace HCI
             conn.connInfo.setServerAddress(odbcAdd.Text);
             conn.connInfo.setUserName(odbcUser.Text);
 
+            try
+            {
+                conn.saveConn();
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler("There was an error saving the connection", errorPanel1);
+                eh.displayError();
+                return;
+            }
 
-            conn.saveConn();
             sessionSave();
             Response.Redirect("ConnDetails.aspx?ConnID=" + conn.connID + "&locked=false");
         }
@@ -2909,25 +2947,6 @@ namespace HCI
             catch
             {
                 throw new ODBC2KMLException("Unable to connect to target database.");
-            }
-
-            sessionSave();
-        }
-
-        protected void updateDescription()
-        {
-            string descText = descriptionBox.Text.ToString();
-
-            //No description entry exists
-            if (conn.description.getDesc() == null)
-            {
-                Description.insertDescription(conn.connID, descText);
-            }
-
-            //Update existing description entry
-            else
-            {
-                Description.updateDescription(conn.connID, descText);
             }
 
             sessionSave();
@@ -3378,7 +3397,18 @@ namespace HCI
             //Server side KML generation
             String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
             KMLGenerator generator = new KMLGenerator(conn.getConnInfo().getConnectionName() + ".kml", serverPath);
-            String KML = generator.generateKMLFromConnection(this.conn);
+
+            try
+            {
+                String KML = generator.generateKMLFromConnection(this.conn);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+
             KML = KML.Replace('\n', ' ');
 
             //Pass the information out to a new popup window using JavaScript

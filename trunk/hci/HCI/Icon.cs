@@ -130,7 +130,17 @@ namespace HCI
 
             //Create icon query and populate table
             string query = "SELECT * FROM Icon WHERE connID=" + connID;
-            DataTable table = localDatabase.executeQueryLocal(query);
+            DataTable table = null;
+
+            try
+            {
+                table = localDatabase.executeQueryLocal(query);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ex.errorText = "There was an error getting icons for the connection";
+                throw ex;
+            }
 
             foreach (DataRow row in table.Rows)
             {
@@ -146,7 +156,16 @@ namespace HCI
 
                         //IconLibrary query
                         string locQuery = "SELECT * FROM IconLibrary WHERE ID=" + ((int)row[col]);
-                        newTable = localDatabase.executeQueryLocal(locQuery);
+
+                        try
+                        {
+                            newTable = localDatabase.executeQueryLocal(locQuery);
+                        }
+                        catch (ODBC2KMLException ex)
+                        {
+                            ex.errorText = "There was an error populating the Icon Library";
+                            throw ex;
+                        }
 
                         foreach (DataRow nRow in newTable.Rows)
                         {
@@ -168,7 +187,16 @@ namespace HCI
                         //IconCondition query
                         string conQuery = "SELECT * FROM IconCondition WHERE iconID="
                             + ((int)row[col]) + " AND connID=" + connID;
-                        newTable = localDatabase.executeQueryLocal(conQuery);
+
+                        try
+                        {
+                            newTable = localDatabase.executeQueryLocal(conQuery);
+                        }
+                        catch (ODBC2KMLException ex)
+                        {
+                            ex.errorText = "There was a problem selecting icon conditions for icon " + (int)row[col];
+                            throw ex;
+                        }
 
                         //Cycle through each condition
                         foreach (DataRow nRow in newTable.Rows)
@@ -260,7 +288,16 @@ namespace HCI
                 if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
                 {
                     String query = "DELETE FROM IconCondition WHERE ID=" + ((Condition)this.getConditions()[count]).getId();
-                    temp.executeQueryLocal(query);
+
+                    try
+                    {
+                        temp.executeQueryLocal(query);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        ex.errorText = "There was an error deleting an icon condition";
+                        throw ex;
+                    }
                     this.removeCondition(count);
                     didPurge = true;
                 }
