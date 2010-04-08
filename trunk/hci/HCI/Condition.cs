@@ -304,7 +304,7 @@ namespace HCI
         {
             if (tableName == condition.getTableName()) //Valid table name?
             {
-                if (row[condition.getFieldName()] != null) //Valid field name?
+                if (row[condition.getFieldName()] != null && row[condition.getFieldName()].ToString() != "") //Valid field name?
                 {
                     //Both operators set
                     if (Condition.operatorStringToInt(condition.getUpperOperator()) != Condition.NONE && Condition.operatorStringToInt(condition.getLowerOperator()) != Condition.NONE)
