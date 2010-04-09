@@ -26,10 +26,17 @@ namespace HCI
         protected void Page_Load(object sender, EventArgs e)
         {
             fileSaveLoc = Server.MapPath("/icons/");
+
+            generateMainTable();
+        }
+
+        protected void generateMainTable()
+        {
+            ConnectionsAvailable.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"10\" class=\"connectionBox\">\n"));
+
             //Get the DB stuff from here
             Database db = new Database();
             DataTable dt;
-
             try
             {
                 dt = db.executeQueryLocal("SELECT id,name FROM CONNECTION");
@@ -50,8 +57,8 @@ namespace HCI
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string dbID = dr.ItemArray.ElementAt(0).ToString();
-                    string odbcName = dr.ItemArray.ElementAt(1).ToString();
+                    string id = dr["id"].ToString();
+                    string name = dr["name"].ToString();
 
                     //Defines buttons
                     ImageButton openConn = new ImageButton();
@@ -59,7 +66,7 @@ namespace HCI
                     openConn.ImageUrl = "graphics/connIcon.gif";
                     openConn.AlternateText = "Open Connection";
                     openConn.ToolTip = "Open Connection";
-                    openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + dbID + "&locked=true";
+                    openConn.PostBackUrl = "ConnDetails.aspx?ConnID=" + id + "&locked=true";
 
                     ImageButton editConn = new ImageButton();
                     editConn.CssClass = "editIcon";
@@ -67,7 +74,7 @@ namespace HCI
                     editConn.AlternateText = "Edit Connection";
                     editConn.ToolTip = "Edit Connection";
                     editConn.Click += new ImageClickEventHandler(confirmEdit);
-                    editConn.CommandArgument = dbID;
+                    editConn.CommandArgument = id;
 
                     ImageButton deleteConn = new ImageButton();
                     deleteConn.ID = "dc" + Convert.ToString(i);
@@ -75,9 +82,9 @@ namespace HCI
                     deleteConn.ImageUrl = "graphics/connIcon.gif";
                     deleteConn.AlternateText = "Delete Connection";
                     deleteConn.ToolTip = "Delete Connection";
-                    deleteConn.Click += new ImageClickEventHandler(confirmDelete);
-                    deleteConn.CommandArgument = dbID;
-                    deleteConn.CommandArgument += "#" + odbcName;
+                    //deleteConn.Click += new ImageClickEventHandler(confirmDelete);
+                    deleteConn.CommandArgument = id;
+                    deleteConn.CommandArgument += "#" + name;
 
                     ImageButton genKML = new ImageButton();
                     genKML.CssClass = "kmlIcon";
@@ -85,7 +92,7 @@ namespace HCI
                     genKML.AlternateText = "Generate KML File";
                     genKML.ToolTip = "Generate KML File";
                     genKML.Click += new ImageClickEventHandler(genKMLFunction);
-                    genKML.CommandArgument = dbID;
+                    genKML.CommandArgument = id;
 
 
                     //End button definition
@@ -99,7 +106,7 @@ namespace HCI
                     }
 
                     ConnectionsAvailable.Controls.Add(new LiteralControl("<td>\n"));
-                    ConnectionsAvailable.Controls.Add(new LiteralControl("<span id=\"Conn" + dbID + "\">" + odbcName + "</span>\n"));
+                    ConnectionsAvailable.Controls.Add(new LiteralControl("<span id=\"Conn" + id + "\">" + name + "</span>\n"));
                     ConnectionsAvailable.Controls.Add(new LiteralControl("<a href=\"#\" title=\"Open Connection\"></a>\n"));
                     ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
                     ConnectionsAvailable.Controls.Add(new LiteralControl("<td class=\"connIcons\">\n"));
@@ -119,12 +126,71 @@ namespace HCI
                     ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
                     ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
                     ConnectionsAvailable.Controls.Add(new LiteralControl("</table>\n"));
+                    
+
+
+                    Panel deleteConnPanel = new Panel();
+                    deleteConnPanel.ID = "deleteConnPanel" + id;
+                    deleteConnPanel.CssClass = "boxPopupStyle";
+                    deleteConnPanel.Style["display"] = "none";
+                    deleteConnPanel.Controls.Add(new LiteralControl("<div class=\"mainBoxP\">\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<span id=\"DelSpan\" visible=\"true\" class=\"connectionStyle\">&nbsp;Delete Connection</span>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<table cellspacing=\"0\" cellpadding=\"10\" class=\"mainBox2\">\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<td>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<div style=\"background-color: white; padding: 5px;\">\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<table cellspacing=\"5\">\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<tr>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<td>\n"));
+                    Label connToDelete = new Label();
+                    connToDelete.Visible = true;
+                    connToDelete.Text = "Are you sure you want to delete the connection: " + name;
+                    deleteConnPanel.Controls.Add(connToDelete);
+                    deleteConnPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</table>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("<div class=\"right\" style=\"padding-top: 20px;\">\n"));
+                    Button delConnBtn = new Button();
+                    delConnBtn.ID = "delConnBtn" + id;
+                    delConnBtn.Text = "Delete";
+                    delConnBtn.CssClass = "button";
+                    delConnBtn.ToolTip = "Delete";
+                    delConnBtn.Click += new EventHandler(deleteConnFunction);
+                    delConnBtn.CommandArgument = id;
+                    deleteConnPanel.Controls.Add(delConnBtn);
+                    deleteConnPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;\n"));
+                    Button cancelDelBtn = new Button();
+                    cancelDelBtn.ID = "cancelDelBtn" + id;
+                    cancelDelBtn.Text = "Cancel";
+                    cancelDelBtn.CssClass = "button";
+                    cancelDelBtn.ToolTip = "Cancel";
+                    deleteConnPanel.Controls.Add(cancelDelBtn);
+                    deleteConnPanel.Controls.Add(new LiteralControl("</div>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</div>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</td>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</tr>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</table>\n"));
+                    deleteConnPanel.Controls.Add(new LiteralControl("</div>\n"));
+
+                    AjaxControlToolkit.ModalPopupExtender delMpe = new AjaxControlToolkit.ModalPopupExtender();
+                    delMpe.ID = "delMpe_" + id;
+                    delMpe.BackgroundCssClass = "modalBackground";
+                    delMpe.DropShadow = true;
+                    delMpe.PopupControlID = deleteConnPanel.ID.ToString();
+                    delMpe.TargetControlID = deleteConn.ID.ToString();
+                    delMpe.CancelControlID = cancelDelBtn.ID.ToString();
+                    ConnectionsAvailable.Controls.Add(delMpe);
+                    ConnectionsAvailable.Controls.Add(deleteConnPanel);
+
                     ConnectionsAvailable.Controls.Add(new LiteralControl("</td>\n"));
                     ConnectionsAvailable.Controls.Add(new LiteralControl("</tr>\n"));
+
+
 
                     i += 1;
                 }
             }
+            ConnectionsAvailable.Controls.Add(new LiteralControl("</table>\n"));
         }
 
         protected void confirmEdit(object sender, EventArgs e)
@@ -194,7 +260,7 @@ namespace HCI
             }
             catch (ODBC2KMLException)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("There was an error retreiving connection information for connection " + args + ".", errorPanel1, this.editConnModalPopUp.ID);
                 eh.displayError();
                 return;
             }
@@ -258,7 +324,7 @@ namespace HCI
                         + " Also, make sure that Oracle SID or Oracle Service Name and Oracle Protocol have been entered.";
                 }
 
-                ErrorHandler eh = new ErrorHandler(error, errorPanel1);
+                ErrorHandler eh = new ErrorHandler(error, errorPanel1, this.warningModal.ID);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
@@ -314,14 +380,14 @@ namespace HCI
         protected void editCancel(object sender, EventArgs e)
         {
             newConnPanel.Style["display"] = "none";
-            deleteConnPanel.Style["display"] = "none";
+            //deleteConnPanel.Style["display"] = "none";
             editConnPanel.Style["display"] = "none";
         }
 
         protected void cancelUpdateConnection(object sender, EventArgs e)
         {
             newConnPanel.Style["display"] = "none";
-            deleteConnPanel.Style["display"] = "none";
+            //deleteConnPanel.Style["display"] = "none";
             editConnPanel.Style["display"] = "none";
             connUpdateWarning.Style["display"] = "none";
             this.warningModal.Hide();
@@ -389,7 +455,7 @@ namespace HCI
             }
             catch (ODBC2KMLException)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error deleting the connection", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("There was an error deleting the connection", errorPanel1, "deleteConnPanel" + args);
                 eh.displayError();
                 return;
             }
@@ -399,20 +465,20 @@ namespace HCI
             
         }
 
-        protected void confirmDelete(object sender, EventArgs e)
+        /*protected void confirmDelete(object sender, EventArgs e)
         {
             ImageButton sendBtn = (ImageButton)sender;
             String[] args = sendBtn.CommandArgument.ToString().Split(new Char[] {'#'});
             String args1 = args[0].ToString();
             String args2 = args[1].ToString();
 
-            delConnBtn.Click += new EventHandler(deleteConnFunction);
-            connToDelete.Text = "Are you sure you want to delete the connection: " + args[1].ToString();
-            delConnBtn.CommandArgument = args1.ToString();
+            //delConnBtn.Click += new EventHandler(deleteConnFunction);
+            //connToDelete.Text = "Are you sure you want to delete the connection: " + args[1].ToString();
+            //delConnBtn.CommandArgument = args1.ToString();
 
-            this.deletePopupExtender.Show();
+            //this.deletePopupExtender.Show();
 
-        }
+        }*/
 
         protected void genKMLFunction(object sender, EventArgs e)
         {
