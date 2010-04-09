@@ -144,6 +144,59 @@ namespace HCI
             //dataset to hold all column names for each table in the datatable
             DataSet newTableColumnRelation = new DataSet();
 
+            //Verify mapping
+            try
+            {
+                //If there is a mapping format
+                if (this.mapping.getFormat() != 0)
+                {
+                    String queryables = "";
+
+                    //Add columns needed
+                    if (this.mapping.getLatFieldName() != "")
+                    {
+                        queryables += this.mapping.getLatFieldName();
+                    }
+
+                    if (this.mapping.getLongFieldName() != "")
+                    {
+                        if (queryables == "")
+                        {
+                            queryables += this.mapping.getLongFieldName();
+                        }
+                        else
+                        {
+                            queryables += ", " + this.mapping.getLongFieldName();
+                        }
+                    }
+
+                    if (this.mapping.getPlacemarkFieldName() != "")
+                    {
+                        if (queryables == "")
+                        {
+                            queryables += this.mapping.getPlacemarkFieldName();
+                        }
+                        else
+                        {
+                            queryables += ", " + this.mapping.getPlacemarkFieldName();
+                        }
+                    }
+
+                    //Test the query
+                    String query = "SELECT " + queryables + " FROM " + this.mapping.getTableName();
+                    purgeDB.executeQueryRemote(query);
+                }
+                else //reset the mapping, just to be safe if format = 0
+                {
+                    this.mapping = new Mapping();
+                }
+
+            }
+            catch //Clear mapping
+            {
+                this.mapping = new Mapping();
+            }
+
             try
             {
                 if (this.connInfo.getDatabaseType() == ConnInfo.MSSQL)
@@ -207,7 +260,6 @@ namespace HCI
                 if(i.purgeInvalidIconConditions(purgeDT, newTableColumnRelation))
                 {
                     descriptionBox.Text = "";
-                    this.mapping = new Mapping();
                 }
             }
 
@@ -216,7 +268,6 @@ namespace HCI
                 if (o.purgeInvalidOverlayConditions(purgeDT, newTableColumnRelation))
                 {
                     descriptionBox.Text = "";
-                    this.mapping = new Mapping();
                 }
             }
 
@@ -253,6 +304,64 @@ namespace HCI
 
             //dataset to hold all column names for each table in the datatable
             DataSet newTableColumnRelation = new DataSet();
+
+            //Flag to determine if the mapping should be removed
+            Boolean removeMapping = false;
+
+            //Verify mapping
+            try
+            {
+                //If there is a mapping format
+                if (this.mapping.getFormat() != 0)
+                {
+                    String queryables = "";
+
+                    //Add columns needed
+                    if (this.mapping.getLatFieldName() != "")
+                    {
+                        queryables += this.mapping.getLatFieldName();
+                    }
+
+                    if (this.mapping.getLongFieldName() != "")
+                    {
+                        if (queryables == "")
+                        {
+                            queryables += this.mapping.getLongFieldName();
+                        }
+                        else
+                        {
+                            queryables += ", " + this.mapping.getLongFieldName();
+                        }
+                    }
+
+                    if (this.mapping.getPlacemarkFieldName() != "")
+                    {
+                        if (queryables == "")
+                        {
+                            queryables += this.mapping.getPlacemarkFieldName();
+                        }
+                        else
+                        {
+                            queryables += ", " + this.mapping.getPlacemarkFieldName();
+                        }
+                    }
+
+                    //Test the query
+                    String query = "SELECT " + queryables + " FROM " + this.mapping.getTableName();
+                    purgeDB.executeQueryRemote(query);
+                }
+                else //reset the mapping, just to be safe if format = 0
+                {
+                    removeMapping = true;
+                    this.mapping = new Mapping();
+                }
+
+            }
+            catch //Clear mapping
+            {
+                removeMapping = true;
+                this.mapping = new Mapping();
+            }
 
             try
             {
@@ -351,16 +460,30 @@ namespace HCI
             if (removeDescription)
             {
                 String query = "DELETE FROM Description WHERE connID=" + this.connID;
-                String query2 = "DELETE FROM Mapping WHERE connID=" + this.connID;
+       
+                try
+                {
+                    purgeDB.executeQueryLocal(query);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ex.errorText = "There was a problem deleting the decription from the database.";
+                    throw ex;
+                }
+            }
+
+            //Remove the mapping if flag is set
+            if (removeMapping)
+            {
+                String query = "DELETE FROM Mapping WHERE connID=" + this.connID;
 
                 try
                 {
                     purgeDB.executeQueryLocal(query);
-                    purgeDB.executeQueryLocal(query2);
                 }
                 catch (ODBC2KMLException ex)
                 {
-                    ex.errorText = "There was a problem deleting the decription from the database";
+                    ex.errorText = "There was a problem deleting the mapping from the database.";
                     throw ex;
                 }
             }
