@@ -3389,7 +3389,7 @@ namespace HCI
             }
             else //else the tables don't match, throw error handler
             {
-                ErrorHandler eh = new ErrorHandler("Placemark mapping must use the same table as lat/long. Either change the lat/long mapping or remove the current mapping.", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("Placemark mapping must use the same table as lat/long. If both are currently set, remove the current mapping and try again.", errorPanel1);
                 eh.displayError();
             }
             
@@ -3560,7 +3560,7 @@ namespace HCI
             }
             else
             {
-                ErrorHandler eh = new ErrorHandler("Lat/long mapping must use the same table as placemark. Either change the placemark mapping or remove the current mapping.", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("Lat/long mapping must use the same table as placemark. If both are mapped, remove the current mapping and try again.", errorPanel1);
                 eh.displayError();
             }
             sessionSave();
