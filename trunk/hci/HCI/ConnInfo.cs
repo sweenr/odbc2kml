@@ -12,7 +12,6 @@ using System.Xml.Linq;
 using System.Net.Sockets;
 using System.Net;
 using HCI;
-
 namespace HCI
 {
     public class ConnInfo
