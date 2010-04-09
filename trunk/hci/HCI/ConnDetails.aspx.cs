@@ -3585,14 +3585,7 @@ namespace HCI
             //Save the session
             sessionSave();
 
-            //String that generates script that calls for new page
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<script>");
-            sb.Append("window.open('PreviewKML.aspx', 'Preview KML', '');");
-            sb.Append("</scri");
-            sb.Append("pt>");
-
-            ClientScript.RegisterStartupScript(this.GetType(), "Preview KML", sb.ToString());
+            ClientScript.RegisterStartupScript(this.GetType(), "Preview KML", "previewKMLPopup();",true);
         }
     }
 }
