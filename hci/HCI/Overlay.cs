@@ -238,6 +238,7 @@ namespace HCI
                     try
                     {
                         temp.executeQueryLocal(query);
+                        this.removeCondition(count);
                         count--;
                     }
                     catch (ODBC2KMLException ex)
@@ -245,8 +246,6 @@ namespace HCI
                         ex.errorText = "There was a problem purging invalid overlay conditions from the database";
                         throw ex;
                     }
-
-                    this.removeCondition(count);
                     didPurge = true;
                 }
             }

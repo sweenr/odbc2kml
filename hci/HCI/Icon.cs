@@ -293,6 +293,7 @@ namespace HCI
                     try
                     {
                         temp.executeQueryLocal(query);
+                        this.removeCondition(count);
                         count--;
                     }
                     catch (ODBC2KMLException ex)
@@ -300,7 +301,6 @@ namespace HCI
                         ex.errorText = "There was an error deleting an icon condition";
                         throw ex;
                     }
-                    this.removeCondition(count);
                     didPurge = true;
                 }
             }

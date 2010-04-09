@@ -33,7 +33,7 @@
 <html> 
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <title>Google Maps</title> 
+    <title>Preview KML</title> 
     <script src="http://www.google.com/jsapi?key=ABQIAAAA8npK1YVObaN6uuICGDhh5RT3si1wRED3L-DNqHfJwEViE-IQZxTrkIqSdTIkLgCp5kaNN7uOR1rznQ" type="text/javascript"></script>
 
   </head>
