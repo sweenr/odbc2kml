@@ -39,6 +39,10 @@
 
     <script type="text/javascript"> 
 
+        function previewKMLPopup() {
+            window.open('PreviewKML.aspx','PreviewKML');
+        }
+
         function stopRKey(evt) { 
           var evt = (evt) ? evt : ((event) ? event : null); 
           var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
