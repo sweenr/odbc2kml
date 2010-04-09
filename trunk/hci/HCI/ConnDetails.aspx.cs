@@ -56,6 +56,7 @@ namespace HCI
             try
             {
                 fileSaveLoc = Server.MapPath("/icons/");
+                dFieldPanel.Visible = false;
 
                 if (!IsPostBack)
                 {
@@ -2972,6 +2973,9 @@ namespace HCI
             {
                 string connectionString_editor = "";
                 string providerName_editor = "";
+
+                //empty items in dropdown, if exist
+                iColFNBox.Items.Clear();
 
                 try
                 {
