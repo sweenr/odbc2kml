@@ -2710,11 +2710,29 @@ namespace HCI
 
             try
             {
-                conn.saveConn();
+                int returnVal = conn.saveConn();
+                
+                //Check the return code
+                switch(returnVal)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        throw new ODBC2KMLException("The connection information is invalid.");
+                    case 2:
+                        throw new ODBC2KMLException("The mapping information is invalid.");
+                    case 3:
+                        throw new ODBC2KMLException("The connection could not be converted to a safe state.");
+                    case 4:
+                        throw new ODBC2KMLException("The description is not a valid description.");
+                    case 5:
+                        throw new ODBC2KMLException("Save connection did not operate properly.");
+                }
+
             }
-            catch (ODBC2KMLException)
+            catch (ODBC2KMLException err)
             {
-                ErrorHandler eh = new ErrorHandler("There was an error saving the connection", errorPanel1);
+                ErrorHandler eh = new ErrorHandler("There was an error saving the connection. " + err.errorText, errorPanel1);
                 eh.displayError();
                 return;
             }
