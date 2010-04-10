@@ -39,6 +39,8 @@ namespace HCI
         /// URLs - verifies that there is one and only one TITLE element and that the title and URL are not empty, and that there is an open and closing tag
         /// Field tag - verifies that there one and only one set of TBL and COL tags, that the tags are not empty, and that there is an open and closing tag
         /// </summary>
+        /// <param name="currentConnInfo">ConnInfo object containing the current connection info for the description being tested</param>
+        /// <param name="currentMapping">Mapping object containing the current mapping for the description being tested</param>
         /// <returns>true if a description is valid and false if it is not</returns>
         public bool isValid(ConnInfo currentConnInfo, Mapping currentMapping)
         {
