@@ -50,7 +50,7 @@ body
 	width: 900px;
 	position: absolute;
 	left: 50%;
-	margin-left: -450px;
+	margin-left: -451px;
 	padding: 0px;
 	background: white;
 	border:0;
@@ -607,7 +607,7 @@ a.selectTable:hover
 
 #header
 {
-	width: 900px;
+	width: 901px;
 	height: 160px;
 	margin: 0 auto;
 	background: rgb(26,49,76);
