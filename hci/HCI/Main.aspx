@@ -169,7 +169,7 @@
         <div id="page">
             <table id="mainTable" cellspacing="2">
                 <tr>
-                    <td style="width:900px;">
+                    <td style="width:900px; padding-right:5px;">
                         <div class="mainBoxMP">
                             <span class="connectionStyle">&nbsp;Connection Information</span>
                             <table cellspacing="0" cellpadding="10" class="connectionBox">
