@@ -84,7 +84,7 @@ namespace HCI
                     int closeTbl = desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4);
                     string table = desc.Substring(openTbl+5, closeTbl - openTbl + 5);
                     //if the table isn't the currently mapped table, return false
-                    if (!table.Equals(currentMapping.tableName))
+                    if (!table.Trim().Equals(currentMapping.tableName))
                         return false;
                 }
                 else
@@ -112,7 +112,7 @@ namespace HCI
                     int closeCol = desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4);
                     string column = desc.Substring(openCol+5, closeCol - openCol + 5);
                     Database db = new Database(currentConnInfo);
-                    string query = "SELECT " + column + " FROM " + currentMapping.tableName;
+                    string query = "SELECT " + column.Trim() + " FROM " + currentMapping.tableName;
                     try
                     {
                         db.executeQueryRemote(query);
