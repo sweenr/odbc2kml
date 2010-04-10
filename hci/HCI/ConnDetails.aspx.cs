@@ -3440,12 +3440,12 @@ namespace HCI
             {
                 conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
                 conn.mapping.setTableName(GridViewTables.SelectedValue.ToString());
-                mapSuccess2.Visible = true;
+                //mapSuccess2.Visible = true;
             } //else if the currently mapped table matches the currently selected table, set the placemark field name
             else if (conn.mapping.tableName.Equals(GridViewTables.SelectedValue.ToString()))
             {
                 conn.mapping.setPlacemarkFieldName(nameColumnDD.SelectedValue);
-                mapSuccess2.Visible = true;
+                //mapSuccess2.Visible = true;
             }
             else //else the tables don't match, throw error handler
             {
