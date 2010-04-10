@@ -644,24 +644,6 @@ namespace HCI
                     //There are icons
                     if (this.icons.Count > 0)
                     {
-                        //Foreign key constraints should capture this, remove this block if testing verifies correct
-                        /*query = "SELECT * FROM Icon WHERE connID=" + this.connID;
-                        DataTable checkTable = database.executeQueryLocal(query);
-
-                        foreach (DataRow row in checkTable.Rows)
-                        {
-                            int iconID = Convert.ToInt32(row["ID"]);
-
-                            //Delete all associated icon conditions
-                            query = "DELETE FROM IconCondition WHERE iconID=" + iconID
-                                + " AND connID=" + this.connID;
-                            database.executeQueryLocal(query);
-                        }
-
-                        //Delete all icons
-                        query = "DELETE FROM Icon WHERE connID=" + this.connID;
-                        database.executeQueryLocal(query);*/
-
                         //Add all current icons to the database
                         foreach (Icon i in this.icons)
                         {
@@ -679,35 +661,7 @@ namespace HCI
                                 database.executeQueryLocal(query);
                             }
                         }
-                    }//If testing verifies correct, remove block
-                  /*  else //No icons
-                    {
-                        //If testing verifies correct, remove block
-                        query = "SELECT * FROM Icon WHERE connID=" + this.connID;
-                        DataTable checkTable = database.executeQueryLocal(query);
-
-                        //If there are icons in the database, remove them
-                        if (checkTable.Rows.Count > 0)
-                        {
-                            foreach (DataRow row in checkTable.Rows)
-                            {
-                                int iconID = Convert.ToInt16(row["ID"]);
-
-                                //remove all the icon conditions
-                                query = "DELETE FROM IconCondition WHERE iconID=" + iconID
-                                    + " AND connID=" + this.connID;
-                                database.executeQueryLocal(query);
-                            }
-
-                            //Delete all icons
-                            query = "DELETE FROM Icon WHERE connID=" + this.connID;
-                            database.executeQueryLocal(query);
-                        }
-
-                        //Delete all icons
-                        query = "DELETE FROM Icon WHERE connID=" + this.connID;
-                        database.executeQueryLocal(query);
-                    }*/
+                    }
 
                     //Delete all icons
                     query = "DELETE FROM Overlay WHERE connID=" + this.connID;
@@ -716,24 +670,6 @@ namespace HCI
                     //There are overlays
                     if (this.overlays.Count > 0)
                     {
-                        //If testing verifies, delete block
-                        /*query = "SELECT * FROM Overlay WHERE connID=" + this.connID;
-                        DataTable checkTable = database.executeQueryLocal(query);
-
-                        foreach (DataRow row in checkTable.Rows)
-                        {
-                            int overlayID = Convert.ToInt32(row["ID"]);
-
-                            //Delete all associated icon conditions
-                            query = "DELETE FROM OverlayCondition WHERE overlayID=" + overlayID
-                                + " AND connID=" + this.connID;
-                            database.executeQueryLocal(query);
-                        }
-
-                        //Delete all icons
-                        query = "DELETE FROM Overlay WHERE connID=" + this.connID;
-                        database.executeQueryLocal(query);*/
-
                         //Add all current icons to the database
                         foreach (Overlay o in this.overlays)
                         {
@@ -759,30 +695,7 @@ namespace HCI
                                 database.executeQueryLocal(query);
                             }
                         }
-                    }//IF testing verifies correct, remove block
-                   /* else //No Overlays
-                    {
-                        query = "SELECT * FROM Overlay WHERE connID=" + this.connID;
-                        DataTable checkTable = database.executeQueryLocal(query);
-
-                        //If there are icons in the database, remove them
-                        if (checkTable.Rows.Count < 0)
-                        {
-                            foreach (DataRow row in checkTable.Rows)
-                            {
-                                int overlayID = Convert.ToInt16(row["ID"]);
-
-                                //remove all the icon conditions
-                                query = "DELETE FROM IconCondition WHERE overlayID=" + overlayID
-                                    + " AND connID=" + this.connID;
-                                database.executeQueryLocal(query);
-                            }
-
-                            //Delete all icons
-                            query = "DELETE FROM Overlay WHERE connID=" + this.connID;
-                            database.executeQueryLocal(query);
-                        }
-                    }*/
+                    }
                 }
                 else //All flags are not true
                 {

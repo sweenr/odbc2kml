@@ -20,10 +20,10 @@ namespace HCI
     public class Utilities
     {
         // Max height for an icon
-        public static readonly int height = 128;
+        public static readonly int HEIGHT = 128;
 
         // Max width for an icon
-        public static readonly int width = 128;
+        public static readonly int WIDTH = 128;
 
         /// <summary>
         /// used for uploading icons from local computer
@@ -265,24 +265,8 @@ namespace HCI
             using (System.Drawing.Image myImage =
               System.Drawing.Image.FromStream(input))
             {
-                return (myImage.Height <= height && myImage.Width <= width);
+                return (myImage.Height <= HEIGHT && myImage.Width <= WIDTH);
             }
         }
-
-        /// <summary>
-        /// helper function to get type of uploaded icons
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns>contentType</returns>
-        //private string GetContentType(string fileName)
-        //{
-        //    string contentType = "application/octetstream";
-        //    string ext = System.IO.Path.GetExtension(fileName).ToLower();
-        //    Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-        //    if (registryKey != null && registryKey.GetValue("Content Type") != null)
-        //        contentType = registryKey.GetValue("Content Type").ToString();
-        //    sessionSave();
-        //    return contentType;
-        //}
     }
 }
