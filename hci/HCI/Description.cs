@@ -212,101 +212,107 @@ namespace HCI
         /// <returns>ArrayList of parsed descriptions</returns>
         public static ArrayList parseDesc(DataTable inTable, String descString, String tableName)
         {
+            //get a copy of the orig string for resetting the descString after each iteration
             String descStringOrig = descString;
+            //create arraylist for holding description for each row
             ArrayList descArray = new ArrayList();
+
+            //for each row in the datatable
             foreach (DataRow row in inTable.Rows)
             {
-                while (descString.Contains("[URL]"))
+
+                while (descString.IndexOf("[URL]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
-                    //explanation for all steps below, get index of open and close brackets
-                    //length is the distance from the first index to second
-                    //descStrings are substrings before the open bracket and after the close bracket
-                    //URL string is the information
-                    //URL is parsed for TITLE using the above algorithm
-                    //URL is changed to a correct URL output string
-                    //descString1 and 2 are concatenated to the beginning and end of URL respectively
-                    int URLindex = descString.IndexOf("[URL]");
-                    int URLendIndex = descString.IndexOf("[/URL]");
+                    //get index of open and close url tag and calculate length of url 
+                    int URLindex = descString.IndexOf("[URL]", StringComparison.InvariantCultureIgnoreCase);
+                    int URLendIndex = descString.IndexOf("[/URL]", StringComparison.InvariantCultureIgnoreCase);
                     int length = URLendIndex - URLindex;
+                    
+                    //cut desc string into pre and post url tags. also removes the url tags from the desc string
                     String descString1 = descString.Substring(0,URLindex);
-                    String descString2 = descString.Substring(URLendIndex+6);
-                    String URLstring = descString.Substring(URLindex+5, length-5);
-                    while (URLstring.Contains("[BR/]"))
-                    {
-                        URLstring = URLstring.Replace("[BR/]", "");
-                    }
-                    URLstring = URLstring.Replace("[URL]", "");
-                    URLstring = URLstring.Replace("[/URL]", "");
-                    String finalURL = "";
-                    if (URLstring.Contains("[TITLE]"))
-                    {
-                        int titleIndex = URLstring.IndexOf("[TITLE]");
-                        int titleEndIndex = URLstring.IndexOf("[/TITLE]");
-                        int titleLength = titleEndIndex - titleIndex;
-                        String URLsubString1 = URLstring.Substring(0, titleIndex);
-                        String URLsubString2 = URLstring.Substring(titleEndIndex+8);
-                        String titleString = URLstring.Substring(titleIndex+7, titleLength-7);
-                        titleString = titleString.Replace("[TITLE]", "");
-                        titleString = titleString.Replace("[/TITLE]", "");
-                        finalURL = "<a href=\"" + URLsubString1 + URLsubString2 + "\">"
-                            + titleString + "</a>";
-                        if (finalURL.Contains("[TITLE]"))
-                        {
-                            throw new ODBC2KMLException("URL contains to many Titles\n" + finalURL);
-                        }
-                    }
-                    else
-                    {
-                        finalURL = "<a href\"" + URLstring + "\">" + URLstring + "</a>";
-                    }
+                    String descString2 = descString.Substring(URLendIndex + 6);
+                    String URLstring = descString.Substring(URLindex + 5, length - 5);
+
+                    //get index of open and close title tags and calculate length of title
+                    int titleIndex = URLstring.IndexOf("[TITLE]");
+                    int titleEndIndex = URLstring.IndexOf("[/TITLE]");
+                    int titleLength = titleEndIndex - titleIndex;
+
+                    //cut url string into text before and after title, and just the title text
+                    //also removes the title tags from the url string
+                    String URLsubString1 = URLstring.Substring(0, titleIndex);
+                    String URLsubString2 = URLstring.Substring(titleEndIndex + 8);
+                    String titleString = URLstring.Substring(titleIndex + 7, titleLength - 8);
+                    
+                    //create the final url from the url substrings and title string
+                    String finalURL = "<a href=\"" + URLsubString1 + URLsubString2 + "\">" + titleString + "</a>";
+
+                    //set the descString to the pre, url, and post strings
                     descString = descString1 + finalURL + descString2;
                 }
-                while(descString.Contains("[TBL/]"))
+
+                while (descString.IndexOf("[TBL/]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
-                    //look at URL for explanation
-                    descString = descString.Replace("[TBL/]", tableName);
+                    //get index of tbl tag and cut descString into pre and post tbl tags
+                    int tblStart = descString.IndexOf("[TBL/]", StringComparison.InvariantCultureIgnoreCase);
+                    string startToTbl = descString.Substring(0, tblStart);
+                    string tblToEnd = descString.Substring(tblStart + 6);
+
+                    //set the desc string to the pre, tableName, post tbl tag
+                    descString = startToTbl + tableName + tblToEnd;
                 }
-                while (descString.Contains("[BR/]"))
+
+                while (descString.IndexOf("[BR/]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
-                    descString = descString.Replace("[BR/]", @"<br />");
+                    //get index of br tag and cut descString into pre and post br tags
+                    int brStart = descString.IndexOf("[BR/]", StringComparison.InvariantCultureIgnoreCase);
+                    string startToBr = descString.Substring(0, brStart);
+                    string brToEnd = descString.Substring(brStart + 5);
+
+                    //set the descString to the pre, br tag, and post br tag
+                    descString = startToBr + "<br />" + brToEnd;
                 }
-     
-                while (descString.Contains("[FIELD]"))
+
+                while (descString.IndexOf("[FIELD]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
-                    //look at URL for explanation
-                    int fieldIndex = descString.IndexOf("[FIELD]");
-                    int fieldEndIndex = descString.IndexOf("[/FIELD]")+8;
+                    //get index of open and close field tags and calculate length of field tag
+                    int fieldIndex = descString.IndexOf("[FIELD]", StringComparison.InvariantCultureIgnoreCase);
+                    int fieldEndIndex = descString.IndexOf("[/FIELD]", StringComparison.InvariantCultureIgnoreCase) + 8;
                     int fieldLength = fieldEndIndex - fieldIndex;
+
+                    //cut descString into pre and post field tags. also removes field tags
                     String descString1 = descString.Substring(0, fieldIndex);
-                    String descString2 = descString.Substring(fieldEndIndex);
-                    String fieldString = descString.Substring(fieldIndex, fieldLength);
-                    fieldString = fieldString.Replace("[FIELD]", "");
-                    fieldString = fieldString.Replace("[/FIELD]", "");
-                    while (fieldString.Contains("[BR/]"))
-                    {
-                        fieldString = fieldString.Replace("[BR/]", "");
-                    }
-                    if (fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
-                    {
-                        int tblIndex = fieldString.IndexOf("[TBL]");
-                        int tblEndIndex = fieldString.IndexOf("[/TBL]");
-                        int tblLength = tblEndIndex - tblIndex;
-                        
-                        String tblString = fieldString.Substring(tblIndex, tblLength);
-                        tblString = tblString.Replace("[TBL]", "");
-                        tblString = tblString.Replace("[/TBL]", "");
-                        int colIndex = fieldString.IndexOf("[COL]");
-                        int colEndIndex = fieldString.IndexOf("[/COL]");
-                        int colLength = colEndIndex - colIndex;
-                        
-                        String colString = fieldString.Substring(colIndex, colLength);
-                        colString = colString.Replace("[COL]", "");
-                        colString = colString.Replace("[/COL]", "");
-                        fieldString = (String)row[colString];
-                        descString = descString1 + fieldString + descString2;
-                    }
+                    String descString2 = descString.Substring(fieldEndIndex+8);
+                    String fieldString = descString.Substring(fieldIndex+7, fieldLength-7);
+
+                    //get index of open and close tbl tags and calculate length of table
+                    int tblIndex = fieldString.IndexOf("[TBL]", StringComparison.InvariantCultureIgnoreCase);
+                    int tblEndIndex = fieldString.IndexOf("[/TBL]", StringComparison.InvariantCultureIgnoreCase);
+                    int tblLength = tblEndIndex - tblIndex;
+
+                    //get the table name and remove the tbl tags
+                    String tblString = fieldString.Substring(tblIndex+5, tblLength-5);
+
+                    //get index of open and close col tags and calculate length of column
+                    int colIndex = fieldString.IndexOf("[COL]", StringComparison.InvariantCultureIgnoreCase);
+                    int colEndIndex = fieldString.IndexOf("[/COL]", StringComparison.InvariantCultureIgnoreCase);
+                    int colLength = colEndIndex - colIndex;
+
+                    //get the column name and remove the col tags
+                    String colString = fieldString.Substring(colIndex+5, colLength-5);
+                    
+                    //get the field value from the DataRow
+                    fieldString = (String)row[colString];
+
+                    //set the descString to be the pre, field value, and post field string
+                    descString = descString1 + fieldString + descString2;
+
                 }
+
+                //add the description to the arraylist
                 descArray.Add(descString);
+
+                //reset the descString to the original descString
                 descString = descStringOrig;
             }
             return descArray;
