@@ -15,11 +15,11 @@ namespace HCI
     public class Placemark
     {
         //Datatypes
-        String name;
-        String styleName;
-        String description;
-        Double latitude;
-        Double longitude;
+        private String name;
+        private String styleName;
+        private String description;
+        private Double latitude;
+        private Double longitude;
 
         /// <summary>
         /// Constructor. Requires a latitude and longitude. Also requires a
