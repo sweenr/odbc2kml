@@ -95,16 +95,19 @@ namespace HCI
             this.conditions.RemoveAt(index);
         }
 
+        /// <summary>
+        /// Removes all conditions from the associated array list.
+        /// </summary>
         public void removeConditions()
         {
             this.conditions.Clear();
         }
 
-        public void removeConditions(Condition condition)
-        {
-            this.conditions.Remove(condition);
-        }
-
+        /// <summary>
+        /// Get all overlays based on a specific connection ID.
+        /// </summary>
+        /// <param name="connID">Int --> connection ID</param>
+        /// <returns>ArrayList --> overlays</returns>
         public static ArrayList getOverlays(int connID)
         {
             Database localDatabase = new Database();
