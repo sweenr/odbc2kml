@@ -2771,8 +2771,7 @@ namespace HCI
             }
             else if (conn.mapping.getFormat() == 2)
             {
-                LatLongCheck.Selected = true;
-                LongLatCheck.Selected = false;
+                latLongRadioList.SelectedValue = "Map column as Lat/Long";
                 viewLatLongErrorPanel.Visible = false;
                 viewLatLongPanel.Visible = false;
                 viewLatLongPanel2.Visible = true;
@@ -2794,8 +2793,7 @@ namespace HCI
             }
             else if (conn.mapping.getFormat() == 3)
             {
-                LatLongCheck.Selected = false;
-                LongLatCheck.Selected = true;
+                latLongRadioList.SelectedValue = "Map column as Long/Lat";
                 viewLatLongErrorPanel.Visible = false;
                 viewLatLongPanel.Visible = false;
                 viewLatLongPanel2.Visible = true;
