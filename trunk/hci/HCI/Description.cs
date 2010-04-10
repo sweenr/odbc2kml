@@ -117,7 +117,7 @@ namespace HCI
                     {
                         db.executeQueryRemote(query);
                     }
-                    catch (ODBC2KMLException ex)
+                    catch (ODBC2KMLException)
                     {
                         return false;
                     }

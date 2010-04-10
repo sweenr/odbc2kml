@@ -44,7 +44,7 @@
         }
 
         function stopRKey(evt) { 
-          var evt = (evt) ? evt : ((event) ? event : null); 
+          evt = (evt) ? evt : ((event) ? event : null); 
           var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
           if ((evt.keyCode == 13) && ((node.type=="text") || (node.type=="password")))  {return false;} 
         } 
@@ -291,11 +291,10 @@ function OnColorPicked(sender){
                                         <td class="mainBox3">
                                             <asp:Panel ID="viewLatLongErrorPanel" runat="server" Visible="false" HorizontalAlign="Center">
                                                 <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError" Text="There are not lat/long mappings for this connection."
-                                                    HorizontalAlign="Center" Visible="false" />
+                                                    Visible="false" />
                                                 <br />
                                                 <asp:Label ID="viewPlacemarkErrorLabel" runat="server" CssClass="descLabelError"
-                                                    Text="There are no placemark name mappings for this connection." HorizontalAlign="Center"
-                                                    Visible="false" />
+                                                    Text="There are no placemark name mappings for this connection." Visible="false" />
                                             </asp:Panel>
                                             <asp:Panel ID="viewLatLongPanel" runat="server" Visible="false" HorizontalAlign="Center">
                                                 <table style="text-align: left;" width="100%" cellspacing="0">

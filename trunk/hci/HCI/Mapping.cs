@@ -161,17 +161,24 @@ namespace HCI
             }
             else
             {
-                if (this.getTableName() != null)
+                try
                 {
-                    if (this.getLatFieldName() == null)
+                    if (this.getTableName() != null)  // This will throw an exception if this is null
                     {
-                        return false;
-                    }
+                        if (this.getLatFieldName() == null)
+                        {
+                            return false;
+                        }
 
-                    if (this.getFormat() == null)
-                    {
-                        return false;
+                        if (this.getFormat() == 0)
+                        {
+                            return false;
+                        }
                     }
+                }
+                catch  // Catch the exception which means this is null, return false because null means not valid
+                {
+                    return false;
                 }
 
             }
