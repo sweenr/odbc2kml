@@ -265,8 +265,38 @@ namespace HCI
             }
 
 
-            //Create database for update query and update
-            Database db = new Database();
+            //Create database and test it
+            Database db = new Database(tempConnInfo);
+
+            try
+            {
+                if (tempConnInfo.getDatabaseType() == ConnInfo.MSSQL)
+                {
+                    String query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' AND TABLE_NAME != 'sysdiagrams'";
+                    db.executeQueryRemote(query);
+                }
+
+                else if (tempConnInfo.getDatabaseType() == ConnInfo.MYSQL)
+                {
+                    String query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA != 'information_schema' && TABLE_SCHEMA != 'mysql'";
+                    db.executeQueryRemote(query);
+                }
+
+                else if (tempConnInfo.getDatabaseType() == ConnInfo.ORACLE)
+                {
+                    String query = "select TABLE_NAME from user_tables";
+                    db.executeQueryRemote(query);
+                }
+            }
+            catch
+            {
+                ErrorHandler eh = new ErrorHandler("The database entered could not be connected to. Please verify the information is correct.", errorPanel1, editConnModalPopUp.ID);
+                this.editConnModalPopUp.Hide();
+                eh.displayError();
+                return;
+            }
+
+
 
             db.executeQueryLocal("UPDATE Connection SET name='" + tempConnInfo.getConnectionName()
                 + "', dbName='" + tempConnInfo.getDatabaseName() + "', userName='" + tempConnInfo.getUserName()

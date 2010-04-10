@@ -84,11 +84,6 @@ namespace HCI
             }
         }
 
-        public void removeConditions()
-        {
-            this.conditions.Clear();
-        }
-
         /// <summary>
         /// Remove condition removes a condition at a specified index.
         /// </summary>
@@ -96,11 +91,6 @@ namespace HCI
         public void removeCondition(int index)
         {
             this.conditions.RemoveAt(index);
-        }
-
-        public void removeConditions(Condition condition)
-        {
-            this.conditions.Remove(condition);
         }
 
         public string getId()
