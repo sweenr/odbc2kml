@@ -757,6 +757,8 @@ function OnColorPicked(sender){
                         </div>
                         <br />
                         <br />
+                <asp:UpdatePanel runat="server" ID="iconUpdatePanel" UpdateMode="Conditional">
+                    <ContentTemplate>
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Icons</span>
                             <br />
@@ -922,106 +924,6 @@ function OnColorPicked(sender){
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="newConnA">
-                                                <asp:Button ID="Button4" runat="server" Text="Modify Overlay" CssClass="button" Width="135"
-                                                    Style="display: none; visibility: hidden;" />
-                                                <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="false" CancelControlID="modCondCancel1"
-                                                    runat="server" PopupControlID="ConPanel" ID="ModalPopupExtender7" TargetControlID="Button4" />
-                                                <asp:Panel ID="ConPanel" runat="server" CssClass="boxPopupStyle" Style="display: none;">
-                                                    <span class="connectionStyle">&nbsp;Modify Condition</span>
-                                                    <div class="mainBoxP">
-                                                        <table cellspacing="0" cellpadding="5" class="mainBox2">
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="omainBox4">
-                                                                        <table class="omainBox6" cellspacing="0" cellpadding="0">
-                                                                            <tr>
-                                                                                <td>
-                                                                                    Select the proper parameters to add an overlay color condition.
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <p>
-                                                                        </p>
-                                                                        <table class="omainBox5" cellspacing="0" cellpadding="0">
-                                                                            <tr class="tableTRTitle">
-                                                                                <td class="tableTD">
-                                                                                    Table
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Field
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Operator
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Value
-                                                                                </td>
-                                                                                <td>
-                                                                                    &nbsp;
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="tableTD">
-                                                                                    TheOnlyTable
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    VehicleType
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    ==
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    Tank
-                                                                                </td>
-                                                                                <td class="textCenter">
-                                                                                    <asp:Button ID="DeleteCon1" runat="server" Style="text-align: center" Text="Remove"
-                                                                                        CssClass="button" ToolTip="Delete Condition" Width="80" />
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr class="tableTR">
-                                                                                <td class="tableTD">
-                                                                                    <asp:DropDownList ID="DropDownList7" runat="server" CssClass="inputDD" Width="100">
-                                                                                    </asp:DropDownList>
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    <asp:DropDownList ID="DropDownList8" runat="server" CssClass="inputDD" Width="100">
-                                                                                    </asp:DropDownList>
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    <asp:DropDownList ID="DropDownList9" runat="server" CssClass="inputDD" Width="100">
-                                                                                        <asp:ListItem>==</asp:ListItem>
-                                                                                        <asp:ListItem>&gt;=</asp:ListItem>
-                                                                                        <asp:ListItem>&lt;=</asp:ListItem>
-                                                                                        <asp:ListItem>&gt;</asp:ListItem>
-                                                                                        <asp:ListItem>&lt;</asp:ListItem>
-                                                                                        <asp:ListItem>between</asp:ListItem>
-                                                                                    </asp:DropDownList>
-                                                                                </td>
-                                                                                <td class="tableTD">
-                                                                                    <asp:TextBox ID="TextBox7" runat="server" MaxLength="30" CssClass="inputBox" Width="150"></asp:TextBox>
-                                                                                </td>
-                                                                                <td class="textCenter">
-                                                                                    <asp:Button ID="AddCond1" runat="server" Style="text-align: center" Text="Add" CssClass="button"
-                                                                                        ToolTip="Add Condition" Width="80" />
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                        <div class="right" style="padding-top: 20px;">
-                                                                            <asp:Button ID="modCondOK1" runat="server" Text="Submit" CssClass="button" />&nbsp;&nbsp;
-                                                                            <asp:Button ID="modCondCancel1" runat="server" Text="Cancel" CssClass="button" />&nbsp;&nbsp;
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </asp:Panel>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
                                             <div class="right">
                                                 <asp:Button ID="uploadIcon" runat="server" Text="Upload Icons" CssClass="button" />&nbsp;&nbsp;
                                                 <asp:Button ID="removeIcon" runat="server" Text="Remove Icons" CssClass="button" />&nbsp;&nbsp;
@@ -1032,8 +934,12 @@ function OnColorPicked(sender){
                                 </table>
                             </div>
                         </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
                         <br />
                         <br />
+                <asp:UpdatePanel runat="server" ID="overlayUpdatePanel" UpdateMode="Conditional">
+                    <ContentTemplate>
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Overlay Colors</span>
                             <br />
@@ -1144,6 +1050,8 @@ function OnColorPicked(sender){
                                 </table>
                             </div>
                         </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
                         <br />
                         <br />
                         <div class="right">
