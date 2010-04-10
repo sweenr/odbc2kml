@@ -53,6 +53,7 @@ namespace HCI
                 + "Connection Timeout=5;";
             //Create the Odbc Connection
             OdbcConnection connection = new OdbcConnection(connectionString);
+            connection.ConnectionTimeout = 5;
 
             // This is your data adapter that understands SQL databases:
             OdbcDataAdapter dataAdapter = new OdbcDataAdapter(query, connection);
@@ -110,6 +111,7 @@ namespace HCI
                 
                 //Create the Odbc Connection
                 OdbcConnection connection = new OdbcConnection(connectionString);
+                connection.ConnectionTimeout = 5;
 
                 // This is your data adapter that understands SQL databases:
                 OdbcDataAdapter dataAdapter = new OdbcDataAdapter(query, connection);
