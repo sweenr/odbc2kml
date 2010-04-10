@@ -1007,7 +1007,7 @@ function OnColorPicked(sender){
                                                                             </p>
                                                                             <div class="colorPicker">
                                                                                 <obout:ColorPicker ID="ColorPicker1" runat="server" ZIndex="500000" OnClientOpen="OnColorOpen"
-                                                                                    OnClientPicked="OnColorPicked" TargetId="ColorAddText" TargetProperty="style.backgroundColor">
+                                                                                    OnClientPicked="OnColorPicked" TargetId="ColorAddText" TargetProperty="style.backgroundColor" PickButton="false">
                                                                                     <span class="connectionStyle">&nbsp;Select Color:</span><br />
                                                                                     <asp:TextBox ReadOnly="true" ID="ColorAddText" Style="cursor: pointer;" runat="server"
                                                                                         Width="200" Height="75" />

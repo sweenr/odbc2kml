@@ -1716,13 +1716,14 @@ namespace HCI
             string overlayID = colorPicker.TargetId;
             overlayID = overlayID.Replace("overlay", "");
             overlayID = overlayID.Replace("color", "");
+            UpdatePanel overlayColorPickerUpdatePanel = (UpdatePanel)Page.FindControl("overlayColorPickerUpdatePanel" + overlayID);
 
             // Check to see if the overlay color already exists in the connection
             foreach (Overlay over in conn.overlays)
             {
                 if (e.Color == ("#" + over.color) && over.id != int.Parse(overlayID))
                 {
-                    ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
+                    ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", overlayColorPickerUpdatePanel);
                     eh.displayError();
                     return;
                 }
@@ -1774,6 +1775,12 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
                     
+                    // Generate UpdatePanel to hold onto textbox and color picker.
+                    UpdatePanel overlayColorPickerUpdatePanel = new UpdatePanel();
+                    overlayColorPickerUpdatePanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
+                    overlayColorPickerUpdatePanel.ID = "overlayColorPickerUpdatePanel" + overlay.getId();
+
+
                     // Generate Text Box to hold the color
                     TextBox tx = new TextBox();
                     tx.ReadOnly = true;
@@ -1794,7 +1801,8 @@ namespace HCI
                     colorPicker.TargetProperty = "style.backgroundColor";
                     colorPicker.AutoPostBack = true;
                     colorPicker.Controls.Add(tx);
-                    OverlayConditionPanel.Controls.Add(colorPicker);
+                    overlayColorPickerUpdatePanel.ContentTemplateContainer.Controls.Add(colorPicker);
+                    OverlayConditionPanel.Controls.Add(overlayColorPickerUpdatePanel);
 
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
