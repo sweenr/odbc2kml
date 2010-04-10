@@ -503,7 +503,7 @@ namespace HCI
             String ConnPortNum = odbcPNE.Text.ToString();
             String ConnUser = odbcUserE.Text.ToString();
             String ConnPWD = odbcPWE.Text.ToString();
-            String ConnDBType = odbcDBType.SelectedItem.ToString();
+            String ConnDBType = odbcDBType.SelectedValue.ToString();
             String oracleProtocol = odbcProtocol.Text.ToString();
             String oracleSName = odbcSName.Text.ToString();
             String oracleSID = odbcSID.Text.ToString();
@@ -521,7 +521,7 @@ namespace HCI
             if (DBTypeNum.Equals("2")){
                 if (oracleSName.Equals("") && oracleSID.Equals("")){
                     ErrorHandler eh = new ErrorHandler("Either Service Name or Service ID must be completed!", errorPanel1, NewConn1ModalPopUp.ID);
-                    this.NewConn1ModalPopUp.Hide();
+                    //this.NewConn1ModalPopUp.Hide();
                     eh.displayError();
                     return;
                 }

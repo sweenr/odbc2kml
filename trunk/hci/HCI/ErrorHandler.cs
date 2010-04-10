@@ -77,9 +77,14 @@ namespace HCI
             // Use obj instead of the errorPanel or errorUpdate panel so we don't have to have two sets of jsError strings
             Control obj;
             if (errorUpdatePanel == null)
+            {
+                errorPanel.Controls.Clear();
                 obj = errorPanel;
+            }
             else
+            {
                 obj = errorUpdatePanel;
+            }
 
             // Javascript code that will setup/run the JQueryUI Dialog box
             string jsError = "<script type=\"text/javascript\">$(function() { $(\"#" + obj.ClientID + "errorDiv\").dialog({ bgiframe: true, modal: true, autoOpen: false, title: 'Error!', resizable: false, dialogClass: 'alert', buttons: { Ok: function() { $(this).dialog('close');";
