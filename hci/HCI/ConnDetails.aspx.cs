@@ -1750,6 +1750,7 @@ namespace HCI
             OverlayConditionPanel.Controls.Clear();
             if (conn.overlays.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
+                overlayDirections.Controls.Clear();
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
@@ -1777,6 +1778,7 @@ namespace HCI
                     TextBox tx = new TextBox();
                     tx.ReadOnly = true;
                     tx.CssClass = "overlayBox";
+                    tx.ToolTip = "Click to change the overlay color";
                     tx.ID = "overlay" + overlay.getId() + "color";
                     tx.Style["background-color"] = "#" + overlay.getColor();
                     tx.Style["border"] = "2px solid black";

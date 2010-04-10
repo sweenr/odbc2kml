@@ -757,8 +757,6 @@ function OnColorPicked(sender){
                         </div>
                         <br />
                         <br />
-                <asp:UpdatePanel runat="server" ID="iconUpdatePanel" UpdateMode="Conditional">
-                    <ContentTemplate>
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Icons</span>
                             <br />
@@ -934,18 +932,14 @@ function OnColorPicked(sender){
                                 </table>
                             </div>
                         </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
                         <br />
                         <br />
-                <asp:UpdatePanel runat="server" ID="overlayUpdatePanel" UpdateMode="Conditional">
-                    <ContentTemplate>
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Overlay Colors</span>
                             <br />
                             <div class="mainBox2">
                                 <table width="100%">
-                                    <tr class="omainBox6">
+                                    <tr class="omainBox6" id="overlayDirections" runat="server">
                                         <td>
                                             In order to change the overlay color left-click on the color box to the left.
                                         </td>
@@ -1050,8 +1044,6 @@ function OnColorPicked(sender){
                                 </table>
                             </div>
                         </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
                         <br />
                         <br />
                         <div class="right">
