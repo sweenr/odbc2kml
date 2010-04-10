@@ -276,6 +276,8 @@ function OnColorPicked(sender){
                         </div>
                         <br />
                         <br />
+                <asp:UpdatePanel runat="server" ID="MappingUpdatePanel" UpdateMode="Conditional">
+                    <ContentTemplate>
                         <div class="mainBox">
                             <span class="connectionStyle">&nbsp;Connection Tables/Columns</span>
                             <div class="full">
@@ -606,6 +608,8 @@ function OnColorPicked(sender){
                                 </table>
                             </div>
                         </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
                         <br />
                         <br />
                         <div class="mainBox">
