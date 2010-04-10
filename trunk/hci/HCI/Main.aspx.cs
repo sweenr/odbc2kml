@@ -247,8 +247,15 @@ namespace HCI
             tempConnInfo.setOracleServiceName(editOracleService.Text);
             tempConnInfo.setOracleSID(editOracleSID.Text);
 
-            //If the connection information is bad, report the error and cancel the function
-            if (!tempConnInfo.isValid(Convert.ToInt32(args)))
+            //If the connection information is bad, report the error and cancel the function. This does NOT run against the database.
+            try
+            {
+                if (!tempConnInfo.isValid(Convert.ToInt32(args)))
+                {
+                    throw new ODBC2KMLException("");  // Throw any error. The catch is generic.
+                }
+            }
+            catch
             {
                 String error = "The entered connection information is invalid. Please make sure all fields are filled and that they are in proper format.";
 
@@ -268,6 +275,7 @@ namespace HCI
             //Create database and test it
             Database db = new Database(tempConnInfo);
 
+            //See if you can reach the database. If not, error out and don't save.
             try
             {
                 if (tempConnInfo.getDatabaseType() == ConnInfo.MSSQL)
