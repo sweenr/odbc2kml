@@ -23,6 +23,7 @@
         KML = generator.generateKMLFromConnection(connection);
         KML = KML.Replace('\n', ' ');
         KML = KML.Replace("\r", "<br/>");
+        KML = KML.Replace("\"", "\\\"");
     }
     catch (HCI.ODBC2KMLException e)
     {
