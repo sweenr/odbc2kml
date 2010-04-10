@@ -49,39 +49,39 @@ namespace HCI
             int endIndex = 0;
             int lengthOfTag = 0;
             //if start of field tag is found
-            while (desc.IndexOf("[FIELD]", startIndex) != -1)
+            while (desc.IndexOf("[FIELD]", startIndex, StringComparison.InvariantCultureIgnoreCase) != -1)
             {
                 //if end of field tag is found, set startindex, else return false
-                if (desc.IndexOf("[/FIELD]") != -1)
+                if (desc.IndexOf("[/FIELD]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //get the index of end of tag and calculate lengthoftag
-                    endIndex = desc.IndexOf("[/FIELD]", startIndex);
+                    endIndex = desc.IndexOf("[/FIELD]", startIndex, StringComparison.InvariantCultureIgnoreCase);
                     lengthOfTag = endIndex - startIndex;
                 }
                 else 
                 { 
                     return false; 
                 }
-
+                
                 //if start of table tag found look for end of field tag else return false
-                if (desc.IndexOf("[TBL]", startIndex, lengthOfTag) != -1)
+                if (desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //if we find a close tbl tag before the open tbl tag return false
-                    if ((desc.IndexOf("[/TBL]", startIndex, lengthOfTag)) < (desc.IndexOf("[TBL]", startIndex, lengthOfTag)))
+                    if ((desc.IndexOf("[/TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase)) < (desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase)))
                         return false;
                     //if we find another tbl tag, return false
-                    else if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) != -1)
+                    else if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase) != -1)
                         return false;
                     //else if we don't find a close tbl tag, return false
-                    else if (desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) == -1)
+                    else if (desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase) == -1)
                         return false;
                     //else if the length of the table tag is 0, return false
-                    else if(desc.IndexOf("[TBL]", startIndex, lengthOfTag)+5 - desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) == 0)
+                    else if (desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 5 - desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, StringComparison.InvariantCultureIgnoreCase) == 0)
                         return false;
 
                     //validate table name
-                    int openTbl = desc.IndexOf("[TBL]", startIndex, lengthOfTag);
-                    int closeTbl = desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4);
+                    int openTbl = desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase);
+                    int closeTbl = desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase);
                     string table = desc.Substring(openTbl+5, closeTbl - openTbl - 5);
                     //if the table isn't the currently mapped table, return false
                     if (!table.Trim().Equals(currentMapping.tableName))
@@ -92,24 +92,24 @@ namespace HCI
                     return false;
                 }
                 //if start of column tag is found, look for end of field tag else return false
-                if (desc.IndexOf("[COL]", startIndex, lengthOfTag) != -1)
+                if (desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //if we find a close col tag before the open col tag return false
-                    if ((desc.IndexOf("[/COL]", startIndex, lengthOfTag)) < (desc.IndexOf("[COL]", startIndex, lengthOfTag)))
+                    if ((desc.IndexOf("[/COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase)) < (desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase)))
                         return false;
                     //if we find another col tag, return false
-                    if (desc.IndexOf("[COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag)+4) != -1)
+                    if (desc.IndexOf("[COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase) != -1)
                         return false;
                     //else if we don't find a close col tag, return false
-                    else if (desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag)+4) == -1)
+                    else if (desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase) == -1)
                         return false;
                     //else if the length of the column tag is 0, return false
-                    else if (desc.IndexOf("[COL]", startIndex, lengthOfTag) + 5 - desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4) == 0)
+                    else if (desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 5 - desc.IndexOf("[/COL]", desc.IndexOf("[COL]", StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase) == 0)
                         return false;
 
                     //validate column name
-                    int openCol = desc.IndexOf("[COL]", startIndex, lengthOfTag);
-                    int closeCol = desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4);
+                    int openCol = desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase);
+                    int closeCol = desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 4, StringComparison.InvariantCultureIgnoreCase);
                     string column = desc.Substring(openCol+5, closeCol - openCol - 5);
                     Database db = new Database(currentConnInfo);
                     string query = "SELECT " + column.Trim() + " FROM " + currentMapping.tableName;
@@ -135,13 +135,13 @@ namespace HCI
             endIndex = 0;
             lengthOfTag = 0;
             //if start of url tag is found
-            while (desc.IndexOf("[URL]", startIndex) != -1)
+            while (desc.IndexOf("[URL]", startIndex, StringComparison.InvariantCultureIgnoreCase) != -1)
             {
                 //if end of url tag is found, set startindex, else return false
-                if (desc.IndexOf("[/URL]") != -1)
+                if (desc.IndexOf("[/URL]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //get the index of end of tag and calculate lengthoftag
-                    endIndex = desc.IndexOf("[/URL]", startIndex);
+                    endIndex = desc.IndexOf("[/URL]", startIndex, StringComparison.InvariantCultureIgnoreCase);
                     lengthOfTag = endIndex - startIndex;
                 }
                 else
@@ -149,16 +149,16 @@ namespace HCI
                     return false;
                 }
                 //if start of title tag found look for end of title tag else return false
-                if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) != -1)
+                if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //if we find another title tag, return false
-                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7) != -1)
+                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, StringComparison.InvariantCultureIgnoreCase) != -1)
                         return false;
                     //else if we don't find a close title tag, return false
-                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7) == -1)
+                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, StringComparison.InvariantCultureIgnoreCase) == -1)
                         return false;
                     //else if the length of the title tag is 0, return false
-                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]") + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag) + 7) == 0)
+                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, StringComparison.InvariantCultureIgnoreCase) == 0)
                         return false;
                 }
                 else
@@ -166,7 +166,7 @@ namespace HCI
                     return false;
                 }
                 //if length of url is 0 return false
-                if(desc.IndexOf("[/TITLE]", startIndex, lengthOfTag) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]", startIndex, lengthOfTag) + 5, endIndex-desc.IndexOf("[URL]", startIndex, lengthOfTag) + 5) == 0)
+                if (desc.IndexOf("[/TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 5, endIndex - desc.IndexOf("[URL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 5, StringComparison.InvariantCultureIgnoreCase) == 0)
                     return false;
 
                 startIndex = endIndex + 6;
