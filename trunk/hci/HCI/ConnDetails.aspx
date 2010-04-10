@@ -1039,6 +1039,11 @@ function OnColorPicked(sender){
                             <br />
                             <div class="mainBox2">
                                 <table width="100%">
+                                    <tr class="omainBox6">
+                                        <td>
+                                            In order to change the overlay color left-click on the color box to the left.
+                                        </td>
+                                    </tr>
                                     <tr class="mainBox5" align="center">
                                         <td>
                                             <table width="100%">

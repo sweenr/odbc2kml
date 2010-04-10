@@ -15,6 +15,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using HCI;
+using OboutInc.ColorPicker;
 
 namespace HCI
 {
@@ -1704,6 +1705,46 @@ namespace HCI
             sessionSave();
         }
 
+        /// <summary>
+        /// PostBack function for the overlay colorPicker
+        /// </summary>
+        /// <param name="sender">Object that called postback</param>
+        /// <param name="e">Color and Previous color for that colorPicker</param>
+        private void overlayColorChanged(Object sender, ColorPostBackEventArgs e)
+        {
+            ColorPicker colorPicker = (ColorPicker)sender;
+            string overlayID = colorPicker.TargetId;
+            overlayID = overlayID.Replace("overlay", "");
+            overlayID = overlayID.Replace("color", "");
+
+            // Check to see if the overlay color already exists in the connection
+            foreach (Overlay over in conn.overlays)
+            {
+                if (e.Color == ("#" + over.color) && over.id != int.Parse(overlayID))
+                {
+                    ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
+                    eh.displayError();
+                    return;
+                }
+            }
+
+            // if it is a unique color, save the change
+            foreach (Overlay over in conn.overlays)
+            {
+
+                if(over.id == int.Parse(overlayID))
+                {
+                    over.color = e.Color.Replace("#","");
+                    break;
+                }
+            }
+
+            //Regenerate the overlay condition table
+            genOverlayConditionTable(null, null);
+
+            sessionSave();
+        }
+
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
             OverlayConditionPanel.Controls.Clear();
@@ -1731,7 +1772,28 @@ namespace HCI
                 {
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                    OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"overlayBox\" style=\"background-color: #" + overlay.getColor() + ";border:2px solid black;\" />\n"));
+                    
+                    // Generate Text Box to hold the color
+                    TextBox tx = new TextBox();
+                    tx.ReadOnly = true;
+                    tx.CssClass = "overlayBox";
+                    tx.ID = "overlay" + overlay.getId() + "color";
+                    tx.Style["background-color"] = "#" + overlay.getColor();
+                    tx.Style["border"] = "2px solid black";
+                    tx.Style["cursor"] = "pointer";
+                    
+                    // Generate the ColorPicker for each overlay
+                    ColorPicker colorPicker = new ColorPicker();
+                    colorPicker.InitialColor = "#"+overlay.getColor();
+                    colorPicker.ColorPostBack += overlayColorChanged;
+                    colorPicker.TargetId = tx.ClientID;
+                    colorPicker.ID = "overlayColorPicker" + overlay.getId();
+                    colorPicker.PickButton = false;
+                    colorPicker.TargetProperty = "style.backgroundColor";
+                    colorPicker.AutoPostBack = true;
+                    colorPicker.Controls.Add(tx);
+                    OverlayConditionPanel.Controls.Add(colorPicker);
+
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
