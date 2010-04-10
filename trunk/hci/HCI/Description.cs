@@ -152,13 +152,13 @@ namespace HCI
                 if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //if we find another title tag, return false
-                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, StringComparison.InvariantCultureIgnoreCase) != -1)
+                    if (desc.IndexOf("[TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) - 7, StringComparison.InvariantCultureIgnoreCase) != -1)
                         return false;
                     //else if we don't find a close title tag, return false
-                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, StringComparison.InvariantCultureIgnoreCase) == -1)
+                    else if (desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) - 7, StringComparison.InvariantCultureIgnoreCase) == -1)
                         return false;
                     //else if the length of the title tag is 0, return false
-                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 7, StringComparison.InvariantCultureIgnoreCase) == 0)
+                    else if (desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 8 - desc.IndexOf("[/TITLE]", desc.IndexOf("[TITLE]", StringComparison.InvariantCultureIgnoreCase) + 7, endIndex - desc.IndexOf("[TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) - 7, StringComparison.InvariantCultureIgnoreCase) == 0)
                         return false;
                 }
                 else
@@ -166,7 +166,7 @@ namespace HCI
                     return false;
                 }
                 //if length of url is 0 return false
-                if (desc.IndexOf("[/TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 5, endIndex - desc.IndexOf("[URL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 5, StringComparison.InvariantCultureIgnoreCase) == 0)
+                if (desc.IndexOf("[/TITLE]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 8 - desc.IndexOf("[/URL]", desc.IndexOf("[URL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) + 5, endIndex - desc.IndexOf("[URL]", startIndex, lengthOfTag, StringComparison.InvariantCultureIgnoreCase) - 5, StringComparison.InvariantCultureIgnoreCase) == 0)
                     return false;
 
                 startIndex = endIndex + 6;
