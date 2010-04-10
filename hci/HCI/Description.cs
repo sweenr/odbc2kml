@@ -82,7 +82,7 @@ namespace HCI
                     //validate table name
                     int openTbl = desc.IndexOf("[TBL]", startIndex, lengthOfTag);
                     int closeTbl = desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4);
-                    string table = desc.Substring(openTbl+5, closeTbl - openTbl + 5);
+                    string table = desc.Substring(openTbl+5, closeTbl - openTbl - 5);
                     //if the table isn't the currently mapped table, return false
                     if (!table.Trim().Equals(currentMapping.tableName))
                         return false;
@@ -110,7 +110,7 @@ namespace HCI
                     //validate column name
                     int openCol = desc.IndexOf("[COL]", startIndex, lengthOfTag);
                     int closeCol = desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4);
-                    string column = desc.Substring(openCol+5, closeCol - openCol + 5);
+                    string column = desc.Substring(openCol+5, closeCol - openCol - 5);
                     Database db = new Database(currentConnInfo);
                     string query = "SELECT " + column.Trim() + " FROM " + currentMapping.tableName;
                     try
