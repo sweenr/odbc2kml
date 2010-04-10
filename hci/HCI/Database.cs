@@ -203,8 +203,7 @@ namespace HCI
                 return "Driver={MySQL ODBC 5.1 Driver};Server="
                     + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";User=" + info.getUserName()
-                    + "; Password=" + info.getPassword() + ";Option=3;"
-                    + "Connection Timeout=10;";
+                    + "; Password=" + info.getPassword() + ";Option=3;";
             }//Database type = MS SQL
             else if (ConnInfo.MSSQL == info.getDatabaseType())
             {
@@ -212,8 +211,7 @@ namespace HCI
                 return "Driver={SQL Native Client};Server="
                     + info.getServerAddress() + ";Port=" + info.portNumber + ";Database="
                     + info.getDatabaseName() + ";Uid=" + info.getUserName()
-                    + ";Pwd=" + info.getPassword() + ";"
-                    + "Connection Timeout=10;";
+                    + ";Pwd=" + info.getPassword() + ";";
             }
             else if (ConnInfo.ORACLE == info.getDatabaseType())
             {
