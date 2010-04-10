@@ -546,7 +546,7 @@ namespace HCI
                 }
 
                 //Validate description
-                if (!this.description.isValid())
+                if (!this.description.isValid(this.connInfo, this.mapping))
                 {
                     return 4;
                 }
