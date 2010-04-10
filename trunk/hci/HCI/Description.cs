@@ -230,7 +230,9 @@ namespace HCI
                     
                     //cut desc string into pre and post url tags. also removes the url tags from the desc string
                     String descString1 = descString.Substring(0,URLindex);
-                    String descString2 = descString.Substring(URLendIndex + 6);
+                    String descString2 = "";
+                    if(URLendIndex + 6 == descString.Length)
+                        descString2 = descString.Substring(URLendIndex + 6);
                     String URLstring = descString.Substring(URLindex + 5, length - 5);
 
                     //get index of open and close title tags and calculate length of title
@@ -282,7 +284,9 @@ namespace HCI
 
                     //cut descString into pre and post field tags. also removes field tags
                     String descString1 = descString.Substring(0, fieldIndex);
-                    String descString2 = descString.Substring(fieldEndIndex+8);
+                    String descString2 = "";
+                    if (fieldIndex + 8 == descString.Length)
+                        descString2 = descString.Substring(fieldEndIndex+8);
                     String fieldString = descString.Substring(fieldIndex+7, fieldLength-7);
 
                     //get index of open and close tbl tags and calculate length of table
@@ -302,7 +306,7 @@ namespace HCI
                     String colString = fieldString.Substring(colIndex+5, colLength-5);
                     
                     //get the field value from the DataRow
-                    fieldString = (String)row[colString];
+                    fieldString = (String)row[colString.Trim()];
 
                     //set the descString to be the pre, field value, and post field string
                     descString = descString1 + fieldString + descString2;
