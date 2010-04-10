@@ -674,7 +674,7 @@ namespace HCI
             }
             catch (ODBC2KMLException ex)
             {
-                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1, this.ModalPopupExtender3.ID);
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
                 eh.displayError();
                 return;
             }
