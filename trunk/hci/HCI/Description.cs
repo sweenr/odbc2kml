@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections;
-using HCI;
+//using HCI;
 
 namespace HCI
 {
@@ -21,7 +21,7 @@ namespace HCI
         //Constructors
         public Description()
         {
-
+            this.desc = "";
         }
 
         public string getDesc()
@@ -40,7 +40,7 @@ namespace HCI
         /// Field tag - verifies that there one and only one set of TBL and COL tags, that the tags are not empty, and that there is an open and closing tag
         /// </summary>
         /// <returns>true if a description is valid and false if it is not</returns>
-        public bool isValid()
+        public bool isValid(ConnInfo currentConnInfo, Mapping currentMapping)
         {
             //validate field tags
             int startIndex = 0;
@@ -60,17 +60,29 @@ namespace HCI
                 { 
                     return false; 
                 }
+
                 //if start of table tag found look for end of field tag else return false
                 if (desc.IndexOf("[TBL]", startIndex, lengthOfTag) != -1)
                 {
+                    //if we find a close tbl tag before the open tbl tag return false
+                    if ((desc.IndexOf("[/TBL]", startIndex, lengthOfTag)) < (desc.IndexOf("[TBL]", startIndex, lengthOfTag)))
+                        return false;
                     //if we find another tbl tag, return false
-                    if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) != -1)
+                    else if (desc.IndexOf("[TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) != -1)
                         return false;
                     //else if we don't find a close tbl tag, return false
                     else if (desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) == -1)
                         return false;
                     //else if the length of the table tag is 0, return false
                     else if(desc.IndexOf("[TBL]", startIndex, lengthOfTag)+5 - desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]") + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag)+4) == 0)
+                        return false;
+
+                    //validate table name
+                    int openTbl = desc.IndexOf("[TBL]", startIndex, lengthOfTag);
+                    int closeTbl = desc.IndexOf("[/TBL]", desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[TBL]", startIndex, lengthOfTag) + 4);
+                    string table = desc.Substring(openTbl+5, closeTbl - openTbl + 5);
+                    //if the table isn't the currently mapped table, return false
+                    if (!table.Equals(currentMapping.tableName))
                         return false;
                 }
                 else
@@ -80,6 +92,9 @@ namespace HCI
                 //if start of column tag is found, look for end of field tag else return false
                 if (desc.IndexOf("[COL]", startIndex, lengthOfTag) != -1)
                 {
+                    //if we find a close col tag before the open col tag return false
+                    if ((desc.IndexOf("[/COL]", startIndex, lengthOfTag)) < (desc.IndexOf("[COL]", startIndex, lengthOfTag)))
+                        return false;
                     //if we find another col tag, return false
                     if (desc.IndexOf("[COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag)+4) != -1)
                         return false;
@@ -89,6 +104,21 @@ namespace HCI
                     //else if the length of the column tag is 0, return false
                     else if (desc.IndexOf("[COL]", startIndex, lengthOfTag) + 5 - desc.IndexOf("[/COL]", desc.IndexOf("[COL]") + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4) == 0)
                         return false;
+
+                    //validate column name
+                    int openCol = desc.IndexOf("[COL]", startIndex, lengthOfTag);
+                    int closeCol = desc.IndexOf("[/COL]", desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4, endIndex - desc.IndexOf("[COL]", startIndex, lengthOfTag) + 4);
+                    string column = desc.Substring(openCol+5, closeCol - openCol + 5);
+                    Database db = new Database(currentConnInfo);
+                    string query = "SELECT " + column + " FROM " + currentMapping.tableName;
+                    try
+                    {
+                        db.executeQueryRemote(query);
+                    }
+                    catch (ODBC2KMLException ex)
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -238,8 +268,7 @@ namespace HCI
                 {
                     descString = descString.Replace("[BR/]", @"<br />");
                 }
-     //field parsing is incomplete and commented out to prevent infinite looping until
-     //the correct procedure for parsing a FIELD value is identified.
+     
                 while (descString.Contains("[FIELD]"))
                 {
                     //look at URL for explanation
@@ -260,29 +289,19 @@ namespace HCI
                         int tblIndex = fieldString.IndexOf("[TBL]");
                         int tblEndIndex = fieldString.IndexOf("[/TBL]");
                         int tblLength = tblEndIndex - tblIndex;
-                        //String fieldString1 = fieldString.Substring(0,tblIndex);
-                        //String fieldString2 = fieldString.Substring(tblEndIndex);
+                        
                         String tblString = fieldString.Substring(tblIndex, tblLength);
                         tblString = tblString.Replace("[TBL]", "");
                         tblString = tblString.Replace("[/TBL]", "");
                         int colIndex = fieldString.IndexOf("[COL]");
                         int colEndIndex = fieldString.IndexOf("[/COL]");
                         int colLength = colEndIndex - colIndex;
-                        //String fieldString1 = fieldString.Substring(0,tblIndex);
-                        //String fieldString2 = fieldString.Substring(tblEndIndex);
+                        
                         String colString = fieldString.Substring(colIndex, colLength);
                         colString = colString.Replace("[COL]", "");
                         colString = colString.Replace("[/COL]", "");
                         fieldString = (String)row[colString];
                         descString = descString1 + fieldString + descString2;
-                    }
-                    if (fieldString.Contains("[TBL]") && !fieldString.Contains("[COL]"))
-                    {
-                        throw new ODBC2KMLException("Description doesn't contain field Column information");
-                    }
-                    if (!fieldString.Contains("[TBL]") && fieldString.Contains("[COL]"))
-                    {
-                        throw new ODBC2KMLException("Description doesn't contain field Table information");
                     }
                 }
                 descArray.Add(descString);
