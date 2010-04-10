@@ -37,14 +37,12 @@ namespace HCI
 
         //Functions
 
-        /*********************************************************
-         * executeQueryLocal is the database function that
-         * communicates with the local database. 
-         * 
-         * Parameters: string query (query to be executed)
-         * 
-         * Return: DataTable(Result set)
-         ********************************************************/
+        /// <summary>
+        /// Database function that communicates with the local database. Does not need a connInfo
+        /// object for this communication.
+        /// </summary>
+        /// <param name="query">String --> query to be executed</param>
+        /// <returns>DataTable --> Return result set</returns>
         public DataTable executeQueryLocal(string query)
         {
             //Database connection string
@@ -88,16 +86,13 @@ namespace HCI
             return dataTable;
         }
 
-
-        /*******************************************************
-         * executeQueryRemote is used for retrieving info
-         * from the databases connected to by ODBC2KML.
-         * 
-         * Parameters: ConnInfo connInfo (All info pertaining to the connection)
-         *             string query (query to be executed)
-         *             
-         * Return:  (Result set)
-         *******************************************************/
+        /// <summary>
+        /// This database function communicates with Oracle, MySQL, and SQL remote servers.
+        /// This functions requires the Database object to hold a ConnInfo object with information
+        /// about the remote server.
+        /// </summary>
+        /// <param name="query">String --> query to be executed</param>
+        /// <returns>DataTable --> Result set</returns>
         public DataTable executeQueryRemote(string query)
         {
             DataTable dataTable = new DataTable();
@@ -190,11 +185,20 @@ namespace HCI
             return dataTable;
         }
 
+        /// <summary>
+        /// Set the databases conninfo object.
+        /// </summary>
+        /// <param name="info">ConnInfo --> Remote database information</param>
         public void setConnInfo(ConnInfo info)
         {
             connInfo = info;
         }
 
+        /// <summary>
+        /// Returns a connection string based on the current ConnInfo object.
+        /// </summary>
+        /// <param name="info">ConnInfo --> current database information</param>
+        /// <returns>String --> connection string</returns>
         public static String getConnectionString(ConnInfo info)
         {
             if (ConnInfo.MYSQL == info.getDatabaseType())

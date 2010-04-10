@@ -14,10 +14,10 @@ namespace HCI
 {
     public class ErrorHandler
     {
-        string errorText;
-        Panel errorPanel;
-        UpdatePanel errorUpdatePanel;
-        string mpeID;
+        private string errorText;
+        private Panel errorPanel;
+        private UpdatePanel errorUpdatePanel;
+        private string mpeID;
 
         /// <summary>
         /// Setup ErrorHandler
