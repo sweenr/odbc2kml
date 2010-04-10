@@ -152,7 +152,7 @@ body
 
 .omainBox7
 {
-	
+	border-collapse:collapse; 
 	border: solid 1px rgb(60,106,142);
 	width: 100%;
 	vertical-align:middle;
