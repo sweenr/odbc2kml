@@ -64,7 +64,9 @@ namespace HCI
         {
             formattedKML +=
                 "\t<Placemark>\n" +
-                "\t\t<name>" + place.getPlacemarkName() + "</name>\n" +
+                "\t\t<name>" +
+                "\t\t\t<![CDATA[" + place.getPlacemarkName() + "]]>\n" + 
+                "</name>\n" +
                 "\t\t<description>\n" +
                 "\t\t\t<![CDATA[" + place.getPlacemarkDescription() + "]]>\n" +
                 "\t\t</description>\n";
