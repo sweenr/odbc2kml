@@ -57,8 +57,14 @@ namespace HCI
             try
             {
                 fileSaveLoc = Server.MapPath("/icons/");
+                
+                dFieldVisibility.Value = "0";
                 dFieldPanel.Visible = false;
+                
+                dLinkVisibility.Value = "0";
                 dLinkPanel.Visible = false;
+
+                dFieldEVisibility.Value = "0";
                 dFieldPanelE.Visible = false;
 
                 if (!IsPostBack)
@@ -882,6 +888,8 @@ namespace HCI
         {
             IconConditionPanel.Controls.Clear();
             Boolean altRows = true;
+            dFieldEVisibility.Value = "0";
+
             if (conn.icons.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
@@ -1047,6 +1055,9 @@ namespace HCI
                         modifyButton.ID = "modifyIconCondition_" + icon.getId();
                         IconConditionPanel.Controls.Add(modifyButton);
                     }
+                    
+                   
+
                     Panel modifyIconConditionPopupPanel = new Panel();
 
                     modifyIconConditionPopupPanel.ScrollBars = ScrollBars.Auto;
@@ -1075,6 +1086,8 @@ namespace HCI
                     submitModifyConditionPopup.Click += new EventHandler(submitModifyIconConditionPopup_Click);;
                     submitModifyConditionPopup.CommandArgument = icon.getId();
                     modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
+
+                    
                     modifyIconConditionPopupPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
                     Button cancelModifyConditionPopup = new Button();
                     cancelModifyConditionPopup.ID = "cancelIconModifyCondition" + icon.getId();
@@ -3010,6 +3023,10 @@ namespace HCI
             conn.mapping = new Mapping();
             dFieldPanel.Visible = false;
             dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
             sessionSave();
             displayCurrentMapping();
         }
@@ -3049,8 +3066,20 @@ namespace HCI
 
         protected void dLink_Click(object sender, EventArgs e)
         {
-            dLinkPanel.Visible = !dLinkPanel.Visible;
+            if (dLinkVisibility.Value == "0")
+            {
+                dLinkPanel.Visible = true;
+                dLinkVisibility.Value = "1";
+            }
+            else
+            {
+                dLinkPanel.Visible = false;
+                dLinkVisibility.Value = "0";
+            }
             dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
             iLinkNBox.Text = "";
             iLinkURLBox.Text = "";
             sessionSave();
@@ -3061,6 +3090,9 @@ namespace HCI
             dLinkPanel.Visible = false;
             dFieldPanel.Visible = false;
             dFieldPanelE.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
             sessionSave();
         }
 
@@ -3081,12 +3113,19 @@ namespace HCI
                 descriptionBox.Text += descriptionInfo;
             }
             dLinkPanel.Visible = false;
+            dLinkVisibility.Value = "0";
+
             sessionSave();
         }
 
         protected void dNewline_Click(object sender, EventArgs e)
         {
-            
+            dLinkPanel.Visible = false;
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
             string descriptionInfo = "[BR/]";
             descriptionBox.Text += descriptionInfo;
             sessionSave();
@@ -3094,8 +3133,13 @@ namespace HCI
 
         protected void dTableInsert_Click(object sender, EventArgs e)
         {
+            dLinkPanel.Visible = false;
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
             string descriptionInfo = "[TBL/]";
-
             descriptionBox.Text += descriptionInfo;
             sessionSave();
         }
@@ -3108,8 +3152,18 @@ namespace HCI
                 iTblFN.Text = "";
                 iTblFNLbl.Visible = false;
                 iTblFNError.Visible = true;
-                dFieldPanelE.Visible = true;
                 dFieldPanel.Visible = false;
+                dFieldVisibility.Value = "0";
+                if (dFieldEVisibility.Value == "0")
+                {
+                    dFieldPanelE.Visible = true;
+                    dFieldEVisibility.Value = "1";
+                }
+                else
+                {
+                    dFieldPanelE.Visible = false;
+                    dFieldEVisibility.Value = "0";
+                }
             }
             else
             {
@@ -3118,10 +3172,20 @@ namespace HCI
                 iTblFNError.Visible = false;
                 iTblFNLbl.Visible = true;
                 dFieldPanelE.Visible = false;
-                dFieldPanel.Visible = true;
-
+                dFieldEVisibility.Value = "0";
+                if (dFieldVisibility.Value == "0")
+                {
+                    dFieldPanel.Visible = true;
+                    dFieldVisibility.Value = "1";
+                }
+                else
+                {
+                    dFieldPanel.Visible = false;
+                    dFieldVisibility.Value = "0";
+                }
             }
             iTableFNBox_SelectedIndexChanged(sender, e);
+            dLinkVisibility.Value = "0";
             dLinkPanel.Visible = false;
             
         }
@@ -3144,6 +3208,7 @@ namespace HCI
                 descriptionBox.Text += descriptionInfo;
             }
             dFieldPanel.Visible = false;
+            dFieldVisibility.Value = "0";
             sessionSave();
         }
 
@@ -3224,6 +3289,13 @@ namespace HCI
 
         protected void GridViewTables_SelectedIndexChanged(object sender, EventArgs e)
         {
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
+
             columnButtons.Visible = true;
             columnMessage.Visible = false;
             string selectedTable = GridViewTables.SelectedValue.ToString();
@@ -3382,6 +3454,13 @@ namespace HCI
 
         protected void mapTogether_Click(object sender, EventArgs e)
         {
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
+
             LLSepPanel.Visible = false;
             LLTogetherPanel.Visible = true;
             sessionSave();
@@ -3389,6 +3468,13 @@ namespace HCI
 
         protected void mapSeparate_Click(object sender, EventArgs e)
         {
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
+
             LLTogetherPanel.Visible = false;
             LLSepPanel.Visible = true;
             sessionSave();
@@ -3475,6 +3561,13 @@ namespace HCI
             string selectedTable = GridViewTables.SelectedValue.ToString();
             string connectionString_editor = "";
             string providerName_editor = "";
+
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
 
             SqlDataSource temp = new SqlDataSource();
 
@@ -3576,6 +3669,11 @@ namespace HCI
 
             dFieldPanel.Visible = false;
             dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
+
             displayCurrentMapping();
             sessionSave();
 
@@ -3587,6 +3685,13 @@ namespace HCI
             string selectedTable = GridViewTables.SelectedValue.ToString();
             string connectionString_editor = "";
             string providerName_editor = "";
+
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
 
             SqlDataSource temp = new SqlDataSource();
 
@@ -3677,6 +3782,13 @@ namespace HCI
             savePlacemarkMapping.Visible = false;
 
 
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
+
             if (Request.QueryString.Get("locked") != "true")
             {
                 addLatLong.Visible = true;
@@ -3691,6 +3803,13 @@ namespace HCI
         protected void saveLatLong_Click(object sender, EventArgs e)
         {
             string tableName = GridViewTables.SelectedValue.ToString();
+
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
+            dLinkPanel.Visible = false;
+            dFieldVisibility.Value = "0";
+            dFieldEVisibility.Value = "0";
+            dLinkVisibility.Value = "0";
 
             //if the table hasn't bee mapped yet or there is a placemark field mapping and it's table matches this table
             if (conn.mapping.tableName.Equals(tableName) || ((conn.mapping.placemarkFieldName.Equals("") || conn.mapping.placemarkFieldName == null)) || conn.mapping.tableName.Equals("") || conn.mapping.tableName == null)
