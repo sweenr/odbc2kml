@@ -2920,6 +2920,8 @@ namespace HCI
         protected void removeCurrentMapping(object sender, EventArgs e)
         {
             conn.mapping = new Mapping();
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
             sessionSave();
             displayCurrentMapping();
         }
@@ -3483,7 +3485,9 @@ namespace HCI
                 ErrorHandler eh = new ErrorHandler("Placemark mapping must use the same table as lat/long. If both are currently set, remove the current mapping and try again.", errorPanel1);
                 eh.displayError();
             }
-            
+
+            dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
             displayCurrentMapping();
             sessionSave();
 
