@@ -2755,7 +2755,7 @@ namespace HCI
             {
                 throw new ODBC2KMLException("Unable to connect to target database.");
             }
-            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
+            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                            
             
             sessionSave();
         }
