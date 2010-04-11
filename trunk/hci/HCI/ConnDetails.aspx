@@ -782,6 +782,8 @@ function OnColorPicked(sender){
                                             <br />
                                         </ContentTemplate>
                                         <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="removeCurMappingButton1" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="savePlaceMarkMapping" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dLink" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dTable" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dField" EventName="Click" />
