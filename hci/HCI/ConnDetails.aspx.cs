@@ -1072,7 +1072,8 @@ namespace HCI
                     submitModifyConditionPopup.ID = "submitModifyCondition" + icon.getId();
                     submitModifyConditionPopup.Text = "Submit";
                     submitModifyConditionPopup.CssClass = "button";
-                    submitModifyConditionPopup.Click += new EventHandler(genIconConditionTable);
+                    submitModifyConditionPopup.Click += new EventHandler(submitModifyIconConditionPopup_Click);;
+                    submitModifyConditionPopup.CommandArgument = icon.getId();
                     modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
                     modifyIconConditionPopupPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
                     Button cancelModifyConditionPopup = new Button();
@@ -1676,6 +1677,38 @@ namespace HCI
             sessionSave();
         }
 
+        protected void submitModifyIconConditionPopup_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string iconId = btn.CommandArgument;
+
+            Icon replaceWithThisIcon = new Icon();
+            foreach (Icon icon in conn.icons)
+            {
+                if (icon.getId() == iconId)
+                {
+                    replaceWithThisIcon = icon;
+                    break;
+                }
+            }
+            foreach (Icon icon in iconList)
+            {
+                if (icon.getId() == iconId)
+                    icon.setConditions(replaceWithThisIcon.getDeepCopyOfConditions());
+            }
+            try
+            {
+                genIconConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            sessionSave();
+        }
+
         protected void cancelModifyIconConditionPopup_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -1969,7 +2002,7 @@ namespace HCI
                     submitModifyConditionPopup.ID = "submitOverlayModifyCondition" + overlay.getId();
                     submitModifyConditionPopup.Text = "Submit";
                     submitModifyConditionPopup.CssClass = "button";
-                    submitModifyConditionPopup.Click += new EventHandler(genOverlayConditionTable);
+                    submitModifyConditionPopup.Click += new EventHandler(submitModifyOverlayConditionPopup_Click);
                     modifyOverlayConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
                     modifyOverlayConditionPopupPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
                     Button cancelModifyConditionPopup = new Button();
@@ -2556,6 +2589,37 @@ namespace HCI
                 {
                     overlay.setConditions(condition);
                 }
+            }
+            try
+            {
+                genOverlayConditionTable(sender, e);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+                return;
+            }
+            sessionSave();
+        }
+
+        protected void submitModifyOverlayConditionPopup_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string overlayId = btn.CommandArgument;
+            Overlay replaceWithThisOverlay = new Overlay();
+            foreach (Overlay overlay in conn.overlays)
+            {
+                if (overlay.getId() == overlayId)
+                {
+                    replaceWithThisOverlay = overlay;
+                    break;
+                }
+            }
+            foreach (Overlay overlay in overlayList)
+            {
+                if (overlay.getId() == overlayId)
+                    overlay.setConditions(replaceWithThisOverlay.getDeepCopyOfConditions());
             }
             try
             {
