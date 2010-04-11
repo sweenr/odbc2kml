@@ -290,7 +290,7 @@ namespace HCI
                     String descString1 = descString.Substring(0, fieldIndex);
                     String descString2 = "";
                     if (fieldIndex != descString.Length)
-                        descString2 = descString.Substring(fieldEndIndex+8);
+                        descString2 = descString.Substring(fieldEndIndex);
                     String fieldString = descString.Substring(fieldIndex+7, fieldLength-7);
 
                     //get index of open and close tbl tags and calculate length of table
