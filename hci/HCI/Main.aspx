@@ -473,9 +473,11 @@
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                            <asp:Button ID="continueUpdate" runat="server" Text="Yes" OnCommand="updateConnection"
-                                                                CssClass="button" />
-                                                            <asp:Button ID="cancelUpdateWarning" runat="server" Text="No" OnClick="cancelUpdateConnection" CssClass="button" />
+                                                            <div align="center">
+                                                                <asp:Button ID="continueUpdate" runat="server" Text="Yes" OnCommand="updateConnection"
+                                                                    CssClass="button" />
+                                                                <asp:Button ID="cancelUpdateWarning" runat="server" Text="No" OnClick="cancelUpdateConnection" CssClass="button" />
+                                                            </div>
                                                         </div>
                                                     </asp:Panel>
                                                     <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="false" 
