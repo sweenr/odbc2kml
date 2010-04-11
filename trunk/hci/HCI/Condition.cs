@@ -251,7 +251,11 @@ namespace HCI
         }
         //Additional
 
-        //Add Comments
+        /// <summary>
+        /// Returns first error text for conditions. Designed so that the user isn't overwhelmed with alot of error 
+        /// text at once.
+        /// </summary>
+        /// <returns>String --> Errors</returns>
         public string getErrorText()
         {
             string errorString = "";

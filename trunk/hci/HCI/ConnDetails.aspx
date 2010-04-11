@@ -1093,7 +1093,7 @@ function OnColorPicked(sender){
                                {%>
                             <asp:Button ID="Button1" runat="server" Text="Cancel Changes" CssClass="button" PostBackUrl="Main.aspx" />&nbsp;&nbsp;
                             <% } %>
-                            <asp:Button ID="saveConn" runat="server" Text="Save Connection" OnClick="modifyConnection"
+                            <asp:Button ID="saveConn" runat="server" Text="Save Connection"
                                 CssClass="button" />
                             <asp:Button ID="previewKML" runat="server" Text="Preview KML" CssClass="button"
                                 OnClick="googleEarthPopup" />
@@ -1108,7 +1108,7 @@ function OnColorPicked(sender){
             <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" />
         </div>
     </div>
-    <ajax:ModalPopupExtender OkControlID="cancelUpdate" runat="server" PopupControlID="connUpdateWarning"
+    <ajax:ModalPopupExtender CancelControlID="cancelUpdate" runat="server" PopupControlID="connUpdateWarning"
         TargetControlID="connectButton" ID="warningModal" BackgroundCssClass="modalBackground"
         DropShadow="false">
     </ajax:ModalPopupExtender>
@@ -1118,7 +1118,7 @@ function OnColorPicked(sender){
                 <tr>
                     <td>
                         If there are any differences between the original database and the one being updated,
-                        description and any conditions associated with tables no longer present will be
+                        description, mapping, and any conditions associated with tables no longer present will be
                         removed from the connection. Are you sure you would like to update the connection
                         information?
                         <br />
@@ -1129,6 +1129,29 @@ function OnColorPicked(sender){
             <asp:Button ID="continueUpdate" runat="server" Text="Yes" OnClick="updateConnection"
                 CssClass="button" />
             <asp:Button ID="cancelUpdate" runat="server" Text="No" CssClass="button" />
+        </div>
+    </asp:Panel>
+    <ajax:ModalPopupExtender CancelControlID="cancelSave" runat="server" PopupControlID="connSaveWarning"
+        TargetControlID="saveConn" ID="saveWarningModal" BackgroundCssClass="modalBackground"
+        DropShadow="false">
+    </ajax:ModalPopupExtender>
+    <asp:Panel ID="connSaveWarning" runat="server" Visible="true" Style="display: none">
+        <div class='mainBoxP'>
+            <table class="omainBox6" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        If there are any differences between the original database and the one being updated,
+                        description, mapping, and any conditions associated with tables no longer present will be
+                        removed from the connection. Are you sure you would like to update the connection
+                        information?
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+            </table>
+            <asp:Button ID="continueSave" runat="server" Text="Yes" OnClick="modifyConnection"
+                CssClass="button" />
+            <asp:Button ID="cancelSave" runat="server" Text="No" CssClass="button" />
         </div>
     </asp:Panel>
     <asp:Panel ID="KMLPanel" runat="server" Visible="true">
