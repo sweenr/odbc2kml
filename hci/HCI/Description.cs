@@ -231,7 +231,7 @@ namespace HCI
                     //cut desc string into pre and post url tags. also removes the url tags from the desc string
                     String descString1 = descString.Substring(0,URLindex);
                     String descString2 = "";
-                    if(URLendIndex + 6 == descString.Length)
+                    if(URLendIndex + 6 != descString.Length)
                         descString2 = descString.Substring(URLendIndex + 6);
                     String URLstring = descString.Substring(URLindex + 5, length - 5);
 
@@ -244,7 +244,7 @@ namespace HCI
                     //also removes the title tags from the url string
                     String URLsubString1 = URLstring.Substring(0, titleIndex);
                     String URLsubString2 = URLstring.Substring(titleEndIndex + 8);
-                    String titleString = URLstring.Substring(titleIndex + 7, titleLength - 8);
+                    String titleString = URLstring.Substring(titleIndex + 7, titleLength - 7);
                     
                     //create the final url from the url substrings and title string
                     String finalURL = "<a href=\"" + URLsubString1 + URLsubString2 + "\">" + titleString + "</a>";
@@ -258,7 +258,9 @@ namespace HCI
                     //get index of tbl tag and cut descString into pre and post tbl tags
                     int tblStart = descString.IndexOf("[TBL/]", StringComparison.InvariantCultureIgnoreCase);
                     string startToTbl = descString.Substring(0, tblStart);
-                    string tblToEnd = descString.Substring(tblStart + 6);
+                    string tblToEnd = "";
+                    if(tblStart + 6 == descString.Length)
+                        tblToEnd = descString.Substring(tblStart + 6);
 
                     //set the desc string to the pre, tableName, post tbl tag
                     descString = startToTbl + tableName + tblToEnd;
@@ -269,7 +271,9 @@ namespace HCI
                     //get index of br tag and cut descString into pre and post br tags
                     int brStart = descString.IndexOf("[BR/]", StringComparison.InvariantCultureIgnoreCase);
                     string startToBr = descString.Substring(0, brStart);
-                    string brToEnd = descString.Substring(brStart + 5);
+                    string brToEnd = "";
+                    if(brStart + 5 == descString.Length)
+                        brToEnd = descString.Substring(brStart + 5);
 
                     //set the descString to the pre, br tag, and post br tag
                     descString = startToBr + "<br />" + brToEnd;
@@ -285,7 +289,7 @@ namespace HCI
                     //cut descString into pre and post field tags. also removes field tags
                     String descString1 = descString.Substring(0, fieldIndex);
                     String descString2 = "";
-                    if (fieldIndex + 8 == descString.Length)
+                    if (fieldIndex != descString.Length)
                         descString2 = descString.Substring(fieldEndIndex+8);
                     String fieldString = descString.Substring(fieldIndex+7, fieldLength-7);
 
