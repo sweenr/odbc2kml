@@ -203,7 +203,7 @@ namespace HCI
             Database localDatabase = new Database();
 
             //Construct the connInfo query and retrieve the DataTable
-            string query = "SELECT * FROM Connection WHERE ID=" + connID;
+            string query = "SELECT * FROM Connection WHERE ID=" + connID + " ORDER BY ID";
             DataTable table = null;
 
             try

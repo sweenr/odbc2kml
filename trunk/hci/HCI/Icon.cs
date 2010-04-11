@@ -119,7 +119,7 @@ namespace HCI
             Database localDatabase = new Database();
 
             //Create icon query and populate table
-            string query = "SELECT * FROM Icon WHERE connID=" + connID;
+            string query = "SELECT * FROM Icon WHERE connID=" + connID + " ORDER BY ID";
             DataTable table = null;
 
             try
@@ -145,7 +145,7 @@ namespace HCI
                         DataTable newTable = new DataTable();
 
                         //IconLibrary query
-                        string locQuery = "SELECT * FROM IconLibrary WHERE ID=" + ((int)row[col]);
+                        string locQuery = "SELECT * FROM IconLibrary WHERE ID=" + ((int)row[col]) + " ORDER BY ID";
 
                         try
                         {
