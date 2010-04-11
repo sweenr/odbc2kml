@@ -752,7 +752,7 @@ function OnColorPicked(sender){
                                                                     </td>
                                                                     <td>
                                                                         <asp:Button ID="dFieldInsert" runat="server" CssClass="descButton"
-                                                                            Text="Insert Field" ToolTip="Insert Field" />
+                                                                            Text="Insert Field" ToolTip="Insert Field" OnClick="dFieldInsert_Click" />
                                                                         &nbsp;&nbsp;
                                                                     </td>
                                                                     <td>
