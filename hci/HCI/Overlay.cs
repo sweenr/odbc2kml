@@ -115,7 +115,7 @@ namespace HCI
             DataTable table = null;
 
             //Create overlay query and populate table
-            string query = "SELECT * FROM Overlay WHERE connID=" + connID;
+            string query = "SELECT * FROM Overlay WHERE connID=" + connID + " ORDER BY ID";
 
             try
             {
@@ -140,7 +140,7 @@ namespace HCI
 
                 //Query string and query
                 string conQuery = "SELECT * FROM OverlayCondition WHERE overlayID="
-                    + (Convert.ToInt16(newOverlay.getId())) + " AND connID=" + connID;
+                    + (Convert.ToInt16(newOverlay.getId())) + " AND connID=" + connID + " ORDER BY ID";
 
                 try
                 {
