@@ -207,13 +207,10 @@ namespace HCI
 
 
             String p1 = "", p2 = "";
-            int i;
-            for (i = 0; i < mid; i++)
-            {}    
             
-            p1 = cord.Substring(0,i);
+            p1 = cord.Substring(0,mid);
 
-            p2 = cord.Substring(++mid, cord.Length - i - 1);
+            p2 = cord.Substring(++mid, cord.Length - (mid-1) - 1);
 
             Char[] bs = new Char[8] {')', '>', '}', '\'', '\"', '(', '<' ,'{'};
 
@@ -223,27 +220,12 @@ namespace HCI
             {
                 q1 = (double.Parse(p1.Trim(bs)));
                 q2 = (double.Parse(p2.Trim(bs)));
-                if (order.Equals(LATFIRST))
-                {
-                    double[] coordinates = new double[2];
-                    coordinates[0] = q1;
-                    coordinates[1] = q2;
+      
+                double[] coordinates = new double[2];
+                coordinates[0] = q1;
+                coordinates[1] = q2;
 
-                    return coordinates;
-                    //latFieldName = p1;
-                    //longFieldName = p2;
-                }
-                else
-                {
-                    double[] coordinates = new double[2];
-                    coordinates[0] = q2;
-                    coordinates[1] = q1;
-
-                    return coordinates;
-
-                    //latFieldName = p2;
-                    //longFieldName = p1;
-                }
+                return coordinates;
 
             }
             catch (Exception)
