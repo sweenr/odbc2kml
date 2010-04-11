@@ -1036,7 +1036,7 @@ function OnColorPicked(sender){
                                                                             <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                 <tr>
                                                                                     <td>
-                                                                                        Click the color box to select an overlay color. Choose a color and click Save. The
+                                                                                        Click the color box to select an overlay color. Choose a color. The
                                                                                         color is displayed in the box below.
                                                                                     </td>
                                                                                 </tr>
