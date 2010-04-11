@@ -139,7 +139,7 @@ namespace HCI
 
                 foreach (DataColumn col in table.Columns)
                 {
-                    if (col.ColumnName == "ID")
+                    if (col.ColumnName == "iconID")
                     {
                         //Create a new table to perform subqueries on
                         DataTable newTable = new DataTable();
