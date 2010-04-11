@@ -57,14 +57,8 @@ namespace HCI
             try
             {
                 fileSaveLoc = Server.MapPath("/icons/");
-                
-                dFieldVisibility.Value = "0";
                 dFieldPanel.Visible = false;
-                
-                dLinkVisibility.Value = "0";
                 dLinkPanel.Visible = false;
-
-                dFieldEVisibility.Value = "0";
                 dFieldPanelE.Visible = false;
 
                 if (!IsPostBack)
@@ -888,8 +882,6 @@ namespace HCI
         {
             IconConditionPanel.Controls.Clear();
             Boolean altRows = true;
-            dFieldEVisibility.Value = "0";
-
             if (conn.icons.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
@@ -1055,9 +1047,6 @@ namespace HCI
                         modifyButton.ID = "modifyIconCondition_" + icon.getId();
                         IconConditionPanel.Controls.Add(modifyButton);
                     }
-                    
-                   
-
                     Panel modifyIconConditionPopupPanel = new Panel();
 
                     modifyIconConditionPopupPanel.ScrollBars = ScrollBars.Auto;
@@ -1086,8 +1075,6 @@ namespace HCI
                     submitModifyConditionPopup.Click += new EventHandler(submitModifyIconConditionPopup_Click);;
                     submitModifyConditionPopup.CommandArgument = icon.getId();
                     modifyIconConditionPopupPanel.Controls.Add(submitModifyConditionPopup);
-
-                    
                     modifyIconConditionPopupPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
                     Button cancelModifyConditionPopup = new Button();
                     cancelModifyConditionPopup.ID = "cancelIconModifyCondition" + icon.getId();
@@ -1764,14 +1751,13 @@ namespace HCI
             string overlayID = colorPicker.TargetId;
             overlayID = overlayID.Replace("overlay", "");
             overlayID = overlayID.Replace("color", "");
-            UpdatePanel overlayColorPickerUpdatePanel = (UpdatePanel)Page.FindControl("overlayColorPickerUpdatePanel" + overlayID);
 
             // Check to see if the overlay color already exists in the connection
             foreach (Overlay over in conn.overlays)
             {
                 if (e.Color == ("#" + over.color) && over.id != int.Parse(overlayID))
                 {
-                    ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", overlayColorPickerUpdatePanel);
+                    ErrorHandler eh = new ErrorHandler("Overlay color already exists! Please choose another.", errorPanel1);
                     eh.displayError();
                     return;
                 }
@@ -1791,19 +1777,16 @@ namespace HCI
             //Regenerate the overlay condition table
             genOverlayConditionTable(null, null);
 
+            // Recreate overlay popup panel to display the new overlay colors.
+            fillOverlayLibraryLists();
+            fillOverlayPopupRemove();
+
             sessionSave();
         }
 
         protected void genOverlayConditionTable(object sender, EventArgs e)
         {
             OverlayConditionPanel.Controls.Clear();
-
-            // clear the directions for changing overlay colors if page is locked
-            if (Request.QueryString.Get("locked") == "true")
-            {
-                overlayDirections.Controls.Clear();
-            }
-
             if (conn.overlays.Count == 0)  // No images set for the condition. Display a simple table stating such.
             {
                 overlayDirections.Controls.Clear();
@@ -1829,52 +1812,28 @@ namespace HCI
                 {
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
+
+                    // Generate Text Box to hold the color
+                    TextBox tx = new TextBox();
+                    tx.ReadOnly = true;
+                    tx.CssClass = "overlayBox";
+                    tx.ToolTip = "Click to change the overlay color";
+                    tx.ID = "overlay" + overlay.getId() + "color";
+                    tx.Style["background-color"] = "#" + overlay.getColor();
+                    tx.Style["border"] = "2px solid black";
+                    tx.Style["cursor"] = "pointer";
                     
-                    // Generate UpdatePanel to hold onto textbox and color picker.
-                    UpdatePanel overlayColorPickerUpdatePanel = new UpdatePanel();
-                    overlayColorPickerUpdatePanel.UpdateMode = UpdatePanelUpdateMode.Conditional;
-                    overlayColorPickerUpdatePanel.ID = "overlayColorPickerUpdatePanel" + overlay.getId();
-
-
-                    if (Request.QueryString.Get("locked") == "false")
-                    {
-                        // Generate Text Box to hold the color
-                        TextBox tx = new TextBox();
-                        tx.ReadOnly = true;
-                        tx.CssClass = "overlayBox";
-                        tx.ToolTip = "Click to change the overlay color";
-                        tx.ID = "overlay" + overlay.getId() + "color";
-                        tx.Style["background-color"] = "#" + overlay.getColor();
-                        tx.Style["border"] = "2px solid black";
-                        tx.Style["cursor"] = "pointer";
-
-                        // Generate the ColorPicker for each overlay
-                        ColorPicker colorPicker = new ColorPicker();
-                        colorPicker.InitialColor = "#" + overlay.getColor();
-                        colorPicker.ColorPostBack += overlayColorChanged;
-                        colorPicker.TargetId = tx.ClientID;
-                        colorPicker.ID = "overlayColorPicker" + overlay.getId();
-                        colorPicker.PickButton = false;
-                        colorPicker.TargetProperty = "style.backgroundColor";
-                        colorPicker.AutoPostBack = true;
-                        colorPicker.Controls.Add(tx);
-                        overlayColorPickerUpdatePanel.ContentTemplateContainer.Controls.Add(colorPicker);
-                        OverlayConditionPanel.Controls.Add(overlayColorPickerUpdatePanel);
-                    }
-                    else
-                    {
-                        // Generate Text Box to hold the color
-                        TextBox tx = new TextBox();
-                        
-                        tx.Enabled = false;
-                        tx.CssClass = "overlayBox";
-                        tx.ToolTip = "Click to change the overlay color";
-                        tx.ID = "overlay" + overlay.getId() + "color";
-                        tx.Style["background-color"] = "#" + overlay.getColor();
-                        tx.Style["border"] = "2px solid black";
-                        OverlayConditionPanel.Controls.Add(tx);
-                    }
-
+                    // Generate the ColorPicker for each overlay
+                    ColorPicker colorPicker = new ColorPicker();
+                    colorPicker.InitialColor = "#"+overlay.getColor();
+                    colorPicker.ColorPostBack += overlayColorChanged;
+                    colorPicker.TargetId = tx.ClientID;
+                    colorPicker.ID = "overlayColorPicker" + overlay.getId();
+                    colorPicker.PickButton = false;
+                    colorPicker.TargetProperty = "style.backgroundColor";
+                    colorPicker.AutoPostBack = true;
+                    colorPicker.Controls.Add(tx);
+                    OverlayConditionPanel.Controls.Add(colorPicker);
 
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
@@ -2768,7 +2727,7 @@ namespace HCI
             {
                 throw new ODBC2KMLException("Unable to connect to target database.");
             }
-            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                            
+            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
             
             sessionSave();
         }
@@ -3023,10 +2982,6 @@ namespace HCI
             conn.mapping = new Mapping();
             dFieldPanel.Visible = false;
             dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
             sessionSave();
             displayCurrentMapping();
         }
@@ -3066,20 +3021,8 @@ namespace HCI
 
         protected void dLink_Click(object sender, EventArgs e)
         {
-            if (dLinkVisibility.Value == "0")
-            {
-                dLinkPanel.Visible = true;
-                dLinkVisibility.Value = "1";
-            }
-            else
-            {
-                dLinkPanel.Visible = false;
-                dLinkVisibility.Value = "0";
-            }
+            dLinkPanel.Visible = !dLinkPanel.Visible;
             dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
             iLinkNBox.Text = "";
             iLinkURLBox.Text = "";
             sessionSave();
@@ -3090,9 +3033,6 @@ namespace HCI
             dLinkPanel.Visible = false;
             dFieldPanel.Visible = false;
             dFieldPanelE.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
             sessionSave();
         }
 
@@ -3113,19 +3053,12 @@ namespace HCI
                 descriptionBox.Text += descriptionInfo;
             }
             dLinkPanel.Visible = false;
-            dLinkVisibility.Value = "0";
-
             sessionSave();
         }
 
         protected void dNewline_Click(object sender, EventArgs e)
         {
-            dLinkPanel.Visible = false;
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
+            
             string descriptionInfo = "[BR/]";
             descriptionBox.Text += descriptionInfo;
             sessionSave();
@@ -3133,13 +3066,8 @@ namespace HCI
 
         protected void dTableInsert_Click(object sender, EventArgs e)
         {
-            dLinkPanel.Visible = false;
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
             string descriptionInfo = "[TBL/]";
+
             descriptionBox.Text += descriptionInfo;
             sessionSave();
         }
@@ -3152,18 +3080,8 @@ namespace HCI
                 iTblFN.Text = "";
                 iTblFNLbl.Visible = false;
                 iTblFNError.Visible = true;
+                dFieldPanelE.Visible = true;
                 dFieldPanel.Visible = false;
-                dFieldVisibility.Value = "0";
-                if (dFieldEVisibility.Value == "0")
-                {
-                    dFieldPanelE.Visible = true;
-                    dFieldEVisibility.Value = "1";
-                }
-                else
-                {
-                    dFieldPanelE.Visible = false;
-                    dFieldEVisibility.Value = "0";
-                }
             }
             else
             {
@@ -3172,20 +3090,10 @@ namespace HCI
                 iTblFNError.Visible = false;
                 iTblFNLbl.Visible = true;
                 dFieldPanelE.Visible = false;
-                dFieldEVisibility.Value = "0";
-                if (dFieldVisibility.Value == "0")
-                {
-                    dFieldPanel.Visible = true;
-                    dFieldVisibility.Value = "1";
-                }
-                else
-                {
-                    dFieldPanel.Visible = false;
-                    dFieldVisibility.Value = "0";
-                }
+                dFieldPanel.Visible = true;
+
             }
             iTableFNBox_SelectedIndexChanged(sender, e);
-            dLinkVisibility.Value = "0";
             dLinkPanel.Visible = false;
             
         }
@@ -3208,7 +3116,6 @@ namespace HCI
                 descriptionBox.Text += descriptionInfo;
             }
             dFieldPanel.Visible = false;
-            dFieldVisibility.Value = "0";
             sessionSave();
         }
 
@@ -3289,13 +3196,6 @@ namespace HCI
 
         protected void GridViewTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
-
             columnButtons.Visible = true;
             columnMessage.Visible = false;
             string selectedTable = GridViewTables.SelectedValue.ToString();
@@ -3454,13 +3354,6 @@ namespace HCI
 
         protected void mapTogether_Click(object sender, EventArgs e)
         {
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
-
             LLSepPanel.Visible = false;
             LLTogetherPanel.Visible = true;
             sessionSave();
@@ -3468,13 +3361,6 @@ namespace HCI
 
         protected void mapSeparate_Click(object sender, EventArgs e)
         {
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
-
             LLTogetherPanel.Visible = false;
             LLSepPanel.Visible = true;
             sessionSave();
@@ -3561,13 +3447,6 @@ namespace HCI
             string selectedTable = GridViewTables.SelectedValue.ToString();
             string connectionString_editor = "";
             string providerName_editor = "";
-
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
 
             SqlDataSource temp = new SqlDataSource();
 
@@ -3669,11 +3548,6 @@ namespace HCI
 
             dFieldPanel.Visible = false;
             dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
-
             displayCurrentMapping();
             sessionSave();
 
@@ -3685,13 +3559,6 @@ namespace HCI
             string selectedTable = GridViewTables.SelectedValue.ToString();
             string connectionString_editor = "";
             string providerName_editor = "";
-
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
 
             SqlDataSource temp = new SqlDataSource();
 
@@ -3782,13 +3649,6 @@ namespace HCI
             savePlacemarkMapping.Visible = false;
 
 
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
-
             if (Request.QueryString.Get("locked") != "true")
             {
                 addLatLong.Visible = true;
@@ -3803,13 +3663,6 @@ namespace HCI
         protected void saveLatLong_Click(object sender, EventArgs e)
         {
             string tableName = GridViewTables.SelectedValue.ToString();
-
-            dFieldPanel.Visible = false;
-            dFieldPanelE.Visible = false;
-            dLinkPanel.Visible = false;
-            dFieldVisibility.Value = "0";
-            dFieldEVisibility.Value = "0";
-            dLinkVisibility.Value = "0";
 
             //if the table hasn't bee mapped yet or there is a placemark field mapping and it's table matches this table
             if (conn.mapping.tableName.Equals(tableName) || ((conn.mapping.placemarkFieldName.Equals("") || conn.mapping.placemarkFieldName == null)) || conn.mapping.tableName.Equals("") || conn.mapping.tableName == null)
