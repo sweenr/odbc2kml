@@ -630,7 +630,7 @@ function OnColorPicked(sender){
                                     <% } %>
                                     <br />
                                     <br />
-                                    <asp:UpdatePanel runat="server" ID="dUpdatePanel" UpdateMode="Conditional">
+                                    <asp:UpdatePanel runat="server" ID="dUpdatePanel" UpdateMode="Always">
                                         <ContentTemplate>
                                             <asp:Panel ID="dLinkPanel" runat="server" Visible="false" CssClass="descPanel">
                                                 <table class="descPanelTable">
@@ -664,6 +664,7 @@ function OnColorPicked(sender){
                                                                     <td>
                                                                     </td>
                                                                     <td>
+                                                                    <asp:HiddenField ID="dLinkVisibility" runat="server" Value="0" />
                                                                     </td>
                                                                     <td>
                                                                         <asp:Button ID="dLinkInsert" runat="server" CssClass="descButton" OnClick="dLinkInsert_Click"
@@ -697,6 +698,7 @@ function OnColorPicked(sender){
                                                                 Visible="false" CssClass="descLabelError"></asp:Label>
                                                         </td>
                                                         <td>
+                                                        <asp:HiddenField ID="dFieldEVisibility" runat="server" Value="0" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -749,6 +751,7 @@ function OnColorPicked(sender){
                                                                     <td>
                                                                     </td>
                                                                     <td>
+                                                                        <asp:HiddenField ID="dFieldVisibility" runat="server" Value="0" />
                                                                     </td>
                                                                     <td>
                                                                         <asp:Button ID="dFieldInsert" runat="server" CssClass="descButton"
@@ -784,10 +787,18 @@ function OnColorPicked(sender){
                                         <Triggers>
                                             <asp:AsyncPostBackTrigger ControlID="removeCurMappingButton1" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="savePlaceMarkMapping" EventName="Click" />
+                                             <asp:AsyncPostBackTrigger ControlID="mapSeparate" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="mapTogether" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="addPlaceMarkField" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="addLatLong" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="saveLatLong" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="viewGrid" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dLink" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dTable" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dField" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dBr" EventName="Click" />
+                                            <asp:AsyncPostBackTrigger ControlID="GridViewTables" EventName="SelectedIndexChanged" />
+                                            
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>

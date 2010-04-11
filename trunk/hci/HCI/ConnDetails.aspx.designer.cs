@@ -914,6 +914,15 @@ namespace HCI {
         protected global::System.Web.UI.WebControls.TextBox iLinkURLBox;
         
         /// <summary>
+        /// dLinkVisibility control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField dLinkVisibility;
+        
+        /// <summary>
         /// dLinkInsert control.
         /// </summary>
         /// <remarks>
@@ -957,6 +966,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label iTblFNError;
+        
+        /// <summary>
+        /// dFieldEVisibility control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField dFieldEVisibility;
         
         /// <summary>
         /// fieldErrorClear control.
@@ -1020,6 +1038,15 @@ namespace HCI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList iColFNBox;
+        
+        /// <summary>
+        /// dFieldVisibility control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField dFieldVisibility;
         
         /// <summary>
         /// dFieldInsert control.
