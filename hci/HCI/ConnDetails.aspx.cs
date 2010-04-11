@@ -58,6 +58,8 @@ namespace HCI
             {
                 fileSaveLoc = Server.MapPath("/icons/");
                 dFieldPanel.Visible = false;
+                dLinkPanel.Visible = false;
+                dFieldPanelE.Visible = false;
 
                 if (!IsPostBack)
                 {
@@ -2968,6 +2970,7 @@ namespace HCI
         {
             dLinkPanel.Visible = false;
             dFieldPanel.Visible = false;
+            dFieldPanelE.Visible = false;
             sessionSave();
         }
 
@@ -3009,10 +3012,28 @@ namespace HCI
 
         protected void dField_Click(object sender, EventArgs e)
         {
+            string tableText = conn.mapping.getTableName();
+            if (tableText == "" || tableText == null)
+            {
+                iTblFN.Text = "";
+                iTblFNLbl.Visible = false;
+                iTblFNError.Visible = true;
+                dFieldPanelE.Visible = true;
+                dFieldPanel.Visible = false;
+            }
+            else
+            {
+                iTblFN.Text = tableText;
+                iTblFN.CssClass = "descLabel";
+                iTblFNError.Visible = false;
+                iTblFNLbl.Visible = true;
+                dFieldPanelE.Visible = false;
+                dFieldPanel.Visible = true;
+
+            }
             iTableFNBox_SelectedIndexChanged(sender, e);
             dLinkPanel.Visible = false;
-            dFieldPanel.Visible = !dFieldPanel.Visible;
-            sessionSave();
+            
         }
 
         protected void dFieldInsert_Click(object sender, EventArgs e)

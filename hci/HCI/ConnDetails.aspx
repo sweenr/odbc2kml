@@ -689,12 +689,45 @@ function OnColorPicked(sender){
                                                 <p>
                                                 </p>
                                             </asp:Panel>
+                                            <asp:Panel ID="dFieldPanelE" runat="server" Visible="false" CssClass="descPanel">
+                                                <table class="descPanelTable">
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Label ID="iTblFNError" runat="server" Text="Please select a table mapping before inserting a field value."
+                                                                Visible="false" CssClass="descLabelError"></asp:Label>
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Button ID="fieldErrorClear" runat="server" CssClass="descButton" OnClick="dClear_Click"
+                                                                Text="Close" ToolTip="Close Panel" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p>
+                                                </p>
+                                            </asp:Panel>
                                             <asp:Panel ID="dFieldPanel" runat="server" Visible="false" CssClass="descPanel">
                                                 <table class="descPanelTable">
                                                     <tr>
                                                         <td>
                                                             <table>
-                                                               
+                                                                <tr>
+                                                                    <td>
+                                                                        <asp:Label ID="iTblFNLbl" runat="server" Text="Mapped Table: " CssClass="descLabel"></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <asp:Label ID="iTblFN" runat="server"></asp:Label>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <asp:Label ID="iColFN" runat="server" Text="Column Name: " CssClass="descLabel"></asp:Label>&nbsp;&nbsp;
@@ -709,7 +742,8 @@ function OnColorPicked(sender){
                                                                     </td>
                                                                     <td>
                                                                     </td>
-                                                                    <td></td>
+                                                                    <td>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
@@ -717,12 +751,14 @@ function OnColorPicked(sender){
                                                                     <td>
                                                                     </td>
                                                                     <td>
-                                                                        <asp:Button ID="dFieldInsert" runat="server" CssClass="descButton" OnClick="dFieldInsert_Click"
+                                                                        <asp:Button ID="dFieldInsert" runat="server" CssClass="descButton"
                                                                             Text="Insert Field" ToolTip="Insert Field" />
                                                                         &nbsp;&nbsp;
                                                                     </td>
-                                                                    <td><asp:Button ID="dFieldClear" runat="server" CssClass="descButton" OnClick="dClear_Click"
-                                                                            Text="Close" ToolTip="Close Panel" /></td>
+                                                                    <td>
+                                                                        <asp:Button ID="dFieldClear" runat="server" CssClass="descButton" OnClick="dClear_Click"
+                                                                            Text="Close" ToolTip="Close Panel" />
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="4">
