@@ -647,7 +647,7 @@ namespace HCI
                         //Add all current icons to the database
                         foreach (Icon i in this.icons)
                         {
-                            query = "INSERT INTO Icon (connID, ID) VALUES(" + this.connID + ", " + i.getId() + ")";
+                            query = "INSERT INTO Icon (connID, iconID) VALUES(" + this.connID + ", " + i.getId() + ")";
                             database.executeQueryLocal(query);
 
                             //Add all conditions
