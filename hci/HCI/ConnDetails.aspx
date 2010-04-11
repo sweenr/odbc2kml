@@ -996,8 +996,7 @@ function OnColorPicked(sender){
                                     <tr class="mainBox5" align="center">
                                         <td>
                                             <table width="100%">
-                                                <asp:Panel ID="OverlayConditionPanel" runat="server" Visible="true">
-                                                </asp:Panel>
+                                                <asp:Panel ID="OverlayConditionPanel" runat="server" Visible="true" />
                                             </table>
                                             <ajax:ModalPopupExtender BackgroundCssClass="modalBackground" DropShadow="false" CancelControlID="closeRemoveOverlay"
                                                 runat="server" PopupControlID="RemoveOverlayPanel" ID="RemoveOverlayPopupExtender"
@@ -1023,8 +1022,7 @@ function OnColorPicked(sender){
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                                <asp:Panel ID="removeOverlayInteriorPanel" runat="server" ScrollBars="Auto" Visible="true">
-                                                                </asp:Panel>
+                                                                    <asp:Panel ID="removeOverlayInteriorPanel" runat="server" ScrollBars="Auto" />
                                                                 <div class="right" style="padding-top: 20px;">
                                                                     <asp:Button ID="closeRemoveOverlay" runat="server" Text="Cancel" CssClass="button" />
                                                                 </div>
