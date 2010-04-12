@@ -298,7 +298,7 @@ namespace HCI
             }
             catch
             {
-                ErrorHandler eh = new ErrorHandler("The database entered could not be connected to. Please verify the information is correct.", errorPanel1, editConnModalPopUp.ID);
+                ErrorHandler eh = new ErrorHandler("The database entered could not be connected to. Please verify the information is correct.", errorPanel1);
                 this.editConnModalPopUp.Hide();
                 eh.displayError();
                 return;
