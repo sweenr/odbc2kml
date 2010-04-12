@@ -108,6 +108,11 @@ namespace HCI
             //Create a request for the URL.
             if (URL.Equals(""))
                 throw new ODBC2KMLException("Please enter a URL.");
+
+            DataTable dt = DB.executeQueryLocal("SELECT * FROM IconLibrary WHERE location='" + URL + "'");
+            if (dt.Rows.Count > 0)
+                throw new ODBC2KMLException("URL Path already exists in Icon Library.");
+
             WebRequest request = WebRequest.Create(URL);
             request.Proxy = null;
             try
