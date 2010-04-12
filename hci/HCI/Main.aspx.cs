@@ -675,7 +675,7 @@ namespace HCI
 
             foreach (DataRow dr in dt.Rows)
             {
-                string connID = dr.ItemArray.ElementAt(0).ToString();
+                string connID = dr["ID"].ToString();
 
                 Response.Redirect("ConnDetails.aspx?ConnID=" + connID + "&locked=false");
             }
