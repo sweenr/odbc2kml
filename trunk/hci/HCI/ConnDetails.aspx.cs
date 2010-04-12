@@ -454,7 +454,7 @@ namespace HCI
 
             try
             {
-                dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary WHERE location=\'" + path + "\'");
+                dt = db.executeQueryLocal("SELECT ID, location, isLocal FROM IconLibrary WHERE location=\'" + path + "\'");
             }
             catch (ODBC2KMLException ex)
             {
@@ -463,11 +463,10 @@ namespace HCI
 
             foreach (DataRow dr in dt.Rows)
             {
-                string iconId = dr["ID"].ToString();
-                string iconLoc = dr["location"].ToString();
                 Icon icon = new Icon();
-                icon.setId(iconId);
-                icon.setLocation(iconLoc);
+                icon.setId(dr["ID"].ToString());
+                icon.setLocation(dr["location"].ToString());
+                icon.setLocality((bool)dr["isLocal"]);
                 iconListAvailableToAdd.Add(icon);
             }
             fillIconLibraryPopup();
@@ -494,11 +493,9 @@ namespace HCI
             
             foreach (DataRow dr in dt.Rows)
             {
-                string iconId = dr["ID"].ToString();
-                string iconLoc = dr["location"].ToString();
                 Icon icon = new Icon();
-                icon.setId(iconId);
-                icon.setLocation(iconLoc);
+                icon.setId(dr["ID"].ToString());
+                icon.setLocation(dr["location"].ToString());
                 icon.setLocality((bool)dr["isLocal"]);
                 iconListAvailableToAdd.Add(icon);
             }
