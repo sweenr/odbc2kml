@@ -137,97 +137,92 @@ namespace HCI
                 //Create a new icon
                 Icon newIcon = new Icon();
 
-                foreach (DataColumn col in table.Columns)
+                //Create a new table to perform subqueries on
+                DataTable newTable = new DataTable();
+
+                //IconLibrary query
+                string locQuery = "SELECT * FROM IconLibrary WHERE ID=" + ((int)row["iconLibraryID"]) + " ORDER BY ID";
+
+                try
                 {
-                    if (col.ColumnName == "iconID")
-                    {
-                        //Create a new table to perform subqueries on
-                        DataTable newTable = new DataTable();
-
-                        //IconLibrary query
-                        string locQuery = "SELECT * FROM IconLibrary WHERE ID=" + ((int)row[col]) + " ORDER BY ID";
-
-                        try
-                        {
-                            newTable = localDatabase.executeQueryLocal(locQuery);
-                        }
-                        catch (ODBC2KMLException ex)
-                        {
-                            ex.errorText = "There was an error populating the Icon Library";
-                            throw ex;
-                        }
-
-                        foreach (DataRow nRow in newTable.Rows)
-                        {
-                            //Set the location of the icon
-                            newIcon.setLocation(nRow["location"].ToString());
-                            newIcon.setId(nRow["ID"].ToString());
-                            if ((Boolean)nRow["isLocal"] == false)
-                            {
-                                newIcon.setLocality(false);
-                            }
-                            else
-                            {
-                                newIcon.setLocality(true);
-                            }
-                        }//End outer loop
-
-                        newTable.Clear();
-
-                        //IconCondition query
-                        string conQuery = "SELECT * FROM IconCondition WHERE iconID="
-                            + ((int)row[col]) + " AND connID=" + connID;
-
-                        try
-                        {
-                            newTable = localDatabase.executeQueryLocal(conQuery);
-                        }
-                        catch (ODBC2KMLException ex)
-                        {
-                            ex.errorText = "There was a problem selecting icon conditions for icon " + (int)row[col];
-                            throw ex;
-                        }
-
-                        //Cycle through each condition
-                        foreach (DataRow nRow in newTable.Rows)
-                        {
-                            //Create the condition and add its values
-                            Condition condition = new Condition();
-
-                            if (nRow["lowerBound"] != null)
-                            {
-                                condition.setLowerBound(nRow["lowerBound"].ToString());
-                            }
-                            else
-                            {
-                                condition.setLowerBound("");
-                            }
-
-                            if (nRow["upperBound"] != null)
-                            {
-                                condition.setUpperBound(nRow["upperBound"].ToString());
-                            }
-                            else
-                            {
-                                condition.setUpperBound("");
-                            }
-
-                            condition.setLowerOperator((int)nRow["lowerOperator"]);
-                            condition.setUpperOperator((int)nRow["upperOperator"]);
-                            condition.setTableName(nRow["tableName"].ToString());
-                            condition.setFieldName(nRow["fieldName"].ToString());
-                            condition.setId(Convert.ToInt16(nRow["ID"].ToString()));
-                         
-              
-                            //Add the condition to the icon array
-                            newIcon.setConditions(condition);
-                            //Free up condition memory
-                            condition = null;
-                        }//End outer loop
-                        //Free up table memory
-                        newTable = null;
-                    }
+                    newTable = localDatabase.executeQueryLocal(locQuery);
                 }
+                catch (ODBC2KMLException ex)
+                {
+                    ex.errorText = "There was an error populating the Icon Library";
+                    throw ex;
+                }
+
+                foreach (DataRow nRow in newTable.Rows)
+                {
+                    //Set the location of the icon
+                    newIcon.setLocation(nRow["location"].ToString());
+                    newIcon.setId(nRow["ID"].ToString());
+                    if ((Boolean)nRow["isLocal"] == false)
+                    {
+                        newIcon.setLocality(false);
+                    }
+                    else
+                    {
+                        newIcon.setLocality(true);
+                    }
+                }//End outer loop
+
+                newTable.Clear();
+
+                //IconCondition query
+                string conQuery = "SELECT * FROM IconCondition WHERE iconID="
+                    + ((int)row["ID"]) + " AND connID=" + connID;
+
+                try
+                {
+                    newTable = localDatabase.executeQueryLocal(conQuery);
+                }
+                catch (ODBC2KMLException ex)
+                {
+                    ex.errorText = "There was a problem selecting icon conditions for icon " + (int)row["iconLibraryID"];
+                    throw ex;
+                }
+
+                //Cycle through each condition
+                foreach (DataRow nRow in newTable.Rows)
+                {
+                    //Create the condition and add its values
+                    Condition condition = new Condition();
+
+                    if (nRow["lowerBound"] != null)
+                    {
+                        condition.setLowerBound(nRow["lowerBound"].ToString());
+                    }
+                    else
+                    {
+                        condition.setLowerBound("");
+                    }
+
+                    if (nRow["upperBound"] != null)
+                    {
+                        condition.setUpperBound(nRow["upperBound"].ToString());
+                    }
+                    else
+                    {
+                        condition.setUpperBound("");
+                    }
+
+                    condition.setLowerOperator((int)nRow["lowerOperator"]);
+                    condition.setUpperOperator((int)nRow["upperOperator"]);
+                    condition.setTableName(nRow["tableName"].ToString());
+                    condition.setFieldName(nRow["fieldName"].ToString());
+                    condition.setId(Convert.ToInt16(nRow["iconID"].ToString()));
+
+
+                    //Add the condition to the icon array
+                    newIcon.setConditions(condition);
+                    //Free up condition memory
+                    condition = null;
+                }//End outer loop
+                //Free up table memory
+                newTable = null;
+                
                 icons.Add(newIcon);
                 //Free up icon memory
                 newIcon = null;
