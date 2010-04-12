@@ -540,7 +540,7 @@ namespace HCI
                 }
 
                 //Validate the mapping
-                if (!this.mapping.isValid()) //TODO: resolve this
+                if (!this.mapping.isValid(this.connInfo)) //TODO: resolve this
                 {
                     return 2;
                 }

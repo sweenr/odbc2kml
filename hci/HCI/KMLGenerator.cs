@@ -62,7 +62,7 @@ namespace HCI
         public string generateKMLFromConnection(Connection connection)
         {
             //if the mapping is invalid, throw an exception and don't try to continue
-            if (!connection.mapping.isValid())
+            if (!connection.mapping.isValid(connection.connInfo))
             {
                 throw new ODBC2KMLException("There was an exception generating KML. Mapping is invalid.");
             }

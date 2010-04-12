@@ -3728,7 +3728,7 @@ namespace HCI
                 {
                     throw new ODBC2KMLException("Invalid connection info. Resolve this before previewing KML.");
                 }
-                else if (!conn.mapping.isValid() || conn.mapping.format == 0)
+                else if (!conn.mapping.isValid(conn.connInfo) || conn.mapping.format == 0)
                 {
                     throw new ODBC2KMLException("Invalid mapping. Resolve this before previewing KML.");
                 }
