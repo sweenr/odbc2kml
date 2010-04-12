@@ -484,7 +484,7 @@ namespace HCI
 
             try
             {
-                dt = db.executeQueryLocal("SELECT ID, location, isLocal FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + conId + " ) AND (iconID = IL.ID)))");
+                dt = db.executeQueryLocal("SELECT ID, location, isLocal FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + conId + " ) AND (iconLibraryID = IL.ID)))");
             }
             catch (ODBC2KMLException ex)
             {
@@ -504,7 +504,7 @@ namespace HCI
             DataTable dt2;
             try
             {
-                dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location, IconLibrary.isLocal FROM IconLibrary,Icon Where IconLibrary.ID=Icon.iconID AND Icon.ConnID=" + conId);
+                dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location, IconLibrary.isLocal FROM IconLibrary,Icon Where IconLibrary.ID=Icon.iconLibraryID AND Icon.ConnID=" + conId);
             }
             catch (ODBC2KMLException ex)
             {
