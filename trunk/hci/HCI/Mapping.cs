@@ -128,7 +128,7 @@ namespace HCI
             return valid;
         }
 
-        public Boolean isValid()
+        public Boolean isValid(ConnInfo connInfo)
         {
             //If lat and long mappings are set
             if (this.getLatFieldName() != "" && this.getLongFieldName() != "")
@@ -144,6 +144,38 @@ namespace HCI
                     //No format
                     return false;
                 }
+
+                double tempDouble;
+                Database db = new Database(connInfo);
+                if (this.format == Mapping.SEPARATE)
+                {
+                    DataTable dt = db.executeQueryRemote("SELECT " + this.latFieldName + ", " + this.longFieldName + " FROM " + this.tableName);
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        //if we can't parse a double from the column, return false
+                        if (!Double.TryParse(dr[this.latFieldName].ToString(), out tempDouble) || !Double.TryParse(dr[this.longFieldName].ToString(), out tempDouble))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else if (this.format == Mapping.LATFIRST || this.format == Mapping.LONGFIRST)
+                {
+                    DataTable dt = db.executeQueryRemote("SELECT " + this.latFieldName + " FROM " + this.tableName);
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        //try to separate the coordinates from the column, if it fails return false
+                        try
+                        {
+                            double[] coords = separate(dr[this.latFieldName].ToString(), this.format);
+                        }
+                        catch (ODBC2KMLException ex)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
             }
             else if (this.getTableName() == "")//No lat and long
             {
