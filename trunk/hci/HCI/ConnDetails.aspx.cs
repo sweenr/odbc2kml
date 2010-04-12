@@ -1673,23 +1673,12 @@ namespace HCI
 
         protected void submitModifyIconConditionPopup_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            string iconId = btn.CommandArgument;
+            iconList = new ArrayList();
+            foreach (Icon icon in conn.icons)  // conn.icons is the icons/conditions that were in the connection when we generated this table
+            {
+                iconList.Add(new Icon(icon));
+            }
 
-            Icon replaceWithThisIcon = new Icon();
-            foreach (Icon icon in conn.icons)
-            {
-                if (icon.getId() == iconId)
-                {
-                    replaceWithThisIcon = icon;
-                    break;
-                }
-            }
-            foreach (Icon icon in iconList)
-            {
-                if (icon.getId() == iconId)
-                    icon.setConditions(replaceWithThisIcon.getDeepCopyOfConditions());
-            }
             try
             {
                 genIconConditionTable(sender, e);
@@ -2595,22 +2584,12 @@ namespace HCI
 
         protected void submitModifyOverlayConditionPopup_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            string overlayId = btn.CommandArgument;
-            Overlay replaceWithThisOverlay = new Overlay();
-            foreach (Overlay overlay in conn.overlays)
+            overlayList = new ArrayList();
+            foreach (Overlay overlay in conn.overlays)  // conn.overlays is the overlays/conditions that were in the connection when we generated this table
             {
-                if (overlay.getId() == overlayId)
-                {
-                    replaceWithThisOverlay = overlay;
-                    break;
-                }
+                overlayList.Add(new Overlay(overlay));  // Make the list that Cancel falls back to look just like the current list.
             }
-            foreach (Overlay overlay in overlayList)
-            {
-                if (overlay.getId() == overlayId)
-                    overlay.setConditions(replaceWithThisOverlay.getDeepCopyOfConditions());
-            }
+
             try
             {
                 genOverlayConditionTable(sender, e);
