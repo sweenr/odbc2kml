@@ -1441,7 +1441,6 @@ namespace HCI
                 fieldName.SelectedValue = condition.getFieldName();
                 upperOperator.SelectedValue = condition.getUpperOperator();
                 upperBound.Text = condition.getUpperBound();
-                //errorUpdatePanel.Update();
                 return;
             }
 

@@ -18,6 +18,7 @@ namespace HCI
         private Panel errorPanel;
         private UpdatePanel errorUpdatePanel;
         private string mpeID;
+        private static int errorCountInt = 0;
 
         /// <summary>
         /// Setup ErrorHandler
@@ -70,6 +71,21 @@ namespace HCI
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="regularPanel"></param>
+        /// <param name="updatePanel"></param>
+        /// <param name="mpeString"></param>
+        public ErrorHandler(String error, Panel regularPanel, UpdatePanel updatePanel, String mpeString)
+        {
+            errorText = error;
+            errorPanel = regularPanel;
+            errorUpdatePanel = updatePanel;
+            mpeID = mpeString;
+        }
+
+        /// <summary>
         /// Displays the error message
         /// </summary>
         public void displayError()
@@ -81,13 +97,20 @@ namespace HCI
                 errorPanel.Controls.Clear();
                 obj = errorPanel;
             }
+            // both passed in
+            else if (errorUpdatePanel != null && errorPanel != null)
+            {
+                errorPanel.Controls.Clear();
+                obj = errorPanel;
+            }
+            // only have an updatePanel
             else
             {
                 obj = errorUpdatePanel;
             }
 
             // Javascript code that will setup/run the JQueryUI Dialog box
-            string jsError = "<script type=\"text/javascript\">$(function() { $(\"#" + obj.ClientID + "errorDiv\").dialog({ bgiframe: true, modal: true, autoOpen: false, title: 'Error!', resizable: false, dialogClass: 'alert', buttons: { Ok: function() { $(this).dialog('close');";
+            string jsError = "<script type=\"text/javascript\">$(function() { $(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").dialog({ bgiframe: true, modal: true, autoOpen: false, title: 'Error!', resizable: false, dialogClass: 'alert', buttons: { Ok: function() { $(this).dialog('close');";
             
             // Add code to show MPE after "Ok" clicked if we are inside an MPE
             if(mpeID.Length != 0)
@@ -102,23 +125,26 @@ namespace HCI
             {
                 jsError += "$find('" + mpeID + "').hide(); ";
             }
-            
-            jsError += "$(\"#" + obj.ClientID + "errorDiv\").dialog('open');$(\"#" + obj.ClientID + "errorDiv\").focus();</script>";
 
+            jsError += "$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").dialog('open');$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").focus();</script>";
+
+            
 
             // not in an UpdatePanel, use regular Panel code
             if (errorUpdatePanel == null)
             {
                 errorPanel.Visible = true;
-                errorPanel.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\" id=\"" + errorPanel.ClientID + "errorDiv\"><p>" + errorText + "</p></div>"));
+                errorPanel.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\" id=\"" + obj.ClientID + "errorDiv" + errorCountInt + "\"><p>" + errorText + "</p></div>"));
                 errorPanel.Controls.Add(new LiteralControl(jsError));
             }
             else
             {
-                errorUpdatePanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\" id=\"" + errorUpdatePanel.ClientID + "errorDiv\"><p>" + errorText + "</p></div>"));
+                errorUpdatePanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div style=\"color: black; Z-index:5000000000\" id=\"" + obj.ClientID + "errorDiv" + errorCountInt + "\"><p>" + errorText + "</p></div>"));
                 ScriptManager.RegisterClientScriptBlock(errorUpdatePanel, typeof(UpdatePanel), errorUpdatePanel.ClientID, jsError, false);
+                errorUpdatePanel.Update();
             }
-                //errorUpdatePanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<script type=\"text/javascript\">$(\"#errorPanel1\").dialog('open')</script>"));
+
+            errorCountInt++;
         }
     }
 }
