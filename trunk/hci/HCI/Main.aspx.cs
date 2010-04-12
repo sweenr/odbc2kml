@@ -400,6 +400,8 @@ namespace HCI
                     img.ImageUrl = dr["location"].ToString();
                     img.AlternateText = "Icon Cannot be Displayed";
                     img.ToolTip = dr["location"].ToString();
+                    img.Height = 64;
+                    img.Width = 64;
 
                     iconLibPanel.Controls.Add(img);
                     iconLibPanel.Controls.Add(new LiteralControl("</td>"));

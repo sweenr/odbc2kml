@@ -649,6 +649,8 @@ namespace HCI
                     imgBtn.CommandArgument = icn.getId().ToString();
                     imgBtn.AlternateText = "Icon Cannot be Displayed";
                     imgBtn.ToolTip = icn.getLocation().ToString();
+                    imgBtn.Width = 64;
+                    imgBtn.Height = 64;
 
                     addIconToLibary.Controls.Add(imgBtn);
                     addIconToLibary.Controls.Add(new LiteralControl("</td>"));
