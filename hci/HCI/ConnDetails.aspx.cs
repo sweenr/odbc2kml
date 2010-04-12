@@ -3050,14 +3050,6 @@ namespace HCI
             sessionSave();
         }
 
-        protected void dNewline_Click(object sender, EventArgs e)
-        {
-            
-            string descriptionInfo = "[BR/]";
-            descriptionBox.Text += descriptionInfo;
-            sessionSave();
-        }
-
         protected void dTableInsert_Click(object sender, EventArgs e)
         {
             string descriptionInfo = "[TBL/]";
