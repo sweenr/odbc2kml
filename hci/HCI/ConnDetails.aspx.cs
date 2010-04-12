@@ -3721,11 +3721,34 @@ namespace HCI
             String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
             Session["serverPath"] = serverPath;
             Session["Connection"] = conn;
+            try
+            {
+                //check if connection is valid before generating KML
+                if (!conn.connInfo.isValid(conn.connID))
+                {
+                    throw new ODBC2KMLException("Invalid connection info. Resolve this before previewing KML.");
+                }
+                else if (!conn.mapping.isValid())
+                {
+                    throw new ODBC2KMLException("Invalid mapping. Resolve this before previewing KML.");
+                }
+                else if (!conn.description.isValid(conn.connInfo, conn.mapping))
+                {
+                    throw new ODBC2KMLException("Invalid description. Resolve this before previewing KML.");
+                }
+                else
+                {
+                    //Save the session
+                    sessionSave();
 
-            //Save the session
-            sessionSave();
-
-            ClientScript.RegisterStartupScript(this.GetType(), "Preview KML", "previewKMLPopup();",true);
+                    ClientScript.RegisterStartupScript(this.GetType(), "Preview KML", "previewKMLPopup();", true);
+                }
+            }
+            catch (ODBC2KMLException ex)
+            {
+                ErrorHandler eh = new ErrorHandler(ex.errorText, errorPanel1);
+                eh.displayError();
+            }
         }
     }
 }
