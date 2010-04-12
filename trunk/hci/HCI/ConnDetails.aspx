@@ -795,7 +795,6 @@ function OnColorPicked(sender){
                                             <asp:AsyncPostBackTrigger ControlID="dLink" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dTable" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="dField" EventName="Click" />
-                                            <asp:AsyncPostBackTrigger ControlID="dBr" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="GridViewTables" EventName="SelectedIndexChanged" />
                                             
                                         </Triggers>
