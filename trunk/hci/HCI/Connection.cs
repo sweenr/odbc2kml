@@ -651,14 +651,17 @@ namespace HCI
                         //Add all current icons to the database
                         foreach (Icon i in this.icons)
                         {
-                            query = "INSERT INTO Icon (connID, iconID) VALUES(" + this.connID + ", " + i.getId() + ")";
+                            query = "INSERT INTO Icon (connID, iconLibraryID) VALUES(" + this.connID + ", " + i.getId() + ")";
                             transactionQuery.Add(query);
+
+                            String newQuery = "DECLARE @uniqueIconID int;SET @uniqueIconID = (SELECT ID FROM Icon WHERE connID=" + this.connID + " AND "
+                                + "iconLibraryID=" + i.getId() + ");";
 
                             //Add all conditions
                             foreach (Condition c in i.getConditions())
                             {
-                                query = "INSERT INTO IconCondition (iconID, connID, lowerBound, upperBound, "
-                                    + "lowerOperator, upperOperator, fieldName, tableName) VALUES(" + i.getId()
+                                query = newQuery + "INSERT INTO IconCondition (iconID, connID, lowerBound, upperBound, "
+                                    + "lowerOperator, upperOperator, fieldName, tableName) VALUES(@uniqueIconID"
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
                                     + Condition.operatorStringToInt(c.getLowerOperator()) + ", " + Condition.operatorStringToInt(c.getUpperOperator()) + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
