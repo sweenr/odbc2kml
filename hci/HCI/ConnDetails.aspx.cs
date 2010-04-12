@@ -478,13 +478,14 @@ namespace HCI
         {
             iconListAvailableToAdd.Clear();
             iconListAvailableToRemove.Clear();
+            string conId = Request.QueryString.Get("ConnID");
 
             Database db = new Database();
             DataTable dt;
 
             try
             {
-                dt = db.executeQueryLocal("SELECT ID, location FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + Request.QueryString.Get("ConnID") + " ) AND (ID = IL.ID)))");
+                dt = db.executeQueryLocal("SELECT ID, location, isLocal FROM IconLibrary AS IL WHERE (NOT EXISTS (SELECT ID, connID FROM Icon AS IC WHERE (connID = " + conId + " ) AND (iconID = IL.ID)))");
             }
             catch (ODBC2KMLException ex)
             {
@@ -498,6 +499,7 @@ namespace HCI
                 Icon icon = new Icon();
                 icon.setId(iconId);
                 icon.setLocation(iconLoc);
+                icon.setLocality((bool)dr["isLocal"]);
                 iconListAvailableToAdd.Add(icon);
             }
 
@@ -505,7 +507,7 @@ namespace HCI
             DataTable dt2;
             try
             {
-                dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location FROM IconLibrary,Icon Where IconLibrary.ID=Icon.ID AND Icon.ConnID=" + Request.QueryString.Get("ConnID"));
+                dt2 = db2.executeQueryLocal("SELECT IconLibrary.ID, IconLibrary.location, IconLibrary.isLocal FROM IconLibrary,Icon Where IconLibrary.ID=Icon.iconID AND Icon.ConnID=" + conId);
             }
             catch (ODBC2KMLException ex)
             {
@@ -519,6 +521,7 @@ namespace HCI
                 Icon icon = new Icon();
                 icon.setId(iconId);
                 icon.setLocation(iconLoc);
+                icon.setLocality((bool)dr2["isLocal"]);
                 iconListAvailableToRemove.Add(icon);
             }
         }
@@ -664,24 +667,18 @@ namespace HCI
         protected void addIconFromLibraryToConn(object sender, EventArgs e)
         {
             ImageButton sendBtn = (ImageButton)sender;
-            String args = sendBtn.CommandArgument.ToString();
-
-            Icon icn = new Icon();
-            Icon iconSaved = new Icon();
-            icn.setId(args);
+            String args = sendBtn.CommandArgument.ToString();  // IconLibrary.ID in database
 
             try
             {
-                foreach (Icon icon in iconListAvailableToAdd)
+                foreach (Icon icon in iconListAvailableToAdd)  // icon is pointer to icon with the ID in the Icon Library's ArrayList
                 {
-                    if (icon.getId().Equals(icn.getId()))
+                    if (icon.getId().Equals(args))
                     {
-                        iconSaved.setId(icon.getId());
-                        iconSaved.setLocation(icon.getLocation());
                         iconListAvailableToAdd.Remove(icon);
-                        iconListAvailableToRemove.Add(new Icon(iconSaved));
-                        iconList.Add(new Icon(iconSaved));
-                        conn.icons.Add(new Icon(iconSaved));
+                        iconListAvailableToRemove.Add(new Icon(icon));
+                        iconList.Add(new Icon(icon));
+                        conn.icons.Add(new Icon(icon));
                         this.fillIconLibraryPopup();
                         this.fillIconLibraryPopupRemove();
                         this.genIconConditionTable(sender, e);
