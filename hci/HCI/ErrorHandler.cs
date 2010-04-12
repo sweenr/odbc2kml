@@ -110,7 +110,10 @@ namespace HCI
             }
 
             // Javascript code that will setup/run the JQueryUI Dialog box
-            string jsError = "<script type=\"text/javascript\">$(function() { $(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").dialog({ bgiframe: true, modal: true, autoOpen: false, title: 'Error!', resizable: false, dialogClass: 'alert', buttons: { Ok: function() { $(this).dialog('close');";
+            string jsError = "<script type=\"text/javascript\">$(document).ready("
+                    + "function() {"
+                    + "WebForm_RestoreScrollPosition();"
+                    + "$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").dialog({bgiframe: true, modal: true, autoOpen: false, title: 'Error!', resizable: false, dialogClass: 'alert', buttons: { Ok: function() { $(this).dialog('close');";
             
             // Add code to show MPE after "Ok" clicked if we are inside an MPE
             if(mpeID.Length != 0)
@@ -118,7 +121,7 @@ namespace HCI
                 jsError += "$find('" + mpeID + "').show(); ";
             }
             
-            jsError += " } } }); }); ";
+            jsError += " } } });";
 
             // Add code to hide MPE when the ErrorHandler is shown if we are inside an MPE
             if(mpeID.Length != 0)
@@ -126,7 +129,7 @@ namespace HCI
                 jsError += "$find('" + mpeID + "').hide(); ";
             }
 
-            jsError += "$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").dialog('open');$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").focus();</script>";
+            jsError += "$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").dialog('open');$(\"#" + obj.ClientID + "errorDiv" + errorCountInt + "\").focus(); });</script>";
 
             
 
