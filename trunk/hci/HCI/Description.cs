@@ -259,24 +259,11 @@ namespace HCI
                     int tblStart = descString.IndexOf("[TBL/]", StringComparison.InvariantCultureIgnoreCase);
                     string startToTbl = descString.Substring(0, tblStart);
                     string tblToEnd = "";
-                    if(tblStart + 6 == descString.Length)
+                    if(tblStart + 6 != descString.Length)
                         tblToEnd = descString.Substring(tblStart + 6);
 
                     //set the desc string to the pre, tableName, post tbl tag
                     descString = startToTbl + tableName + tblToEnd;
-                }
-
-                while (descString.IndexOf("[BR/]", StringComparison.InvariantCultureIgnoreCase) != -1)
-                {
-                    //get index of br tag and cut descString into pre and post br tags
-                    int brStart = descString.IndexOf("[BR/]", StringComparison.InvariantCultureIgnoreCase);
-                    string startToBr = descString.Substring(0, brStart);
-                    string brToEnd = "";
-                    if(brStart + 5 == descString.Length)
-                        brToEnd = descString.Substring(brStart + 5);
-
-                    //set the descString to the pre, br tag, and post br tag
-                    descString = startToBr + "<br />" + brToEnd;
                 }
 
                 while (descString.IndexOf("[FIELD]", StringComparison.InvariantCultureIgnoreCase) != -1)
