@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Data.Odbc;
 using System.Data.SqlClient;
 using System.Data.OracleClient;
+using System.Collections;
 
 namespace HCI
 {
@@ -58,11 +59,12 @@ namespace HCI
             
             // This is your table to hold the result set:
             DataTable dataTable = new DataTable();
+
             try
             {
                 //Open the connection to the database
                 connection.Open();
-                
+
                 // Fill the data table with select statement's query results:
                 int recordsAffected = dataAdapter.Fill(dataTable);
 
@@ -71,6 +73,81 @@ namespace HCI
             }
             catch (Exception ex)
             {
+                throw new ODBC2KMLException(ex.Message);
+            }
+            finally
+            {
+                //Close the connection
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
+
+            //Return the data table to be operated on
+            return dataTable;
+        }
+
+        /// <summary>
+        /// Database function that communicates with the local database. Does not need a connInfo
+        /// object for this communication.
+        /// </summary>
+        /// <param name="querys">ArrayList --> queries to be executed</param>
+        /// <returns>DataTable --> Return result set</returns>
+        public DataTable executeQueryLocal(ArrayList querys)
+        {
+            //Database connection string
+            string connectionString = "Driver={SQL Native Client};Database=odbc2kml;Server="
+                + Environment.MachineName + "\\sqlexpress;Trusted_Connection=yes;"
+                + "Connection Timeout=5;";
+            //Create the Odbc Connection
+            OdbcConnection connection = new OdbcConnection(connectionString);
+            connection.ConnectionTimeout = 5;
+
+            // This is your table to hold the result set:
+            DataTable dataTable = new DataTable();
+
+            OdbcCommand command = new OdbcCommand();
+            OdbcTransaction transaction = null;
+
+            // Set the Connection to the new OdbcConnection.
+            command.Connection = connection;
+
+            try
+            {
+                //Open the connection to the database
+                connection.Open();
+
+                // Start a local transaction
+                transaction = connection.BeginTransaction();
+
+                // Assign transaction object for a pending local transaction.
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                foreach (String query in querys)
+                {
+                    // Execute the commands.
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+
+                //Close connection
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    transaction.Rollback();
+                }
+                catch
+                {
+
+                }
+
                 throw new ODBC2KMLException(ex.Message);
             }
             finally
