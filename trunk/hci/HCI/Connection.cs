@@ -511,6 +511,10 @@ namespace HCI
             Boolean validIcons = false;
             Boolean validOverlays = false;
 
+            ArrayList transactionQuery = new ArrayList();
+            
+            Database db = new Database();
+
             try
             {
 
@@ -573,14 +577,14 @@ namespace HCI
                         + "\', type=\'" + this.connInfo.databaseType + "\' WHERE ID=" + this.connID;
 
                     //Update the connection information
-                    database.executeQueryLocal(query);
+                    transactionQuery.Add(query);
 
                     //If the latfieldname is empty, and it passed the validation function, then remove the mapping
                     if (this.mapping == null)
                     {
                         //Remove the mapping
                         query = "DELETE FROM Mapping WHERE connID=" + this.connID;
-                        database.executeQueryLocal(query);
+                        transactionQuery.Add(query);
                     }
                     else
                     {
@@ -607,14 +611,14 @@ namespace HCI
                         }
 
                         //Update mapping
-                        database.executeQueryLocal(query);
+                        transactionQuery.Add(query);
                     }
 
                     if (this.description.getDesc() == "") //No description
                     {
                         //Remove the description
                         query = "DELETE FROM Description WHERE connID=" + this.connID;
-                        database.executeQueryLocal(query);
+                        transactionQuery.Add(query);
                     }
                     else //Description
                     {
@@ -634,12 +638,12 @@ namespace HCI
                                 + ", '" + this.description.getDesc() + "')";
                         }
 
-                        database.executeQueryLocal(query);
+                        transactionQuery.Add(query);
                     }
 
                     //Delete all icons
                     query = "DELETE FROM Icon WHERE connID=" + this.connID;
-                    database.executeQueryLocal(query);
+                    transactionQuery.Add(query);
 
                     //There are icons
                     if (this.icons.Count > 0)
@@ -648,7 +652,7 @@ namespace HCI
                         foreach (Icon i in this.icons)
                         {
                             query = "INSERT INTO Icon (connID, iconID) VALUES(" + this.connID + ", " + i.getId() + ")";
-                            database.executeQueryLocal(query);
+                            transactionQuery.Add(query);
 
                             //Add all conditions
                             foreach (Condition c in i.getConditions())
@@ -658,14 +662,14 @@ namespace HCI
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
                                     + Condition.operatorStringToInt(c.getLowerOperator()) + ", " + Condition.operatorStringToInt(c.getUpperOperator()) + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
-                                database.executeQueryLocal(query);
+                                transactionQuery.Add(query);
                             }
                         }
                     }
 
                     //Delete all icons
                     query = "DELETE FROM Overlay WHERE connID=" + this.connID;
-                    database.executeQueryLocal(query);
+                    transactionQuery.Add(query);
 
                     //There are overlays
                     if (this.overlays.Count > 0)
@@ -673,26 +677,22 @@ namespace HCI
                         //Add all current icons to the database
                         foreach (Overlay o in this.overlays)
                         {
-                            query = "INSERT INTO Overlay (connID, color) VALUES(" + this.connID + ", '"  
+                            query = "INSERT INTO Overlay (connID, color) VALUES(" + this.connID + ", '"
                                 + o.getColor() + "')";
-                            database.executeQueryLocal(query);
+                            transactionQuery.Add(query);
 
-                            query = "SELECT ID FROM Overlay WHERE connID=" + this.connID + " AND "
-                                + "color='" + o.getColor() + "'";
-                            DataTable tempTable = database.executeQueryLocal(query);
-
-                            //Set ID
-                            o.setId(tempTable.Rows[0]["ID"].ToString());
-
+                            String newQuery = "DECLARE @OverlayID int;SET @OverlayID = (SELECT ID FROM Overlay WHERE connID=" + this.connID + " AND "
+                                + "color='" + o.getColor() + "');";
+                            
                             //Add all conditions
                             foreach (Condition c in o.getConditions())
                             {
-                                query = "INSERT INTO OverlayCondition (overlayID, connID, lowerBound, upperBound, "
-                                    + "lowerOperator, upperOperator, fieldName, tableName) VALUES(" + o.getId()
+                                query = newQuery + "INSERT INTO OverlayCondition (overlayID, connID, lowerBound, upperBound, "
+                                    + "lowerOperator, upperOperator, fieldName, tableName) VALUES(@OverlayID" 
                                     + ", " + this.connID + ", '" + c.getLowerBound() + "', '" + c.getUpperBound() + "', "
                                     + Condition.operatorStringToInt(c.getLowerOperator()) + ", " + Condition.operatorStringToInt(c.getUpperOperator()) + ", '" + c.getFieldName()
                                     + "', '" + c.getTableName() + "')";
-                                database.executeQueryLocal(query);
+                                transactionQuery.Add(query);
                             }
                         }
                     }
@@ -705,6 +705,15 @@ namespace HCI
             catch (ODBC2KMLException err)
             {
                 throw err;
+            }
+
+            try
+            {
+                db.executeQueryLocal(transactionQuery);
+            }
+            catch (ODBC2KMLException ex)
+            {
+                throw ex;
             }
 
             //The connection was saved and properly updated
