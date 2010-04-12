@@ -1796,27 +1796,43 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
 
-                    // Generate Text Box to hold the color
-                    TextBox tx = new TextBox();
-                    tx.ReadOnly = true;
-                    tx.CssClass = "overlayBox";
-                    tx.ToolTip = "Click to change the overlay color";
-                    tx.ID = "overlay" + overlay.getId() + "color";
-                    tx.Style["background-color"] = "#" + overlay.getColor();
-                    tx.Style["border"] = "2px solid black";
-                    tx.Style["cursor"] = "pointer";
-                    
-                    // Generate the ColorPicker for each overlay
-                    ColorPicker colorPicker = new ColorPicker();
-                    colorPicker.InitialColor = "#"+overlay.getColor();
-                    colorPicker.ColorPostBack += overlayColorChanged;
-                    colorPicker.TargetId = tx.ClientID;
-                    colorPicker.ID = "overlayColorPicker" + overlay.getId();
-                    colorPicker.PickButton = false;
-                    colorPicker.TargetProperty = "style.backgroundColor";
-                    colorPicker.AutoPostBack = true;
-                    colorPicker.Controls.Add(tx);
-                    OverlayConditionPanel.Controls.Add(colorPicker);
+                    if (Request.QueryString.Get("locked") == "false")
+                    {
+                        // Generate Text Box to hold the color
+                        TextBox tx = new TextBox();
+                        tx.ReadOnly = true;
+                        tx.CssClass = "overlayBox";
+                        tx.ToolTip = "Click to change the overlay color";
+                        tx.ID = "overlay" + overlay.getId() + "color";
+                        tx.Style["background-color"] = "#" + overlay.getColor();
+                        tx.Style["border"] = "2px solid black";
+                        tx.Style["cursor"] = "pointer";
+
+                        // Generate the ColorPicker for each overlay
+                        ColorPicker colorPicker = new ColorPicker();
+                        colorPicker.InitialColor = "#" + overlay.getColor();
+                        colorPicker.ColorPostBack += overlayColorChanged;
+                        colorPicker.TargetId = tx.ClientID;
+                        colorPicker.ID = "overlayColorPicker" + overlay.getId();
+                        colorPicker.PickButton = false;
+                        colorPicker.TargetProperty = "style.backgroundColor";
+                        colorPicker.AutoPostBack = true;
+                        colorPicker.Controls.Add(tx);
+                        OverlayConditionPanel.Controls.Add(colorPicker);
+                    }
+                    else
+                    {
+                        // Generate Text Box to hold the color
+                        TextBox tx = new TextBox();
+
+                        tx.Enabled = false;
+                        tx.CssClass = "overlayBox";
+                        tx.ToolTip = "Click to change the overlay color";
+                        tx.ID = "overlay" + overlay.getId() + "color";
+                        tx.Style["background-color"] = "#" + overlay.getColor();
+                        tx.Style["border"] = "2px solid black";
+                        OverlayConditionPanel.Controls.Add(tx);
+                    }
 
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
