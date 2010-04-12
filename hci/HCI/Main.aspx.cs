@@ -314,10 +314,10 @@ namespace HCI
                 + "', SID='" + tempConnInfo.getOracleSID() + "' WHERE (ID='" + args + "')");
 
             Connection conn = new Connection(Convert.ToInt16(args));
-            conn.populateFields();
-
+            
             try
             {
+                conn.populateFields();
                 //Force the connection into a safe state, if it is not
                 if (!conn.safeStateConnection())
                 {
