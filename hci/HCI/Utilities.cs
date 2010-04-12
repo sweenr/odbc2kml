@@ -237,6 +237,7 @@ namespace HCI
             validTypes.Add("image/tiff");
             validTypes.Add("image/x-tiff");
             validTypes.Add("image/x-windows-bmp");
+            validTypes.Add("image/x-png");
 
             return validTypes;
         }
