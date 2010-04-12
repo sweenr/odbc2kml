@@ -813,3 +813,49 @@ a.selectTable:hover
 }
 
 
+
+table.dataTable {
+border-bottom:1px solid #999999;
+border-left:1px solid #999999;
+margin:0;
+padding:0;
+}
+table.dataTable th {
+background:none repeat scroll 0 0 #CCCCCC;
+border-right:1px solid #999999;
+border-top:1px solid #999999;
+font-weight:bold;
+margin:0;
+padding:4px 3px 3px 4px;
+}
+table.dataTable td {
+border-right:1px solid #999999;
+border-top:1px solid #999999;
+margin:0;
+padding:2px 3px 3px 4px;
+}
+div.scrollTableContainer {
+height:385px;
+margin:15px 0 0;
+position:relative;
+width:100%;
+}
+html > body div.scrollTableContainer table {
+width:100%;
+}
+html > body div.scrollTableContainer table > tbody {
+height:350px;
+overflow-x:hidden;
+overflow-y:auto;
+}
+
+div.scrollTableContainer table {
+width:100%;
+overflow-y:auto;
+}
+div.scrollTableContainer thead tr {
+position:relative;
+}
+div.scrollTableContainer td:last-child {
+padding-right:20px;
+}
