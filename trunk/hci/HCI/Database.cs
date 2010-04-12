@@ -94,7 +94,7 @@ namespace HCI
         /// </summary>
         /// <param name="querys">ArrayList --> queries to be executed</param>
         /// <returns>DataTable --> Return result set</returns>
-        public DataTable executeQueryLocal(ArrayList querys)
+        public DataTable executeQueryLocal(ArrayList queries)
         {
             //Database connection string
             string connectionString = "Driver={SQL Native Client};Database=odbc2kml;Server="
@@ -125,7 +125,7 @@ namespace HCI
                 command.Connection = connection;
                 command.Transaction = transaction;
 
-                foreach (String query in querys)
+                foreach (String query in queries)
                 {
                     // Execute the commands.
                     command.CommandText = query;

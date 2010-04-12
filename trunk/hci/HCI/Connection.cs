@@ -308,6 +308,9 @@ namespace HCI
             //Flag to determine if the mapping should be removed
             Boolean removeMapping = false;
 
+            //ArrayList for queries
+            ArrayList queries = new ArrayList();
+
             //Verify mapping
             try
             {
@@ -429,9 +432,11 @@ namespace HCI
                 //For any invalid icon conditions, remove them from the database
                 foreach (Icon i in this.getIcons())
                 {
-                    if (i.purgeInvalidIconConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB))
+                    String query = i.purgeInvalidIconConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB);
+                    if(query.Length != 0)
                     {
                         removeDescription = true;
+                        queries.Add(query);
                     }
                 }
             }
@@ -445,9 +450,11 @@ namespace HCI
                 //For any invalid overlay conditions, remove them from the database
                 foreach (Overlay o in this.getOverlays())
                 {
-                    if (o.purgeInvalidOverlayConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB))
+                    String query = o.purgeInvalidOverlayConditionsFromDatabase(purgeDT, newTableColumnRelation, purgeDB);
+                    if(query.Length != 0)
                     {
                         removeDescription = true;
+                        queries.Add(query);
                     }
                 }
             }
@@ -460,8 +467,9 @@ namespace HCI
             if (removeDescription)
             {
                 String query = "DELETE FROM Description WHERE connID=" + this.connID;
-       
-                try
+
+                queries.Add(query);
+                /*try
                 {
                     purgeDB.executeQueryLocal(query);
                 }
@@ -469,15 +477,16 @@ namespace HCI
                 {
                     ex.errorText = "There was a problem deleting the decription from the database.";
                     throw ex;
-                }
+                }*/
             }
 
             //Remove the mapping if flag is set
             if (removeMapping)
             {
                 String query = "DELETE FROM Mapping WHERE connID=" + this.connID;
+                queries.Add(query);
 
-                try
+                /*try
                 {
                     purgeDB.executeQueryLocal(query);
                 }
@@ -485,8 +494,10 @@ namespace HCI
                 {
                     ex.errorText = "There was a problem deleting the mapping from the database.";
                     throw ex;
-                }
+                }*/
             }
+
+            purgeDB.executeQueryLocal(queries);
 
             return true;
         }

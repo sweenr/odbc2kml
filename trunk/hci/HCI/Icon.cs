@@ -263,17 +263,16 @@ namespace HCI
         /// <param name="columnToTableRelation">DataSet --> List of columns for each table name</param>
         /// <param name="temp">Database --> A temp database used to remove the icon conditions from local database</param>
         /// <returns>Boolean --> True if purge, false if no purge</returns>
-        public Boolean purgeInvalidIconConditionsFromDatabase(DataTable purgeDT, DataSet columnToTableRelation, Database temp)
+        public String purgeInvalidIconConditionsFromDatabase(DataTable purgeDT, DataSet columnToTableRelation, Database temp)
         {
-            Boolean didPurge = false;
-
+            String query = "";
             //Get the icon's conditions
             for (int count = 0; count < this.getConditions().Count; count++)
             {
                 //If the condition is invalid, remove it from the database and connection object
                 if (!(((Condition)this.getConditions()[count]).isValid(purgeDT, columnToTableRelation)))
                 {
-                    String query = "DELETE FROM IconCondition WHERE ID=" + ((Condition)this.getConditions()[count]).getId();
+                    query = "DELETE FROM IconCondition WHERE ID=" + ((Condition)this.getConditions()[count]).getId();
 
                     try
                     {
@@ -286,11 +285,10 @@ namespace HCI
                         ex.errorText = "There was an error deleting an icon condition";
                         throw ex;
                     }
-                    didPurge = true;
                 }
             }
 
-            return didPurge;
+            return query;
         }
     }
 }
