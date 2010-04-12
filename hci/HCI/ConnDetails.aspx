@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ConnDetails.aspx.cs" Inherits="HCI.ConnDetails" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ConnDetails.aspx.cs" Inherits="HCI.ConnDetails" smartNavigation="true" MaintainScrollPositionOnPostback="true" %>
 
 <%@ Register TagPrefix="ed" Namespace="OboutInc.Editor" Assembly="obout_Editor" %>
 <%@ Register TagPrefix="obout" Namespace="OboutInc.ColorPicker" Assembly="obout_ColorPicker" %>
@@ -98,7 +98,6 @@ function OnColorPicked(sender){
 
 </head>
 <body>
-
     <script type="text/javascript">
 	$(function() {
 		$("#errorPanel1").dialog({
