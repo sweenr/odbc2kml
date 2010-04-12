@@ -32,14 +32,26 @@ namespace KMLGenWebSVC
         {
             String serverPath = "http://" + HttpContext.Current.Request.ServerVariables["SERVER_NAME"] + ":"
                 + HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+            
             //create new connection a populate fields to get the connection name for KMLGenerator
             Connection conn = new Connection(connID);
             conn.populateFields();
             string name = conn.getConnInfo().getConnectionName();
+            
             //create a new kml genereator with the connection name as the placemark name
             KMLGenerator kmlGen = new KMLGenerator(name, serverPath);
+
+            string kml = "";
             //generate the kml for the given connID
-            string kml = kmlGen.generateKML(connID);
+            try
+            {
+                kml = kmlGen.generateKML(connID);
+            }
+            catch (Exception e)
+            {
+                //if there was an error generating kml, return a kml file that contains only a screen overlay that states there was an error generating kml
+                kml = "<ScreenOverlay>	<name>KML Error</name>	<Icon>		<href>" + serverPath + "/graphics/kml-error.png</href>	</Icon>	<overlayXY x=\"0.5\" y=\"0.5\" xunits=\"fraction\" yunits=\"fraction\"/>	<screenXY x=\"0.5\" y=\"0.5\" xunits=\"fraction\" yunits=\"fraction\"/>	<rotationXY x=\"0\" y=\"0\" xunits=\"fraction\" yunits=\"fraction\"/>	<size x=\"1\" y=\"0.2\" xunits=\"fraction\" yunits=\"fraction\"/></ScreenOverlay>";
+            }
             //add the kml to an XMLDoc and return
             XmlDocument kmlDoc = new XmlDocument();
             kmlDoc.LoadXml(kml);
