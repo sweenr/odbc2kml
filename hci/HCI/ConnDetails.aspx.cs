@@ -2384,12 +2384,13 @@ namespace HCI
                     return;
                 }
 
+                //Counter to break out of the loop, this way only a subset of the data is tested
+                int counter = 0;
+
                 //Check the bounds against the database values
                 foreach (DataRow row in testTable.Rows)
                 {
-                    //Counter to break out of the loop, this way only a subset of the data is tested
-                    int counter = 0;
-
+                    
                     //If both conditions....
                     if (condition.getLowerBound() != "" && condition.getUpperBound() != "")
                     {
@@ -2415,10 +2416,6 @@ namespace HCI
                                 eh.displayError();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -2442,9 +2439,6 @@ namespace HCI
                                 return;
                             }
                             else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -2474,10 +2468,6 @@ namespace HCI
                                 eh.displayError();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -2499,10 +2489,6 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
-                            }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
                             }
 
                             //test five elements
@@ -2533,10 +2519,6 @@ namespace HCI
                                 eh.displayError();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -2558,10 +2540,6 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 eh.displayError();
                                 return;
-                            }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
                             }
 
                             //test five elements
