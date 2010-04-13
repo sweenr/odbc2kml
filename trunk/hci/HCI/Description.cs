@@ -220,7 +220,7 @@ namespace HCI
             //for each row in the datatable
             foreach (DataRow row in inTable.Rows)
             {
-
+                descString = descString.Replace("\r", "<br/>");
                 while (descString.IndexOf("[URL]", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     //get index of open and close url tag and calculate length of url 
