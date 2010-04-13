@@ -212,7 +212,7 @@ namespace HCI
                     condition.setUpperOperator((int)nRow["upperOperator"]);
                     condition.setTableName(nRow["tableName"].ToString());
                     condition.setFieldName(nRow["fieldName"].ToString());
-                    condition.setId(Convert.ToInt16(nRow["iconID"].ToString()));
+                    condition.setId(Convert.ToInt16(nRow["ID"].ToString()));
 
 
                     //Add the condition to the icon array
