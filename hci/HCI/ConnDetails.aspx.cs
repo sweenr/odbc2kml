@@ -1470,11 +1470,12 @@ namespace HCI
                     return;
                 }
 
+                //Counter to break out of the loop, this way only a subset of the data is tested
+                int counter = 0;
+
                 //Check the bounds against the database values
                 foreach (DataRow row in testTable.Rows)
                 {
-                    //Counter to break out of the loop, this way only a subset of the data is tested
-                    int counter = 0;
 
                     //If both conditions....
                     if (condition.getLowerBound() != "" && condition.getUpperBound() != "")
@@ -1501,10 +1502,6 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
 
                             //test five elements
                             if (++counter > 5)
@@ -1526,10 +1523,6 @@ namespace HCI
                                 upperOperator.SelectedValue = condition.getUpperOperator();
                                 upperBound.Text = condition.getUpperBound();
                                 return;
-                            }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
                             }
 
                             //test five elements
@@ -1560,11 +1553,7 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
-
+                     
                             //test five elements
                             if (++counter > 5)
                                 break;
@@ -1585,10 +1574,6 @@ namespace HCI
                                 upperOperator.SelectedValue = condition.getUpperOperator();
                                 upperBound.Text = condition.getUpperBound();
                                 return;
-                            }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
                             }
 
                             //test five elements
@@ -1619,11 +1604,7 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
-
+                            
                             //test five elements
                             if (++counter > 5)
                                 break;
@@ -1645,11 +1626,7 @@ namespace HCI
                                 upperBound.Text = condition.getUpperBound();
                                 return;
                             }
-                            else //Decrement counter, this row wasn't a valid row and should be ignored
-                            {
-                                counter--;
-                            }
-
+                            
                             //test five elements
                             if (++counter > 5)
                                 break;
