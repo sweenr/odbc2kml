@@ -13,7 +13,7 @@
     HCI.Connection connection = (HCI.Connection)Session["Connection"];
     //Test code
     String serverPath = Session["serverPath"].ToString(); //Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
-    HCI.KMLGenerator generator = new HCI.KMLGenerator("Test_FILE", serverPath);
+    HCI.KMLGenerator generator = new HCI.KMLGenerator(connection.getConnInfo().getConnectionName(), serverPath);
 
     String KML = "";
     

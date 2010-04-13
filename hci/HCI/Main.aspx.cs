@@ -462,7 +462,7 @@ namespace HCI
                 ImageButton sendBtn = (ImageButton)sender;
                 String serverPath = "http://" + Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
                 string args = sendBtn.CommandArgument.ToString();
-                KMLGenerator kml = new KMLGenerator("testFile", serverPath);
+                KMLGenerator kml = new KMLGenerator(ConnInfo.getConnInfo(Convert.ToInt32(args)).getConnectionName(), serverPath);
 
 
                 //Generate the KML string based on the connection id
