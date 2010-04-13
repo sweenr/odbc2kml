@@ -304,7 +304,7 @@ function OnColorPicked(sender){
                                     <tr>
                                         <td class="mainBox3">
                                             <asp:Panel ID="viewLatLongErrorPanel" runat="server" Visible="false" HorizontalAlign="Center">
-                                                <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError" Text="There are not lat/long mappings for this connection."
+                                                <asp:Label ID="viewLatLongErrorLabel" runat="server" CssClass="descLabelError" Text="There are no lat/long mappings for this connection."
                                                     Visible="false" />
                                                 <br />
                                                 <asp:Label ID="viewPlacemarkErrorLabel" runat="server" CssClass="descLabelError"
