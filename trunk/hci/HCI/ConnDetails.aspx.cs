@@ -63,6 +63,9 @@ namespace HCI
 
                 if (!IsPostBack)
                 {
+
+                    iLinkURLBox.Text = "http://";
+
                     //No ID, redirect to main
                     if (Request.QueryString.Get("ConnID") == null)
                     {
@@ -2985,7 +2988,7 @@ namespace HCI
             dLinkPanel.Visible = !dLinkPanel.Visible;
             dFieldPanel.Visible = false;
             iLinkNBox.Text = "";
-            iLinkURLBox.Text = "";
+            iLinkURLBox.Text = "http://";
             sessionSave();
         }
 
