@@ -902,7 +902,7 @@ namespace HCI
                 {
                     IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"" + icon.getLocation() + "\" alt=\"\" />\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"" + icon.getLocation() + "\" alt=\"\" border=\"2px\" />\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
