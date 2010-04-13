@@ -25,6 +25,17 @@
         }
     </style>
     
+    <script type="text/javascript"> 
+        function stopRKey(evt) { 
+          evt = (evt) ? evt : ((event) ? event : null); 
+          var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+          if ((evt.keyCode == 13) && ((node.type=="text") || (node.type=="password")))  {return false;} 
+        } 
+
+        document.onkeypress = stopRKey; 
+
+    </script>
+    
     <script src="jquery/jquery-1.4.1.js" type="text/javascript"></script>
 
     <script src="jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
