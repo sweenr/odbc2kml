@@ -245,9 +245,13 @@ namespace HCI
                     String URLsubString1 = URLstring.Substring(0, titleIndex);
                     String URLsubString2 = URLstring.Substring(titleEndIndex + 8);
                     String titleString = URLstring.Substring(titleIndex + 7, titleLength - 7);
-                    
+                    String URLfinalSubString = URLsubString1 + URLsubString2;
+                    if (URLfinalSubString.IndexOf("http://", StringComparison.InvariantCultureIgnoreCase) < 0)
+                    {
+                        URLfinalSubString = URLfinalSubString.Insert(0, @"http://");
+                    }
                     //create the final url from the url substrings and title string
-                    String finalURL = "<a href=\"" + URLsubString1 + URLsubString2 + "\">" + titleString + "</a>";
+                    String finalURL = "<a href=\"" + URLfinalSubString + "\">" + titleString + "</a>";
 
                     //set the descString to the pre, url, and post strings
                     descString = descString1 + finalURL + descString2;
