@@ -84,6 +84,10 @@
     <style type="text/css" media="all">
         @import "odbcStyle.css";
     </style>
+    
+    <!--[if IE]>
+	    <link rel="stylesheet" type="text/css" href="ie.css" />
+    <![endif]-->
 
     <script type="text/JavaScript">
 function OnColorOpen(sender){

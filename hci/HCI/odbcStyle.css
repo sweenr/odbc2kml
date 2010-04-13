@@ -841,7 +841,6 @@ is easier to change the width if both numbers are in the same place.
 /* All browsers accept this, but we are targeting IE with this rule */
 div.scrollTableContainer table 
 {
-	border-collapse:collapse; 
     width: 700px;
     overflow: auto;
 }
@@ -849,7 +848,6 @@ div.scrollTableContainer table
 /* Modern browsers accept this (not IE) and we are targetting firefox */
 html>/**/body div.scrollTableContainer table 
 {
-	border-collapse:collapse; 
     width: 700px;
 }
 
