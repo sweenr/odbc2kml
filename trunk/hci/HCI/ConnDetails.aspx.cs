@@ -183,7 +183,7 @@ namespace HCI
 
                 sessionSave();
 
-                if (Request.QueryString.Get("locked") != "false")
+                if (Request.QueryString.Get("locked") == "true")
                 {
                     LockPage();
                 }
@@ -894,7 +894,7 @@ namespace HCI
                 IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("No images are currently set for this connection.\n"));
-                if (Request.QueryString.Get("locked") == "false")
+                if (Request.QueryString.Get("locked") != "true")
                     IconConditionPanel.Controls.Add(new LiteralControl("<br />Add some using the Add Icons button below.\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1030,7 +1030,7 @@ namespace HCI
                         IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.\n"));
-                        if (Request.QueryString.Get("locked") == "false")
+                        if (Request.QueryString.Get("locked") != "true")
                             IconConditionPanel.Controls.Add(new LiteralControl("<br />Add some using the button to the right.\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                         IconConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1042,7 +1042,7 @@ namespace HCI
                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
                     Button modifyButton = new Button();
-                    if (Request.QueryString.Get("locked") == "false")
+                    if (Request.QueryString.Get("locked") != "true")
                     {
                         modifyButton.Text = "Modify Condition";
                         modifyButton.CssClass = "button";
@@ -1088,7 +1088,7 @@ namespace HCI
                     modifyIconConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
                     modifyIconConditionPopupPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
                     modifyIconConditionPopupPanel.Controls.Add(new LiteralControl("</div>"));
-                    if (Request.QueryString.Get("locked") == "false")
+                    if (Request.QueryString.Get("locked") != "true")
                     {
                         AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
                         mpe.ID = "MPE_" + icon.getId();
@@ -1771,7 +1771,7 @@ namespace HCI
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("No overlays are currently set for this connection.</span>\n"));
-                if (Request.QueryString.Get("locked") == "false")
+                if (Request.QueryString.Get("locked") != "true")
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<br />Add some using the Add Overlay button below.\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                 OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1787,7 +1787,7 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
 
-                    if (Request.QueryString.Get("locked") == "false")
+                    if (Request.QueryString.Get("locked") != "true")
                     {
                         // Generate Text Box to hold the color
                         TextBox tx = new TextBox();
@@ -1942,7 +1942,7 @@ namespace HCI
                         OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD\">\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("No conditions are currently set.\n"));
-                        if (Request.QueryString.Get("locked") == "false")
+                        if (Request.QueryString.Get("locked") != "true")
                             OverlayConditionPanel.Controls.Add(new LiteralControl("<br />Add some using the button to the right.\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                         OverlayConditionPanel.Controls.Add(new LiteralControl("</tr>\n"));
@@ -1954,7 +1954,7 @@ namespace HCI
                     OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"buttonClass\">\n"));
                     Button modifyButton = new Button();
-                    if (Request.QueryString.Get("locked") == "false")
+                    if (Request.QueryString.Get("locked") != "true")
                     {
                         modifyButton.Text = "Modify Condition";
                         modifyButton.CssClass = "button";
@@ -2000,7 +2000,7 @@ namespace HCI
                     modifyOverlayConditionPopupPanel.Controls.Add(cancelModifyConditionPopup);
                     modifyOverlayConditionPopupPanel.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
                     modifyOverlayConditionPopupPanel.Controls.Add(new LiteralControl("</div>"));
-                    if (Request.QueryString.Get("locked") == "false")
+                    if (Request.QueryString.Get("locked") != "true")
                     {
                         AjaxControlToolkit.ModalPopupExtender mpe = new AjaxControlToolkit.ModalPopupExtender();
                         mpe.ID = "MPE_OVERLAY_" + overlay.getId();
