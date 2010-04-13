@@ -233,6 +233,7 @@ function OnColorPicked(sender){
                                                         </asp:DropDownList>
                                                     </td>
                                                 </tr>
+                                                
                                             </table>
                                             <table cellspacing="5" id="oracleTable" style="display: none">
                                                 <tr id="odbcProtocolRow">
@@ -264,6 +265,16 @@ function OnColorPicked(sender){
                                                         <span class="connectionTitle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Only Service Name
                                                             or Service ID is required, not both</span>
                                                     </td>
+                                                </tr>
+                                            </table>
+                                            <table cellspacing="5">
+                                            <tr>
+                                                <td>
+                                                <span class="connectionTitle">Google Earth Link:</span>
+                                                </td>
+                                                <td>
+                                                    <asp:Label ID="GELink" runat="server" Text="" CssClass="descLabel"></asp:Label>
+                                                </td>
                                                 </tr>
                                             </table>
                                             <div align="right">

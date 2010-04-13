@@ -56,6 +56,7 @@ namespace HCI
         {
             try
             {
+
                 fileSaveLoc = Server.MapPath("/icons/");
                 dFieldPanel.Visible = false;
                 dLinkPanel.Visible = false;
@@ -63,8 +64,6 @@ namespace HCI
 
                 if (!IsPostBack)
                 {
-
-                    iLinkURLBox.Text = "http://";
 
                     //No ID, redirect to main
                     if (Request.QueryString.Get("ConnID") == null)
@@ -91,6 +90,14 @@ namespace HCI
                             eh.displayError();
                             return;
                         }
+
+                        string portNum = HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
+
+                        string labelText = "http://localhost:" + portNum + "/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
+
+                        GELink.Text = labelText;
+
+                        iLinkURLBox.Text = "http://";
 
                         ColorAddText.Style["background-color"] = HiddenValue.Value = "#FFFFFF";
                         curOverlayCount = -1;
