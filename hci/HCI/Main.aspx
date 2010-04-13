@@ -466,7 +466,7 @@
                                                                     <td>
                                                                         If there are any differences between the original database and the one being updated,
                                                                         description, mapping, and any conditions associated with tables no longer present will be
-                                                                        removed from the connection. Are you sure you would like to update the connection
+                                                                        removed from the connection.<br /><br />Are you sure you would like to update the connection
                                                                         information?
                                                                         <br />
                                                                         <br />
