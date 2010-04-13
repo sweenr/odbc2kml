@@ -604,6 +604,7 @@ namespace HCI
                     imgBtn.CommandArgument = icn.getId().ToString();
                     imgBtn.AlternateText = "Icon Cannot be Displayed";
                     imgBtn.ToolTip = icn.getLocation().ToString();
+                    imgBtn.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(2);
 
                     removeIconFromConn.Controls.Add(imgBtn);
                     removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
@@ -649,6 +650,7 @@ namespace HCI
                     imgBtn.CommandArgument = icn.getId().ToString();
                     imgBtn.AlternateText = "Icon Cannot be Displayed";
                     imgBtn.ToolTip = icn.getLocation().ToString();
+                    imgBtn.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(2);
                     imgBtn.Width = 64;
                     imgBtn.Height = 64;
 
