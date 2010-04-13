@@ -900,7 +900,7 @@ function OnColorPicked(sender){
                                                                                 <table class="omainBox6" cellspacing="0" cellpadding="0">
                                                                                     <tr>
                                                                                         <td style="text-align:center">
-                                                                                            Icon types are limited to bmp, png, jpg, png, tif and a max size of 128 x 128 pixels
+                                                                                            Icon types are limited to bmp, png, x-png, jpg, tif and a max size of 128 x 128 pixels
                                                                                         </td>
                                                                                     </tr>
                                                                                 </table>
