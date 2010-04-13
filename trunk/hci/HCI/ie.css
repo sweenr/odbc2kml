@@ -1,0 +1,19 @@
+﻿div.scrollTableContainer table 
+{
+    width: 700px;
+    overflow: auto;
+    border-collapse:collapse;
+}
+
+/* Modern browsers accept this (not IE) and we are targetting firefox */
+html>/**/body div.scrollTableContainer table 
+{
+    width: 700px;
+}
+
+/* Modern browsers accept this (not IE) and we are targetting firefox */
+html>/**/body div.scrollTableContainer table>tbody    { 
+    overflow: auto;
+    /*height: 250px;*/
+    overflow-x: hidden;
+}
