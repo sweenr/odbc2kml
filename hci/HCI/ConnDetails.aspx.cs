@@ -605,6 +605,8 @@ namespace HCI
                     imgBtn.AlternateText = "Icon Cannot be Displayed";
                     imgBtn.ToolTip = icn.getLocation().ToString();
                     imgBtn.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(2);
+                    imgBtn.Width = 64;
+                    imgBtn.Height = 64;
 
                     removeIconFromConn.Controls.Add(imgBtn);
                     removeIconFromConn.Controls.Add(new LiteralControl("</td>"));
@@ -904,7 +906,7 @@ namespace HCI
                 {
                     IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"iconBox\">\n"));
-                    IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"" + icon.getLocation() + "\" alt=\"\" border=\"2px\" />\n"));
+                    IconConditionPanel.Controls.Add(new LiteralControl("<img src=\"" + icon.getLocation() + "\" alt=\"\" border=\"2\" width=\"64\" height=\"64\" />\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"conditionsBox\">\n"));
                     IconConditionPanel.Controls.Add(new LiteralControl("<div class=\"conditionsBoxStyle\">\n"));
