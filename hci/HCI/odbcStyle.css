@@ -896,13 +896,12 @@ is easier to change the width if both numbers are in the same place.
 /* All browsers accept this, but we are targeting IE with this rule */
 div.scrollTableContainer table {
     width: 695px;
-    width:100%;
+    overflow: auto;
 }
 
 /* Modern browsers accept this (not IE) and we are targetting firefox */
 html>/**/body div.scrollTableContainer table {
     width: 718px;
-     width:100%;
 }
 
 /* Modern browsers accept this (not IE) and we are targetting firefox */
@@ -912,15 +911,15 @@ html>/**/body div.scrollTableContainer table>tbody    {
     overflow-x: hidden;
 }
 
-div.scrollTableContainer thead tr    {
-    /* Causes the pixel header row to stay fixed in IE*/
+/*div.scrollTableContainer thead tr    {
+    /* Causes the pixel header row to stay fixed in IE
     top: expression(offsetParent.scrollTop);
     /* This fixes a strange bug in IE where the header row would "shift" 1px to
        the right after the table was scrolled down.  It would not shift back
        after scrolling all the way, which made my first solution based on
-       offSetParent.scrollTop == 0 not an effective solution*/
+       offSetParent.scrollTop == 0 not an effective solution
     left: expression(typeof(myvar) == 'undefined' ? 0+"px"+(myvar='true') : -1+"px");
-}
+}*/
 
 div.scrollTableContainer td:last-child {
 padding-right:20px;
