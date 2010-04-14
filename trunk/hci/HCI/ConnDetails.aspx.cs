@@ -94,16 +94,12 @@ namespace HCI
                         string portNum = HttpContext.Current.Request.ServerVariables["SERVER_PORT"];
 
                         string labelText = "";
-                        try
-                        {
-                            labelText = "http://" + Dns.GetHostAddresses(Dns.GetHostName())[0].ToString() + ":" + portNum + "/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
-                        }
-                        catch
-                        {
-                            ErrorHandler eh = new ErrorHandler("There was an error getting the ODBC2KML server's IP address.", errorPanel1);
-                            eh.displayError();
-                            return;
-                        }
+                        
+                        //TODO: "polytech-deploy" is temporary. Switch out for the commented-out line below it after the demo.
+                        labelText = "http://polytech-deploy/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
+                        //labelText = "http://" + Dns.GetHostName() +"/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
+                        //labelText = "http://" + Dns.GetHostAddresses(Dns.GetHostName())[0].ToString() +"/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
+
                         GELink.Text = labelText;
 
                         iLinkURLBox.Text = "http://";
@@ -1141,8 +1137,8 @@ namespace HCI
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td align=\"left\">\n"));
-            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Add and remove conditions for this icon using the table below. Click Add after you fill in each new condition, then click Submit.<br /><br />Note: Only conditions that are in the same table as your mapping information will actually be used. When using multiple icons, only the first icon that has a positive match on a condition will be put into the KML.\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Add and remove conditions for this icon using the table below. Click Add after you fill in each new condition, then click Submit. Only conditions that are in the same table as your mapping information will actually be used.\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
@@ -2052,8 +2048,8 @@ namespace HCI
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<div class=\"omainBox4\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<table class=\"omainBox6\" cellspacing=\"0\" cellpadding=\"0\">\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td align=\"left\">\n"));
-            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Add and remove conditions for this overlay using the table below. Click Add after you fill in each new condition, then click Submit.<br /><br />Note: Only conditions that are in the same table as your mapping information will actually be used. When using multiple overlays, all overlays that have a positive match on a condition will be merged into a single color and put into the KML.\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td>\n"));
+            modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("Add and remove conditions for this overlay using the table below. Click Add after you fill in each new condition, then click Submit. Only conditions that are in the same table as your mapping information will actually be used.\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</tr>\n"));
             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</table>\n"));
