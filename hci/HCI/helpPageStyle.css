@@ -1,0 +1,31 @@
+﻿/* Help Page Styles */
+
+.title
+{
+	font-family: Cambria, Times New Roman;
+}
+
+.info
+{
+	text-align: justify;
+}
+
+A.linkClass:link, A.linkClass:visited
+{
+	
+	text-decoration: none;
+	color: #0489B7;
+}
+
+A.linkClass:hover
+{
+	text-decoration: underline;
+}
+
+hr
+{
+	color: #EBEAE7;
+}
+
+td.c2 {width:900px; padding-right:5px;}
+table.c1 {background-color:Gray;}

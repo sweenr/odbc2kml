@@ -697,10 +697,21 @@ a.selectTable:hover
 	cursor: pointer, default;
 }
 
-.homeIcon:hover { 
+.helpIcon:hover { 
 	background-position: 0 -20px;
 }
 
+.helpIcon{
+	background: url('/graphics/helpH.gif') 0 0 no-repeat;
+	height: 20px;
+	width: 20px;
+	border: 0px;
+	cursor: pointer, default;
+}
+
+.homeIcon:hover { 
+	background-position: 0 -20px;
+}
 
 .openIcon
 {
@@ -862,4 +873,3 @@ html>/**/body div.scrollTableContainer table>tbody    {
 div.scrollTableContainer td:last-child {
 padding-right:20px;
 }
-
