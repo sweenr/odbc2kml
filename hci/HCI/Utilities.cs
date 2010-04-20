@@ -82,7 +82,7 @@ namespace ODBC2KML
                 }
                 else
                 {
-                    throw new ODBC2KMLException("File dimensions to large (max 128 x 128)");
+                    throw new ODBC2KMLException("File dimensions too large (max 128 x 128)");
                 }
             }
             else
