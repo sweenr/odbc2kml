@@ -13,9 +13,9 @@ using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Net;
-using HCI;
+using ODBC2KML;
 
-namespace HCI
+namespace ODBC2KML
 {
     public class Utilities
     {

@@ -11,7 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections.Generic;
 
-namespace HCI
+namespace ODBC2KML
 {
     /// <summary>
     /// This is a helper class used with hash sets and styles.

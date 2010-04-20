@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 using System.Data.OracleClient;
 using System.Collections;
 
-namespace HCI
+namespace ODBC2KML
 {
     public class Database
     {

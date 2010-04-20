@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HCI {
+namespace ODBC2KML {
     
     
     public partial class DBTest {

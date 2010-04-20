@@ -8,7 +8,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
 using System.Xml.Linq;
-using HCI;
+using ODBC2KML;
 
 namespace KMLGenWebSVC
 {

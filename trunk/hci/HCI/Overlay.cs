@@ -10,9 +10,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Collections;
-using HCI;
+using ODBC2KML;
 
-namespace HCI
+namespace ODBC2KML
 {
     public class Overlay
     {

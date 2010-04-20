@@ -14,10 +14,10 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Net;
 using System.Text;
-using HCI;
+using ODBC2KML;
 using OboutInc.ColorPicker;
 
-namespace HCI
+namespace ODBC2KML
 {
     public partial class ConnDetails : System.Web.UI.Page
     {
@@ -95,9 +95,8 @@ namespace HCI
 
                         string labelText = "";
                         
-                        //TODO: "polytech-deploy" is temporary. Switch out for the commented-out line below it after the demo.
-                        labelText = "http://polytech-deploy/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
-                        //labelText = "http://" + Dns.GetHostName() +"/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
+                        //labelText = "http://polytech-deploy/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
+                        labelText = "http://" + Dns.GetHostName() +"/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
                         //labelText = "http://" + Dns.GetHostAddresses(Dns.GetHostName())[0].ToString() +"/KMLGenWebSVC.asmx/getKML?connID=" + conn.connID;
 
                         GELink.Text = labelText;
@@ -956,7 +955,7 @@ namespace HCI
                                 if (altRows == true)
                                 {
                                     IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                                    if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                                    if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                                     {
                                         IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                         IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -975,7 +974,7 @@ namespace HCI
                                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                     IconConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                    if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                                    if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                                     {
                                         IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                         IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -995,7 +994,7 @@ namespace HCI
                                 else
                                 {
                                     IconConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                                    if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                                    if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                                     {
                                         IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                                         IconConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -1014,7 +1013,7 @@ namespace HCI
                                     IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                                     IconConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                                     IconConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                    if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                                    if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                                     {
                                         IconConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                                         IconConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -1188,7 +1187,7 @@ namespace HCI
                     if (altRows == true)
                     {
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
-                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -1207,7 +1206,7 @@ namespace HCI
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -1237,7 +1236,7 @@ namespace HCI
                     else
                     {
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
-                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -1256,7 +1255,7 @@ namespace HCI
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                         modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                             modifyIconConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -1871,7 +1870,7 @@ namespace HCI
                             if (altRows == true)
                             {
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                                if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                                if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                                 {
                                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                     OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -1890,7 +1889,7 @@ namespace HCI
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                                if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                                 {
                                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                                     OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -1909,7 +1908,7 @@ namespace HCI
                             else
                             {
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("<tr>\n"));
-                                if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                                if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                                 {
                                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                                     OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -1928,7 +1927,7 @@ namespace HCI
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                                 OverlayConditionPanel.Controls.Add(new LiteralControl("</td>\n"));
-                                if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                                if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                                 {
                                     OverlayConditionPanel.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                                     OverlayConditionPanel.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -2099,7 +2098,7 @@ namespace HCI
                     if (altRows == true)
                     {
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
-                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -2118,7 +2117,7 @@ namespace HCI
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD2\">\n"));
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -2148,7 +2147,7 @@ namespace HCI
                     else
                     {
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<tr>\n"));
-                        if (condition.getLowerOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getLowerOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getLowerBound() + "\n"));
@@ -2167,7 +2166,7 @@ namespace HCI
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getFieldName() + "\n"));
                         modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("</td>\n"));
-                        if (condition.getUpperOperator() != HCI.Condition.NONE.ToString())
+                        if (condition.getUpperOperator() != ODBC2KML.Condition.NONE.ToString())
                         {
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl("<td class=\"tableTD3\">\n"));
                             modifyOverlayConditionInsidePopupPanel.ContentTemplateContainer.Controls.Add(new LiteralControl(condition.getUpperOperator() + "\n"));
@@ -2703,7 +2702,7 @@ namespace HCI
             {
                 throw new ODBC2KMLException("Unable to connect to target database.");
             }
-            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */                                                                                                                        goto here; here:                            
+            string id = fieldList.ID.Substring(fieldList.ID.LastIndexOf("d") + 1);  /* grabs iconid / overlayid from ID of passed in dropdownlist. */
             
             sessionSave();
         }
