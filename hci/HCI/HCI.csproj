@@ -305,7 +305,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>49418</DevelopmentServerPort>
+          <DevelopmentServerPort>49422</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
