@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Map Lat/Long</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            Map Lat/Long
+                        </h1>
+                        <p class="info" id="introduction">
+                         Google Earth relies on latitude and longitude information to plot exact locations on a map.  
+                         This article describes how to map a database table's latitude and longitude values for use in a given connection's Google Earth KML file.
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                           In order to map latitude and longitude for a connection, you must first:
+                        </p>
+                          <ol>
+                           <li>
+                           <a href ="" class="linkClass">Create a connection</a>
+                           </li>
+                           <li>
+                           <a href ="" class="linkClass">Edit a connection</a>
+                           </li>
+                           </ol>
+                           <p class="info">
+                          Help for determining which latitude and longitude columns to select is included in the <a href ="#notes" class="linkClass">Notes</a> section below.
+                        </p>
+                           
+                        <h2 class="title" id="instructions">
+                            Instructions</h2>
+                        <ol> 
+                            <li>Select a table from the list of database tables on the left-hand side of the <b>Connection Tables/Columns module</b>.  
+                            After selecting a table, you will be provided with a list of its columns on the right-hand side and three options: 
+                            <b>Map Name</b>, <b>Map Lat/Long</b>, and <b>View Table</b>.</li>
+                            <li>Select <b>Map Lat/Long</b>.
+                            <br /><br />
+                            <img src = "/help/mapLatLong.gif" alt="Map Lat/Long" />
+                            </li>
+                            <li>You can map latitude and longitude as two separate columns or together as one column. See pictures in <b>Step 4</b> for more details. 
+                            <br />To map the columns separately, click the <b>Separate</b> button. 
+                            To map latitude, select the column with the latitude values from the drop-list.  To map longitude, select the column with the longitude values from the other drop-down list. 
+                            <br />To map the columns together, click the <b>Together</b> button.  
+                            You will only select one column with this option.  However, you must select whether the data is included as Latitude/Longitude or Longitude/Latitude by clicking the appropriate radio button.  
+                            If you are unsure what the correct order is, check out the <a href ="#notes" class="linkClass">Notes</a> section below.
+                            </li>
+                            <li>One you have selected the correct columns to map, click the <b>Submit</b> button to map the latitude and longitude values for the connection.
+                            <br /><br />
+                            Mapping Columns Separately:<br /><br />
+                             <img src = "/help/mapLatLongS.gif" alt="Map Lat/Long Separately" />
+                             <br /><br />
+                             Mapping Columns Together:<br /><br />
+                             <img src = "/help/mapLatLongT.gif" alt="Map Lat/Long Together" />
+                            </li>
+                            <li>
+                            The new latitude and longitude mappings will be displayed at the top of the module.
+                            <br /><br />
+                            <img src = "/help/curLatLong.gif" alt="Map Lat/Long Together" />
+                            </li>
+                            <li>To save the mappings, see  <a href ="" class="linkClass">Save Connection</a>.</li>
+                        </ol>
+                        
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                       <ul>
+                       <li>
+                       A placemark name must also be selected in addition to the latitude and longitude columns for the locations to be mapped properly in Google Earth.
+                       For a description on how to add a placemark, see <a href ="mapPlacemarkName.htm" class="linkClass">Map Placemark Name</a>.
+                       </li>
+                       <li>
+                       By selecting a table to map latitude and longitude values to, you are selecting which table to draw data from for use in Google Earth. 
+                       Currently, only one table's data can be displayed per KML file.  Because of this, any conditions that are created for icons and overlays that involve other database tables will not be taken into account.
+                       </li>
+                       </ul>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                            
+                        <h3 class="title" id="H1">
+                            Selecting Appropriate Columns</h3>
+                            
+                        <p class="info">
+                           If you are unsure which columns to select as the appropriate latitude and longitude columns, you can view all of the data in any of the database tables by selecting the <b>View Table</b> button after selecting a database table.  
+                           <br /><br />
+                            <img src = "/help/viewTable.gif" alt="View Table" />
+                        </p>
+                        
+                          <h3 class="title" id="H2">
+                            Mapping Lat/Long Together</h3>
+                            
+                        <p class="info">
+                           ODBC2KML handles parsing of columns mapped as both latitude and longitude.  Because of this, you don't have to worry with including anything other than what order the coordinates are.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
