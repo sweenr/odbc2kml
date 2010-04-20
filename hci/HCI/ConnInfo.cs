@@ -11,8 +11,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 using System.Net.Sockets;
 using System.Net;
-using HCI;
-namespace HCI
+using ODBC2KML;
+namespace ODBC2KML
 {
     public class ConnInfo
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HCI
+namespace ODBC2KML
 {
     public class ODBC2KMLException : Exception
     {

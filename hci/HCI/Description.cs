@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using System.Collections;
 //using HCI;
 
-namespace HCI
+namespace ODBC2KML
 {
     public class Description
     {

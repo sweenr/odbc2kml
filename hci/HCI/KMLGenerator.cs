@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace HCI
+namespace ODBC2KML
 {
     /// <summary>
     /// This class is designed to handle all manipulation and generation for KML associated tasks.

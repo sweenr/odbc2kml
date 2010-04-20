@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="viewTable.aspx.cs" Inherits="HCI.viewTable" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="viewTable.aspx.cs" Inherits="ODBC2KML.viewTable" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
 

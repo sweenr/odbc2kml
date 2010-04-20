@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-namespace HCI
+namespace ODBC2KML
 {
     public partial class PreviewKML : System.Web.UI.Page
     {
