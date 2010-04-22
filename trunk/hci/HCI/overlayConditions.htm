@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Overlay Conditions Help Page</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connOverlay.gif" class="homeOverlay" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connOverlay.gif" class="helpOverlay" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            Overlay Conditions
+                        </h1>
+                        <p class="info" id="introduction">
+                            Conditions can be added to overlays to specify to the KML generator when the given overlay should be used.
+                            <br />
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                            In order to add conditions to an overlay, you must first:
+                        </p>
+                    	<ol>
+                            <li>
+                            	<a href ="" class="linkClass">Add an overlay to the connection</a>
+                            </li>
+                        </ol>    
+                        <h2 class="title" id="instructions">
+                            Instructions For Adding a Condition to an Overlay</h2>
+                        <ol>
+                            <li>Next to an overlay, click Modify Conditions</li>
+                            <li>Enter a valid condition (see Notes section)</li>
+                            <li>Click <b>Add</b></li>
+                            <li>Repeat steps 2 and 3 for each condition you want to add to the overlay</li>
+                            <li>When you are finished adding conditions, click <b>Submit</b></li>
+                        </ol>
+                        <h2 class="title" id="instructions">
+                            Instructions For Removing a Condition from an Overlay</h2>
+                        <ol>
+                            <li>Next to an overlay, click Modify Conditions</li>
+                            <li>Click <b>Remove</b> next to each condition you want to remove from the overlay</li>
+                            <li>When you are finished removing conditions, click <b>Submit</b></li>
+                        </ol>
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                        <p class="info">
+                            When adding conditions to an overlay, be sure to hit <b>Add</b> before hitting submit, or the condition will not be added.
+                        </p>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                        <p class="info">
+                            Only conditions that are in the same table as your mapping information will actually be used.
+                            <br />
+                            When using multiple overlays, only the first overlay that has a positive match on a condition will be put into the KML.
+                            <br />
+                            Clicking <b>Cancel</b> disregards any changes made inside the overlay condition popup.
+                            <br />
+                        	Tips for <b>valid</b> conditions:
+                            <ul>
+                            	<li>You must enter a lower bound or an upper bound</li>
+                            	<li>If you enter a lower bound, you must enter a lower operator</li>
+                            	<li>If you enter a lower operator, you must enter a lower bound</li>
+                            	<li>If you enter an upper bound, you must enter an upper operator</li>
+                            	<li>If you enter an upper operator, you must enter an upper bound</li>
+                            	<li>If you enter both an upper bound and a lower bound, both must be either numbers or strings; you cannot mix and match</li>
+                            	<li>If you use the <b>==</b> operator, you can only enter the corresponding bound; you cannot mix the <b>==</b> operator with another operator</li>
+                            	<li>If you use the <b>!=</b> operator, you can only enter the corresponding bound; you cannot mix the <b>!=</b> operator with another operator</li>
+                            	<li>If you use both an upper bound and a lower bound, the lower bound must be less than the upper bound</li>
+                            	<li>Only numeric bounds can be used with the <b>&lt;</b> or <b>&lt;=</b>; strings cannot be used</li>
+                            </ul>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
