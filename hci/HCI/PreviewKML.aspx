@@ -10,10 +10,10 @@
       <%  Response.Redirect("Main.aspx");
     }
     
-    HCI.Connection connection = (HCI.Connection)Session["Connection"];
+    ODBC2KML.Connection connection = (ODBC2KML.Connection)Session["Connection"];
     //Test code
     String serverPath = Session["serverPath"].ToString(); //Request.ServerVariables["SERVER_NAME"] + ":" + Request.ServerVariables["SERVER_PORT"];
-    HCI.KMLGenerator generator = new HCI.KMLGenerator(connection.getConnInfo().getConnectionName(), serverPath);
+    ODBC2KML.KMLGenerator generator = new ODBC2KML.KMLGenerator(connection.getConnInfo().getConnectionName(), serverPath);
 
     String KML = "";
     
@@ -25,7 +25,7 @@
         KML = KML.Replace("\r", "<br/>");
         KML = KML.Replace("\"", "\\\"");
     }
-    catch (HCI.ODBC2KMLException e)
+    catch (ODBC2KML.ODBC2KMLException e)
     {
         Response.Write("ERROR: Could not generate KML. Check database connection. Actual error: " + e);
     }
