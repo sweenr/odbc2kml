@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Update Help Page</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            Update Help Page
+                        </h1>
+                        <p class="info" id="introduction">
+                            	When you update your connection information, the program will try and determine 
+                            	<br />
+                            	if the current information used in the connection is still valid. In other words, 
+                            	<br />
+                            	if the mapping information or icon or overlay condition no longer exists in the 
+                            	<br />
+                            	new database, all of the inaccurate information will be purged from that connection. 
+                            	<br />
+                            	This has to happen in order to ensure that the state of that connection is valid. 
+                            	<br />
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                            There must be a connection to update. 
+                            <br />
+                        </p>
+                        <h2 class="title" id="instructions">
+                            Instructions</h2>
+                        <ol>
+                            <li>Log into ODBC2KML.</li>
+                            <li>Find the connection you would like to edit.</li>
+                            <li>Click edit.</li>
+                            <li>Click save and edit.</li>
+                            <li>Adjust the connection information, as needed.</li>
+                            <li>Click update.</li>
+                        </ol>
+                        <table width="875" height="200" style="background-color: Gray;">
+                            <tr>
+                                <td>
+                                    Sample Image width of 875px
+                                </td>
+                            </tr>
+                        </table>
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                        <p class="info">
+                            	If the mapping or any icon or overlay condition is no longer valid, 
+                            	<br />
+                            	the description will automatically be removed. If the database information
+                            	<br />
+                            	entered is incorrect, an error will be presented and the information will remain the same.
+                            	<br />
+                        </p>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                        <p class="info">
+                            None.
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
