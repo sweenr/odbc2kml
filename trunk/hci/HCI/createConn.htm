@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Create Connection</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                          Create Connection
+                        </h1>
+                        <p class="info" id="introduction">
+                            Creating a connection is the only way to connect to a ODBC database.  This process is the basis of our entire project and is one of the more important features.
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                           The only assumption in creating a connection is that the ODBC database exists and that your connection information is correct.
+                        </p>
+                         
+                        <h2 class="title" id="instructions">
+                            Instructions</h2>
+                        <ol> 
+                            <li>Click the button "<b>New Connection</b>" on main page.
+                            <br /><br />
+                            <img src = "/help/createConn.gif" alt="New Connection" /></li>
+                            <li>Fill out the following: Connection Name, Database Address, Port Number, Database Name, Username, Password, and Database Type.
+                            <br />If your "<b>Database Type</b>" is Oracle you will be presented with Protocol, Service Name, and Service ID.
+                            <br /><br />
+                            <img src = "/help/createConn2.gif" alt="Create Connection" />
+                            </li>
+                            <li>Click the button "<b>Create</b>" on the "Connection Information" window.</li>
+                        </ol>
+                        
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                       <ul>
+                       <li>
+                        When filling out the "Connection Information" window if any of the information is incorrect or not filled out when you click the "<b>Create</b>" button you will receive the appropriate error message. 
+                       </li>
+                       </ul>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                            
+                        <p class="info">
+                          <ul>
+                          <li>Currently standard port numbers are the only ones tested.</li>
+                          <li>If your "<b>Database Type</b>" is Oracle you only need to fill out the Protocol and Service ID or Service Name not both.</li>
+                          </ul>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
