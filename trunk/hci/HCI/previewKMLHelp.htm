@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Preview KML Help Page</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            Preview KML Help Page
+                        </h1>
+                        <p class="info" id="introduction">
+                            Preview KML allows you to view the KML file for the current connection that is
+                            <br />
+                            being created. It has all of the main features of Google Earth, excluding the
+                            <br />
+                            navigation bar on the left side of Google Earth. 
+                            <br />
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                            A new connection or current connection must have been created. 
+                            <br />
+                        </p>
+                        <h2 class="title" id="instructions">
+                            Instructions</h2>
+                        <ol>
+                            <li>Log into ODBC2KML.</li>
+                            <li>Find the connection you would like to edit.</li>
+                            <li>Click edit.</li>
+                            <li>Click save and edit.</li>
+                            <li>Adjust the connection information, as needed.</li>
+                            <li>Click Preview KML.</li>
+                            <li>KML file will populate through Google Earth plugin in a popup.</li>
+                        </ol>
+                        
+                        <p>OR</p>
+                        
+                        <ol>
+                            <li>Log into ODBC2KML.</li>
+                            <li>Click new connection.</li>
+                            <li>Enter database information and click save.</li>
+                            <li>Fill out all required fields.</li>
+                            <li>Fill in any additional description, icon, or overlay information.</li>
+                            <li>Click Preview KML.</li>
+                            <li>KML file will populate through Google Earth plugin in a popup.</li>
+                        </ol>
+                        
+                        <table width="875" height="200" style="background-color: Gray;">
+                            <tr>
+                                <td>
+                                    Sample Image width of 875px
+                                </td>
+                            </tr>
+                        </table>
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                        <p class="info">
+                            	Preview KML will not work if there is no internet access.
+                            	<br />
+                            	The database being connection to may be on a local network 
+                            	<br />
+                            	and thus still work, but if the Preview KML function cannot 
+                            	<br />
+                            	access the internet, it will not be able to pull the information 
+                            	<br />
+                            	needed from Google to create the Google Earth globe. Without the 
+                            	<br />
+                            	globe, the KML file cannot be previewed.
+                            	<br />
+                        </p>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                        <p class="info">
+                            None.
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>KML Generation Help Page</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            KML Generation through Web Application Help Page
+                        </h1>
+                        <p class="info" id="introduction">
+                            	KML Generation is one of the key features of the ODBC2KML project. 
+                            	<br />
+                            	This feature allows for the user, from the main page, to create and open or 
+                            	<br />
+                            	save a KML file relative to any existing connection.
+                            	<br />
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                            KML Generation will not work properly if the following do not all ready exist:
+                            <ol>
+                                <li>A connection (connection information)</li>
+                                <li>Mapping for that connection</li>
+                            </ol>
+                            
+                            <br />
+	                        There are many other things that can be set up when you create a connection; 
+	                        <br />
+	                        however, those are the only two things needed for KML generation to generate 
+	                        <br />
+	                        a complete KML file. 
+                            <br />
+                        </p>
+                        <h2 class="title" id="instructions">
+                            Instructions</h2>
+                        <ol>
+                            <li>Log into ODBC2KML.</li>
+                            <li>Find the connection you would like to create a KML file for on the main page.</li>
+                            <li>Find the KML button on the far right of the bar containing that connection.</li>
+                            <li>Click KML.</li>
+                            <li>Save or open the file.</li>
+                        </ol>
+                        <table width="875" height="200" style="background-color: Gray;">
+                            <tr>
+                                <td>
+                                    Sample Image width of 875px
+                                </td>
+                            </tr>
+                        </table>
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                        <p class="info">
+                            	If connection is lost to the database mapped by the connection, or the connection
+                            	<br />
+                            	is lost to the server hosting the project, the KML file will not generate.
+                            	<br />
+                        </p>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                        <p class="info">
+                            Important: The KML file can be generated without overlay colors, icons, or a description. 
+                            <br />
+                            Thus, if you download a KML file with default overlays and icons, do not assume the file is incorrect. 
+                            <br />
+                            Instead, make sure that the connection has been populated with icon and overlays.
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
