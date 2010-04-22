@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Remote File Upload Help</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            Remote File Upload
+                        </h1>
+                        <p class="info" id="introduction">
+                            Icons can be uploaded from or linked to a remote source to be used in KML generation
+                            <br />
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                            You can upload icons from the Main page, or from within a Modify Connection page.    
+                        <h2 class="title" id="instructions">
+                            Instructions For adding an icon to the library from a local source</h2>
+                        <ol>
+                            <li>On the main page click <b>Upload Icon</b> <br />
+                            <img src="./help/mainIconUpload.png" alt="Image for Icon Upload from Main page" width="768" /><br />
+                            Or click Upload Icon on the Modify Connection page<br />
+                            <img src="./help/connDetailsIconUpload.png" alt="Image for Icon Upload from Modify Connection Page" width="768" /></li>
+                            <li>If desired check next to <b>Fetch</b>
+                            <img src="./help/uploadIconFromLink.png" alt="second Upload Icon Locally image" width="768" /></li>
+                            <li>Type or paste a link into the text field next to Save</li>
+                            <li>Click Save</li>
+                        </ol>
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                        <p class="info">
+                            Only bitmap (bmp), portable network graphics (png), x-png, jpeg (jpg), and tagged image file format (tiff) file types are allowed.
+                        </p>
+                        <p class="info">
+                            Only icons of size 128 by 128 or smaller are allowed.
+                        </p>
+                        <h2 class="title" id="notes">
+                            Notes</h2>
+                        <p class="info">
+                            If an error occurs, check the above two warning conditions are met and that the link is valid (copy and paste it into an Internet Browser and verify that the image/link is valid).
+                        </p>
+                        <p class="info">
+                            The fetch box stores the image pasted into the link on the server. If fetch is not checked a link to the image will be stored and visited when needed.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
