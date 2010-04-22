@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Map Placemark Name</title>
+    <title>Remove Mapping</title>
     <style type="text/css" media="all">
         @import "odbcStyle.css";
         @import "helpPageStyle.css";
@@ -50,17 +50,17 @@
                 <tr>
                     <td style="width: 900px; padding-right: 5px;">
                         <h1 class="title">
-                            Map Placemark Name
+                           Remove Mapping
                         </h1>
                         <p class="info" id="introduction">
-                         Google Earth relies on a placemark name to give an identifier to each location on a map.  
-                         This article describes how to map a database table's placemark name for use in a given connection's Google Earth KML file.
+                         Google Earth relies on a placemark names and latitude/longitude values to map to each location.  
+                         This article describes how remove a connection's mappings.
                         </p>
                         <h2 class="title" id="assumptions">
                             Assumptions/Prerequirements
                         </h2>
                         <p class="info">
-                           In order to map a placemark name for a connection, you must first:
+                           In order to remove a mapping for a connection, you must first:
                         </p>
                           <ol>
                            <li>
@@ -69,31 +69,19 @@
                            <li>
                            <a href ="" class="linkClass">Edit a connection</a>
                            </li>
+                           <li><a href ="mapLatLong.htm" class="linkClass">Map Lat/Long</a>/<a href ="mapPlacemarkName.htm" class="linkClass">Map Placemark Name</a>
+                           </li>
                            </ol>
-                           <p class="info">
-                          Help for determining which placemark name column to select is included in the <a href ="#notes" class="linkClass">Notes</a> section below.
-                        </p>
+                           
                            
                         <h2 class="title" id="instructions">
                             Instructions</h2>
                         <ol> 
                             <li>Select a table from the list of database tables on the left-hand side of the <b>Connection Tables/Columns module</b>.  
-                            After selecting a table, you will be provided with a list of its columns on the right-hand side and three options: 
-                            <b>Map Name</b>, <b>Map Lat/Long</b>, and <b>View Table</b>.</li>
-                            <li>Select <b>Map Name</b>.
+                            After selecting a table, you will see the current table mapping at the top of the module.  If a table doesn't have any mappings, a warning message will be displayed.</li>
+                            <li>Select <b>Remove</b> to remove the current mapping.
                             <br /><br />
-                            <img src = "/help/mapName.gif" alt="Map Placemark Name" />
-                            </li>
-                            <li>Select the appropriate column from the drop-down list as your placemark name.  One you have selected the correct column to map, click the <b>Submit</b> button to map the placemark name value for the connection.
-                            <br /><br />
-                             <img src = "/help/mapName1.gif" alt="Map Placemark Name" />
-                            
-                            </li>
-                            <li>
-                            The new placemark mapping will be displayed at the top of the module.
-                            <br /><br />
-                            
-                             <img src = "/help/mapName2.gif" alt="Map Placemark Name" />
+                            <img src = "/help/removeMapping.gif" alt="Map Placemark Name" />
                             </li>
                             <li>To save the mappings, see  <a href ="" class="linkClass">Save Connection</a>.</li>
                         </ol>
@@ -102,24 +90,15 @@
                             Warnings</h2>
                        <ul>
                        <li>
-                       Latitude and longitude columns must also be selected in addition to the placemark name for the locations to be mapped properly in Google Earth.
-                       For a description on how to add latitude and longitude, see <a href ="mapLatLong.htm" class="linkClass">Map Lat/Long</a>.
-                       </li>
-                       <li>
-                       By selecting a table to map a placemark name to, you are selecting which table to draw data from for use in Google Earth. 
+                       By selecting a table to map a values to, you are selecting which table to draw data from for use in Google Earth. 
                        Currently, only one table's data can be displayed per KML file.  Because of this, any conditions that are created for icons and overlays that involve other database tables will not be taken into account.
                        </li>
                        </ul>
                         <h2 class="title" id="notes">
                             Notes</h2>
                             
-                        <h3 class="title" id="H1">
-                            Selecting Appropriate Columns</h3>
-                            
                         <p class="info">
-                           If you are unsure which column to select as the appropriate placemark name, you can view all of the data in any of the database tables by selecting the <b>View Table</b> button after selecting a database table.  
-                           <br /><br />
-                            <img src = "/help/viewTable.gif" alt="View Table" />
+                           N/A
                         </p>
                     </td>
                 </tr>
