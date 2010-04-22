@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Save a Connection</title>
+    <title>Edit a Connection</title>
     <style type="text/css" media="all">
         @import "odbcStyle.css";
         @import "helpPageStyle.css";
@@ -50,44 +50,69 @@
                 <tr>
                     <td style="width: 900px; padding-right: 5px;">
                         <h1 class="title">
-                            Save Connection
+                            Edit Connection
                         </h1>
                         <p class="info" id="introduction">
-                            Before you can use the KML Generation Web Service to generate KML files from a given connection, the connection must be saved.
-                            <br/>
-                            This article will walk you through saving a connection.
+                            The main page allows you to change a connection's information before changing any of the connection's details.
+                            <br />After verifying the connection information on the Main.aspx page you will be redirected to the ConnDetails.aspx page.
                         </p>
                         <h2 class="title" id="assumptions">
                             Assumptions/Prerequisites
                         </h2>
                         <p class="info">
-                            In order to save a connection, you must first:
-                            <br/>
-                            
-                            <ol>
-                                <li>Create a connection</li>
-                                <li>Edit a connection</li>
-                                <li>Map a latitude and longitude</li>
-                            </ol>
-                            
-                            <br/>
-                            You may also setup a description, any icons, and any overlays before saving the connection.
-                            <br />
+                            In order to edit a connection the connection must already exist.
                         </p>
                         <h2 class="title" id="instructions">
                             Instructions</h2>
                         <ol>
-                            <li>Select <b>Save Connection</b> at the bottom of the page</li>
-                            <li>Select <b>Yes</b> on the warning dialog.</li>
+                            <li>Click the edit button next to the connection you want to edit:<br />
+                            <div style="left: -50px; position:relative">
+                                         <img src="./help/editConnection1.png" alt="Edit Connection Image 1" />
+                            </div>
+                            
+                            </li>
+                            <li>Change any information and verify that all the required information is correct.</li>
+                            <li>If you want to just save this information go to 3.1, otherwise if you want to edit go to 3.2
+                                <ol>
+                                    <li>Click <b>Save</b><br />
+                                        <div align="center" style="left: -50px; position:relative">
+                                              <img src="./help/editConnectionSave.png" alt="Save Connection Information" />
+                                              <br />
+                                              <br />
+                                        </div>
+                                              then <b>Yes</b>
+                                        <div align="center" style="left: -50px; position:relative">
+                                              <br />
+                                              <br />
+                                              <img src = "./help/saveConnectionWarning.png" alt="Save Connection Warning" />
+                                        </div>
+                                        <br />
+                                        <br />
+                                    </li>
+                                    <li>
+                                        Click <b>Save and Edit</b><br />
+                                        <div align="center" style="left: -50px; position:relative">
+                                              <img src="./help/editConnectionSaveAndEdit.png" alt="Save and Edit Connection Information" />
+                                              <br />
+                                              <br />
+                                        </div>
+                                              then <b>Yes</b>
+                                        <div align="center" style="left: -50px; position:relative">
+                                              <br />
+                                              <br />
+                                              <img src = "./help/saveConnectionWarning.png" alt="Save Connection Warning" />
+                                        </div>
+                                              You will then be redirected to the ConnDetails.aspx page to change connection settings.
+                                        <br />
+                                        <br />
+                                    </li>
+                                </ol>
+                            </li>
                         </ol>
-                        <br />
-                        <div align="center">
-                              <img src = "./help/saveConnectionWarning.png" alt="Save Connection Warning" />
-                        </div>
-                        
+
                         <h2 class="title" id="warnings">
                             Warnings</h2>
-                        <p class="info">
+                       <p class="info">
                             When you select <b>Yes</b> on the warning dialog the system will sanitize the connection.
                             <br />
                             Sanitizing the connection does the following:
