@@ -173,6 +173,18 @@
                                     <div class="newConnA">
                                         <a href="Main.aspx" title="View Connections (Home)">Connections</a></div>
                                 </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </div>
