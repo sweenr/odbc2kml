@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Create Connection</title>
+    <title>Delete Connection</title>
     <style type="text/css" media="all">
         @import "odbcStyle.css";
         @import "helpPageStyle.css";
@@ -50,47 +50,54 @@
                 <tr>
                     <td style="width: 900px; padding-right: 5px;">
                         <h1 class="title">
-                          Create Connection
+                          Delete Connection
                         </h1>
                         <p class="info" id="introduction">
-                            Creating a connection is the only way to connect to a ODBC database.  This process is the basis of our entire project and is one of the more important features.
+                         Deleting a connection permanently removes a connection from the system and the database.
                         </p>
                         <h2 class="title" id="assumptions">
                             Assumptions/Prerequirements
                         </h2>
                         <p class="info">
-                           The only assumption in creating a connection is that the ODBC database exists and that your connection information is correct.
+                           In order to delete a connection, you must first:
                         </p>
-                         
+                          <ol>
+                           <li>
+                           <a href ="createConn.htm" class="linkClass">Create a connection</a>
+                           </li>
+                           </ol>
+                           
+                           
                         <h2 class="title" id="instructions">
                             Instructions</h2>
                         <ol> 
-                            <li>Click the button "<b>New Connection</b>" on main page.
+                            <li>Click the "<b>Delete Connection</b>" icon on main page next to the connection you want to remove from the system.
                             <br /><br />
-                            <img src = "/help/createConn.png" alt="New Connection" /></li>
-                            <li>Fill out the following: Connection Name, Database Address, Port Number, Database Name, Username, Password, and Database Type.
-                            <br />If your "<b>Database Type</b>" is Oracle you will be presented with Protocol, Service Name, and Service ID.
-                            <br /><br />
-                            <img src = "/help/createConn2.gif" alt="Create Connection" />
+                            <img src = "/help/deleteConn.png" alt="Delete Connection" />
                             </li>
-                            <li>Click the button "<b>Create</b>" on the "Connection Information" window.</li>
+                            <li>You are presented with a popup and are asked if you are sure that you want remove the connection.</li>
+                            
+                            <li>Click the "<b>Delete</b>" button.
+                            <br /><br />
+                            <img src = "/help/deleteConn2.png" alt="Delete Connection" />
+                            </li>
                         </ol>
                         
                         <h2 class="title" id="warnings">
                             Warnings</h2>
                        <ul>
                        <li>
-                        When filling out the "Connection Information" window if any of the information is incorrect or not filled out when you click the "<b>Create</b>" button you will receive the appropriate error message. 
+                       The only warning you are presented with is the popup asking if you are sure about deleting the connection selected.
                        </li>
                        </ul>
                         <h2 class="title" id="notes">
                             Notes</h2>
                             
                         <p class="info">
-                          <ul>
-                          <li>Currently standard port numbers are the only ones tested.</li>
-                          <li>If your "<b>Database Type</b>" is Oracle you only need to fill out the Protocol and Service ID or Service Name not both.</li>
-                          </ul>
+                        <ul>
+                       <li>
+                          Deleting a connection removes it from the local database and the system.
+                          </li></ul>
                         </p>
                     </td>
                 </tr>
