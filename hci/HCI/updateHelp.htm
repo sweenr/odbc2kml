@@ -97,6 +97,22 @@
                             	<br />
                             	entered is incorrect, an error will be presented and the information will remain the same.
                             	<br />
+                            	
+                            	 When you select <b>Yes</b> on the warning dialog the system will sanitize the connection.
+                                <br />
+                                <br />
+                                        <img src = "./help/saveConnectionWarning.png" alt="Save Connection Warning" />
+                                <br />
+                                <br />
+                            
+                            Sanitizing the connection does the following:
+                            
+                            <ul>
+                                <li>Validates the current connection information</li>
+                                <li>Checks the current mapping to ensure that the proper tables and fields exist in the database.  If not, the connection will not save</li>
+                                <li>Ensures that the description field does not contain any invalid tags.  If it does the description will be cleared</li>
+                                <li>Any conditions that use table name/ field name combinations that no longer exist in the remote database will be deleted</li>
+                            </ul>
                         </p>
                         <h2 class="title" id="notes">
                             Notes</h2>
