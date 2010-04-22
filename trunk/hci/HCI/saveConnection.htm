@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sample Help Page</title>
+    <style type="text/css" media="all">
+        @import "odbcStyle.css";
+        @import "helpPageStyle.css";
+    </style>
+</head>
+<body>
+    <div id="wrapIt">
+        <div id="header">
+            <div id="logo">
+            </div>
+            <div id="siteInfo">
+                MSU Software Engineering Senior Design Project 2010
+                <br />
+                <div class="right">
+                    <div id="home">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="Main.aspx">
+                                        <img src="graphics/connIcon.gif" class="homeIcon" alt="View Connections (Home)" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="Main.aspx" title="View Connections (Home)">Connections</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="help.html">
+                                        <img src="graphics/connIcon.gif" class="helpIcon" alt="Help Page" /></a>
+                                </td>
+                                <td>
+                                    <div class="newConnA">
+                                        <a href="help.html" title="Help Page">Help</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page">
+            <table id="mainTable" cellspacing="2">
+                <tr>
+                    <td style="width: 900px; padding-right: 5px;">
+                        <h1 class="title">
+                            Save Connection
+                        </h1>
+                        <p class="info" id="introduction">
+                            Before you can use the KML Generation Web Service to generate KML files from a given connection, the connection must be saved.
+                            <br/>
+                            This article will walk you through saving a connection.
+                        </p>
+                        <h2 class="title" id="assumptions">
+                            Assumptions/Prerequirements
+                        </h2>
+                        <p class="info">
+                            In order to save a connection, you must first:
+                            <br/>
+                            
+                            <ol>
+                                <li>Create a connection</li>
+                                <li>Edit a connection</li>
+                                <li>Map a latitude and longitude</li>
+                            </ol>
+                            
+                            <br/>
+                            You may also setup a description, any icons, and any overlays before saving the connection.
+                            <br />
+                        </p>
+                        <h2 class="title" id="instructions">
+                            Instructions</h2>
+                        <ol>
+                            <li>Select <b>Save Connection</b> at the bottom of the page</li>
+                            <li>Select <b>Yes</b> on the warning dialog.</li>
+                        </ol>
+                        
+                        <h2 class="title" id="warnings">
+                            Warnings</h2>
+                        <p class="info">
+                            When you select <b>Yes</b> on the warning dialog the system will sanitize the connection.
+                            <br />
+                            <table width="875" height="200" style="background-color: Gray;">
+                                <tr>
+                                    <td>
+                                        Warning Picture should go here
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            
+                            Sanitizing the connection does the following:
+                            
+                            <ul>
+                                <li>Validates the current connection information</li>
+                                <li>Checks the current mapping to ensure that the proper tables and fields exist in the database.  If not, the connection will not save</li>
+                                <li>Ensures that the description field does not contain any invalid tags.  If it does the description will be cleared</li>
+                                <li>Any conditions that use table name/ field name combinations that no longer exist in the remote database will be deleted</li>
+                            </ul>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="right">
+                <img src="graphics/polyTechW.gif" alt="PolyTech Industries - Mississippi State University" /></div>
+        </div>
+    </div>
+</body>
+</html>
